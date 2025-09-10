@@ -1,0 +1,81 @@
+Job started on Wed Sep 10 18:42:19 EDT 2025
+Job Name: uniner-finetune
+Job ID: 4316635
+Running on node: dgx002.orc.gmu.edu
+Allocated GPUs: 0
+Wed Sep 10 18:42:19 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 560.35.05              Driver Version: 560.35.05      CUDA Version: 12.6     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-SXM4-40GB          On  |   00000000:BD:00.0 Off |                    0 |
+| N/A   35C    P0             85W /  400W |       1MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+Setting up the environment...
+Loaded modules:
+
+Venv activated: /scratch/efeldma5/uniner_project/uniner_py39_venv
+
+Starting Python training script...
+✅ Using GPU: NVIDIA A100-SXM4-40GB
+✅ GPU Memory: 42.4 GB
+Device: cuda
+Ready to run LLaDA algorithm!
+🧪 Testing LLM Watermarking System
+==================================================
+
+1. Generating watermarked sequence:
+Generated tokens: [512, 701, 703, 167, 535, 651, 810, 753, 879, 791]...
+
+2. Detecting watermark:
+Is watermarked: True
+P-value: 0.0000
+Green ratio: 1.0000
+Expected ratio: 0.5000
+Deviation: 0.5000
+
+3. Generating non-watermarked sequence for comparison:
+Non-watermarked tokens: [706, 968, 1, 579, 436, 305, 975, 183, 130, 745]...
+Is watermarked: True
+P-value: 0.0000
+Green ratio: 0.6316
+
+✅ Watermarking test completed!
+
+🔬 Testing LLaDA + Watermarking Integration
+==================================================
+Prompt: tensor([[1, 2, 3, 4, 5]], device='cuda:0')
+Prompt shape: torch.Size([1, 5])
+
+Generating with watermark...
+Generated shape: torch.Size([1, 21])
+Generated tokens: [1, 2, 3, 4, 5, 50, 862, 969, 301, 473, 613, 390, 875, 166, 771, 508, 646, 845, 613, 233, 289]
+New tokens: [50, 862, 969, 301, 473, 613, 390, 875, 166, 771, 508, 646, 845, 613, 233, 289]
+
+Detecting watermark...
+Watermark detection results:
+  Is watermarked: True
+  P-value: 0.0000
+  Green ratio: 0.3500
+  Expected ratio: 0.5000
+  Deviation: 0.1500
+
+✅ LLaDA + Watermarking test completed!
+Loading model and tokenizer...
+Prompt: What is the capital of France?
+Input IDs shape: torch.Size([1, 20])
+Generating response...
+Generated response: The capital of France is Paris.

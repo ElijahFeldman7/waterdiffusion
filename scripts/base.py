@@ -1,4 +1,3 @@
-# Google Colab Setup - Device Detection and Memory Management
 import torch
 import torch.nn.functional as F
 import numpy as np
@@ -6,89 +5,34 @@ from typing import Optional, Tuple, Union
 import math
 import gc
 
-# Detect and set device properly for Google Colab
-def setup_device():
-    """Setup device for Google Colab with proper GPU/TPU detection"""
-    if torch.cuda.is_available():
-        device = torch.device('cuda')
-        print(f"✅ Using GPU: {torch.cuda.get_device_name(0)}")
-        print(f"✅ GPU Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB")
-    elif hasattr(torch.backends, 'mps') and torch.backends.mps.is_available():
-        device = torch.device('mps')
-        print("✅ Using Apple Silicon GPU (MPS)")
-    else:
-        device = torch.device('cpu')
-        print("⚠️  Using CPU (consider enabling GPU in Colab: Runtime > Change runtime type > GPU)")
-
-    return device
-
-# Setup device
-device = setup_device()
-
 # Constants
 MASK_TOKEN_ID = 126336  # The token ID of [MASK] in LLaDA
 
-# Memory management for Colab
-def clear_memory():
-    """Clear GPU memory cache"""
-    if torch.cuda.is_available():
-        torch.cuda.empty_cache()
-    gc.collect()
-
-print(f"Device: {device}")
 print("Ready to run LLaDA algorithm!")
 
 def forward_process(batch: torch.Tensor, prompt_index: torch.Tensor, mask_id: int = MASK_TOKEN_ID) -> Tuple[torch.Tensor, torch.Tensor]:
-    """
-    Forward process for LLaDA diffusion model.
-
-    Args:
-        batch: Input token sequence of shape (batch_size, seq_len)
-        prompt_index: Boolean mask indicating prompt positions
-        mask_id: Token ID for mask token
-
-    Returns:
-        noisy_batch: Batch with masked tokens
-        p_mask: Mask probability for each position
-    """
     b, l = batch.shape
-
     # Calculate target length (non-prompt tokens)
     target_len = (l - prompt_index.sum()).item()
     k = torch.randint(1, target_len + 1, (), device=batch.device)
-
     # Create linear noise schedule
     x = torch.round(torch.linspace(float(k), k + (b - 1) * (target_len / b), steps=b, device=batch.device)).long()
     x = ((x - 1) % target_len) + 1
     assert x.min() >= 1 and x.max() <= target_len
-
     # Create mask indices for target tokens
     indices = torch.arange(target_len, device=batch.device).repeat(b, 1)
     is_mask = indices < x.unsqueeze(1)
-
     # Randomly permute mask positions
     for i in range(b):
         is_mask[i] = is_mask[i][torch.randperm(target_len)]
-
     # Combine prompt and target masks
     is_mask = torch.cat((torch.zeros(b, prompt_index.sum(), dtype=torch.bool, device=batch.device), is_mask), dim=1)
     noisy_batch = torch.where(is_mask, mask_id, batch)
-
     # Return mask probability
     return noisy_batch, (x / target_len).unsqueeze(1).repeat(1, l)
 def add_gumbel_noise(logits: torch.Tensor, temperature: float) -> torch.Tensor:
     """
-    Add Gumbel noise for sampling categorical distributions.
-
-    According to arXiv:2409.02908, for MDM, low-precision Gumbel Max improves
-    perplexity score but reduces generation quality. Thus, we use float64.
-
-    Args:
-        logits: Model output logits
-        temperature: Sampling temperature
-
-    Returns:
-        Logits with Gumbel noise applied
+    gumbel noise is intentionally not gumbel max as they think it reduces quality
     """
     if temperature == 0:
         return logits

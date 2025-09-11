@@ -1,0 +1,43 @@
+Job started on Thu Sep 11 16:24:30 EDT 2025
+Job Name: uniner-finetune
+Job ID: 4322437
+Running on node: gpu014.orc.gmu.edu
+Allocated GPUs: 0
+Thu Sep 11 16:24:30 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 560.35.05              Driver Version: 560.35.05      CUDA Version: 12.6     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-SXM4-80GB          On  |   00000000:C1:00.0 Off |                    0 |
+| N/A   24C    P0             91W /  500W |       1MiB /  81920MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+Setting up the environment...
+Loaded modules:
+
+Venv activated: /scratch/efeldma5/uniner_project/uniner_py39_venv
+
+Starting Python training
+✅ Using GPU: NVIDIA A100-SXM4-80GB
+✅ GPU Memory: 85.1 GB
+Device: cuda
+Token mapper initialized with vocab size: 128256
+Ready to run modified LLaDA algorithm with continuous token intervals!
+Loading model and tokenizer...
+Prompt: What is the capital of France?
+Input IDs shape: torch.Size([1, 20])
+Generating response with original discrete method...
+Error loading model: Expected tensor for argument #1 'indices' to have one of the following scalar types: Long, Int; but got torch.cuda.FloatTensor instead (while checking arguments for embedding)
+Make sure you have access to the LLaDA model and sufficient GPU memory.

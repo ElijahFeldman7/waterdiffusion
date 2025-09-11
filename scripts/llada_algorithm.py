@@ -5,17 +5,7 @@ from typing import Optional, Tuple, Union
 import math
 import gc
 
-MASK_TOKEN_ID = 126336  # The token ID of [MASK] in LLaDA
-
-# Memory management for Colab
-def clear_memory():
-    """Clear GPU memory cache"""
-    if torch.cuda.is_available():
-        torch.cuda.empty_cache()
-    gc.collect()
-
-print(f"Device: {device}")
-print("Ready to run LLaDA algorithm!")
+MASK_TOKEN_ID = 126336  # mask token LLaDA
 
 """## 2. Forward Process (Noise Addition)
 
@@ -806,7 +796,7 @@ def example_usage():
 
         # Generate response
         print("Generating response...")
-        generated = generate(
+        generated = generate_with_watermark(
             model,
             input_ids,
             steps=128,

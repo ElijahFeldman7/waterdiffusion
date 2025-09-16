@@ -11,12 +11,7 @@ from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.backends import default_backend
 import os
-
-try:
-    from transformers import AutoTokenizer, AutoModel
-except ImportError:
-    print("transformers library not found. Please install it: pip install transformers")
-    exit()
+from transformers import AutoTokenizer, AutoModel
 
 MASK_TOKEN_ID = 126336
 

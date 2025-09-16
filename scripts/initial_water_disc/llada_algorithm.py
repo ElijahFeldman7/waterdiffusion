@@ -4,74 +4,38 @@ import numpy as np
 from typing import Optional, Tuple, Union
 import math
 import gc
+import hashlib
+import random
+from scipy.stats import norm
+from typing import List, Set, Optional
 
-MASK_TOKEN_ID = 126336  # mask token LLaDA
 
-"""## 2. Forward Process (Noise Addition)
-
-The forward process in LLaDA adds noise by masking tokens according to a linear noise schedule. This is the core of the diffusion process.
-
-"""
+MASK_TOKEN_ID = 126336 
 
 def forward_process(batch: torch.Tensor, prompt_index: torch.Tensor, mask_id: int = MASK_TOKEN_ID) -> Tuple[torch.Tensor, torch.Tensor]:
-    """
-    Forward process for LLaDA diffusion model.
-
-    Args:
-        batch: Input token sequence of shape (batch_size, seq_len)
-        prompt_index: Boolean mask indicating prompt positions
-        mask_id: Token ID for mask token
-
-    Returns:
-        noisy_batch: Batch with masked tokens
-        p_mask: Mask probability for each position
-    """
     b, l = batch.shape
 
-    # Calculate target length (non-prompt tokens)
     target_len = (l - prompt_index.sum()).item()
     k = torch.randint(1, target_len + 1, (), device=batch.device)
 
-    # Create linear noise schedule
     x = torch.round(torch.linspace(float(k), k + (b - 1) * (target_len / b), steps=b, device=batch.device)).long()
     x = ((x - 1) % target_len) + 1
     assert x.min() >= 1 and x.max() <= target_len
 
-    # Create mask indices for target tokens
     indices = torch.arange(target_len, device=batch.device).repeat(b, 1)
     is_mask = indices < x.unsqueeze(1)
 
-    # Randomly permute mask positions
     for i in range(b):
         is_mask[i] = is_mask[i][torch.randperm(target_len)]
 
-    # Combine prompt and target masks
     is_mask = torch.cat((torch.zeros(b, prompt_index.sum(), dtype=torch.bool, device=batch.device), is_mask), dim=1)
     noisy_batch = torch.where(is_mask, mask_id, batch)
 
-    # Return mask probability
     return noisy_batch, (x / target_len).unsqueeze(1).repeat(1, l)
 
-"""## 3. Gumbel Noise for Sampling
 
-LLaDA uses Gumbel noise for sampling categorical distributions during generation.
-
-"""
 
 def add_gumbel_noise(logits: torch.Tensor, temperature: float) -> torch.Tensor:
-    """
-    Add Gumbel noise for sampling categorical distributions.
-
-    According to arXiv:2409.02908, for MDM, low-precision Gumbel Max improves
-    perplexity score but reduces generation quality. Thus, we use float64.
-
-    Args:
-        logits: Model output logits
-        temperature: Sampling temperature
-
-    Returns:
-        Logits with Gumbel noise applied
-    """
     if temperature == 0:
         return logits
 
@@ -80,27 +44,7 @@ def add_gumbel_noise(logits: torch.Tensor, temperature: float) -> torch.Tensor:
     gumbel_noise = (- torch.log(noise)) ** temperature
     return logits.exp() / gumbel_noise
 
-"""## 4. Token Transfer Calculation
-
-This function calculates how many tokens should be unmasked at each step during the reverse process.
-
-"""
-
 def get_num_transfer_tokens(mask_index: torch.Tensor, steps: int) -> torch.Tensor:
-    """
-    Calculate the number of tokens to transfer (unmask) at each step.
-
-    In the reverse process, the interval [0, 1] is uniformly discretized into steps intervals.
-    Furthermore, because LLaDA employs a linear noise schedule (as defined in Eq. (8)),
-    the expected number of tokens transitioned at each step should be consistent.
-
-    Args:
-        mask_index: Boolean tensor indicating masked positions
-        steps: Number of denoising steps
-
-    Returns:
-        Number of tokens to transfer at each step
-    """
     mask_num = mask_index.sum(dim=1, keepdim=True)
 
     base = mask_num // steps
@@ -113,26 +57,7 @@ def get_num_transfer_tokens(mask_index: torch.Tensor, steps: int) -> torch.Tenso
 
     return num_transfer_tokens
 
-"""## 5. Classifier-Free Guidance
-
-Classifier-free guidance improves generation quality by using both conditional and unconditional predictions.
-
-"""
-
 def get_logits_with_cfg(model, batch: torch.Tensor, prompt_index: torch.Tensor, cfg_scale: float, mask_id: int = MASK_TOKEN_ID) -> torch.Tensor:
-    """
-    Get model logits with optional classifier-free guidance.
-
-    Args:
-        model: LLaDA model
-        batch: Input batch
-        prompt_index: Boolean mask for prompt positions
-        cfg_scale: Classifier-free guidance scale
-        mask_id: Mask token ID
-
-    Returns:
-        Guided logits
-    """
     if cfg_scale > 0.:
         assert len(prompt_index) == batch.shape[1]
         prompt_index = prompt_index.unsqueeze(0).repeat(batch.shape[0], 1)
@@ -147,60 +72,33 @@ def get_logits_with_cfg(model, batch: torch.Tensor, prompt_index: torch.Tensor, 
         logits = un_logits + (cfg_scale + 1) * (logits - un_logits)
     return logits
 
-"""## 6. Core Generation Algorithm
 
-This is the main LLaDA generation algorithm that implements the reverse diffusion process with semi-autoregressive sampling and remasking strategies.
-
-"""
 
 @torch.no_grad()
 def generate(model, prompt: torch.Tensor, steps: int = 128, gen_length: int = 128,
              block_length: int = 128, temperature: float = 0., cfg_scale: float = 0.,
              remasking: str = 'low_confidence', mask_id: int = MASK_TOKEN_ID) -> torch.Tensor:
-    """
-    Generate text using LLaDA diffusion model.
-
-    Args:
-        model: LLaDA model (mask predictor)
-        prompt: Input prompt tensor of shape (1, L)
-        steps: Number of sampling steps (≤ gen_length)
-        gen_length: Generated answer length
-        block_length: Block length for semi-autoregressive generation (≤ gen_length)
-        temperature: Categorical distribution sampling temperature
-        cfg_scale: Unsupervised classifier-free guidance scale
-        remasking: Remasking strategy ('low_confidence' or 'random')
-        mask_id: Token ID of [MASK]
-
-    Returns:
-        Generated sequence tensor
-    """
-    # Initialize sequence with masks
     x = torch.full((1, prompt.shape[1] + gen_length), mask_id, dtype=torch.long).to(model.device)
     x[:, :prompt.shape[1]] = prompt.clone()
 
     prompt_index = (x != mask_id)
 
-    # Validate block configuration
     assert gen_length % block_length == 0
     num_blocks = gen_length // block_length
 
     assert steps % num_blocks == 0
     steps_per_block = steps // num_blocks
 
-    # Process each block
     for num_block in range(num_blocks):
         block_start = prompt.shape[1] + num_block * block_length
         block_end = prompt.shape[1] + (num_block + 1) * block_length
 
-        # Get mask indices for current block
         block_mask_index = (x[:, block_start:block_end] == mask_id)
         num_transfer_tokens = get_num_transfer_tokens(block_mask_index, steps_per_block)
 
-        # Process each step in the block
         for i in range(steps_per_block):
             mask_index = (x == mask_id)
 
-            # Get model predictions with optional CFG
             if cfg_scale > 0.:
                 un_x = x.clone()
                 un_x[prompt_index] = mask_id
@@ -211,11 +109,9 @@ def generate(model, prompt: torch.Tensor, steps: int = 128, gen_length: int = 12
             else:
                 logits = model(x).logits
 
-            # Apply Gumbel noise for sampling
             logits_with_noise = add_gumbel_noise(logits, temperature=temperature)
             x0 = torch.argmax(logits_with_noise, dim=-1)
 
-            # Calculate confidence scores for remasking
             if remasking == 'low_confidence':
                 p = F.softmax(logits, dim=-1)
                 x0_p = torch.squeeze(
@@ -225,49 +121,24 @@ def generate(model, prompt: torch.Tensor, steps: int = 128, gen_length: int = 12
             else:
                 raise NotImplementedError(f"Remasking strategy '{remasking}' not implemented")
 
-            # Don't consider positions beyond current block
             x0_p[:, block_end:] = -np.inf
 
-            # Apply predictions where we have masks
             x0 = torch.where(mask_index, x0, x)
             confidence = torch.where(mask_index, x0_p, -np.inf)
 
-            # Select tokens to unmask based on confidence
             transfer_index = torch.zeros_like(x0, dtype=torch.bool, device=x0.device)
             for j in range(confidence.shape[0]):
                 _, select_index = torch.topk(confidence[j], k=num_transfer_tokens[j, i])
                 transfer_index[j, select_index] = True
 
-            # Apply the selected tokens
             x[transfer_index] = x0[transfer_index]
 
     return x
-
-"""## 7. Log Likelihood Estimation
-
-This function estimates the log likelihood of a sequence using Monte Carlo sampling, which is used for evaluation.
-
-"""
 
 @torch.no_grad()
 def get_log_likelihood(model, prompt: torch.Tensor, answer: torch.Tensor,
                       mc_num: int = 128, batch_size: int = 16, cfg_scale: float = 0.,
                       mask_id: int = MASK_TOKEN_ID) -> float:
-    """
-    Estimate log likelihood using Monte Carlo sampling.
-
-    Args:
-        model: LLaDA model
-        prompt: Prompt tensor of shape (l1)
-        answer: Answer tensor of shape (l2)
-        mc_num: Monte Carlo estimation times
-        batch_size: Mini batch size
-        cfg_scale: Unsupervised classifier-free guidance scale
-        mask_id: Token ID of [MASK]
-
-    Returns:
-        Estimated log likelihood
-    """
     seq = torch.concatenate([prompt, answer])[None, :]
     seq = seq.repeat((batch_size, 1)).to(model.device)
     prompt_index = torch.arange(seq.shape[1], device=model.device) < len(prompt)
@@ -286,34 +157,10 @@ def get_log_likelihood(model, prompt: torch.Tensor, answer: torch.Tensor,
 
     return - sum(loss_) / len(loss_)
 
-"""## 8. Training Loss Computation
-
-This is the core training loss computation used during pre-training and supervised fine-tuning.
-
-"""
-
 def compute_training_loss(model, input_ids: torch.Tensor, prompt_lengths: Optional[torch.Tensor] = None,
                          eps: float = 1e-3, mask_id: int = MASK_TOKEN_ID) -> torch.Tensor:
-    """
-    Compute training loss for LLaDA model.
-
-    This function implements the core training objective from the paper:
-    - Forward process: Add noise by masking tokens
-    - Loss computation: Cross-entropy on masked positions weighted by mask probability
-
-    Args:
-        model: LLaDA model
-        input_ids: Input token sequence of shape (batch_size, seq_len)
-        prompt_lengths: Optional prompt lengths for SFT (if None, treats as pre-training)
-        eps: Minimum mask probability
-        mask_id: Token ID for mask token
-
-    Returns:
-        Training loss tensor
-    """
     b, l = input_ids.shape
 
-    # Forward process: add noise by masking
     t = torch.rand(b, device=input_ids.device)
     p_mask = (1 - eps) * t + eps
     p_mask = p_mask[:, None].repeat(1, l)
@@ -321,180 +168,79 @@ def compute_training_loss(model, input_ids: torch.Tensor, prompt_lengths: Option
     masked_indices = torch.rand((b, l), device=input_ids.device) < p_mask
     noisy_batch = torch.where(masked_indices, mask_id, input_ids)
 
-    # For SFT: don't mask prompt tokens
     if prompt_lengths is not None:
         token_positions = torch.arange(noisy_batch.shape[1], device=noisy_batch.device).expand(noisy_batch.size(0), noisy_batch.size(1))
         prompt_mask = (token_positions < prompt_lengths.unsqueeze(1))
         noisy_batch[prompt_mask] = input_ids[prompt_mask]
         masked_indices = (noisy_batch == mask_id)
 
-    # Get model predictions
     logits = model(input_ids=noisy_batch).logits
 
-    # Compute weighted cross-entropy loss
     token_loss = F.cross_entropy(logits[masked_indices], input_ids[masked_indices], reduction='none') / p_mask[masked_indices]
 
     if prompt_lengths is not None:
-        # For SFT: normalize by answer length
         prompt_mask = prompt_mask.to(torch.int64)
         answer_lengths = torch.sum((1 - prompt_mask), dim=-1, keepdim=True)
         answer_lengths = answer_lengths.repeat(1, noisy_batch.shape[1])
         loss = torch.sum(token_loss / answer_lengths[masked_indices]) / input_ids.shape[0]
     else:
-        # For pre-training: normalize by sequence length
         loss = token_loss.sum() / (input_ids.shape[0] * input_ids.shape[1])
 
     return loss
 
-"""## 9. Example Usage
 
-Here's how to use the LLaDA algorithm with a pre-trained model:
-
-## 10. LLM Watermarking Implementation
-
-Based on the paper "A Watermark for Large Language Models" (arXiv:2301.10226), we implement a simple watermarking scheme that:
-
-1. **Embedding**: Promotes "green" tokens during generation by adding a delta to their logits
-2. **Detection**: Uses statistical tests to detect watermarked text without model access
-
-The watermark works by:
-- Selecting a randomized set of "green" tokens before generation
-- Softly promoting green tokens during sampling
-- Detecting watermarks using statistical analysis of token distributions
-"""
-
-import hashlib
-import random
-from scipy.stats import norm
-from typing import List, Set, Optional
 
 class LLMWatermark:
-    """
-    Simple LLM watermarking implementation based on arXiv:2301.10226
-
-    The watermark works by:
-    1. Selecting "green" tokens based on a hash of previous tokens
-    2. Adding delta to green token logits during generation
-    3. Detecting watermarks by analyzing token distributions
-    """
-
     def __init__(self, vocab_size: int = 50000, delta: float = 2.0, gamma: float = 0.5):
-        """
-        Initialize watermark parameters.
-
-        Args:
-            vocab_size: Size of vocabulary
-            delta: Amount to boost green token logits
-            gamma: Fraction of tokens that are green (typically 0.5)
-        """
         self.vocab_size = vocab_size
         self.delta = delta
         self.gamma = gamma
 
     def _get_green_tokens(self, previous_tokens: List[int], position: int) -> Set[int]:
-        """
-        Determine which tokens are "green" for the current position.
-
-        Args:
-            previous_tokens: List of previously generated token IDs
-            position: Current generation position
-
-        Returns:
-            Set of green token IDs
-        """
-        # Create hash from previous tokens and position
+ 
         hash_input = str(previous_tokens + [position]).encode('utf-8')
         hash_value = int(hashlib.md5(hash_input).hexdigest(), 16)
-
-        # Use hash to seed random number generator
         rng = random.Random(hash_value)
-
-        # Select green tokens (gamma fraction of vocabulary)
         num_green = int(self.vocab_size * self.gamma)
         green_tokens = set()
-
-        # Sample tokens without replacement
         available_tokens = list(range(self.vocab_size))
         for _ in range(num_green):
             if not available_tokens:
                 break
             idx = rng.randint(0, len(available_tokens) - 1)
             green_tokens.add(available_tokens.pop(idx))
-
         return green_tokens
 
     def apply_watermark(self, logits: torch.Tensor, previous_tokens: List[int],
                        current_position: int) -> torch.Tensor:
-        """
-        Apply watermark to logits by boosting green tokens.
-
-        Args:
-            logits: Model output logits of shape (batch_size, vocab_size)
-            previous_tokens: Previously generated tokens
-            current_position: Current generation position
-
-        Returns:
-            Watermarked logits
-        """
         watermarked_logits = logits.clone()
-
-        # Get green tokens for current position
         green_tokens = self._get_green_tokens(previous_tokens, current_position)
-
-        # Add delta to green token logits
         for batch_idx in range(logits.shape[0]):
             for token_id in green_tokens:
-                if token_id < logits.shape[1]:  # Ensure token_id is within vocab size
+                if token_id < logits.shape[1]:
                     watermarked_logits[batch_idx, token_id] += self.delta
-
         return watermarked_logits
 
     def detect_watermark(self, tokens: List[int], p_value_threshold: float = 0.01) -> dict:
-        """
-        Detect watermark in a sequence of tokens.
-
-        Args:
-            tokens: List of token IDs to analyze
-            p_value_threshold: Threshold for statistical significance
-
-        Returns:
-            Dictionary with detection results
-        """
         if len(tokens) < 2:
             return {"is_watermarked": False, "p_value": 1.0, "green_ratio": 0.0}
-
         green_counts = []
-        total_tokens = len(tokens) - 1  # Exclude first token (no previous context)
-
-        # Analyze each position
+        total_tokens = len(tokens) - 1
         for i in range(1, len(tokens)):
             previous_tokens = tokens[:i]
             green_tokens = self._get_green_tokens(previous_tokens, i)
-
             if tokens[i] in green_tokens:
                 green_counts.append(1)
             else:
                 green_counts.append(0)
-
         if not green_counts:
             return {"is_watermarked": False, "p_value": 1.0, "green_ratio": 0.0}
-
-        # Calculate statistics
         green_ratio = sum(green_counts) / len(green_counts)
         expected_ratio = self.gamma
-
-        # Simple statistical test (binomial test approximation)
-        # Under null hypothesis, green_ratio should be ~gamma
-        # We use a simple threshold test
         deviation = abs(green_ratio - expected_ratio)
-
-        # Approximate p-value calculation
-        # This is a simplified version - in practice, you'd use proper statistical tests
         z_score = (sum(green_counts) - self.gamma * len(green_counts)) / (self.gamma * (1 - self.gamma) / len(green_counts) ** 0.5)
         p_value = 2 * (1 - norm.cdf(abs(z_score)))
-
         is_watermarked = p_value < p_value_threshold
-
         return {
             "is_watermarked": is_watermarked,
             "p_value": p_value,
@@ -504,77 +250,46 @@ class LLMWatermark:
             "total_tokens": total_tokens
         }
 
-# Test the watermarking system
 def test_watermark():
-    """Test the watermarking implementation"""
     print("🧪 Testing LLM Watermarking System")
     print("=" * 50)
-
-    # Initialize watermark
     watermark = LLMWatermark(vocab_size=1000, delta=2.0, gamma=0.5)
-
-    # Test 1: Generate watermarked sequence
     print("\n1. Generating watermarked sequence:")
-    torch.manual_seed(42)  # For reproducible results
-
-    # Simulate generation with watermark
+    torch.manual_seed(42)
     sequence_length = 20
     generated_tokens = []
-
-    # Start with a random token
     generated_tokens.append(random.randint(0, 999))
-
     for i in range(1, sequence_length):
-        # Simulate model logits (random for this test)
         logits = torch.randn(1, 1000)
-
-        # Apply watermark
         watermarked_logits = watermark.apply_watermark(
             logits, generated_tokens, i
         )
-
-        # Sample token (argmax for simplicity)
         next_token = torch.argmax(watermarked_logits[0]).item()
         generated_tokens.append(next_token)
-
-    print(f"Generated tokens: {generated_tokens[:10]}...")  # Show first 10
-
-    # Test 2: Detect watermark
+    print(f"Generated tokens: {generated_tokens[:10]}...")
     print("\n2. Detecting watermark:")
     detection_result = watermark.detect_watermark(generated_tokens)
-
     print(f"Is watermarked: {detection_result['is_watermarked']}")
     print(f"P-value: {detection_result['p_value']:.4f}")
     print(f"Green ratio: {detection_result['green_ratio']:.4f}")
     print(f"Expected ratio: {detection_result['expected_ratio']:.4f}")
     print(f"Deviation: {detection_result['deviation']:.4f}")
-
-    # Test 3: Generate non-watermarked sequence for comparison
     print("\n3. Generating non-watermarked sequence for comparison:")
-    torch.manual_seed(123)  # Different seed
-
+    torch.manual_seed(123)
     non_watermarked_tokens = []
     non_watermarked_tokens.append(random.randint(0, 999))
-
     for i in range(1, sequence_length):
-        # Simulate model logits without watermark
         logits = torch.randn(1, 1000)
         next_token = torch.argmax(logits[0]).item()
         non_watermarked_tokens.append(next_token)
-
     print(f"Non-watermarked tokens: {non_watermarked_tokens[:10]}...")
-
-    # Detect watermark in non-watermarked sequence
     detection_result_2 = watermark.detect_watermark(non_watermarked_tokens)
-
     print(f"Is watermarked: {detection_result_2['is_watermarked']}")
     print(f"P-value: {detection_result_2['p_value']:.4f}")
     print(f"Green ratio: {detection_result_2['green_ratio']:.4f}")
-
     print("\n✅ Watermarking test completed!")
     return generated_tokens, non_watermarked_tokens
 
-# Run the test
 watermarked_tokens, non_watermarked_tokens = test_watermark()
 
 @torch.no_grad()
@@ -583,57 +298,21 @@ def generate_with_watermark(model, prompt: torch.Tensor, watermark: LLMWatermark
                            block_length: int = 128, temperature: float = 0.,
                            cfg_scale: float = 0., remasking: str = 'low_confidence',
                            mask_id: int = MASK_TOKEN_ID) -> torch.Tensor:
-    """
-    Generate text using LLaDA diffusion model with watermarking.
-
-    This is a modified version of the generate function that applies watermarking
-    during the generation process.
-
-    Args:
-        model: LLaDA model (mask predictor)
-        prompt: Input prompt tensor of shape (1, L)
-        watermark: LLMWatermark instance for applying watermark
-        steps: Number of sampling steps (≤ gen_length)
-        gen_length: Generated answer length
-        block_length: Block length for semi-autoregressive generation (≤ gen_length)
-        temperature: Categorical distribution sampling temperature
-        cfg_scale: Unsupervised classifier-free guidance scale
-        remasking: Remasking strategy ('low_confidence' or 'random')
-        mask_id: Token ID of [MASK]
-
-    Returns:
-        Generated sequence tensor
-    """
-    # Initialize sequence with masks
     x = torch.full((1, prompt.shape[1] + gen_length), mask_id, dtype=torch.long).to(model.device)
     x[:, :prompt.shape[1]] = prompt.clone()
-
     prompt_index = (x != mask_id)
-
-    # Validate block configuration
     assert gen_length % block_length == 0
     num_blocks = gen_length // block_length
-
     assert steps % num_blocks == 0
     steps_per_block = steps // num_blocks
-
-    # Track generated tokens for watermarking
     generated_tokens = prompt[0].tolist()
-
-    # Process each block
     for num_block in range(num_blocks):
         block_start = prompt.shape[1] + num_block * block_length
         block_end = prompt.shape[1] + (num_block + 1) * block_length
-
-        # Get mask indices for current block
         block_mask_index = (x[:, block_start:block_end] == mask_id)
         num_transfer_tokens = get_num_transfer_tokens(block_mask_index, steps_per_block)
-
-        # Process each step in the block
         for i in range(steps_per_block):
             mask_index = (x == mask_id)
-
-            # Get model predictions with optional CFG
             if cfg_scale > 0.:
                 un_x = x.clone()
                 un_x[prompt_index] = mask_id
@@ -643,22 +322,14 @@ def generate_with_watermark(model, prompt: torch.Tensor, watermark: LLMWatermark
                 logits = un_logits + (cfg_scale + 1) * (logits - un_logits)
             else:
                 logits = model(x).logits
-
-            # Apply watermarking to logits
-            # For each masked position, apply watermark based on previous tokens
             watermarked_logits = logits.clone()
             for pos in range(logits.shape[1]):
-                if mask_index[0, pos]:  # If this position is masked
-                    # Apply watermark based on tokens generated so far
+                if mask_index[0, pos]:
                     watermarked_logits[:, pos, :] = watermark.apply_watermark(
                         logits[:, pos, :], generated_tokens, pos
                     )
-
-            # Apply Gumbel noise for sampling
             logits_with_noise = add_gumbel_noise(watermarked_logits, temperature=temperature)
             x0 = torch.argmax(logits_with_noise, dim=-1)
-
-            # Calculate confidence scores for remasking
             if remasking == 'low_confidence':
                 p = F.softmax(watermarked_logits, dim=-1)
                 x0_p = torch.squeeze(
@@ -667,66 +338,41 @@ def generate_with_watermark(model, prompt: torch.Tensor, watermark: LLMWatermark
                 x0_p = torch.rand((x0.shape[0], x0.shape[1]), device=x0.device)
             else:
                 raise NotImplementedError(f"Remasking strategy '{remasking}' not implemented")
-
-            # Don't consider positions beyond current block
             x0_p[:, block_end:] = -np.inf
-
-            # Apply predictions where we have masks
             x0 = torch.where(mask_index, x0, x)
             confidence = torch.where(mask_index, x0_p, -np.inf)
-
-            # Select tokens to unmask based on confidence
             transfer_index = torch.zeros_like(x0, dtype=torch.bool, device=x0.device)
             for j in range(confidence.shape[0]):
                 _, select_index = torch.topk(confidence[j], k=num_transfer_tokens[j, i])
                 transfer_index[j, select_index] = True
-
-            # Apply the selected tokens and update generated_tokens
             x[transfer_index] = x0[transfer_index]
-
-            # Update generated_tokens list with newly generated tokens
             for pos in range(x.shape[1]):
                 if transfer_index[0, pos] and pos >= prompt.shape[1]:
                     token_id = x[0, pos].item()
                     if len(generated_tokens) <= pos:
                         generated_tokens.extend([mask_id] * (pos - len(generated_tokens) + 1))
                     generated_tokens[pos] = token_id
-
     return x
 
-# Test watermarking with LLaDA generation
 def test_llada_watermark():
-    """Test watermarking integration with LLaDA generation"""
     print("\n🔬 Testing LLaDA + Watermarking Integration")
     print("=" * 50)
-
-    # Create a simple mock model for testing
     class MockLLaDAModel:
         def __init__(self):
             self.device = device
-
         def __call__(self, input_ids):
-            # Mock model that returns random logits
             batch_size, seq_len = input_ids.shape
             vocab_size = 1000
             logits = torch.randn(batch_size, seq_len, vocab_size).to(self.device)
-
             class MockOutput:
                 def __init__(self, logits):
                     self.logits = logits
             return MockOutput(logits)
-
-    # Initialize components
     mock_model = MockLLaDAModel()
     watermark = LLMWatermark(vocab_size=1000, delta=2.0, gamma=0.5)
-
-    # Create a simple prompt
     prompt = torch.tensor([[1, 2, 3, 4, 5]], device=device)
-
     print(f"Prompt: {prompt}")
     print(f"Prompt shape: {prompt.shape}")
-
-    # Generate with watermark
     print("\nGenerating with watermark...")
     torch.manual_seed(42)
     generated = generate_with_watermark(
@@ -740,52 +386,36 @@ def test_llada_watermark():
         cfg_scale=0.,
         remasking='low_confidence'
     )
-
     print(f"Generated shape: {generated.shape}")
     print(f"Generated tokens: {generated[0].tolist()}")
-
-    # Extract generated tokens (excluding prompt)
     generated_tokens = generated[0, prompt.shape[1]:].tolist()
     print(f"New tokens: {generated_tokens}")
-
-    # Detect watermark in generated sequence
     print("\nDetecting watermark...")
     full_sequence = generated[0].tolist()
     detection_result = watermark.detect_watermark(full_sequence)
-
     print(f"Watermark detection results:")
     print(f"  Is watermarked: {detection_result['is_watermarked']}")
     print(f"  P-value: {detection_result['p_value']:.4f}")
     print(f"  Green ratio: {detection_result['green_ratio']:.4f}")
     print(f"  Expected ratio: {detection_result['expected_ratio']:.4f}")
     print(f"  Deviation: {detection_result['deviation']:.4f}")
-
     print("\n✅ LLaDA + Watermarking test completed!")
     return generated, detection_result
 
-# Run the integration test
 generated_with_watermark, detection_result = test_llada_watermark()
 
-# Example usage with pre-trained LLaDA model
 def example_usage():
-    """
-    Example of how to use the LLaDA algorithm with a pre-trained model.
-    Note: This requires the transformers library and a pre-trained LLaDA model.
-    """
     try:
         from transformers import AutoTokenizer, AutoModel
 
-        # Load pre-trained model and tokenizer
-        model_path = 'GSAI-ML/LLaDA-8B-Instruct'  # or 'GSAI-ML/LLaDA-8B-Base'
+        model_path = 'GSAI-ML/LLaDA-8B-Instruct'
 
         print("Loading model and tokenizer...")
         tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
         model = AutoModel.from_pretrained(model_path, trust_remote_code=True, torch_dtype=torch.bfloat16).to(device).eval()
 
-        # Example prompt
         prompt_text = "What is the capital of France?"
 
-        # For Instruct model, use chat template
         messages = [{"role": "user", "content": prompt_text}]
         chat_input = tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=False)
         input_ids = tokenizer(chat_input)['input_ids']
@@ -794,7 +424,6 @@ def example_usage():
         print(f"Prompt: {prompt_text}")
         print(f"Input IDs shape: {input_ids.shape}")
 
-        # Generate response
         print("Generating response...")
         generated = generate_with_watermark(
             model,
@@ -807,7 +436,6 @@ def example_usage():
             remasking='low_confidence'
         )
 
-        # Decode response
         response_tokens = generated[0, input_ids.shape[1]:]
         response_text = tokenizer.decode(response_tokens, skip_special_tokens=True)
 
@@ -824,5 +452,4 @@ def example_usage():
         print("Make sure you have access to the LLaDA model and sufficient GPU memory.")
         return None
 
-# Uncomment to run the example
 example_usage()

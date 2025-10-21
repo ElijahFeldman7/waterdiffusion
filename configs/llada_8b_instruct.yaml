@@ -1,0 +1,25 @@
+model:
+  name: "LLaDA-8B-Instruct"
+  model_path: "GSAI-ML/LLaDA-8B-Instruct"
+  model_type: "llada"
+  trust_remote_code: true
+  dtype: "bfloat16"
+  device: "cuda"
+  device_map: "auto"
+  num_parameters: "8B"
+  architecture: "diffusion"
+  base_model: "LLaDA-8B-Base"
+  use_chat_template: true
+  
+generation:
+  max_length: 1024
+  num_diffusion_steps: 10
+  temperature: 0.7
+  top_p: 0.9
+  top_k: 50
+  do_sample: true
+  
+tokenizer:
+  tokenizer_path: "GSAI-ML/LLaDA-8B-Instruct"
+  trust_remote_code: true
+  use_chat_template: true

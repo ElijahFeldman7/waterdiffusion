@@ -1,0 +1,21 @@
+model:
+  name: "LLaDA-8B-Base"
+  model_path: "GSAI-ML/LLaDA-8B-Base"
+  model_type: "llada"
+  trust_remote_code: true
+  dtype: "bfloat16"
+  device: "cuda"
+  device_map: "auto"
+  num_parameters: "8B"
+  architecture: "diffusion"
+  
+generation:
+  max_length: 512
+  num_diffusion_steps: 10
+  temperature: 1.0
+  top_p: 0.9
+  top_k: 50
+  
+tokenizer:
+  tokenizer_path: "GSAI-ML/LLaDA-8B-Base"
+  trust_remote_code: true

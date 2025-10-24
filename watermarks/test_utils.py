@@ -15,7 +15,7 @@ def test_binary_value():
     
     print("\n1. Testing with 50% green rate:")
     results = []
-    for pos in range(1, 11):
+    for pos in range(0, 10):
         value = get_binary_value(key, pos, percentage=0.5)
         results.append(value)
         print(f"  Position {pos}: {value}")
@@ -23,7 +23,7 @@ def test_binary_value():
     
     print("\n2. Testing with 30% green rate:")
     results = []
-    for pos in range(1, 11):
+    for pos in range(0, 10):
         value = get_binary_value(key, pos, percentage=0.3)
         results.append(value)
         print(f"  Position {pos}: {value}")
@@ -76,9 +76,9 @@ def test_is_position_green():
     
     print(f"\nKey: {key}")
     print(f"Green percentage: {green_percentage*100}%")
-    print("\nChecking positions 1-15:")
+    print("\nChecking positions 0-14:")
     
-    for pos in range(1, 16):
+    for pos in range(0, 15):
         is_green = is_position_green(key, pos, green_percentage)
         marker = "🟢" if is_green else "🔴"
         print(f"  Position {pos:2d}: {marker} {'GREEN' if is_green else 'RED'}")

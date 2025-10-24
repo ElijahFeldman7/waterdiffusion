@@ -41,6 +41,40 @@ You can directly run `python chat.py` to have multi-round conversations with LLa
 
 In addition, please refer to our paper and [GUIDELINES.md](GUIDELINES.md) for more details about the inference methods.
 
+## Usage
+
+You can run the model using the `run.py` script:
+
+**Basic usage with config file:**
+```bash
+python scripts/run.py --config configs/llada_8b_instruct.yaml --prompt "Hello, world!"
+```
+
+**Quick test with defaults:**
+```bash
+python scripts/run.py --prompt "Explain quantum computing"
+```
+
+**With explicit parameters:**
+```bash
+python scripts/run.py --model_path GSAI-ML/LLaDA-8B-Base --prompt "What is AI?" --steps 128 --gen_length 256
+```
+
+**With watermarking:**
+```bash
+python scripts/run.py --prompt "Tell me a story" --watermark_key "my_secret_key" --watermark_delta 2.0
+```
+
+**With watermarking and detection:**
+```bash
+python scripts/run.py --prompt "Tell me a story" --watermark_key "my_secret_key" --detect_watermark
+```
+
+Available config files:
+- `configs/llada_1_5.yaml`
+- `configs/llada_8b_base.yaml`
+- `configs/llada_8b_instruct.yaml`
+
 ## Gradio demo 
 Thank you very much to [apolinário](https://github.com/apolinario) for helping us create this amazing demo!
 

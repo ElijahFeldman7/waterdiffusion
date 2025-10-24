@@ -241,7 +241,7 @@ class LLaDAGenerator:
             self.trust_remote_code = True
             self.device_map = "auto"
             
-            self.default_gen_length     = 128
+            self.default_gen_length = 128
             self.default_steps = 128
             self.default_temperature = 0.0
             
@@ -284,8 +284,9 @@ class LLaDAGenerator:
         temperature: Optional[float] = None,
         cfg_scale: float = 0.,
         remasking: str = 'low_confidence',
-        use_chat_template: Optional[bool] = None
-    ) -> str:
+        use_chat_template: Optional[bool] = None,
+        return_full_sequence: bool = False
+    ) -> Union[str, Tuple[str, torch.Tensor]]:
         """
         Generate text from a prompt string. Uses config defaults if parameters not provided.
         
@@ -298,9 +299,10 @@ class LLaDAGenerator:
             cfg_scale: Classifier-free guidance scale
             remasking: Remasking strategy
             use_chat_template: Whether to apply chat template formatting (defaults to config value)
+            return_full_sequence: If True, return (text, full_token_tensor) tuple
             
         Returns:
-            Generated text string
+            Generated text string, or (text, tokens) tuple if return_full_sequence=True
         """
         steps = steps if steps is not None else self.default_steps
         gen_length = gen_length if gen_length is not None else self.default_gen_length
@@ -336,6 +338,8 @@ class LLaDAGenerator:
         response_tokens = generated_tensor[0, prompt_len:]
         response_text = self.tokenizer.decode(response_tokens, skip_special_tokens=True)
         
+        if return_full_sequence:
+            return response_text, generated_tensor
         return response_text
     
     def generate_tokens(

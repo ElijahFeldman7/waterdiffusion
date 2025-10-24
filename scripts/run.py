@@ -14,6 +14,12 @@ Usage examples:
 
 4. Quick test with defaults:
    python scripts/run.py --prompt "Explain quantum computing"
+
+5. Run with watermarking:
+   python scripts/run.py --prompt "Tell me a story" --watermark_key "my_secret_key" --watermark_delta 2.0
+
+6. Run with watermarking and detection:
+   python scripts/run.py --prompt "Tell me a story" --watermark_key "my_secret_key" --detect_watermark
 """
 
 import argparse
@@ -23,6 +29,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from models.llada import LLaDAGenerator
+from watermarks.simple_remask_watermark import SimpleRemaskWatermark
 
 
 def parse_args():
@@ -119,6 +126,26 @@ def parse_args():
         help="Disable chat template formatting"
     )
     
+    parser.add_argument(
+        "--watermark_key",
+        type=str,
+        default=None,
+        help="Secret key for watermarking (enables watermark if provided)"
+    )
+    
+    parser.add_argument(
+        "--watermark_delta",
+        type=float,
+        default=2.0,
+        help="Delta value for watermark confidence boost (default: 2.0)"
+    )
+    
+    parser.add_argument(
+        "--detect_watermark",
+        action="store_true",
+        help="Run watermark detection on generated text"
+    )
+    
     return parser.parse_args()
 
 
@@ -130,24 +157,35 @@ def load_model(args):
         args: Parsed command line arguments
         
     Returns:
-        Model generator instance
+        Model generator instance and optional watermark
     """
+    watermark = None
+    if args.watermark_key:
+        print(f"Initializing watermark with key: {args.watermark_key[:10]}...")
+        watermark = SimpleRemaskWatermark(
+            config={},
+            key=args.watermark_key,
+            delta=args.watermark_delta
+        )
+    
     if args.model == "llada":
         if args.config:
             print(f"Loading LLaDA model from config: {args.config}")
             generator = LLaDAGenerator(
                 config=args.config,
                 model_path=args.model_path,
-                device=args.device
+                device=args.device,
+                watermark=watermark
             )
         else:
             print(f"Loading LLaDA model with explicit parameters")
             model_path = args.model_path or "GSAI-ML/LLaDA-8B-Instruct"
             generator = LLaDAGenerator(
                 model_path=model_path,
-                device=args.device or "cuda"
+                device=args.device or "cuda",
+                watermark=watermark
             )
-        return generator
+        return generator, watermark
     else:
         raise ValueError(f"Model type '{args.model}' not supported")
 
@@ -162,7 +200,7 @@ def main():
     print("LLaDA Model Runner")
     print("="*60)
     
-    generator = load_model(args)
+    generator, watermark = load_model(args)
     
     print(f"\nModel: {generator.model_path}")
     print(f"Device: {generator.device}")
@@ -170,28 +208,68 @@ def main():
     print(f"Default diffusion steps: {generator.default_steps}")
     print(f"Default temperature: {generator.default_temperature}")
     
+    if watermark:
+        print(f"\nWatermark enabled:")
+        print(f"  Delta: {watermark.delta}")
+    
     print("\n" + "-"*60)
     print(f"Prompt: {args.prompt}")
     print("-"*60)
     
     print("\nGenerating response...")
     
-    response = generator.generate_text(
-        prompt=args.prompt,
-        steps=args.steps,
-        gen_length=args.gen_length,
-        block_length=args.block_length,
-        temperature=args.temperature,
-        cfg_scale=args.cfg_scale,
-        remasking=args.remasking,
-        use_chat_template=not args.no_chat_template
-    )
+    if args.detect_watermark and watermark:
+        response, full_sequence = generator.generate_text(
+            prompt=args.prompt,
+            steps=args.steps,
+            gen_length=args.gen_length,
+            block_length=args.block_length,
+            temperature=args.temperature,
+            cfg_scale=args.cfg_scale,
+            remasking=args.remasking,
+            use_chat_template=not args.no_chat_template,
+            return_full_sequence=True
+        )
+    else:
+        response = generator.generate_text(
+            prompt=args.prompt,
+            steps=args.steps,
+            gen_length=args.gen_length,
+            block_length=args.block_length,
+            temperature=args.temperature,
+            cfg_scale=args.cfg_scale,
+            remasking=args.remasking,
+            use_chat_template=not args.no_chat_template
+        )
     
     print("\n" + "="*60)
     print("Generated Response:")
     print("="*60)
     print(response)
     print("="*60)
+    
+    if args.detect_watermark and watermark:
+        print("\n" + "-"*60)
+        print("Watermark Detection:")
+        print("-"*60)
+        
+        detection_result = watermark.detect(
+            text=response,
+            tokenizer=generator.tokenizer,
+            model=generator.model
+        )
+        
+        print(f"Is Watermarked: {detection_result['is_watermarked']}")
+        print(f"P-value: {detection_result['score']:.6f}")
+        print(f"Threshold: {detection_result['threshold']}")
+        if 't_statistic' in detection_result:
+            print(f"T-statistic: {detection_result['t_statistic']:.4f}")
+        if detection_result.get('green_mean') is not None:
+            print(f"Green positions mean confidence: {detection_result['green_mean']:.4f}")
+            print(f"Red positions mean confidence: {detection_result['red_mean']:.4f}")
+        print(f"Green count: {detection_result['green_count']}")
+        print(f"Red count: {detection_result['red_count']}")
+        print("-"*60)
 
 
 if __name__ == "__main__":

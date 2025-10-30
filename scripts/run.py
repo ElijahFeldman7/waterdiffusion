@@ -62,7 +62,7 @@ def parse_args():
         "--device_map",
         type=str,
         default=None,
-        help="Device map for model loading (e.g., auto)"
+        help="Device map for model loading (e.g., 'auto' or '{"":0}')"
     )
     parser.add_argument(
         "--dtype",
@@ -465,11 +465,6 @@ def main():
                         "is_watermarked": detection_result.get("is_watermarked"),
                         "score": detection_result.get("score"),
                         "threshold": detection_result.get("threshold"),
-                        "t_statistic": detection_result.get("t_statistic"),
-                        "green_mean": detection_result.get("green_mean"),
-                        "red_mean": detection_result.get("red_mean"),
-                        "green_count": detection_result.get("green_count"),
-                        "red_count": detection_result.get("red_count"),
                     })
 
                 if jsonl_file:

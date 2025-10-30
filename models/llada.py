@@ -289,49 +289,7 @@ class LLaDAGenerator:
 
 
 if __name__ == "__main__":
-    print("Example 1: Loading from config file")
-    generator_from_config = LLaDAGenerator(
-        config="configs/llada_8b_instruct.yaml"
-    )
-    
-    prompt = "What is the capital of France?"
-    response = generator_from_config.generate_text(prompt)
-    
-    print(f"Prompt: {prompt}")
-    print(f"Response: {response}")
-    print(f"Config used: steps={generator_from_config.default_steps}, "
-          f"max_length={generator_from_config.default_gen_length}, "
-          f"temperature={generator_from_config.default_temperature}")
-    
-    print("\n" + "="*50 + "\n")
-    
-    print("Example 2: Loading with explicit parameters")
-    generator_explicit = LLaDAGenerator(
-        model_path="GSAI-ML/LLaDA-8B-Instruct",
-        device="cuda"   
-    )
-    
-    response2 = generator_explicit.generate_text(
-        prompt,
-        steps=128,
-        gen_length=128,
-        block_length=32,
-        temperature=0.0
-    )
-    print(f"Prompt: {prompt}")
-    print(f"Response: {response2}")
-    print("\n" + "="*50 + "\n")
-    print("Example 3: Using with watermark")
-    from watermarks.simple_remask_watermark import SimpleRemaskWatermark
-    
-    watermark = SimpleRemaskWatermark(config={}, key="my_secret_key", delta=2.0)
-    generator_with_watermark = LLaDAGenerator(
-        model_path="GSAI-ML/LLaDA-8B-Instruct",
-        device="cuda",
-        watermark=watermark
-    )
-    
-    response3 = generator_with_watermark.generate_text(prompt)
-    print(f"Prompt: {prompt}")
-    print(f"Response with watermark: {response3}")
+    # Minimal smoke test
+    gen = LLaDAGenerator(model_path="GSAI-ML/LLaDA-8B-Instruct", device="cuda")
+    print(gen.generate_text("What is the capital of France?", steps=8, gen_length=16))
 

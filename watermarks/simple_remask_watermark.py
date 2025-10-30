@@ -1,12 +1,11 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 import torch
 import numpy as np
-from scipy import stats
 from scipy.stats import norm
 
 from watermarks.watermark import BaseDiffusionWatermark
-from watermarks.utils import generate_token_pairs
+from watermarks.utils import pair_rule_follows
 
 
 class SimpleRemaskWatermark(BaseDiffusionWatermark):
@@ -15,17 +14,12 @@ class SimpleRemaskWatermark(BaseDiffusionWatermark):
         config: Dict[str, Any],
         key: str = "",
         delta: float = 2.0,
-        vocab_size: int = 100,
-        mask_token: Optional[int] = None,
         context_window: List[int] = None,
     ):
         super().__init__(config)
         self.key = key
         self.delta = delta
-        self.vocab_size = vocab_size
-        self.mask_token = mask_token
         self.context_window = context_window or [-2, -1, 1, 2]
-        self.token_pairs = generate_token_pairs(key, vocab_size, mask_token)
     
     def apply_watermark(
         self,
@@ -45,14 +39,13 @@ class SimpleRemaskWatermark(BaseDiffusionWatermark):
             for i in range(seq_len):
                 proposed_token = int(x0[b, i].item())
                 count = 0
-
                 for j in self.context_window:
                     neighbor_index = i + j
                     if 0 <= neighbor_index < seq_len and not mask_index[b, neighbor_index]:
                         other_token = int(current_text[b, neighbor_index].item())
-                        if j < 0 and (other_token, proposed_token) in self.token_pairs:
+                        if j < 0 and pair_rule_follows(self.key, other_token, proposed_token):
                             count += 1
-                        if j > 0 and (proposed_token, other_token) in self.token_pairs:
+                        if j > 0 and pair_rule_follows(self.key, proposed_token, other_token):
                             count += 1
 
                 if mask_index[b, i]:
@@ -69,8 +62,7 @@ class SimpleRemaskWatermark(BaseDiffusionWatermark):
     ) -> Dict[str, Any]:
 
         tokens_tensor = tokenizer.encode(text, return_tensors="pt")[0]
-        if isinstance(tokens_tensor, torch.Tensor): tokens = tokens_tensor.cpu().tolist()
-        else: tokens = tokens_tensor
+        tokens = tokens_tensor.cpu().tolist() if isinstance(tokens_tensor, torch.Tensor) else tokens_tensor
 
         satisfied_pairs = 0
         total_pairs_checked = 0
@@ -82,9 +74,9 @@ class SimpleRemaskWatermark(BaseDiffusionWatermark):
                 neighbor_index = i + j
                 if 0 <= neighbor_index < seq_len:
                     total_pairs_checked += 1
-                    if j < 0 and (tokens[neighbor_index], tokens[i]) in self.token_pairs:
+                    if j < 0 and pair_rule_follows(self.key, tokens[neighbor_index], tokens[i]):
                         satisfied_pairs += 1
-                    if j > 0 and (tokens[i], tokens[neighbor_index]) in self.token_pairs:
+                    if j > 0 and pair_rule_follows(self.key, tokens[i], tokens[neighbor_index]):
                         satisfied_pairs += 1
 
         if total_pairs_checked == 0:

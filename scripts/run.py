@@ -33,12 +33,6 @@ from watermarks.simple_remask_watermark import SimpleRemaskWatermark
 
 
 def parse_args():
-    """
-    Parse command line arguments for model generation.
-    
-    Returns:
-        Parsed arguments
-    """
     parser = argparse.ArgumentParser(description="Run LLaDA model generation")
     
     parser.add_argument(
@@ -150,15 +144,6 @@ def parse_args():
 
 
 def load_model(args):
-    """
-    Load the appropriate model based on arguments.
-    
-    Args:
-        args: Parsed command line arguments
-        
-    Returns:
-        Model generator instance and optional watermark
-    """
     watermark = None
     if args.watermark_key:
         print(f"Initializing watermark with key: {args.watermark_key[:10]}...")
@@ -191,9 +176,6 @@ def load_model(args):
 
 
 def main():
-    """
-    Main entry point for running model generation.
-    """
     args = parse_args()
     
     print("="*60)
@@ -264,11 +246,14 @@ def main():
         print(f"Threshold: {detection_result['threshold']}")
         if 't_statistic' in detection_result:
             print(f"T-statistic: {detection_result['t_statistic']:.4f}")
-        if detection_result.get('green_mean') is not None:
+        if 'green_mean' in detection_result and detection_result.get('green_mean') is not None:
             print(f"Green positions mean confidence: {detection_result['green_mean']:.4f}")
+        if 'red_mean' in detection_result and detection_result.get('red_mean') is not None:
             print(f"Red positions mean confidence: {detection_result['red_mean']:.4f}")
-        print(f"Green count: {detection_result['green_count']}")
-        print(f"Red count: {detection_result['red_count']}")
+        if 'green_count' in detection_result:
+            print(f"Green count: {detection_result['green_count']}")
+        if 'red_count' in detection_result:
+            print(f"Red count: {detection_result['red_count']}")
         print("-"*60)
 
 

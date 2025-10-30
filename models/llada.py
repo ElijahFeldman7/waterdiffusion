@@ -11,30 +11,11 @@ MASK_TOKEN_ID = 126336
 
 
 def load_config(config_path: str) -> Dict[str, Any]:
-    """
-    Load configuration from YAML file.
-    
-    Args:
-        config_path: Path to YAML configuration file
-        
-    Returns:
-        Configuration dictionary
-    """
     with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
     return config
 
-
 def get_torch_dtype(dtype_str: str):
-    """
-    Convert dtype string to torch dtype.
-    
-    Args:
-        dtype_str: String representation of dtype (e.g., 'bfloat16', 'float32')
-        
-    Returns:
-        Corresponding torch dtype
-    """
     dtype_map = {
         'bfloat16': torch.bfloat16,
         'float16': torch.float16,
@@ -43,18 +24,7 @@ def get_torch_dtype(dtype_str: str):
     }
     return dtype_map.get(dtype_str, torch.bfloat16)
 
-
 def add_gumbel_noise(logits: torch.Tensor, temperature: float) -> torch.Tensor:
-    """
-    Add Gumbel noise to logits for sampling during generation.
-    
-    Args:
-        logits: Model output logits [batch_size, seq_len, vocab_size]
-        temperature: Temperature parameter for controlling randomness (0 = deterministic)
-        
-    Returns:
-        Logits with Gumbel noise applied
-    """
     if temperature == 0:
         return logits
     logits = logits.to(torch.float64)
@@ -62,18 +32,7 @@ def add_gumbel_noise(logits: torch.Tensor, temperature: float) -> torch.Tensor:
     gumbel_noise = (- torch.log(noise)) ** temperature
     return logits.exp() / gumbel_noise
 
-
 def get_num_transfer_tokens(mask_index: torch.Tensor, steps: int) -> torch.Tensor:
-    """
-    Calculate the number of tokens to unmask at each diffusion step.
-    
-    Args:
-        mask_index: Boolean tensor indicating which tokens are masked [batch_size, seq_len]
-        steps: Total number of diffusion steps
-        
-    Returns:
-        Tensor of shape [batch_size, steps] indicating tokens to unmask per step
-    """
     mask_num = mask_index.sum(dim=1, keepdim=True)
     base = mask_num // steps
     remainder = mask_num % steps
@@ -81,7 +40,6 @@ def get_num_transfer_tokens(mask_index: torch.Tensor, steps: int) -> torch.Tenso
     for i in range(mask_num.size(0)):
         num_transfer_tokens[i, :remainder[i]] += 1
     return num_transfer_tokens
-
 
 @torch.no_grad()
 def generate(
@@ -96,28 +54,6 @@ def generate(
     mask_id: int = MASK_TOKEN_ID,
     watermark = None
 ) -> torch.Tensor:
-    """
-    Generate text using LLaDA's masked diffusion process (reverse diffusion).
-    
-    This implements the core generation algorithm where tokens are iteratively
-    unmasked over multiple diffusion steps. The generation proceeds in blocks,
-    with each block going through a full diffusion process.
-    
-    Args:
-        model: LLaDA model instance
-        prompt: Input prompt tokens [1, prompt_len]
-        steps: Total number of diffusion steps (should equal gen_length for best results)
-        gen_length: Total length of text to generate
-        block_length: Length of each generation block (gen_length must be divisible by this)
-        temperature: Sampling temperature (0 = greedy, >0 = stochastic)
-        cfg_scale: Classifier-free guidance scale (0 = no guidance)
-        remasking: Strategy for selecting tokens to remask ('low_confidence' or 'random')
-        mask_id: Token ID used for masking
-        watermark: Optional watermark instance with apply_watermark method
-        
-    Returns:
-        Generated sequence [1, prompt_len + gen_length]
-    """
     device = prompt.device
     x = torch.full((1, prompt.shape[1] + gen_length), mask_id, dtype=torch.long, device=device)
     x[:, :prompt.shape[1]] = prompt.clone()
@@ -184,14 +120,6 @@ def generate(
 
 
 class LLaDAGenerator:
-    """
-    Wrapper class for LLaDA model generation with convenient interface.
-    
-    Handles model loading, tokenization, and text generation using the
-    masked diffusion process. Can be initialized from a config file or
-    with explicit parameters.
-    """
-    
     def __init__(
         self,
         config: Optional[Union[str, Dict[str, Any]]] = None,
@@ -200,16 +128,6 @@ class LLaDAGenerator:
         torch_dtype = None,
         watermark = None
     ):
-        """
-        Initialize LLaDA generator from config file or explicit parameters.
-        
-        Args:
-            config: Path to YAML config file or config dictionary
-            model_path: HuggingFace model path (overrides config if provided)
-            device: Device to run model on (overrides config if provided)
-            torch_dtype: Data type for model weights (overrides config if provided)
-            watermark: Optional watermark instance for watermarking generation
-        """
         self.watermark = watermark
         if config is not None:
             if isinstance(config, str):
@@ -287,23 +205,6 @@ class LLaDAGenerator:
         use_chat_template: Optional[bool] = None,
         return_full_sequence: bool = False
     ) -> Union[str, Tuple[str, torch.Tensor]]:
-        """
-        Generate text from a prompt string. Uses config defaults if parameters not provided.
-        
-        Args:
-            prompt: Input text prompt
-            steps: Number of diffusion steps (defaults to config value)
-            gen_length: Length of text to generate in tokens (defaults to config max_length)
-            block_length: Block size for generation
-            temperature: Sampling temperature (defaults to config value)
-            cfg_scale: Classifier-free guidance scale
-            remasking: Remasking strategy
-            use_chat_template: Whether to apply chat template formatting (defaults to config value)
-            return_full_sequence: If True, return (text, full_token_tensor) tuple
-            
-        Returns:
-            Generated text string, or (text, tokens) tuple if return_full_sequence=True
-        """
         steps = steps if steps is not None else self.default_steps
         gen_length = gen_length if gen_length is not None else self.default_gen_length
         temperature = temperature if temperature is not None else self.default_temperature
@@ -352,21 +253,6 @@ class LLaDAGenerator:
         cfg_scale: float = 0.,
         remasking: str = 'low_confidence'
     ) -> torch.Tensor:
-        """
-        Generate tokens from prompt tokens (lower-level interface). Uses config defaults if not provided.
-        
-        Args:
-            prompt_tokens: Input prompt as token tensor [1, prompt_len]
-            steps: Number of diffusion steps (defaults to config value)
-            gen_length: Length of text to generate (defaults to config max_length)
-            block_length: Block size for generation
-            temperature: Sampling temperature (defaults to config value)
-            cfg_scale: Classifier-free guidance scale
-            remasking: Remasking strategy
-            
-        Returns:
-            Generated token tensor [1, prompt_len + gen_length]
-        """
         steps = steps if steps is not None else self.default_steps
         gen_length = gen_length if gen_length is not None else self.default_gen_length
         temperature = temperature if temperature is not None else self.default_temperature
@@ -405,7 +291,7 @@ if __name__ == "__main__":
     print("Example 2: Loading with explicit parameters")
     generator_explicit = LLaDAGenerator(
         model_path="GSAI-ML/LLaDA-8B-Instruct",
-        device="cuda"
+        device="cuda"   
     )
     
     response2 = generator_explicit.generate_text(
@@ -415,12 +301,9 @@ if __name__ == "__main__":
         block_length=32,
         temperature=0.0
     )
-    
     print(f"Prompt: {prompt}")
     print(f"Response: {response2}")
-    
     print("\n" + "="*50 + "\n")
-    
     print("Example 3: Using with watermark")
     from watermarks.simple_remask_watermark import SimpleRemaskWatermark
     

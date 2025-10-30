@@ -125,26 +125,38 @@ class LLaDAGenerator:
         config: Optional[Union[str, Dict[str, Any]]] = None,
         model_path: Optional[str] = None,
         device: Optional[str] = None,
-        torch_dtype = None,
-        watermark = None
+        dtype: Optional[Union[torch.dtype, str]] = None,
+        watermark = None,
+        local_files_only: bool = False,
+        device_map: Optional[Union[str, Dict[str, int]]] = None
     ):
         self.watermark = watermark
+        self.local_files_only = local_files_only
         if config is not None:
             if isinstance(config, str):
-                self.config = load_config(config)
+                config_path_candidate = Path(config)
+                if config_path_candidate.is_file():
+                    print(f"Loading config file: {config_path_candidate}")
+                    self.config = load_config(str(config_path_candidate))
+                else:
+                    print(f"Config is not a file, treating as model id: {config}")
+                    self.config = None
+                    model_path = model_path or config
             else:
                 self.config = config
-            
-            model_config = self.config.get('model', {})
-            gen_config = self.config.get('generation', {})
-            tokenizer_config = self.config.get('tokenizer', {})
+            model_config = self.config.get('model', {}) if self.config else {}
+            gen_config = self.config.get('generation', {}) if self.config else {}
+            tokenizer_config = self.config.get('tokenizer', {}) if self.config else {}
             
             self.model_path = model_path or model_config.get('model_path', 'GSAI-ML/LLaDA-8B-Instruct')
             self.device = device or model_config.get('device', 'cuda')
             dtype_str = model_config.get('dtype', 'bfloat16')
-            self.torch_dtype = torch_dtype or get_torch_dtype(dtype_str)
+            if dtype is not None:
+                self.torch_dtype = get_torch_dtype(dtype) if isinstance(dtype, str) else dtype
+            else:
+                self.torch_dtype = get_torch_dtype(dtype_str)
             self.trust_remote_code = model_config.get('trust_remote_code', True)
-            self.device_map = model_config.get('device_map', 'auto')
+            self.device_map = device_map if device_map is not None else model_config.get('device_map', 'auto')
             
             self.default_gen_length = gen_config.get('max_length', 128)
             self.default_steps = gen_config.get('num_diffusion_steps', 128)
@@ -155,9 +167,12 @@ class LLaDAGenerator:
         else:
             self.model_path = model_path or "GSAI-ML/LLaDA-8B-Instruct"
             self.device = device or "cuda"
-            self.torch_dtype = torch_dtype or torch.bfloat16
+            if dtype is not None:
+                self.torch_dtype = get_torch_dtype(dtype) if isinstance(dtype, str) else dtype
+            else:
+                self.torch_dtype = torch.bfloat16
             self.trust_remote_code = True
-            self.device_map = "auto"
+            self.device_map = device_map if device_map is not None else "auto"
             
             self.default_gen_length = 128
             self.default_steps = 128
@@ -166,27 +181,29 @@ class LLaDAGenerator:
             self.tokenizer_path = self.model_path
             self.use_chat_template = True
             self.config = None
-        
         if not torch.cuda.is_available() and self.device == "cuda":
             print("Warning: CUDA not available, falling back to CPU")
             self.device = "cpu"
         
+        print(f"Loading tokenizer from {self.tokenizer_path} (local_files_only={self.local_files_only})")
         self.tokenizer = AutoTokenizer.from_pretrained(
-            self.tokenizer_path, 
-            trust_remote_code=self.trust_remote_code
+            self.tokenizer_path,
+            trust_remote_code=self.trust_remote_code,
+            local_files_only=self.local_files_only
         )
+        print(f"Loading model from {self.model_path} (local_files_only={self.local_files_only})")
         self.model = AutoModel.from_pretrained(
-            self.model_path, 
-            trust_remote_code=self.trust_remote_code, 
-            torch_dtype=self.torch_dtype,
-            device_map=self.device_map
+            self.model_path,
+            trust_remote_code=self.trust_remote_code,
+            dtype=self.torch_dtype,
+            device_map=self.device_map,
+            local_files_only=self.local_files_only
         ).eval()
         
         if self.device_map != "auto":
             self.model = self.model.to(self.device)
         else:
             self.device = next(self.model.parameters()).device
-        
         self.mask_token_id = (
             self.tokenizer.mask_token_id 
             if hasattr(self.tokenizer, 'mask_token_id') and self.tokenizer.mask_token_id is not None 

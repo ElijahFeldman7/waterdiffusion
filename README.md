@@ -31,7 +31,7 @@ in Huggingface. Please first install `transformers==4.38.2` and employ the [tran
 from transformers import AutoModel, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained('GSAI-ML/LLaDA-8B-Base', trust_remote_code=True)
-model = AutoModel.from_pretrained('GSAI-ML/LLaDA-8B-Base', trust_remote_code=True, torch_dtype=torch.bfloat16)
+model = AutoModel.from_pretrained('GSAI-ML/LLaDA-8B-Base', trust_remote_code=True, dtype=torch.bfloat16)
 ```
 
 We provide `get_log_likelihood()` and `generate()` functions in `get_log_likelihood.py` 

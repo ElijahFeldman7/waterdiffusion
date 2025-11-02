@@ -7,6 +7,7 @@ from scipy.stats import norm
 
 class SimpleRemaskWatermark:
 
+    @staticmethod
     def pair_rule_follows(key: str, token_a: int, token_b: int) -> bool:
         a = int(token_a)
         b = int(token_b)
@@ -60,9 +61,9 @@ class SimpleRemaskWatermark:
                     neighbor_index = i + j
                     if 0 <= neighbor_index < seq_len and not mask_index[b, neighbor_index]:
                         other_token = int(current_text[b, neighbor_index].item())
-                        if j < 0 and pair_rule_follows(self.key, other_token, proposed_token):
+                        if j < 0 and SimpleRemaskWatermark.pair_rule_follows(self.key, other_token, proposed_token):
                             count += 1
-                        if j > 0 and pair_rule_follows(self.key, proposed_token, other_token):
+                        if j > 0 and SimpleRemaskWatermark.pair_rule_follows(self.key, proposed_token, other_token):
                             count += 1
 
                 if mask_index[b, i]:
@@ -91,9 +92,9 @@ class SimpleRemaskWatermark:
                 neighbor_index = i + j
                 if 0 <= neighbor_index < seq_len:
                     total_pairs_checked += 1
-                    if j < 0 and pair_rule_follows(self.key, tokens[neighbor_index], tokens[i]):
+                    if j < 0 and SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[neighbor_index], tokens[i]):
                         satisfied_pairs += 1
-                    if j > 0 and pair_rule_follows(self.key, tokens[i], tokens[neighbor_index]):
+                    if j > 0 and SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[i], tokens[neighbor_index]):
                         satisfied_pairs += 1
 
         if total_pairs_checked == 0:

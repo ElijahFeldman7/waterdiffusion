@@ -1,6 +1,6 @@
 import subprocess
 import json
-import sys;
+import sys
 from pathlib import Path
 import random
 from datetime import datetime
@@ -9,7 +9,14 @@ import numpy as np
 from datasets import load_dataset
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from models.llada import LLaDAGenerator
-from watermarks.simple_remask_watermark import SimpleRemaskWatermark
+import importlib.util
+spec = importlib.util.spec_from_file_location(
+    "init_unmasking_watermark", 
+    str(Path(__file__).parent.parent / "watermarks" / "11_02_init_unmasking_watermark.py")
+)
+init_unmasking_watermark = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(init_unmasking_watermark)
+SimpleRemaskWatermark = init_unmasking_watermark.SimpleRemaskWatermark
 
 
 SECRET_KEY = "xooks"

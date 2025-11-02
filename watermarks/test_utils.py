@@ -1,15 +1,7 @@
-"""
-Test and demonstration of watermark utility functions.
-"""
-
 from watermarks.utils import get_binary_value, get_green_positions, is_position_green
 
 
 def test_binary_value():
-    """
-    Test the get_binary_value function.
-    """
-    print("Testing get_binary_value...")
     
     key = "test_secret_key"
     

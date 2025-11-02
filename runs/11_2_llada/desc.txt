@@ -1,1 +1,3 @@
-this run was 500 samples of the c4 dataset, and had a recov rate of only 60% ish
+this run was 500 samples of the c4 dataset, and had a recov rate of only 60% ish trash.
+using initial rule based watermark system.
+delta was 4.0

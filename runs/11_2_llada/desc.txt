@@ -1,0 +1,1 @@
+this run was 500 samples of the c4 dataset, and had a recov rate of only 60% ish

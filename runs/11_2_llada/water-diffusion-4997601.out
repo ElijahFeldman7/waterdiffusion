@@ -1,0 +1,69 @@
+Job started on Sun Nov  2 15:57:02 EST 2025
+Job Name: water-diffusion
+Job ID: 4997601
+Running on node: gpu012.orc.gmu.edu
+Allocated GPUs: 0
+Sun Nov  2 15:57:02 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 560.35.05              Driver Version: 560.35.05      CUDA Version: 12.6     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-SXM4-80GB          On  |   00000000:01:00.0 Off |                    0 |
+| N/A   26C    P0             88W /  500W |       1MiB /  81920MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+Setting up the environment...
+Loaded modules:
+
+Venv activated: /scratch/efeldma5/waterdiffusion/watervenv
+
+Starting Python training
+Starting C4 watermark recovery test...
+Results will be saved in: c4_recovery_test/llada_8b_c4_wm_test_20251102_205727
+Seed set to 42
+Initializing watermark...
+Loading LLaDA model...
+Loading config file: /scratch/efeldma5/waterdiffusion/waterdiffusion/configs/llada_8b_instruct.yaml
+Loading tokenizer from GSAI-ML/LLaDA-8B-Instruct (local_files_only=False)
+Loading model from GSAI-ML/LLaDA-8B-Instruct (local_files_only=False)
+Model GSAI-ML/LLaDA-8B-Instruct loaded on device: cuda:0
+Loading C4 dataset stream...
+Running generation and detection for 500 samples...
+  ... processed 25/500 samples
+  ... processed 50/500 samples
+  ... processed 75/500 samples
+  ... processed 100/500 samples
+  ... processed 125/500 samples
+  ... processed 150/500 samples
+  ... processed 175/500 samples
+  ... processed 200/500 samples
+  ... processed 225/500 samples
+  ... processed 250/500 samples
+  ... processed 275/500 samples
+  ... processed 300/500 samples
+  ... processed 325/500 samples
+  ... processed 350/500 samples
+  ... processed 375/500 samples
+  ... processed 400/500 samples
+  ... processed 425/500 samples
+  ... processed 450/500 samples
+  ... processed 475/500 samples
+  ... processed 500/500 samples
+Test run complete.
+
+--- Watermark Recovery Analysis ---
+Total samples processed: 500
+Samples detected: 308
+Recoverability Rate: 61.60%

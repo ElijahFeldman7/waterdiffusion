@@ -5,11 +5,7 @@ import numpy as np
 import hashlib
 from scipy.stats import norm
 
-from watermarks.watermark import BaseDiffusionWatermark
-from watermarks.utils import pair_rule_follows
-
-
-class SimpleRemaskWatermark(BaseDiffusionWatermark):
+class SimpleRemaskWatermark:
 
     def pair_rule_follows(key: str, token_a: int, token_b: int) -> bool:
         a = int(token_a)

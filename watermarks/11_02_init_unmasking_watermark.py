@@ -30,12 +30,10 @@ class SimpleRemaskWatermark:
 
     def __init__(
         self,
-        config: Dict[str, Any],
         key: str = "",
         delta: float = 2.0,
         context_window: List[int] = None,
     ):
-        super().__init__(config)
         self.key = key
         self.delta = delta
         self.context_window = context_window or [-2, -1, 1, 2]

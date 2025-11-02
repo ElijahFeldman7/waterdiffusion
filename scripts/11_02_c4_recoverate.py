@@ -90,7 +90,6 @@ def main():
 
         print("Initializing watermark...")
         watermark = SimpleRemaskWatermark(
-            config={},
             key=SECRET_KEY,
             delta=WATERMARK_DELTA
         )

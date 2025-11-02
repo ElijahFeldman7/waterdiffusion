@@ -1,5 +1,4 @@
 import subprocess
-import sys
 import json
 from pathlib import Path
 import random
@@ -7,7 +6,7 @@ from datetime import datetime
 import torch
 import numpy as np
 from datasets import load_dataset
-
+sys.path.insert(0, str(Path(__file__).parent.parent))
 from models.llada import LLaDAGenerator
 from watermarks.simple_remask_watermark import SimpleRemaskWatermark
 

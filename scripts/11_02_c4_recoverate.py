@@ -96,7 +96,7 @@ def main():
 
         print("Loading LLaDA model...")
         generator = LLaDAGenerator(
-            config="configs/llada_8b_instruct.yaml",
+            config=str(project_root / "configs" / "llada_8b_instruct.yaml"),
             watermark=watermark,
             device_map="auto"
         )

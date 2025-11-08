@@ -26,6 +26,8 @@ NUM_SAMPLES = 50
 OUTPUT_DIR = Path("c4_recovery_test")
 RUN_NAME = "llada_8b_c4_wm_test_delta_8"
 SEED = 42
+GEN_STEPS = 128
+GEN_LENGTH = 128
 
 def analyze_jsonl(file_path: Path):
     total_samples = 0
@@ -135,13 +137,15 @@ def main():
                 try:
                     generated_text = generator.generate_text(
                         prompt=prompt_snippet,
-                        gen_length=128,
-                        steps=128
+                        gen_length=GEN_LENGTH,
+                        steps=GEN_STEPS
                     )
                     
                     detection_result = watermark.detect(
                         text=generated_text,
-                        tokenizer=generator.tokenizer
+                        tokenizer=generator.tokenizer,
+                        num_timestamps=GEN_STEPS,
+                        unmasked_tokens_per_timestamp=GEN_LENGTH / GEN_STEPS
                     )
                     
                     result_entry = {

@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional, Union
 
 import torch
 import numpy as np
@@ -74,8 +74,10 @@ class SimpleRemaskWatermark:
     
     def detect(
         self,
-        text: str,  
+        text: str,
         tokenizer: Any,
+        num_timestamps: Optional[int] = None,
+        unmasked_tokens_per_timestamp: Optional[Union[int, float]] = None,
         **kwargs
     ) -> Dict[str, Any]:
 
@@ -125,6 +127,8 @@ class SimpleRemaskWatermark:
             "total_pairs_checked": total_pairs_checked,
             "satisfaction_rate": float(satisfaction_rate),
             "threshold": p_value_threshold,
+            "num_timestamps": num_timestamps,
+            "unmasked_tokens_per_timestamp": unmasked_tokens_per_timestamp,
         }
         
     

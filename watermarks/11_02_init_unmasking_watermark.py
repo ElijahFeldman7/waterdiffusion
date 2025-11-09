@@ -11,21 +11,23 @@ class SimpleRemaskWatermark:
     def pair_rule_follows(key: str, token_a: int, token_b: int) -> bool:
         a = int(token_a)
         b = int(token_b)
-        if a == b:
-            return False
         lo, hi = (a, b) if a < b else (b, a)
         h = hashlib.sha256()
         h.update(key.encode('utf-8'))
         h.update(b'|')
-        h.update(str(lo).encode('utf-8'))
-        h.update(b'|')
-        h.update(str(hi).encode('utf-8'))
+        if a == b:
+            h.update(str(a).encode('utf-8'))
+        else:
+            h.update(str(lo).encode('utf-8'))
+            h.update(b'|')
+            h.update(str(hi).encode('utf-8'))
         v = int.from_bytes(h.digest()[:2], 'big')
         bit = v & 1
+        if a == b:
+            return bit
         if a < b:
-            return bit == 1
-        else:
-            return bit == 0
+            return 1 if bit == 1 else 0
+        return 1 if bit == 0 else 0
 
 
 
@@ -57,25 +59,22 @@ class SimpleRemaskWatermark:
             for i in range(seq_len):
                 proposed_token = int(x0[b, i].item())
                 count = 0
-                anti_count = 0
                 for j in self.context_window:
                     neighbor_index = i + j
                     if 0 <= neighbor_index < seq_len and not mask_index[b, neighbor_index]:
                         other_token = int(current_text[b, neighbor_index].item())
-                        if j < 0 and SimpleRemaskWatermark.pair_rule_follows(self.key, other_token, proposed_token):
-                            count += 1
-                        if j < 0 and SimpleRemaskWatermark.pair_rule_follows(self.key, proposed_token, other_token):
-                            anti_count += 1
-                        if j > 0 and SimpleRemaskWatermark.pair_rule_follows(self.key, proposed_token, other_token):
-                            count += 1
-                        if j > 0 and SimpleRemaskWatermark.pair_rule_follows(self.key, other_token, proposed_token):
-                            anti_count += 1
+                        if j < 0:
+                            if SimpleRemaskWatermark.pair_rule_follows(self.key, other_token, proposed_token): count += 1
+                            else: count -= 1
+                        if j >= 0:
+                            if SimpleRemaskWatermark.pair_rule_follows(self.key, proposed_token, other_token): count += 1
+                            else: count -= 1
 
                 if mask_index[b, i]:
                     modified_confidence[b, i] += count * self.delta
-                    modified_confidence[b, i] -= anti_count * self.delta
                 else:
                     modified_confidence[b, i] = -np.inf
+                
         return modified_confidence
     
     def detect(
@@ -102,7 +101,7 @@ class SimpleRemaskWatermark:
                     total_pairs_checked += 1
                     if j < 0 and SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[neighbor_index], tokens[i]):
                         satisfied_pairs += 1
-                    if j > 0 and SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[i], tokens[neighbor_index]):
+                    if j >= 0 and SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[i], tokens[neighbor_index]):
                         satisfied_pairs += 1
 
         if total_pairs_checked == 0:
@@ -116,11 +115,7 @@ class SimpleRemaskWatermark:
                 "threshold": p_value_threshold,
                 "error": "No relevant token pairs found in text",
             }
-        pollution_rate = float(1) / float(num_timestamps)
-        invalid_pairs = total_pairs_checked * pollution_rate
-        valid_pairs = total_pairs_checked - invalid_pairs
-        satisfied_pairs -= invalid_pairs * 0.5
-        satisfaction_rate = satisfied_pairs / valid_pairs   
+
 
         expected_rate = 0.5
         std_error = np.sqrt(expected_rate * (1 - expected_rate) / total_pairs_checked)

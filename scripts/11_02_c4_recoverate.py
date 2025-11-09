@@ -4,13 +4,17 @@ import random
 import re
 import subprocess
 import sys
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import Dict
 
 import numpy as np
 import torch
+import torch.nn.functional as F
 from datasets import load_dataset
+from sentence_transformers import SentenceTransformer
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from models.llada import LLaDAGenerator
@@ -35,6 +39,25 @@ GEN_STEPS = 128
 GEN_LENGTH = 128
 
 
+# calculate ppl and cosine sim
+perplexity_model = GPT2LMHeadModel.from_pretrained('gpt2')
+perplexity_tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+perplexity_model.eval()
+similarity_model = SentenceTransformer('all-MiniLM-L6-v2')
+
+
+def calculate_perplexity(text: str, model, tokenizer) -> float:
+    if not text.strip():
+        return float("nan")
+    encodings = tokenizer(text, return_tensors='pt')
+    input_ids = encodings.input_ids
+    if input_ids.size(1) > 1024:
+        input_ids = input_ids[:, :1024]
+    with torch.no_grad():
+        outputs = model(input_ids, labels=input_ids)
+        neg_log_likelihood = outputs.loss
+    perplexity = torch.exp(neg_log_likelihood)
+    return perplexity.item()
 def count_syllables(word: str) -> int:
     word = word.lower()
     word = re.sub(r"[^a-z]", "", word)
@@ -91,28 +114,25 @@ def analyze_jsonl(file_path: Path):
     detected_samples = 0
     strong_detection_count = 0
     very_strong_detection_count = 0
-    watermark_strength_stats = {
-        "p_values": [],
-        "z_scores": [],
-        "satisfaction_rates": [],
-        "num_timestamps": [],
-        "unmasked_tokens_per_timestamp": [],
-        "detection_margins": [],
-    }
-    quality_totals = {
-        "avg_sentence_length": 0.0,
-        "avg_word_length": 0.0,
-        "lexical_diversity": 0.0,
-        "flesch_reading_ease": 0.0,
-        "sequence_length": 0.0,
-    }
-    quality_sample_count = 0
     
+    watermark_strength_stats = {
+        "p_values": [], "z_scores": [], "satisfaction_rates": [],
+        "num_timestamps": [], "unmasked_tokens_per_timestamp": [], "detection_margins": [],
+    }
+    
+    quality_stats = {
+        "gen_time_wm": [], "gen_time_no_wm": [], "perplexity_wm": [],
+        "perplexity_no_wm": [], "cosine_similarity": [],
+    }
+
+    quality_totals_wm = {k: 0.0 for k in ["avg_sentence_length", "avg_word_length", "lexical_diversity", "flesch_reading_ease", "sequence_length"]}
+    quality_totals_no_wm = {k: 0.0 for k in quality_totals_wm}
+    quality_sample_count = 0
+
     try:
         with open(file_path, 'r') as f:
             for line in f:
-                if not line.strip():
-                    continue
+                if not line.strip(): continue
                 
                 try:
                     result = json.loads(line)
@@ -123,39 +143,29 @@ def analyze_jsonl(file_path: Path):
                     
                     detection = result.get('detection', {})
                     if detection:
-                        p_value = detection.get('score')
-                        threshold = detection.get('threshold')
-                        z_score = detection.get('z_score')
-                        satisfaction_rate = detection.get('satisfaction_rate')
-                        num_timestamps = detection.get('num_timestamps')
-                        unmasked_tokens_per_timestamp = detection.get('unmasked_tokens_per_timestamp')
-                        
-                        if p_value is not None:
-                            watermark_strength_stats['p_values'].append(p_value)
-                        if z_score is not None:
+                        if (p_value := detection.get('score')) is not None: watermark_strength_stats['p_values'].append(p_value)
+                        if (z_score := detection.get('z_score')) is not None:
                             watermark_strength_stats['z_scores'].append(z_score)
-                            if z_score >= 2.326:  # 99% one-tailed confidence, cf. Gloaguen et al. (2025)
-                                strong_detection_count += 1
-                            if z_score >= 3.090:  # 99.9% one-tailed confidence
-                                very_strong_detection_count += 1
-                        if satisfaction_rate is not None:
-                            watermark_strength_stats['satisfaction_rates'].append(satisfaction_rate)
-                        if num_timestamps is not None:
-                            watermark_strength_stats['num_timestamps'].append(num_timestamps)
-                        if unmasked_tokens_per_timestamp is not None:
-                            watermark_strength_stats['unmasked_tokens_per_timestamp'].append(unmasked_tokens_per_timestamp)
-                        if p_value is not None and threshold is not None:
-                            watermark_strength_stats['detection_margins'].append(threshold - p_value)
-                    
-                    generated_text = result.get('generated_text', '')
-                    if generated_text:
-                        quality_metrics = evaluate_text_quality(generated_text)
+                            if z_score >= 2.326: strong_detection_count += 1
+                            if z_score >= 3.090: very_strong_detection_count += 1
+                        if (sr := detection.get('satisfaction_rate')) is not None: watermark_strength_stats['satisfaction_rates'].append(sr)
+                        if (nt := detection.get('num_timestamps')) is not None: watermark_strength_stats['num_timestamps'].append(nt)
+                        if (ut := detection.get('unmasked_tokens_per_timestamp')) is not None: watermark_strength_stats['unmasked_tokens_per_timestamp'].append(ut)
+                        if p_value is not None and (thresh := detection.get('threshold')) is not None:
+                            watermark_strength_stats['detection_margins'].append(thresh - p_value)
+
+                    for key in quality_stats:
+                        if (val := result.get(key)) is not None and not math.isnan(val):
+                            quality_stats[key].append(val)
+
+                    if (text_wm := result.get('generated_text_wm')) and (text_no_wm := result.get('generated_text_no_wm')):
+                        quality_metrics_wm = evaluate_text_quality(text_wm)
+                        quality_metrics_no_wm = evaluate_text_quality(text_no_wm)
                         quality_sample_count += 1
-                        for key in quality_totals:
-                            value = quality_metrics.get(key)
-                            if value is not None and not math.isnan(value):
-                                quality_totals[key] += value
-                        
+                        for key in quality_totals_wm:
+                            if (val := quality_metrics_wm.get(key)) is not None and not math.isnan(val): quality_totals_wm[key] += val
+                            if (val := quality_metrics_no_wm.get(key)) is not None and not math.isnan(val): quality_totals_no_wm[key] += val
+
                 except json.JSONDecodeError:
                     print(f"Warning: Skipping malformed line: {line.strip()}")
 
@@ -163,8 +173,10 @@ def analyze_jsonl(file_path: Path):
             print("Error: No valid results found in the file.")
             return
 
-        recovery_rate = (detected_samples / total_samples) * 100
-        
+        final_results = {"summary": {}, "watermark_strength": {}, "performance_impact": {}, "quality_impact": {}, "detailed_quality_metrics": {}}
+
+        recovery_rate = (detected_samples / total_samples) * 100 if total_samples > 0 else 0
+        final_results["summary"] = {"total_samples": total_samples, "detected_samples": detected_samples, "recovery_rate_percent": recovery_rate}
         print("\n--- Watermark Recovery Analysis ---")
         print(f"Total samples processed: {total_samples}")
         print(f"Samples detected: {detected_samples}")
@@ -172,42 +184,70 @@ def analyze_jsonl(file_path: Path):
         
         if watermark_strength_stats['z_scores']:
             mean_z = float(np.mean(watermark_strength_stats['z_scores']))
-            median_z = float(np.median(watermark_strength_stats['z_scores']))
             std_z = float(np.std(watermark_strength_stats['z_scores']))
-            mean_p = float(np.mean(watermark_strength_stats['p_values'])) if watermark_strength_stats['p_values'] else float('nan')
-            mean_satisfaction = float(np.mean(watermark_strength_stats['satisfaction_rates'])) if watermark_strength_stats['satisfaction_rates'] else float('nan')
-            avg_margin = float(np.mean(watermark_strength_stats['detection_margins'])) if watermark_strength_stats['detection_margins'] else float('nan')
-            avg_timestamps = float(np.mean(watermark_strength_stats['num_timestamps'])) if watermark_strength_stats['num_timestamps'] else float('nan')
-            avg_unmasked = float(np.mean(watermark_strength_stats['unmasked_tokens_per_timestamp'])) if watermark_strength_stats['unmasked_tokens_per_timestamp'] else float('nan')
-            
-            print("\n--- Watermark Strength Metrics ---")
-            print(f"Mean z-score: {mean_z:.4f}")
-            print(f"Median z-score: {median_z:.4f}")
-            print(f"Std. dev. z-score: {std_z:.4f}")
-            print(f"Mean p-value: {mean_p:.4g}")
-            print(f"Mean satisfaction rate: {mean_satisfaction:.4f}")
-            print(f"Average detection margin (threshold - p): {avg_margin:.4f}")
-            print(f"Avg. diffusion timestamps: {avg_timestamps:.2f}")
-            print(f"Avg. unmasked tokens per timestamp: {avg_unmasked:.2f}")
-            
             strong_rate = (strong_detection_count / total_samples) * 100
             very_strong_rate = (very_strong_detection_count / total_samples) * 100
-            print("\n--- Robustness Indicators ---")
-            print(f"Sequences with ≥99% confidence (z ≥ 2.33): {strong_rate:.2f}%")
-            print(f"Sequences with ≥99.9% confidence (z ≥ 3.09): {very_strong_rate:.2f}%")
-        
+            final_results["watermark_strength"] = {
+                "mean_z_score": mean_z, "std_dev_z_score": std_z,
+                "strong_detection_rate_percent": strong_rate, "very_strong_detection_rate_percent": very_strong_rate
+            }
+            print(f"Mean z-score: {mean_z:.4f} | Std. dev: {std_z:.4f}")
+            print(f"Detection Confidence: ≥99% (z≥2.33): {strong_rate:.2f}% | ≥99.9% (z≥3.09): {very_strong_rate:.2f}%")
+
+        if quality_stats["gen_time_wm"]:
+            mean_gen_time_wm = float(np.mean(quality_stats["gen_time_wm"]))
+            mean_gen_time_no_wm = float(np.mean(quality_stats["gen_time_no_wm"]))
+            time_diff = mean_gen_time_wm - mean_gen_time_no_wm
+            time_overhead = (time_diff / mean_gen_time_no_wm) * 100 if mean_gen_time_no_wm > 0 else 0
+            final_results["performance_impact"] = {
+                "mean_gen_time_wm_s": mean_gen_time_wm, "mean_gen_time_no_wm_s": mean_gen_time_no_wm,
+                "mean_time_overhead_s": time_diff, "mean_time_overhead_percent": time_overhead
+            }
+            print(f"Generation Time (WM): {mean_gen_time_wm:.4f}s")
+            print(f"Generation Time (No WM): {mean_gen_time_no_wm:.4f}s")
+            print(f"Mean Time Overhead: {time_diff:.4f}s ({time_overhead:.2f}%)")
+
+        if quality_stats["perplexity_wm"]:
+            mean_ppl_wm = float(np.mean(quality_stats["perplexity_wm"]))
+            mean_ppl_no_wm = float(np.mean(quality_stats["perplexity_no_wm"]))
+            ppl_diff = mean_ppl_wm - mean_ppl_no_wm
+            ppl_increase = (ppl_diff / mean_ppl_no_wm) * 100 if mean_ppl_no_wm > 0 else 0
+            mean_cos_sim = float(np.mean(quality_stats["cosine_similarity"]))
+            final_results["quality_impact"] = {
+                "mean_perplexity_wm": mean_ppl_wm, "mean_perplexity_no_wm": mean_ppl_no_wm,
+                "mean_perplexity_increase": ppl_diff, "mean_perplexity_increase_percent": ppl_increase,
+                "mean_cosine_similarity": mean_cos_sim
+            }
+            print(f"\nPerplexity (WM): {mean_ppl_wm:.4f}")
+            print(f"Perplexity (No WM): {mean_ppl_no_wm:.4f}")
+            print(f"Mean Perplexity Increase: {ppl_diff:.4f} ({ppl_increase:.2f}%)")
+            print(f"\nCosine Similarity (WM vs No WM): {mean_cos_sim:.4f}")
+
         if quality_sample_count > 0:
-            print("\n--- Text Quality Metrics (averages) ---")
-            for key, total in quality_totals.items():
-                avg_value = total / quality_sample_count
-                print(f"{key.replace('_', ' ').title()}: {avg_value:.4f}")
-            print(f"Samples evaluated for quality: {quality_sample_count}")
+            print("\n--- Detailed Text Quality Metrics (averages) ---")
+            print(f"{'Metric':<25} | {'Watermarked':<15} | {'No Watermark':<15}")
+            print("-" * 60)
+            detailed_wm = {}
+            detailed_no_wm = {}
+            for key in quality_totals_wm:
+                avg_wm = quality_totals_wm[key] / quality_sample_count
+                avg_no_wm = quality_totals_no_wm[key] / quality_sample_count
+                detailed_wm[key] = avg_wm
+                detailed_no_wm[key] = avg_no_wm
+                print(f"{key.replace('_', ' ').title():<25} | {avg_wm:<15.4f} | {avg_no_wm:<15.4f}")
+            final_results["detailed_quality_metrics"] = {"watermarked": detailed_wm, "no_watermark": detailed_no_wm}
+            print(f"\nSamples evaluated for quality: {quality_sample_count}")
+
+        results_json_path = file_path.parent / "results.json"
+        with open(results_json_path, 'w') as f:
+            json.dump(final_results, f, indent=4)
+        print(f"\nAggregated results saved to: {results_json_path}")
 
     except FileNotFoundError:
         print(f"Error: File not found at {file_path}")
         sys.exit(1)
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred during analysis: {e}")
         sys.exit(1)
 
 
@@ -278,14 +318,28 @@ def main():
                 prompt_snippet = " ".join(prompt.split()[:10])
                 
                 try:
-                    generated_text = generator.generate_text(
+                    start_time_wm = time.time()
+                    generated_text_wm = generator.generate_text(
                         prompt=prompt_snippet,
                         gen_length=GEN_LENGTH,
                         steps=GEN_STEPS
                     )
-                    
+                    gen_time_wm = time.time() - start_time_wm
+                    generator.watermark = None
+                    start_time_no_wm = time.time()
+                    generated_text_no_wm = generator.generate_text(
+                        prompt=prompt_snippet,
+                        gen_length=GEN_LENGTH,
+                        steps=GEN_STEPS
+                    )
+                    gen_time_no_wm = time.time() - start_time_no_wm
+                    generator.watermark = watermark
+                    perplexity_wm = calculate_perplexity(generated_text_wm, perplexity_model, perplexity_tokenizer)
+                    perplexity_no_wm = calculate_perplexity(generated_text_no_wm, perplexity_model, perplexity_tokenizer)
+                    embeddings = similarity_model.encode([generated_text_wm, generated_text_no_wm])
+                    cos_sim = F.cosine_similarity(torch.tensor(embeddings[0]), torch.tensor(embeddings[1]), dim=0).item()
                     detection_result = watermark.detect(
-                        text=generated_text,
+                        text=generated_text_wm,
                         tokenizer=generator.tokenizer,
                         num_timestamps=GEN_STEPS,
                         unmasked_tokens_per_timestamp=GEN_LENGTH / GEN_STEPS
@@ -293,7 +347,13 @@ def main():
                     
                     result_entry = {
                         "prompt": prompt_snippet,
-                        "generated_text": generated_text,
+                        "generated_text_wm": generated_text_wm,
+                        "generated_text_no_wm": generated_text_no_wm,
+                        "gen_time_wm": gen_time_wm,
+                        "gen_time_no_wm": gen_time_no_wm,
+                        "perplexity_wm": perplexity_wm,
+                        "perplexity_no_wm": perplexity_no_wm,
+                        "cosine_similarity": cos_sim,
                         "detection": detection_result
                     }
                     
@@ -301,7 +361,7 @@ def main():
                     all_results.append(result_entry)
                     
                     count += 1
-                    if count % 25 == 0:
+                    if count % 10 == 0:
                         print(f"  ... processed {count}/{NUM_SAMPLES} samples")
 
                 except Exception as e:

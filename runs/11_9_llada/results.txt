@@ -1,0 +1,10 @@
+Sequences with ≥99% confidence (z ≥ 2.33): 30.00%
+Sequences with ≥99.9% confidence (z ≥ 3.09): 18.00%
+
+--- Text Quality Metrics (averages) ---
+Avg Sentence Length: 14.9339
+Avg Word Length: 4.6095
+Lexical Diversity: 0.8218
+Flesch Reading Ease: 62.5211
+Sequence Length: 41.1400
+Samples evaluated for quality: 50

@@ -52,7 +52,7 @@ def count_syllables(word: str) -> int:
         syllables -= 1
     return syllables if syllables > 0 else 1
 
-
+#flesch stuff
 def evaluate_text_quality(text: str) -> Dict[str, float]:
     text = text.strip()
     if not text:

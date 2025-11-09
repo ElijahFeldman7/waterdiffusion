@@ -115,8 +115,8 @@ class SimpleRemaskWatermark:
                 "threshold": p_value_threshold,
                 "error": "No relevant token pairs found in text",
             }
-
-
+        satisfaction_rate = satisfied_pairs / total_pairs_checked
+        
         expected_rate = 0.5
         std_error = np.sqrt(expected_rate * (1 - expected_rate) / total_pairs_checked)
         z_score = (satisfaction_rate - expected_rate) / std_error if std_error > 0 else 0.0

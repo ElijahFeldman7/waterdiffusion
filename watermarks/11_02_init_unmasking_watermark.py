@@ -99,10 +99,12 @@ class SimpleRemaskWatermark:
                 neighbor_index = i + j
                 if 0 <= neighbor_index < seq_len:
                     total_pairs_checked += 1
-                    if j < 0 and SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[neighbor_index], tokens[i]):
-                        satisfied_pairs += 1
-                    if j >= 0 and SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[i], tokens[neighbor_index]):
-                        satisfied_pairs += 1
+                    if j < 0:
+                        if SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[neighbor_index], tokens[i]): satisfied_pairs += 1
+                        else: satisfied_pairs -= 1
+                    if j >= 0:
+                        if SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[i], tokens[neighbor_index]): satisfied_pairs += 1
+                        else: satisfied_pairs -= 1
 
         if total_pairs_checked == 0:
             return {
@@ -115,11 +117,9 @@ class SimpleRemaskWatermark:
                 "threshold": p_value_threshold,
                 "error": "No relevant token pairs found in text",
             }
-        satisfaction_rate = satisfied_pairs / total_pairs_checked
         
-        expected_rate = 0.5
-        std_error = np.sqrt(expected_rate * (1 - expected_rate) / total_pairs_checked)
-        z_score = (satisfaction_rate - expected_rate) / std_error if std_error > 0 else 0.0
+        std_error = np.sqrt(total_pairs_checked)
+        z_score = (satisified_pairs) / std_error if std_error > 0 else 0.0
 
         p_value = float(1 - norm.cdf(z_score))
         is_watermarked = p_value < p_value_threshold

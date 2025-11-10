@@ -30,7 +30,7 @@ SimpleRemaskWatermark = init_unmasking_watermark.SimpleRemaskWatermark
 
 
 SECRET_KEY = "xooks"
-WATERMARK_DELTA = 8.0
+WATERMARK_DELTA = 0.1
 NUM_SAMPLES = 50
 OUTPUT_DIR = Path("c4_recovery_test")
 RUN_NAME = "llada_8b_c4_wm_test_delta_8"
@@ -338,8 +338,15 @@ def main():
                     perplexity_no_wm = calculate_perplexity(generated_text_no_wm, perplexity_model, perplexity_tokenizer)
                     embeddings = similarity_model.encode([generated_text_wm, generated_text_no_wm])
                     cos_sim = F.cosine_similarity(torch.tensor(embeddings[0]), torch.tensor(embeddings[1]), dim=0).item()
-                    detection_result = watermark.detect(
+                    # --- Detections ---
+                    detection_wm_result = watermark.detect(
                         text=generated_text_wm,
+                        tokenizer=generator.tokenizer,
+                        num_timestamps=GEN_STEPS,
+                        unmasked_tokens_per_timestamp=GEN_LENGTH / GEN_STEPS
+                    )
+                    detection_no_wm_result = watermark.detect(
+                        text=generated_text_no_wm,
                         tokenizer=generator.tokenizer,
                         num_timestamps=GEN_STEPS,
                         unmasked_tokens_per_timestamp=GEN_LENGTH / GEN_STEPS
@@ -354,7 +361,8 @@ def main():
                         "perplexity_wm": perplexity_wm,
                         "perplexity_no_wm": perplexity_no_wm,
                         "cosine_similarity": cos_sim,
-                        "detection": detection_result
+                        "detection_wm": detection_wm_result,
+                        "detection_no_wm": detection_no_wm_result,
                     }
                     
                     f.write(json.dumps(result_entry) + "\n")

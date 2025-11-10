@@ -58,15 +58,22 @@ class SimpleRemaskWatermark:
         for b in range(batch_size):
             for i in range(seq_len):
                 proposed_token = int(x0[b, i].item())
-                count = 0
+                count = 0.0
                 for j in self.context_window:
                     neighbor_index = i + j
                     if 0 <= neighbor_index < seq_len:
-                        other_token = int(current_text[b, neighbor_index].item()) if not mask_index[b, neighbor_index] else int(x0[b, neighbor_index].item())
-                        if j < 0:
-                            if SimpleRemaskWatermark.pair_rule_follows(self.key, other_token, proposed_token): count += 1
-                        if j > 0:
-                            if SimpleRemaskWatermark.pair_rule_follows(self.key, proposed_token, other_token): count += 1
+                        if mask_index[b, neighbor_index]:
+                            other_token = int(x0[b, neighbor_index].item())
+                            if j < 0:
+                                if SimpleRemaskWatermark.pair_rule_follows(self.key, other_token, proposed_token): count += confidence[b, neighbor_index]
+                            else:
+                                if SimpleRemaskWatermark.pair_rule_follows(self.key, proposed_token, other_token): count += confidence[b, neighbor_index]
+                        else:
+                            other_token = int(current_text[b, neighbor_index].item())
+                            if j < 0:
+                                if SimpleRemaskWatermark.pair_rule_follows(self.key, other_token, proposed_token): count += 1
+                            else:
+                                if SimpleRemaskWatermark.pair_rule_follows(self.key, proposed_token, other_token): count += 1
 
                 if mask_index[b, i]: modified_confidence[b, i] += count * self.delta
                 else: modified_confidence[b, i] = -np.inf

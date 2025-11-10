@@ -39,8 +39,9 @@ class SimpleRemaskWatermark:
     ):
         self.key = key
         self.delta = delta
-        self.context_window = context_window or [-2, -1, 0, 1, 2]
-    
+        self.context_window = context_window or [-2, -1, 1, 2]
+
+    @torch.no_grad()
     def apply_watermark(
         self,
         logits: torch.Tensor,
@@ -54,26 +55,21 @@ class SimpleRemaskWatermark:
     ) -> torch.Tensor:
         modified_confidence = confidence.clone()
         batch_size, seq_len = confidence.shape
-
         for b in range(batch_size):
             for i in range(seq_len):
                 proposed_token = int(x0[b, i].item())
                 count = 0
                 for j in self.context_window:
                     neighbor_index = i + j
-                    if 0 <= neighbor_index < seq_len and not mask_index[b, neighbor_index]:
-                        other_token = int(current_text[b, neighbor_index].item())
+                    if 0 <= neighbor_index < seq_len:
+                        other_token = int(current_text[b, neighbor_index].item()) if not mask_index[b, neighbor_index] else int(x0[b, neighbor_index].item())
                         if j < 0:
                             if SimpleRemaskWatermark.pair_rule_follows(self.key, other_token, proposed_token): count += 1
-                            else: count -= 1
-                        if j >= 0:
+                        if j > 0:
                             if SimpleRemaskWatermark.pair_rule_follows(self.key, proposed_token, other_token): count += 1
-                            else: count -= 1
 
-                if mask_index[b, i]:
-                    modified_confidence[b, i] += count * self.delta
-                else:
-                    modified_confidence[b, i] = -np.inf
+                if mask_index[b, i]: modified_confidence[b, i] += count * self.delta
+                else: modified_confidence[b, i] = -np.inf
                 
         return modified_confidence
     
@@ -101,32 +97,21 @@ class SimpleRemaskWatermark:
                     total_pairs_checked += 1
                     if j < 0:
                         if SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[neighbor_index], tokens[i]): satisfied_pairs += 1
-                        else: satisfied_pairs -= 1
-                    if j >= 0:
+                    if j > 0:
                         if SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[i], tokens[neighbor_index]): satisfied_pairs += 1
-                        else: satisfied_pairs -= 1
 
-        if total_pairs_checked == 0:
-            return {
-                "is_watermarked": False,
-                "score": 1.0,
-                "z_score": 0.0,
-                "satisfied_pairs": 0,
-                "total_pairs_checked": 0,
-                "satisfaction_rate": 0.0,
-                "threshold": p_value_threshold,
-                "error": "No relevant token pairs found in text",
-            }
+        satisfaction_rate = satisfied_pairs / total_pairs_checked if total_pairs_checked > 0 else 0.0
+
+        std_dev = np.sqrt(total_pairs_checked * 0.5 * 0.5)
+        if std_dev == 0: z_score = 0.0
+        else: z_score = (satisfied_pairs - total_pairs_checked * 0.5) / std_dev
         
-        std_error = np.sqrt(total_pairs_checked)
-        z_score = (satisified_pairs) / std_error if std_error > 0 else 0.0
-
         p_value = float(1 - norm.cdf(z_score))
         is_watermarked = p_value < p_value_threshold
 
         return {
             "is_watermarked": is_watermarked,
-            "score": p_value,
+            "score": p_value,                
             "z_score": float(z_score),
             "satisfied_pairs": satisfied_pairs,
             "total_pairs_checked": total_pairs_checked,
@@ -135,5 +120,3 @@ class SimpleRemaskWatermark:
             "num_timestamps": num_timestamps,
             "unmasked_tokens_per_timestamp": unmasked_tokens_per_timestamp,
         }
-        
-    

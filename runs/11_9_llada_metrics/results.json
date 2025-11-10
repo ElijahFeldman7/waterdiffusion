@@ -1,0 +1,42 @@
+{
+    "summary": {
+        "total_samples": 50,
+        "detected_samples": 29,
+        "recovery_rate_percent": 57.99999999999999
+    },
+    "watermark_strength": {
+        "mean_z_score": 1.8345563324199492,
+        "std_dev_z_score": 1.4112752774933124,
+        "strong_detection_rate_percent": 32.0,
+        "very_strong_detection_rate_percent": 20.0
+    },
+    "performance_impact": {
+        "mean_gen_time_wm_s": 7.250517973899841,
+        "mean_gen_time_no_wm_s": 3.844522404670715,
+        "mean_time_overhead_s": 3.405995569229126,
+        "mean_time_overhead_percent": 88.5934639135196
+    },
+    "quality_impact": {
+        "mean_perplexity_wm": 25.86659168243408,
+        "mean_perplexity_no_wm": 39.01888084411621,
+        "mean_perplexity_increase": -13.15228916168213,
+        "mean_perplexity_increase_percent": -33.70749974666536,
+        "mean_cosine_similarity": 0.6853959100320935
+    },
+    "detailed_quality_metrics": {
+        "watermarked": {
+            "avg_sentence_length": 15.985319582378404,
+            "avg_word_length": 4.4741229186834,
+            "lexical_diversity": 0.7818448518995037,
+            "flesch_reading_ease": 64.42185530910129,
+            "sequence_length": 55.74
+        },
+        "no_watermark": {
+            "avg_sentence_length": 14.454555555555554,
+            "avg_word_length": 4.4814776108067065,
+            "lexical_diversity": 0.7942685412472366,
+            "flesch_reading_ease": 66.10912261244643,
+            "sequence_length": 48.8
+        }
+    }
+}

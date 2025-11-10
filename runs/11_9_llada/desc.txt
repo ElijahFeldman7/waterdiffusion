@@ -1,0 +1,2 @@
+this run was just testing the new changes to the algo such as more accurate 99% conf bounds some stuff sam did
+8.0 delta.

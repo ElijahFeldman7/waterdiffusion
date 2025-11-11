@@ -1,0 +1,37 @@
+{
+    "summary": {
+        "total_samples": 50,
+        "detected_samples": 0,
+        "recovery_rate_percent": 0.0
+    },
+    "watermark_strength": {},
+    "performance_impact": {
+        "mean_gen_time_wm_s": 7.3637484407424925,
+        "mean_gen_time_no_wm_s": 3.641708755493164,
+        "mean_time_overhead_s": 3.7220396852493285,
+        "mean_time_overhead_percent": 102.20585816026593
+    },
+    "quality_impact": {
+        "mean_perplexity_wm": 43.90246946957647,
+        "mean_perplexity_no_wm": 39.01888084411621,
+        "mean_perplexity_increase": 4.883588625460256,
+        "mean_perplexity_increase_percent": 12.515962835968086,
+        "mean_cosine_similarity": 0.704566413294524
+    },
+    "detailed_quality_metrics": {
+        "watermarked": {
+            "avg_sentence_length": 14.488888888888887,
+            "avg_word_length": 4.480788036185791,
+            "lexical_diversity": 0.7816652098583461,
+            "flesch_reading_ease": 67.7282593015627,
+            "sequence_length": 48.78
+        },
+        "no_watermark": {
+            "avg_sentence_length": 14.454555555555554,
+            "avg_word_length": 4.4814776108067065,
+            "lexical_diversity": 0.7942685412472366,
+            "flesch_reading_ease": 66.10912261244643,
+            "sequence_length": 48.8
+        }
+    }
+}

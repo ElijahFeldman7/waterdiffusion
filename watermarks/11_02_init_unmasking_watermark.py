@@ -29,8 +29,6 @@ class SimpleRemaskWatermark:
             return 1 if bit == 1 else 0
         return 1 if bit == 0 else 0
 
-
-
     def __init__(
         self,
         key: str = "",
@@ -75,7 +73,7 @@ class SimpleRemaskWatermark:
                             else:
                                 if SimpleRemaskWatermark.pair_rule_follows(self.key, proposed_token, other_token): count += 1
 
-                if mask_index[b, i]: modified_confidence[b, i] += count * self.delta
+                if mask_index[b, i]: modified_confidence[b, i] *= (1.0 + count * self.delta)
                 else: modified_confidence[b, i] = -np.inf
                 
         return modified_confidence
@@ -93,7 +91,7 @@ class SimpleRemaskWatermark:
         tokens = tokens_tensor.cpu().tolist() if isinstance(tokens_tensor, torch.Tensor) else tokens_tensor
 
         satisfied_pairs = 0
-        total_pairs_checked = 0
+        total_pairs_checked = 0 
         seq_len = len(tokens)
         p_value_threshold = kwargs.get("p_value_threshold", 0.05)
 

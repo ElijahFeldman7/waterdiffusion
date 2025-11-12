@@ -91,8 +91,9 @@ def main():
         print(f"Model {generator.model_path} loaded on device: {generator.device}")
 
         ds = load_dataset(
-            "sentence-transformers/eli5",
-            split="train",  
+            "allenai/c4",
+            "en.noblocklist",
+            split="validation",
             streaming=True
         )
 
@@ -114,7 +115,11 @@ def main():
                 
                 if not (50 <= len(prompt) <= 1024):
                     continue
-                full_model_prompt = f"Respond to the prompt below \n\n{question_text}"
+                full_model_prompt = f"""Question: Your task is to be a text completion engine. Provide the most logical and natural continuation or answer for the following text. 
+                Do not add any other commentary, preamble, or explanation. Respond only with the text that should follow.
+                Text to complete: "{prompt}"
+
+                Answer:"""
                 prompt_snippet = " ".join(prompt.split()[:10])
                 
                 try:

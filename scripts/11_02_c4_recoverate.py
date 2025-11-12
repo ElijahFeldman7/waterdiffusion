@@ -32,7 +32,7 @@ SimpleRemaskWatermark = init_unmasking_watermark.SimpleRemaskWatermark
 SECRET_KEY = "xooks"
 WATERMARK_DELTA = 1.0
 NUM_SAMPLES = 50
-OUTPUT_DIR = Path("c4_recovery_test")
+OUTPUT_DIR = Path("eli5_recovery_test")
 RUN_NAME = "llada_8b_c4_wm_test_delta_8"
 SEED = 42
 GEN_STEPS = 128
@@ -90,11 +90,9 @@ def main():
         )
         print(f"Model {generator.model_path} loaded on device: {generator.device}")
 
-        print("Loading C4 dataset stream...")
         ds = load_dataset(
-            "allenai/c4",
-            "en.noblocklist",
-            split="validation",
+            "sentence-transformers/eli5",
+            split="train",  
             streaming=True
         )
 
@@ -108,7 +106,7 @@ def main():
                 if count >= NUM_SAMPLES:
                     break
                 
-                text = ex.get("text")
+                text = ex.get("question")
                 if text is None:
                     continue
                 
@@ -116,13 +114,13 @@ def main():
                 
                 if not (50 <= len(prompt) <= 1024):
                     continue
-
+                full_model_prompt = f"Respond to the prompt below \n\n{question_text}"
                 prompt_snippet = " ".join(prompt.split()[:10])
                 
                 try:
                     start_time_wm = time.time()
                     generated_text_wm = generator.generate_text(
-                        prompt=prompt_snippet,
+                        prompt=full_model_prompt,
                         gen_length=GEN_LENGTH,
                         steps=GEN_STEPS
                     )

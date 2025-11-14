@@ -198,7 +198,10 @@ class LLaDAGenerator:
             dtype=self.torch_dtype,
             device_map=self.device_map,
             local_files_only=self.local_files_only
-        ).eval()
+        )
+        if hasattr(self.model, 'tie_weights'):
+            self.model.tie_weights()
+        self.model = self.model.eval()
         
         if self.device_map != "auto":
             self.model = self.model.to(self.device)

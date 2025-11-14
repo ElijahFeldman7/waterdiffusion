@@ -179,6 +179,8 @@ def main():
                 except Exception as e:
                     print(f"Error during generation/detection for prompt: {prompt_snippet}")
                     print(f"Error: {e}")
+                    print("Exiting due to an error during generation/detection.")
+                    sys.exit(1)
 
         print("Test run complete.")
         

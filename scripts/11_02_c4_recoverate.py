@@ -30,9 +30,9 @@ SimpleRemaskWatermark = init_unmasking_watermark.SimpleRemaskWatermark
 
 
 SECRET_KEY = "xooks"
-WATERMARK_DELTA = 2.0
+WATERMARK_DELTA = 1.0
 NUM_SAMPLES = 50
-OUTPUT_DIR = Path("eli5_recovery_test")
+OUTPUT_DIR = Path("c4_recovery_test")
 RUN_NAME = "llada_8b_c4_wm_test_delta_8"
 SEED = 42
 GEN_STEPS = 128
@@ -90,6 +90,7 @@ def main():
         )
         print(f"Model {generator.model_path} loaded on device: {generator.device}")
 
+        print("Loading C4 dataset stream...")
         ds = load_dataset(
             "allenai/c4",
             "en.noblocklist",
@@ -107,7 +108,7 @@ def main():
                 if count >= NUM_SAMPLES:
                     break
                 
-                text = ex.get("question")
+                text = ex.get("text")
                 if text is None:
                     continue
                 
@@ -115,17 +116,17 @@ def main():
                 
                 if not (50 <= len(prompt) <= 1024):
                     continue
-                full_model_prompt = f"""Question: Your task is to be a text completion engine. Provide the most logical and natural continuation or answer for the following text. 
+
+                full_prompt = f"""Question: Your task is to be a text completion engine. Provide the most logical and natural continuation or answer for the following text. 
                 Do not add any other commentary, preamble, or explanation. Respond only with the text that should follow.
                 Text to complete: "{prompt}"
 
                 Answer:"""
-                prompt_snippet = " ".join(prompt.split()[:10])
-                
+
                 try:
                     start_time_wm = time.time()
                     generated_text_wm = generator.generate_text(
-                        prompt=full_model_prompt,
+                        prompt=full_prompt,
                         gen_length=GEN_LENGTH,
                         steps=GEN_STEPS
                     )
@@ -133,7 +134,7 @@ def main():
                     generator.watermark = None
                     start_time_no_wm = time.time()
                     generated_text_no_wm = generator.generate_text(
-                        prompt=prompt_snippet,
+                        prompt=full_prompt,
                         gen_length=GEN_LENGTH,
                         steps=GEN_STEPS
                     )
@@ -179,8 +180,6 @@ def main():
                 except Exception as e:
                     print(f"Error during generation/detection for prompt: {prompt_snippet}")
                     print(f"Error: {e}")
-                    print("Exiting due to an error during generation/detection.")
-                    sys.exit(1)
 
         print("Test run complete.")
         

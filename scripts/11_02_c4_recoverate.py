@@ -158,7 +158,7 @@ def main():
                     )
                     
                     result_entry = {
-                        "prompt": prompt_snippet,
+                        "prompt": full_prompt,
                         "generated_text_wm": generated_text_wm,
                         "generated_text_no_wm": generated_text_no_wm,
                         "gen_time_wm": gen_time_wm,
@@ -178,7 +178,7 @@ def main():
                         print(f"  ... processed {count}/{NUM_SAMPLES} samples")
 
                 except Exception as e:
-                    print(f"Error during generation/detection for prompt: {prompt_snippet}")
+                    print(f"Error during generation/detection for prompt: {full_prompt}")
                     print(f"Error: {e}")
 
         print("Test run complete.")

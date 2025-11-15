@@ -1,0 +1,3 @@
+[submodule "zurich"]
+	path = zurich
+	url = https://github.com/eth-sri/diffusion-lm-watermark

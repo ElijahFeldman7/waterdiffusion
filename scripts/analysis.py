@@ -51,6 +51,7 @@ def analyze_jsonl(file_path: Path, output_txt_path: Path):
                             tn += 1
                     
                     detection_wm = result.get('detection_wm', {})
+                    detection_no_wm = result.get('detection_no_wm', {})
                     if detection_wm:
                         if (p_value := detection_wm.get('score')) is not None: watermark_strength_stats['p_values'].append(p_value)
                         if (z_score := detection_wm.get('z_score')) is not None:

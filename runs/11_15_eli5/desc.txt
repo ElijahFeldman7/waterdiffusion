@@ -1,0 +1,3 @@
+this run was with eli5. goal was to see how the watermark would perform on high entropy, long texts
+
+delta 2.0, 10 samples

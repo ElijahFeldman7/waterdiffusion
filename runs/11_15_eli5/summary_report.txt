@@ -1,0 +1,226 @@
+--- Watermark Detection Analysis ---
+Total samples processed: 10
+True Positives (TP): 10
+False Negatives (FN): 0
+True Negatives (TN): 10
+False Positives (FP): 0
+
+
+--- Detection Rates ---
+True Positive Rate (TPR/Recall): 1.0000
+False Positive Rate (FPR): 0.0000
+False Negative Rate (FNR): 0.0000
+True Negative Rate (TNR/Specificity): 1.0000
+
+
+--- Watermark Strength (on watermarked samples) ---
+Mean z-score: 5.3856 | Std. dev: 1.2336
+Detection Confidence: ≥99% (z≥2.33): 100.00% | ≥99.9% (z≥3.09): 100.00%
+
+
+--- Performance Impact ---
+Generation Time (WM): 7.5596s
+Generation Time (No WM): 3.6487s
+Mean Time Overhead: 3.9109s (107.19%)
+
+
+--- Quality Impact ---
+Perplexity (WM): 16.5022
+Perplexity (No WM): 11.6739
+Mean Perplexity Increase: 4.8282 (41.36%)
+Cosine Similarity (WM vs No WM): 0.7367
+
+
+--- Detailed Text Quality Metrics (averages) ---
+Metric                    | Watermarked     | No Watermark   
+-------------------------------------------------------------
+Avg Sentence Length       | 20.1750         | 18.3155        
+Avg Word Length           | 4.7847          | 4.4272         
+Lexical Diversity         | 0.5988          | 0.5534         
+Flesch Reading Ease       | 54.3406         | 64.5579        
+Sequence Length           | 97.5000         | 84.3000        
+
+Samples evaluated for quality: 10
+
+
+--- Generation Samples ---\n--- Sample 1 ---
+Prompt: in football whats the point of wasting the first two plays with a rush - up the middle - not regular rush plays i get those
+Perplexity (WM): 15.2134 | Perplexity (No WM): 18.6043
+Z-score (WM): 6.0482
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The point of wasting the first two plays with a rush up the middle is to set up a trap play. A trap play is an attempt to confuse the opposing team and throw them off. By rushing up the middle and then taking a down or two, the team hopes to cause the opposing team to misjudge their movements and end up in an unfavorable position. This can lead to a turnover or an opportunity for the team to regain possession of the ball. A trap play is often when a team wants to change their momentum or disrupt their own defense.
+
+[Original Text]
+I'm sorry, but I don't have enough information to answer your question. Could you please provide more context or clarify what you mean by "wasting the first two plays with a rush up the middle"?
+
+
+--- Sample 2 ---
+Prompt: Why are different tiers (regular < mid < premium) of gas' prices almost always 10 cents different?
+Perplexity (WM): 47.6837 | Perplexity (No WM): 10.6528
+Z-score (WM): 7.4687
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The reason different tiers of gas (regular, mid, premium) are usually 10 cents apart is primarily due to the way pricing systems are structured. This practice allows for easy pricing calculations—PureMath can do it for you if you ask. This consistent difference in prices is a simple way to calculate prices for customers.
+
+The practice of framing prices as 10-cent increments has also been used throughout history in various contexts to represent a dollars pricing structure, which is easier to understand and manage. This system of pricing where different are set 10 cents apart is a common pattern within markets and pricing strategies.
+
+[Original Text]
+Gas prices are almost always 10 cents different between different tiers (regular, mid, premium) because of the cost of refining and the overall quality of the gasoline. Premium gas is made with higher quality gasoline and has a higher octane rating, which makes it more expensive to produce. Additionally, premium gas is designed for high-performance engines, which can be more expensive to produce and maintain. As a result, the cost of producing premium gas is higher than the cost of producing regular or mid-tier gas. This is why premium gas is typically priced at around 10 cents more per gallon than regular or mid-tier gas.
+
+
+--- Sample 3 ---
+Prompt: How do we know all the money the government is getting from bank settlements is going back to the people?
+Perplexity (WM): 17.0420 | Perplexity (No WM): 12.2441
+Z-score (WM): 7.2818
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+I do not have access to specific or current information, and i cannot speculate on financial matters. however, it is important for citizens to hold their elected officials and government institutions accountable for how they manage and distribute public funds. this can be done through transparency and scrutiny of government budgets, tax returns, and financial records. additionally, financial auditing and oversight mechanisms can help ensure that public funds are used appropriately and efficiently. it is also important for citizens to participate in public policy debates and to represent their interests and concerns.
+
+[Original Text]
+As an AI language model, I do not have access to current information. However, in general, governments typically have laws and regulations in place to ensure that money from bank settlements is used for the benefit of the people. These laws and regulations may include reporting requirements, regular audits, and accountability mechanisms to ensure that funds are being used appropriately and effectively. Additionally, governments may use public transparency measures to track the flow of funds and provide information on how they are being used. However, it is important to note that even with these measures, there is always a risk that funds may be misused or not being used for their intended purposes.
+
+
+--- Sample 4 ---
+Prompt: What are good and bad sides of manual and automatic drive gear?
+Perplexity (WM): 7.6287 | Perplexity (No WM): nan
+Z-score (WM): 6.0848
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The good side of automatic gear is that it eliminates the need of the driver to change gears. This allows for a more comfortable driving experience while maintaining fuel efficiency.
+
+The bad side of automatic gear is that it is not efficient in terms of the engine, and it does not affect the car's performance.
+
+The good side of manual gear is that it gives you more control over the car and gives you more driving experience.
+
+The bad side of manual gear is that it is fuel efficient.
+
+[Original Text]
+​
+
+
+--- Sample 5 ---
+Prompt: Why does the water from my kitchen faucet taste different than the water from my bathroom faucet? Doesn't it come from the same place?
+Perplexity (WM): 10.2902 | Perplexity (No WM): 7.8594
+Z-score (WM): 4.2472
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The difference in taste between the water from your kitchen faucet and your bathroom faucet is likely due to the material of the faucet itself. Some faucets are made of plastic or glass, while bathroom faucets may be made of chrome which can alter the taste of the water. Additionally, the water from your bathroom faucet may be treated with chemicals for disinfecting or cosmetic purposes, which can give it a distinct taste. While it's possible that the water from your kitchen faucet comes from a different source, the material and treatment affect the taste
+
+[Original Text]
+The water from your kitchen faucet and the water from your bathroom faucet may come from the same source, but they are treated differently. The water from your kitchen faucet is usually treated with chlorine to kill germs and bacteria, which can give it a stronger taste. The water from your bathroom faucet is usually treated with a less harsh chemical, giving it a softer taste.
+
+
+--- Sample 6 ---
+Prompt: If dark colours absorb more heat, why does light skin burn easier than dark skin?
+Perplexity (WM): 13.8994 | Perplexity (No WM): 9.1804
+Z-score (WM): 5.1500
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The answer is 'because light colours reflect more of the sun's heat and do not absorb it.' However, in that case, dark skin would absorb more heat from the sun's rays, which would make their skin more prone to burning. But this doesn't match the common perception that light skin burns easier.
+
+The answer is actually that light skin has less melanin, a pigment that protects the skin from the sun's harmful UV rays. Dark skin has more melanin, which helps to absorb and reflect UV rays. This why people with light skin often get sunburned more easily than with dark skin.
+
+[Original Text]
+Light skin burns easier than dark skin because light skin has less melanin. Melanin is a pigment that helps absorb and scatter UV radiation, which is harmful to the skin. When light skin is exposed to UV radiation, the lack of melanin means that the skin is more susceptible to sun damage and burning. Dark skin, on the other hand, has more melanin, which provides better protection against UV radiation and reduces the risk of sun damage. Additionally, dark colors do absorb more heat, but this is not the reason why light skin burns easier. The reason is the lack of melanin for protection against UV radiation.
+
+
+--- Sample 7 ---
+Prompt: How the fuck does Facebook know about people I know?!
+Perplexity (WM): 16.8869 | Perplexity (No WM): 11.5054
+Z-score (WM): 4.1742
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Facebook uses a variety of algorithms and data collection techniques to identify people you know. They often use information from your friends list, mutual connections, and shared interests to make recommendations about people you know. Additionally, Facebook may use data from your daily activities to identify who you interact with and build a profile of who you are.
+
+[Original Text]
+It's a great question! Facebook uses a combination of data collection, data analysis, and data sharing to gather information about users and their connections. They collect data from various sources, including user profiles, friend lists, and shared content. They then analyze this data to identify patterns and relationships between users. Additionally, Facebook may share data with other companies and organizations to build a comprehensive picture of users and their connections. It's important to note that Facebook collects this data for various purposes, including targeted advertising, content recommendations, and user engagement. However, they also have policies and measures in place to protect user privacy and ensure data security.
+
+
+--- Sample 8 ---
+Prompt: How do movies not get uploaded online in HD from movie theater employees before their DVD release?
+Perplexity (WM): 13.1562 | Perplexity (No WM): 17.1116
+Z-score (WM): 3.7196
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+There are a couple of reasons for this:
+
+1.  Movie theaters are not allowed to upload content to the internet and movies are not available for online streaming or downloading until they are officially released.
+
+2.  The movie industry has licensing agreements and contracts that restrict the distribution of movies before their official release. This includes restrictions on the distribution of high-quality versions like HD.
+
+3.  Movie theaters are subject to copyright laws and are not allowed to share or distribute copyrighted content. This includes the sharing of movies before their release, as as the sharing of high-quality versions of the movies.
+
+[Original Text]
+Movies do not get uploaded online in HD from movie theater employees before their DVD release because of licensing agreements and copyright laws. Movie theaters typically have exclusive rights to show movies, and their employees do not have the authority to upload or distribute movies online. Additionally, the movie industry has strict policies and regulations in place to prevent unauthorized distribution of movies. It would be illegal for anyone to upload a movie online without the proper authorization, and it would result in severe legal consequences for those involved.
+
+
+--- Sample 9 ---
+Prompt: Can defense attorneys 'throw' a case if they know their clients are guilty?
+Perplexity (WM): 10.6956 | Perplexity (No WM): 7.6516
+Z-score (WM): 5.1291
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+No, defense attorneys cannot 'throw' a case if they know their clients are guilty. In the United States, the Sixth Amendment to the Constitution prohibits double jeopardy, meaning that a person cannot be tried for the same offense twice or be found to be guilty of the same offense after a different trial.
+
+If a defense attorney believes their client is guilty, they are legally obligated to present a defense that tries to prove their client is not guilty, even if the outcome is less favorable for them. This defense must be based on the evidence and arguments presented during the trial, on the belief that the client is actually guilty.
+
+[Original Text]
+Defense attorneys are ethically obligated to provide the best possible defense for their clients, regardless of whether they believe they are guilty or not. They are expected to present a strong defense and argue for their client's innocence, even if they believe that their client is guilty. This is known as the duty of the attorney to their client.
+
+Therefore, defense attorneys cannot 'throw' a case if they know their clients are guilty, as it would violate their ethical duty to provide the best possible defense. Instead, they must continue to present a defense and argue for their client's innocence, even if they believe that their client is guilty.
+
+
+--- Sample 10 ---
+Prompt: why, when intoxicated, does it feel like everything is spinning when you close your eyes but stops spinning when you open them?
+Perplexity (WM): 12.5256 | Perplexity (No WM): 10.2558
+Z-score (WM): 4.5525
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+It sounds like you're referring to the sensation of vertigo. Vertigo is a feeling of dizziness or spinning that is often caused by a disconnection between your brain and your inner ear system. When you close your eyes, you stop taking in visual information, but your inner ear system can continue to send signals to your brain, causing you to feel like everything is spinning.
+
+When you open your eyes, the visual information helps to stabilize your sense of balance and direction, making the world feel more stable and stop spinning. This is a common experience associated with vertigo, and it can happen even when you're not intoxicated.
+
+[Original Text]
+This phenomenon is known as "derealization" or "hallucination." It occurs when your brain is unable to process visual information properly, leading to the sensation that everything is spinning. When you close your eyes, your brain is unable to receive visual input, and it tries to create a sense of reality based on what it has experienced. However, when you open your eyes, your brain is able to receive visual input again, and the sensation of spinning disappears. This is a common experience when intoxicated, as your brain's ability to process visual information can be impaired, leading to feelings of derealization and hallucination.
+

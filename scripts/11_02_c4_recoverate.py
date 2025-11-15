@@ -158,7 +158,7 @@ def main():
                     )
                     
                     result_entry = {
-                        "prompt": full_prompt,
+                        "prompt": prompt,
                         "generated_text_wm": generated_text_wm,
                         "generated_text_no_wm": generated_text_no_wm,
                         "gen_time_wm": gen_time_wm,

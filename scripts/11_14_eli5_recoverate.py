@@ -30,8 +30,8 @@ SimpleRemaskWatermark = init_unmasking_watermark.SimpleRemaskWatermark
 
 
 SECRET_KEY = "xooks"
-WATERMARK_DELTA = 2.0
-NUM_SAMPLES = 10
+WATERMARK_DELTA = 0.5
+NUM_SAMPLES = 100
 OUTPUT_DIR = Path("eli5_recovery_test")
 RUN_NAME = "llada_8b_eli5_wm_test"
 SEED = 42

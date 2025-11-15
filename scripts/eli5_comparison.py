@@ -19,7 +19,7 @@ from transformers import GPT2LMHeadModel, GPT2Tokenizer
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from models.llada import LLaDAGenerator
 import importlib.util
-sys.path.insert(0, str(Path(__file__).parent.parent / "zurich" / "diffusion-lm-watermark" / "src"))
+sys.path.insert(0, str(Path(__file__).parent.parent / "zurich" / "src"))
 from dlm_watermark.configs import MainConfiguration
 from dlm_watermark.watermarks.watermark_factory import load_watermark_from_config
 import yaml
@@ -95,7 +95,7 @@ def main():
         print(f"Model {generator.model_path} loaded on device: {generator.device}")
 
         print("Initializing zurich watermark...")
-        config_path = project_root / "zurich" / "diffusion-lm-watermark" / "configs" / "main" / "Llada" / "eli5_test.yaml"
+        config_path = project_root / "zurich" / "configs" / "main" / "Llada" / "eli5_test.yaml"
         config = MainConfiguration(**yaml.safe_load(open(config_path, "r")))
         zurich_watermark = load_watermark_from_config(config=config.watermark_config, tokenizer=generator.tokenizer, watermark_type=config.watermark_type)
 
@@ -127,7 +127,6 @@ def main():
                     continue
 
                 try:
-                    # Our watermark
                     generator.watermark = our_watermark
                     start_time_our_wm = time.time()
                     generated_text_our_wm = generator.generate_text(
@@ -137,7 +136,6 @@ def main():
                     )
                     gen_time_our_wm = time.time() - start_time_our_wm
 
-                    # Zurich watermark
                     generator.watermark = zurich_watermark
                     start_time_zurich_wm = time.time()
                     generated_text_zurich_wm = generator.generate_text(
@@ -147,7 +145,6 @@ def main():
                     )
                     gen_time_zurich_wm = time.time() - start_time_zurich_wm
 
-                    # No watermark
                     generator.watermark = None
                     start_time_no_wm = time.time()
                     generated_text_no_wm = generator.generate_text(

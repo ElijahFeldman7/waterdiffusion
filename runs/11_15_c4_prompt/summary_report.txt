@@ -1,0 +1,270 @@
+--- Watermark Detection Analysis ---
+Total samples processed: 10
+True Positives (TP): 8
+False Negatives (FN): 2
+True Negatives (TN): 10
+False Positives (FP): 0
+
+
+--- Detection Rates ---
+True Positive Rate (TPR/Recall): 0.8000
+False Positive Rate (FPR): 0.0000
+False Negative Rate (FNR): 0.2000
+True Negative Rate (TNR/Specificity): 1.0000
+
+
+--- Watermark Strength (on watermarked samples) ---
+Mean z-score: 2.5642 | Std. dev: 1.7442
+Detection Confidence: ≥99% (z≥2.33): 50.00% | ≥99.9% (z≥3.09): 40.00%
+
+
+--- Performance Impact ---
+Generation Time (WM): 12.3463s
+Generation Time (No WM): 5.2683s
+Mean Time Overhead: 7.0780s (134.35%)
+
+
+--- Quality Impact ---
+Perplexity (WM): 82.7802
+Perplexity (No WM): 498.2405
+Mean Perplexity Increase: -415.4603 (-83.39%)
+Cosine Similarity (WM vs No WM): 0.5143
+
+
+--- Detailed Text Quality Metrics (averages) ---
+Metric                    | Watermarked     | No Watermark   
+-------------------------------------------------------------
+Avg Sentence Length       | 11.7750         | 10.0833        
+Avg Word Length           | 5.4657          | 5.1662         
+Lexical Diversity         | 0.8491          | 0.8092         
+Flesch Reading Ease       | 38.0208         | 42.4264        
+Sequence Length           | 43.2000         | 27.8000        
+
+Samples evaluated for quality: 10
+
+
+--- Generation Samples ---\n--- Sample 1 ---
+Prompt: Question: Your task is to be a text completion engine. Provide the most logical and natural continuation or answer for the following text. 
+                Do not add any other commentary, preamble, or explanation. Respond only with the text that should follow.
+                Text to complete: "EVER WONDER WHY SOME PEOPLE CAN WORK NIGHTS AND SLEEP EASILY DURING THE DAY?
+A new study from Tiina Pauno, a professor at the University of Helsinki, Finland found that many night workers actually have a variant in the genetic code that makes them less influenced by Melatonin and hence the circadian rhythm.
+They tested 577 shift workers and looked for a genetic changes for job-related exhaustion. The risk variant known as 1A(MTNR1A) gene basically turns off or on the DNA (through methylation). This is another fascinating epigenetic (a new field of genetics studying how our environment changes or genes) mechanism regulating function. The result people who can do this have less receptors and are not sensitive to melatonin and tolerate nights much better. The people with this gene variant can sleep in bright light without any difficulty as well.
+Hmm all those years you wondered why you couldn’t stay awake at a night job and your peers seemed to have no problems.
+Sleep is very complex and poorly understood."
+
+                Answer:
+Perplexity (WM): 16.4787 | Perplexity (No WM): 14.9339
+Z-score (WM): 3.2213
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+"it's more than just about the clock that controls our bodies. It's a delicate interplay of genetics, environment, and lifestyle that ultimately determines how well we sleep at night and how energized we feel during the day."
+
+[Original Text]
+The study suggests that the MTNR1A gene variant may be a natural adaptation for night workers, allowing them to better adjust to the demands of their shift work schedule. However, it's important to note that not everyone with this gene variant will experience the same level of resilience, and some individuals may still struggle with sleep disturbances and fatigue. Furthermore, the study highlights the importance of considering individual genetic differences when designing work schedules and coping strategies for night workers. As researchers continue to explore the complex relationships between genetics, environment, and sleep, we may uncover new insights that can help us better understand and support the needs of night workers.
+
+
+--- Sample 2 ---
+Prompt: Question: Your task is to be a text completion engine. Provide the most logical and natural continuation or answer for the following text. 
+                Do not add any other commentary, preamble, or explanation. Respond only with the text that should follow.
+                Text to complete: "Conduct effective product control and valuation control of treasury products and derivatives in banking book.
+Duties include daily P&L reporting and analysis, balance sheet substantiation, pricing parameter verification and market conformity checking.
+First point of contact for front office to handle ad hoc queries on position, P&L.
+University graduate with degree in Financial Engineering, Quantitative Finance, Risk Management, Finance, Economics, Accounting or related disciplines. Further professional qualification such as ACCA, CPA, CFA, FRM would be a plus.
+At least 2 year of working experience in equity and interest rate related treasury products and/or product control, solid experience in South East Asia is an advantage.
+Proficiency in financial instruments & market operations."
+
+                Answer:
+Perplexity (WM): 21.1003 | Perplexity (No WM): 4079.7822
+Z-score (WM): 6.2089
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The candidate should also be responsible for managing risk exposure, maintaining regulatory standards, and staying updated on global financial developments, to ensure compliance with various market conditions. In addition, they need to leverage their expertise in data analysis, developing predictive models, and forecasting market trends to make informed decisions on portfolio management and valuation. Furthermore, the candidate must be able to communicate effectively with cross-functional teams, including the treasury department, front office, and clients, to ensure accurate reporting and efficient service delivery. Ultimately, their skills and experience will enable them to support the strategic management of treasury and derivatives, contributing to the overall success of the bank.
+
+[Original Text]
+"Required."
+
+
+--- Sample 3 ---
+Prompt: Question: Your task is to be a text completion engine. Provide the most logical and natural continuation or answer for the following text. 
+                Do not add any other commentary, preamble, or explanation. Respond only with the text that should follow.
+                Text to complete: "Stayed here about four years ago and they helped me out this weekend. Thankfully Citadines had a double apartment room for our stay. Usual facilities and a cooker, dishwasher, iron etc. We had a large view of the cathedral and port area and Montjuïc. Fabulous. Non fussy and perfectly functional. 3 star with excellent staff. I wont go anywhere else in the future."
+
+                Answer:
+Perplexity (WM): 34.0201 | Perplexity (No WM): 26.4139
+Z-score (WM): 1.8383
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+"We spent a wonderful weekend there, and I couldn't imagine staying anywhere else."
+
+[Original Text]
+"I'll definitely be back."
+
+
+--- Sample 4 ---
+Prompt: Question: Your task is to be a text completion engine. Provide the most logical and natural continuation or answer for the following text. 
+                Do not add any other commentary, preamble, or explanation. Respond only with the text that should follow.
+                Text to complete: "Fasnet 2015: Spindrift & Prince de Bretagne , "Neck to neck"
+Spindrift reports that After 48 hours of sailing, Spindrift 2 is neck and neck with @trimaranpdb Prince de Bretagne Tri.
+Both Tris followed by Phaedo, Oman & Concise MOD70s. On corrected time Phaedo 3 leads."
+
+                Answer:
+Perplexity (WM): 92.1443 | Perplexity (No WM): nan
+Z-score (WM): 2.7049
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+"With the final stretch on its mind, Spindrift 2 is poised to close the gap on Prince de Bretagne Tri, while Phaedo 3 holds the lead in the race."
+
+[Original Text]
+.
+
+
+--- Sample 5 ---
+Prompt: Question: Your task is to be a text completion engine. Provide the most logical and natural continuation or answer for the following text. 
+                Do not add any other commentary, preamble, or explanation. Respond only with the text that should follow.
+                Text to complete: "Showcasing Mosaic hops and a delicate blend of malts, this Extra Special Bitter was brewed with the very finest ingredients available. Naughty Hildegard ESB supports big flavours of guava, mango and citrus to deliver a juicy hop-malt balance that is deceptively easy to drink. A Pacific Northwest jam on a UK classic."
+
+                Answer:
+Perplexity (WM): 49.7420 | Perplexity (No WM): 48.2079
+Z-score (WM): -0.1754
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+"Experience a refreshing twist on the traditional UK style, where the bold flavors of guava, mango, and citrus harmonize beautifully with the subtle bitterness of Mosaic hops."
+
+[Original Text]
+"With its unique combination of flavors and smooth finish, Naughty Hildegard ESB is sure to become a favorite among beer enthusiasts."
+
+
+--- Sample 6 ---
+Prompt: Question: Your task is to be a text completion engine. Provide the most logical and natural continuation or answer for the following text. 
+                Do not add any other commentary, preamble, or explanation. Respond only with the text that should follow.
+                Text to complete: "Refind is featured in Swedish business weekly "Veckans Affärer"
+The future is finally here. That's what an article in Veckans Affärer, a Swedish business weekly, is concluding writing about Artificial Intelligence. Together with our friends at Tajitsu, Refind is featured as the company that has successfully managed to bring AI into the physical world with our sorting applications for electronics and batteries."
+
+                Answer:
+Perplexity (WM): 412.9525 | Perplexity (No WM): 53.3038
+Z-score (WM): 0.4714
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+"specifically electronics and batteries."
+
+[Original Text]
+"We are thrilled to be featured in Veckans Affärer and excited to share our story with the world. Our innovative AI-powered sorting solutions have revolutionized the way electronics and batteries are handled, and we look forward to continuing this groundbreaking journey."
+
+
+--- Sample 7 ---
+Prompt: Question: Your task is to be a text completion engine. Provide the most logical and natural continuation or answer for the following text. 
+                Do not add any other commentary, preamble, or explanation. Respond only with the text that should follow.
+                Text to complete: "DOLPHIN FASHION CORP. is an entity registered at NEW YORK county with company number 2297344. DOLPHIN FASHION CORP. located at the address Suite #1007 110 West 40Th St New York, New York, 10018. Company is incorporated on September 14, 1998. Current status of the company is inactive - dissolution by proclamation / annulment of authority (jun 26, 2002).
+September 14, 1998 Actual DOLPHIN FASHION CORP.
+DOLPHIN FIRE PROTECTION SERVICES, INC.
+DOLPHIN FITNESS 23RD ST., INC.
+DOLPHIN FITNESS 93RD STREET, INC.
+DOLPHIN FITNESS BATH AVE., INC.
+DOLPHIN FITNESS BEEKMAN AVE., INC.
+DOLPHIN ENTERPRISES OF NEW YORK INC."
+
+                Answer:
+Perplexity (WM): 15.9782 | Perplexity (No WM): 44.4957
+Z-score (WM): 4.2293
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+DOLPHIN ENTERPRISES OF NEW YORK INC. is an entity registered at NEW YORK county with company number 2356789. DOLPHIN ENTERPRISES OF NEW YORK INC. located at the address 555 Manhattan Ave, New York, New York, 10011. Company is incorporated on August 1, 2001. Current status of the company is active.
+August 1, 2001 DOLPHIN ENTERPRISES OF NEW YORK INC.
+DOLPHIN FINANCIAL SERVICES.
+
+[Original Text]
+DOLPHIN ENTERPRISES OF NEW YORK INC. is an entity registered at NEW YORK county with company number 2297344. DOLPHIN ENTERPRISES OF NEW YORK INC. located at the address Suite #1007 110 West 40Th St New York, New York, 10018. Company is incorporated on September 14, 1998. Current status of the company is inactive - dissolution by proclamation / annulment of authority (jun 26, 2002).
+
+
+--- Sample 8 ---
+Prompt: Question: Your task is to be a text completion engine. Provide the most logical and natural continuation or answer for the following text. 
+                Do not add any other commentary, preamble, or explanation. Respond only with the text that should follow.
+                Text to complete: "The stock market is the place where stocks and bonds are traded. Stocks are units of ownership in a company, and so they can sell their stock to get money.
+As an investor, when you buy stock you become a shareholder which means technically you own a part of the company. If the profits of the company increase, you, as a shareholder receive a portion of those profits.
+Not all investments in stock are successful, stock prices rise and fall regularly and getting a return on your money is never guaranteed, part of investing means you take a risk on a company."
+
+                Answer:
+Perplexity (WM): 16.5437 | Perplexity (No WM): 47.5892
+Z-score (WM): 3.3430
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+"However, some companies may not perform as expected, and their stock prices may decline. In such cases, investors may lose money if they sell their shares at a lower price than they initially bought them for. It's important for investors to carefully evaluate their options and consider the potential risks and rewards associated with each investment decision. Additionally, diversifying one's portfolio by investing in various companies and industries can help mitigate the risk of any single investment's poor performance. While some investors may predict the market trends, it's to that the stock market is complex and unpredictable, making it difficult to make predictions in the short term."
+
+[Original Text]
+However, with careful research and diversification, many investors can achieve successful returns over time.
+
+
+--- Sample 9 ---
+Prompt: Question: Your task is to be a text completion engine. Provide the most logical and natural continuation or answer for the following text. 
+                Do not add any other commentary, preamble, or explanation. Respond only with the text that should follow.
+                Text to complete: "Cascara (Cascara sagrada) by Eagle Peak Herbals: This North American shrub is a well known laxative and colon cleanser that has been widely used by physicians as well as native peoples. Many commercial preparations intended to treat constipation contain the cured bark of Cascara sagrada. Famous for "next morning results.
+Cascara (Cascara sagrada), certified organic grain alcohol, and distilled water."
+
+                Answer:
+Perplexity (WM): 101.4944 | Perplexity (No WM): 108.3228
+Z-score (WM): 1.8207
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+"ascara (Cascara sagrada), certified organic grain alcohol, and distilled water. This potent combination is renowned for its effectiveness and safety, providing natural relief and promoting digestive health."
+
+[Original Text]
+Cascara (Cascara sagrada), certified organic grain alcohol, and distilled water.
+
+
+--- Sample 10 ---
+Prompt: Question: Your task is to be a text completion engine. Provide the most logical and natural continuation or answer for the following text. 
+                Do not add any other commentary, preamble, or explanation. Respond only with the text that should follow.
+                Text to complete: "– Handouts will be uploaded to the website 10 minutes before the webinar.
+– Please stay muted (turn off your microphone) during the webinar.
+– Recorded webinars will be available for course subscribers within a few days after the webinar."
+
+                Answer:
+Perplexity (WM): 67.3476 | Perplexity (No WM): 61.1153
+Z-score (WM): 1.9799
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+"– Q&A sessions will be available shortly after the webinar ends."
+
+[Original Text]
+– For technical issues, please contact IT support before the webinar begins.
+

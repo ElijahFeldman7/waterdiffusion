@@ -1,3 +1,7 @@
+model_configuration:
+  model_name: GSAI-ML/LLaDA-8B-Instruct
+  tokenizer_name: GSAI-ML/LLaDA-8B-Instruct
+
 watermark_type: Ours
 watermark_config:
   delta: 0.5

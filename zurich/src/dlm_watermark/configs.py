@@ -1,6 +1,9 @@
 from typing import List, Optional, Union
 from pydantic import BaseModel, Field, field_validator
-from enum import StrEnum
+from enum import Enum
+
+class StrEnum(str, Enum):
+    pass
 
 class WatermarkType(StrEnum):
     NONE = "None"

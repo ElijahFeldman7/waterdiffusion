@@ -1,0 +1,46 @@
+model_configuration:
+  model_name: Dream-org/Dream-v0-Instruct-7B
+  tokenizer_name: Dream-org/Dream-v0-Instruct-7B
+  torch_dtype: bfloat16
+  device_map: cuda
+  trust_remote_code: true
+  steps: 300
+  gen_length: 300
+  temperature: 0.5
+  remasking: origin
+  model_specific_arguments:
+    alg_temp: 0.1
+    output_history: false
+
+watermark_type: Ours
+watermark_config:
+  delta: 2.0
+  enforce_kl: false
+  convolution_kernel: [-1]
+  topk: 50
+  n_iter: 1
+  seeding_scheme: "sumhash"
+  greenlist_type: "bernoulli"
+  greenlist_params:
+    gamma: 0.25
+
+evaluation_config:
+  num_samples: 200
+  batch_size: 1
+  evaluation_datasets:
+    - path: data/WaterBench/2-1_longform_qa.jsonl
+      user_prompt: "You are a helpful assistant, please answer the following question within 300 words:\n{context}\n{input}"
+      chat: true
+      max_length: 150
+      min_length: 1
+    - path: data/WaterBench/2-2_finance_qa.jsonl
+      user_prompt: "You are a helpful assistant, please answer the following question with financial knowledge within 300 words:\n{context}\n{input}"
+      chat: true
+      max_length: 150
+      min_length: 1
+    - path: data/WaterBench/5-1_alpacafarm.jsonl
+      user_prompt: "You are a helpful assistant, please answer the following instruction: \n{context}\n{input}"
+      chat: true
+      max_length: 150
+      min_length: 1
+  tqdm: true

@@ -1,0 +1,27 @@
+model_configuration:
+  model_name: Dream-org/DreamOn-v0-7B
+  tokenizer_name: Dream-org/DreamOn-v0-7B
+  torch_dtype: bfloat16
+  device_map: cuda
+  trust_remote_code: true
+  steps: 300
+  gen_length: 300
+  temperature: 0.8
+  remasking: entropy
+  model_specific_arguments:
+    alg_temp: 0
+    output_history: false
+    expand_budget: 100
+
+watermark_type: None
+watermark_config:
+
+evaluation_config:
+  num_samples: 600
+  batch_size: 1
+  evaluation_datasets:
+    - path: data/infilling/c4_infilling.jsonl
+      chat: false
+      max_length: 400
+      min_length: 1
+  tqdm: true

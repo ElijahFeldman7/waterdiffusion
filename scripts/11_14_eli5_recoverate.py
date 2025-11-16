@@ -22,7 +22,7 @@ import importlib.util
 project_root = Path(__file__).parent.parent
 spec = importlib.util.spec_from_file_location(
     "init_unmasking_watermark", 
-    str(project_root / "watermarks" / "11_02_init_unmasking_watermark.py")
+    str(project_root / "watermarks" / "11_02_init_unmasking_watermark_multiplicative.py")
 )
 init_unmasking_watermark = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(init_unmasking_watermark)

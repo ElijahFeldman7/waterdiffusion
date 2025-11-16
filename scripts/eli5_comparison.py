@@ -20,8 +20,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from models.llada import LLaDAGenerator
 import importlib.util
 sys.path.insert(0, str(Path(__file__).parent.parent / "zurich" / "src"))
-from zurich.configs import MainConfiguration
-from zurich.watermarks.watermark_factory import load_watermark_from_config
+from dlm_watermark.configs import MainConfiguration
+from dlm_watermark.watermarks.watermark_factory import load_watermark_from_config
 import yaml
 
 project_root = Path(__file__).parent.parent

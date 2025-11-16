@@ -1,4 +1,5 @@
 import torch
+from typing import List, Optional, Tuple
 from transformers import AutoTokenizer
 from .watermark_interface import Watermark
 from .random_utils import OnTheFlyGreenlist
@@ -16,7 +17,7 @@ class OurWatermark(Watermark):
         self,
         delta: float = 2.0,
         enforce_kl: bool = True,
-        convolution_kernel: list[int] = [-1],
+        convolution_kernel: List[int] = [-1],
         greenlist_type: str = "bernoulli",
         greenlist_params: dict = {"gamma": 0.25},
         booster_only: bool = False,
@@ -103,7 +104,7 @@ class OurWatermark(Watermark):
             dtype=torch.float32,
         )
 
-    def get_boundaries(self, L: int) -> tuple[int, int]:
+    def get_boundaries(self, L: int) -> Tuple[int, int]:
         """Returns the boundaries due to the hashing scheme."""
         start_at = max(-int(self.convolution_kernel.min()), 0)
         end_at = L - max(int(self.convolution_kernel.max()), 0)
@@ -239,7 +240,7 @@ class OurWatermark(Watermark):
         probs: torch.Tensor,
         alpha: torch.Tensor,
         var_alpha: torch.Tensor,
-        mask: torch.BoolTensor | None = None,
+        mask: Optional[torch.BoolTensor] = None,
     ) -> torch.Tensor:
         """Solve the bisection for KL(p || q) = delta."""
 

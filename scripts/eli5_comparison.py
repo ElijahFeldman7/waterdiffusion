@@ -168,9 +168,10 @@ def main():
                         num_timestamps=GEN_STEPS,
                         unmasked_tokens_per_timestamp=GEN_LENGTH / GEN_STEPS
                     )
+                    tokenized_text_zurich = generator.tokenizer(generated_text_zurich_wm, return_tensors="pt")
                     detection_zurich_wm_result = zurich_watermark.detect(
-                        text=generated_text_zurich_wm,
-                        tokenizer=generator.tokenizer,
+                        input_ids=tokenized_text_zurich['input_ids'].to(generator.device),
+                        attention_mask=tokenized_text_zurich['attention_mask'].to(generator.device)
                     )
                     detection_no_wm_result = our_watermark.detect(
                         text=generated_text_no_wm,

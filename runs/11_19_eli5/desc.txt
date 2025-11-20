@@ -1,0 +1,3 @@
+delta 2.0 100 samples
+this run was to test improved detection to reduce fpr by not overcounting
+a,b as b,a as different events. also faster ops with tensors

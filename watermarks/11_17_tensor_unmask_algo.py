@@ -98,7 +98,7 @@ class SimpleRemaskWatermark:
 
         for i in range(seq_len):
             for j in self.context_window:
-                if j < 0: continue
+                if j < 0: continue #bad since ignores -1, -2
                 
                 neighbor_index = i + j
                 if 0 <= neighbor_index < seq_len:

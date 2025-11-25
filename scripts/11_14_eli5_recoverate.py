@@ -22,7 +22,7 @@ import importlib.util
 project_root = Path(__file__).parent.parent
 spec = importlib.util.spec_from_file_location(
     "init_unmasking_watermark", 
-    str(project_root / "watermarks" / "11_17_tensor_unmask_algo.py")
+    str(project_root / "watermarks" / "11_02_init_unmasking_watermark.py")
 )
 init_unmasking_watermark = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(init_unmasking_watermark)
@@ -30,13 +30,13 @@ SimpleRemaskWatermark = init_unmasking_watermark.SimpleRemaskWatermark
 
 
 SECRET_KEY = "xooks"
-WATERMARK_DELTA = 0.25
+WATERMARK_DELTA = 2.0
 NUM_SAMPLES = 100
 OUTPUT_DIR = Path("eli5_recovery_test")
 RUN_NAME = "llada_8b_eli5_wm_test"
 SEED = 42
-GEN_STEPS = 128
-GEN_LENGTH = 128
+GEN_STEPS = 400
+GEN_LENGTH = 400
 
 
 # calculate ppl and cosine sim

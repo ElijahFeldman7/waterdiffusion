@@ -97,7 +97,6 @@ def main():
                     steps=GEN_STEPS
                 )
                 
-                detection_result =n on the un-watermarked text
                 detection_result = watermark_detector.detect(
                     text=generated_text_no_wm,
                     tokenizer=generator.tokenizer,

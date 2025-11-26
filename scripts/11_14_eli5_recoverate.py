@@ -120,7 +120,8 @@ def main():
                     generated_text_wm = generator.generate_text(
                         prompt=prompt,
                         gen_length=GEN_LENGTH,
-                        steps=GEN_STEPS
+                        steps=GEN_STEPS,
+                        block_length=40
                     )
                     gen_time_wm = time.time() - start_time_wm
                     generator.watermark = None
@@ -128,7 +129,8 @@ def main():
                     generated_text_no_wm = generator.generate_text(
                         prompt=prompt,
                         gen_length=GEN_LENGTH,
-                        steps=GEN_STEPS
+                        steps=GEN_STEPS,
+                        block_length=40
                     )
                     gen_time_no_wm = time.time() - start_time_no_wm
                     generator.watermark = watermark

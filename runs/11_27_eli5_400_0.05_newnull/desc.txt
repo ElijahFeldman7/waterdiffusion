@@ -1,0 +1,2 @@
+test null on gen len 100 alpha 0.05
+went bad idk

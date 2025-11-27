@@ -95,7 +95,7 @@ def main():
                     prompt=prompt,
                     gen_length=GEN_LENGTH,
                     steps=GEN_STEPS,
-                    batch_size=40
+                    block_length=40
                 )
                 
                 detection_result = watermark_detector.detect(

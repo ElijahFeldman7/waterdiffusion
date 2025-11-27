@@ -35,8 +35,8 @@ NUM_SAMPLES = 100
 OUTPUT_DIR = Path("eli5_recovery_test")
 RUN_NAME = "llada_8b_eli5_wm_test"
 SEED = 42
-GEN_STEPS = 100
-GEN_LENGTH = 100
+GEN_STEPS = 128
+GEN_LENGTH = 128
 
 
 # calculate ppl and cosine sim

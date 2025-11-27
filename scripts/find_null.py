@@ -34,8 +34,8 @@ SECRET_KEY = "xooks"
 WATERMARK_DELTA = 2.0
 NUM_SAMPLES = 10000
 SEED = 42
-GEN_STEPS = 128
-GEN_LENGTH = 128
+GEN_STEPS = 400
+GEN_LENGTH = 400
 
 
 def set_global_seed(seed: int):
@@ -94,7 +94,8 @@ def main():
                 generated_text_no_wm = generator.generate_text(
                     prompt=prompt,
                     gen_length=GEN_LENGTH,
-                    steps=GEN_STEPS
+                    steps=GEN_STEPS,
+                    batch_size=40
                 )
                 
                 detection_result = watermark_detector.detect(

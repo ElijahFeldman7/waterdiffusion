@@ -35,8 +35,8 @@ NUM_SAMPLES = 100
 OUTPUT_DIR = Path("eli5_recovery_test")
 RUN_NAME = "llada_8b_eli5_wm_test"
 SEED = 42
-GEN_STEPS = 400
-GEN_LENGTH = 400
+GEN_STEPS = 100
+GEN_LENGTH = 100
 
 
 # calculate ppl and cosine sim
@@ -120,17 +120,15 @@ def main():
                     generated_text_wm = generator.generate_text(
                         prompt=prompt,
                         gen_length=GEN_LENGTH,
-                        steps=GEN_STEPS,
-                        block_length=40
-                    )
+                        steps=GEN_STEPS
+                        )
                     gen_time_wm = time.time() - start_time_wm
                     generator.watermark = None
                     start_time_no_wm = time.time()
                     generated_text_no_wm = generator.generate_text(
                         prompt=prompt,
                         gen_length=GEN_LENGTH,
-                        steps=GEN_STEPS,
-                        block_length=40
+                        steps=GEN_STEPS
                     )
                     gen_time_no_wm = time.time() - start_time_no_wm
                     generator.watermark = watermark
@@ -143,14 +141,14 @@ def main():
                         tokenizer=generator.tokenizer,
                         num_timestamps=GEN_STEPS,
                         unmasked_tokens_per_timestamp=GEN_LENGTH / GEN_STEPS,
-                        p_value_threshold=0.01
+                        p_value_threshold=0.05
                     )
                     detection_no_wm_result = watermark.detect(
                         text=generated_text_no_wm,
                         tokenizer=generator.tokenizer,
                         num_timestamps=GEN_STEPS,
                         unmasked_tokens_per_timestamp=GEN_LENGTH / GEN_STEPS,
-                        p_value_threshold=0.01
+                        p_value_threshold=0.05
                     )
                     
                     result_entry = {

@@ -1,0 +1,4 @@
+gen length 100
+alpha 0.05
+this was an empirical null test on eli5
+delta 2.0

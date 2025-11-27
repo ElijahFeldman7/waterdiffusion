@@ -1,0 +1,5 @@
+run was to test 0.01 alpha with gen length 400
+
+seed normal
+
+fpr awfully high, but we saw tpr easily 99 for these cases

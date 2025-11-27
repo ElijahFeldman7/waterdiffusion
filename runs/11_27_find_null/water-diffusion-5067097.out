@@ -1,0 +1,145 @@
+Job started on Wed Nov 26 21:02:34 EST 2025
+Job Name: water-diffusion
+Job ID: 5067097
+Running on node: gpu011.orc.gmu.edu
+Allocated GPUs: 0
+Wed Nov 26 21:02:34 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 560.35.05              Driver Version: 560.35.05      CUDA Version: 12.6     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-SXM4-80GB          On  |   00000000:41:00.0 Off |                    0 |
+| N/A   28C    P0             88W /  500W |       1MiB /  81920MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+Setting up the environment...
+Loaded modules:
+
+Venv activated: /scratch/efeldma5/waterdiffusion/watervenv
+
+Starting Python training
+Seed set to 42
+Initializing watermark detector...
+Loading LLaDA model...
+Loading config file: /scratch/efeldma5/waterdiffusion/waterdiffusion/configs/llada_8b_instruct.yaml
+Loading tokenizer from GSAI-ML/LLaDA-8B-Instruct (local_files_only=False)
+Loading model from GSAI-ML/LLaDA-8B-Instruct (local_files_only=False)
+Model GSAI-ML/LLaDA-8B-Instruct loaded on device: cuda:0
+Loading eli5 dataset stream...
+Running generation and detection for 10000 samples...
+  ... processed 100/10000 samples
+  ... processed 200/10000 samples
+  ... processed 300/10000 samples
+  ... processed 400/10000 samples
+  ... processed 500/10000 samples
+  ... processed 600/10000 samples
+  ... processed 700/10000 samples
+  ... processed 800/10000 samples
+  ... processed 900/10000 samples
+  ... processed 1000/10000 samples
+  ... processed 1100/10000 samples
+  ... processed 1200/10000 samples
+  ... processed 1300/10000 samples
+  ... processed 1400/10000 samples
+  ... processed 1500/10000 samples
+  ... processed 1600/10000 samples
+  ... processed 1700/10000 samples
+  ... processed 1800/10000 samples
+  ... processed 1900/10000 samples
+  ... processed 2000/10000 samples
+  ... processed 2100/10000 samples
+  ... processed 2200/10000 samples
+  ... processed 2300/10000 samples
+  ... processed 2400/10000 samples
+  ... processed 2500/10000 samples
+  ... processed 2600/10000 samples
+  ... processed 2700/10000 samples
+  ... processed 2800/10000 samples
+  ... processed 2900/10000 samples
+  ... processed 3000/10000 samples
+  ... processed 3100/10000 samples
+  ... processed 3200/10000 samples
+  ... processed 3300/10000 samples
+  ... processed 3400/10000 samples
+  ... processed 3500/10000 samples
+  ... processed 3600/10000 samples
+  ... processed 3700/10000 samples
+  ... processed 3800/10000 samples
+  ... processed 3900/10000 samples
+  ... processed 4000/10000 samples
+  ... processed 4100/10000 samples
+  ... processed 4200/10000 samples
+  ... processed 4300/10000 samples
+  ... processed 4400/10000 samples
+  ... processed 4500/10000 samples
+  ... processed 4600/10000 samples
+  ... processed 4700/10000 samples
+  ... processed 4800/10000 samples
+  ... processed 4900/10000 samples
+  ... processed 5000/10000 samples
+  ... processed 5100/10000 samples
+  ... processed 5200/10000 samples
+  ... processed 5300/10000 samples
+  ... processed 5400/10000 samples
+  ... processed 5500/10000 samples
+  ... processed 5600/10000 samples
+  ... processed 5700/10000 samples
+  ... processed 5800/10000 samples
+  ... processed 5900/10000 samples
+  ... processed 6000/10000 samples
+  ... processed 6100/10000 samples
+  ... processed 6200/10000 samples
+  ... processed 6300/10000 samples
+  ... processed 6400/10000 samples
+  ... processed 6500/10000 samples
+  ... processed 6600/10000 samples
+  ... processed 6700/10000 samples
+  ... processed 6800/10000 samples
+  ... processed 6900/10000 samples
+  ... processed 7000/10000 samples
+  ... processed 7100/10000 samples
+  ... processed 7200/10000 samples
+  ... processed 7300/10000 samples
+  ... processed 7400/10000 samples
+  ... processed 7500/10000 samples
+  ... processed 7600/10000 samples
+  ... processed 7700/10000 samples
+  ... processed 7800/10000 samples
+  ... processed 7900/10000 samples
+  ... processed 8000/10000 samples
+  ... processed 8100/10000 samples
+  ... processed 8200/10000 samples
+  ... processed 8300/10000 samples
+  ... processed 8400/10000 samples
+  ... processed 8500/10000 samples
+  ... processed 8600/10000 samples
+  ... processed 8700/10000 samples
+  ... processed 8800/10000 samples
+  ... processed 8900/10000 samples
+  ... processed 9000/10000 samples
+  ... processed 9100/10000 samples
+  ... processed 9200/10000 samples
+  ... processed 9300/10000 samples
+  ... processed 9400/10000 samples
+  ... processed 9500/10000 samples
+  ... processed 9600/10000 samples
+  ... processed 9700/10000 samples
+  ... processed 9800/10000 samples
+  ... processed 9900/10000 samples
+  ... processed 10000/10000 samples
+Test run complete.
+
+--- Null Hypothesis Satisfaction Rate ---
+Average Satisfaction Rate over 10000 samples: 0.4932

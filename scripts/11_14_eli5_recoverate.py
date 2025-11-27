@@ -32,8 +32,7 @@ SimpleRemaskWatermark = init_unmasking_watermark.SimpleRemaskWatermark
 SECRET_KEY = "xooks"
 WATERMARK_DELTA = 2.0
 NUM_SAMPLES = 100
-OUTPUT_DIR = Path("eli5_recovery_test")
-RUN_NAME = "llada_8b_eli5_wm_test"
+RUN_NAME = "11_14_eli5_recoverate"
 SEED = 42
 GEN_STEPS = 400
 GEN_LENGTH = 400
@@ -61,11 +60,8 @@ def set_global_seed(seed: int):
 
 
 def main():
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
-    run_dir_name = f"{RUN_NAME}_{timestamp}"
-    run_dir = OUTPUT_DIR / run_dir_name
-    run_dir.mkdir()
+    run_dir = Path("runs") / RUN_NAME
+    run_dir.mkdir(parents=True, exist_ok=True)
     results_file_path = run_dir / "results.jsonl"
     report_txt_path = run_dir / "summary_report.txt"
 

@@ -109,10 +109,11 @@ class SimpleRemaskWatermark:
 
         satisfaction_rate = satisfied_pairs / total_pairs_checked if total_pairs_checked > 0 else 0.0
 
-        null_satis_rate = 0.4932
+        null_satis_rate = 0.5
+        null_satis_rate_mean = 0.4932
         std_dev = np.sqrt(total_pairs_checked * null_satis_rate * (1 - null_satis_rate))
         if std_dev == 0: z_score = 0.0
-        else: z_score = (satisfied_pairs - total_pairs_checked * null_satis_rate) / std_dev
+        else: z_score = (satisfied_pairs - total_pairs_checked * null_satis_rate_mean) / std_dev
         
         p_value = float(1 - norm.cdf(z_score))
         is_watermarked = p_value < p_value_threshold

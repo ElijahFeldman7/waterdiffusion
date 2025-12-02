@@ -143,3 +143,13 @@ Test run complete.
 
 --- Null Hypothesis Satisfaction Rate ---
 Average Satisfaction Rate over 10000 samples: 0.4932
+
+True Negatives (TN): 94
+False Positives (FP): 6
+
+
+--- Detection Rates ---
+True Positive Rate (TPR/Recall): 0.9900
+False Positive Rate (FPR): 0.0600
+False Negative Rate (FNR): 0.0100
+True Negative Rate (TNR/Specificity): 0.9400

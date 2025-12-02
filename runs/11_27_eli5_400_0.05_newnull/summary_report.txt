@@ -141,6 +141,7 @@ Non-Watermarked Text Detection: True Negative
  
 
 [Watermarked Text]
+
 The answer is 'because light colours reflect more of the sun's heat and do not absorb it.' However, in that case, dark skin would absorb more heat from the sun's rays, which would make their skin more prone to burning. But this doesn't match the common perception that light skin burns easier.
 
 The answer is actually that light skin has less melanin, a pigment that protects the skin from the sun's harmful UV rays. Dark skin has more melanin, which helps to absorb and reflect UV rays. This why people with light skin often get sunburned more easily than with dark skin.

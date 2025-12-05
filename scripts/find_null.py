@@ -14,6 +14,7 @@ import torch
 import torch.nn.functional as F
 from datasets import load_dataset
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
+import matplotlib.pyplot as plt
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from models.llada import LLaDAGenerator
@@ -75,6 +76,7 @@ def main():
         print(f"Running generation and detection for {NUM_SAMPLES} samples...")
         
         satisfaction_rates = []
+        stds = []
         count = 0
         
         for ex in ds:
@@ -107,6 +109,7 @@ def main():
                 
                 if 'satisfaction_rate' in detection_result:
                     satisfaction_rates.append(detection_result['satisfaction_rate'])
+                    stds.append(detection_result.get('std'))
                 else:
                     print(f"Warning: 'satisfaction_rate' not found in detection result for sample {count+1}.")
 
@@ -122,8 +125,24 @@ def main():
         
         if satisfaction_rates:
             average_satisfaction_rate = np.mean(satisfaction_rates)
+            average_std = np.mean(stds)
             print("\n--- Null Hypothesis Satisfaction Rate ---")
             print(f"Average Satisfaction Rate over {len(satisfaction_rates)} samples: {average_satisfaction_rate:.4f}")
+            print(f"Average Standard Deviation over {len(stds)} samples: {average_std:.4f}")
+
+            with open("satisfaction_rates.txt", "w") as f:
+                for rate in satisfaction_rates:
+                    f.write(f"{rate}\n")
+            print("Satisfaction rates saved to satisfaction_rates.txt")
+
+            plt.figure(figsize=(10, 6))
+            plt.hist(satisfaction_rates, bins=20, color='blue', alpha=0.7)
+            plt.title('Distribution of Satisfaction Rates')
+            plt.xlabel('Satisfaction Rate')
+            plt.ylabel('Frequency')
+            plt.grid(True)
+            plt.savefig('satisfaction_rate_distribution.png')
+
         else:
             print("\nCould not calculate average satisfaction rate. No values were collected.")
 

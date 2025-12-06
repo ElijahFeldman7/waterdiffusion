@@ -70,26 +70,38 @@ def run_evaluation_for_length(
     with open(results_file_path, 'w') as f:
         for prompt in prompts:
             try:
+                print(f"  [Len {gen_length}] Generating watermarked text for prompt: {prompt[:30]}...")
                 generator.watermark = watermark
                 generated_text_wm = generator.generate_text(
                     prompt=prompt, gen_length=gen_length, steps=gen_length
                 )
+                
+                print(f"  [Len {gen_length}] Generating non-watermarked text...")
                 generator.watermark = None
                 generated_text_no_wm = generator.generate_text(
                     prompt=prompt, gen_length=gen_length, steps=gen_length
                 )
+                
+                print(f"  [Len {gen_length}] Calculating perplexity...")
                 perplexity_wm = calculate_perplexity(generated_text_wm, perplexity_model, perplexity_tokenizer)
                 perplexity_no_wm = calculate_perplexity(generated_text_no_wm, perplexity_model, perplexity_tokenizer)
+                
+                print(f"  [Len {gen_length}] Calculating similarity...")
                 embeddings = similarity_model.encode([generated_text_wm, generated_text_no_wm])
                 cos_sim = F.cosine_similarity(torch.tensor(embeddings[0]), torch.tensor(embeddings[1]), dim=0).item()
+                
+                print(f"  [Len {gen_length}] Detecting watermark in watermarked text...")
                 detection_wm_result = watermark.detect(
                     text=generated_text_wm, tokenizer=generator.tokenizer, num_timestamps=gen_length,
                     unmasked_tokens_per_timestamp=1, p_value_threshold=0.05
                 )
+                
+                print(f"  [Len {gen_length}] Detecting watermark in non-watermarked text...")
                 detection_no_wm_result = watermark.detect(
                     text=generated_text_no_wm, tokenizer=generator.tokenizer, num_timestamps=gen_length,
                     unmasked_tokens_per_timestamp=1, p_value_threshold=0.05
-                )   
+                )
+                
                 result_entry = {
                     "prompt": prompt,
                     "gen_length": gen_length,

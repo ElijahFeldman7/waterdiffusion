@@ -35,8 +35,8 @@ SECRET_KEY = "xooks"
 WATERMARK_DELTA = 2.0
 NUM_SAMPLES = 10000
 SEED = 42
-GEN_STEPS = 400
-GEN_LENGTH = 400
+GEN_STEPS = 100
+GEN_LENGTH = 100
 
 
 def set_global_seed(seed: int):

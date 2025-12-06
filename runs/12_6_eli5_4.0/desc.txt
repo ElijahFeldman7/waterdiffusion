@@ -1,0 +1,6 @@
+delta 4.0
+genlength 400
+null mean 0.4932
+stdev 0.5 estimate
+
+we saw that in this run delta 4.0 doesnt change much

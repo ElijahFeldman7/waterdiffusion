@@ -29,8 +29,6 @@ class SimpleRemaskWatermark:
             return 1 if bit == 1 else 0
         return 1 if bit == 0 else 0
 
-
-
     def __init__(
         self,
         key: str = "",
@@ -96,11 +94,18 @@ class SimpleRemaskWatermark:
         total_pairs_checked = 0
         seq_len = len(tokens)
         p_value_threshold = kwargs.get("p_value_threshold", 0.05)
+        
+        seen_pairs = set()
 
         for i in range(seq_len):
             for j in self.context_window:
                 neighbor_index = i + j
                 if 0 <= neighbor_index < seq_len:
+                    pair_key = tuple(sorted((i, neighbor_index)))
+                    if pair_key in seen_pairs:
+                        continue
+                    seen_pairs.add(pair_key)
+
                     total_pairs_checked += 1
                     if j < 0:
                         if SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[neighbor_index], tokens[i]): satisfied_pairs += 1

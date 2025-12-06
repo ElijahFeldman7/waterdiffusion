@@ -72,13 +72,13 @@ def run_evaluation_for_length(
                 print(f"  [Len {gen_length}] Generating watermarked text for prompt: {prompt[:30]}...")
                 generator.watermark = watermark
                 generated_text_wm = generator.generate_text(
-                    prompt=prompt, gen_length=gen_length, steps=gen_length
+                    prompt=prompt, gen_length=gen_length, steps=gen_length, block_length=gen_length
                 )
                 
                 print(f"  [Len {gen_length}] Generating non-watermarked text...")
                 generator.watermark = None
                 generated_text_no_wm = generator.generate_text(
-                    prompt=prompt, gen_length=gen_length, steps=gen_length
+                    prompt=prompt, gen_length=gen_length, steps=gen_length, block_length=gen_length
                 )
                 
                 print(f"  [Len {gen_length}] Calculating perplexity...")

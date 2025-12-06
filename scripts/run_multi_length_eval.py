@@ -119,8 +119,10 @@ def run_evaluation_for_length(
                     print(f"  ... processed {count}/{num_samples} prompts for length {gen_length}")
 
             except Exception as e:
+                import traceback
                 print(f"Error during generation/detection for prompt (len {gen_length}): {prompt[:80]}...")
                 print(f"Error: {e}")
+                traceback.print_exc()
 
     print(f"Evaluation for length {gen_length} complete. Results saved to {results_file_path}")
     

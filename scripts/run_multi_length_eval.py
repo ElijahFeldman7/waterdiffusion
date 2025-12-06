@@ -57,8 +57,7 @@ def run_evaluation_for_length(
     perplexity_model,
     perplexity_tokenizer,
     similarity_model
-):
-
+):    
     print(f"\n----- Starting Evaluation for Generation Length: {gen_length} -----")
     output_dir.mkdir(parents=True, exist_ok=True)
     results_file_path = output_dir / "results.jsonl"
@@ -130,9 +129,28 @@ def run_evaluation_for_length(
     else:
         print(f"No results file found for length {gen_length}. Skipping report generation.")
 
+def save_run_desc(run_dir: Path, gen_lengths: list[int]):
+    config_data = {
+        "TIMESTAMP": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
+        "RUN_NAME": RUN_NAME,
+        "SEED": SEED,
+        "OUTPUT_DIR": str(run_dir),
+        "NUM_PROMPTS": NUM_PROMPTS,
+        "WATERMARK_KEY": SECRET_KEY,
+        "WATERMARK_DELTA": WATERMARK_DELTA,
+        "GENERATION_LENGTHS_TESTED": gen_lengths,
+        "LLADA_CONFIG_PATH": str(project_root / "configs" / "llada_8b_instruct.yaml"),
+        "PERPLEXITY_MODEL": "GPT2",
+        "SIMILARITY_MODEL": "all-MiniLM-L6-v2"
+    }
+    desc_path = run_dir / "desc.txt"
+    with open(desc_path, 'w') as f:
+        f.write("RUN CONFIG \n")
+        for key, value in config_data.items():
+            f.write(f"{key}: {value}\n")
+    print(f"run config saved to {desc_path}")
 
 def parse_summary_report(report_path: Path) -> dict:
-    """Parses key metrics from a summary_report.txt file."""
     metrics = {
         'tpr': None, 'fpr': None, 'perplexity_wm': None, 'perplexity_no_wm': None,
     }
@@ -162,10 +180,13 @@ def main():
     date_str = datetime.utcnow().strftime("%m_%d")
     run_dir = base_output_dir / f"{date_str}_{RUN_NAME}"
     print(f"Overall results will be saved in subdirectories of: {run_dir}")
-
     try:
         set_global_seed(SEED)
         print(f"Global random seed set to {SEED}")
+        run_dir.mkdir(parents=True, exist_ok=True)
+        gen_lengths_to_test = [100, 200, 300, 400]
+        save_run_desc(run_dir, gen_lengths_to_test)
+
         ds = load_dataset("sentence-transformers/eli5", split="train", streaming=True)
         prompts = []
         for ex in ds:
@@ -188,7 +209,6 @@ def main():
         perplexity_tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
         perplexity_model.eval()
         similarity_model = SentenceTransformer('all-MiniLM-L6-v2')
-        gen_lengths_to_test = [100, 200, 300, 400]
         plot_data = {'gen_lengths': [], 'tpr': [], 'fpr': [], 'perplexity_wm': [], 'perplexity_no_wm': []}
 
         for length in gen_lengths_to_test:

@@ -10,3 +10,4 @@ GENERATION_LENGTHS_TESTED: [100, 200, 300, 400]
 LLADA_CONFIG_PATH: /scratch/efeldma5/waterdiffusion/waterdiffusion/configs/llada_8b_instruct.yaml
 PERPLEXITY_MODEL: GPT2
 SIMILARITY_MODEL: all-MiniLM-L6-v2
+this run was gooned

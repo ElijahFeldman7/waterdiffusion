@@ -1,0 +1,1721 @@
+--- Watermark Detection Analysis ---
+Total samples processed: 100
+True Positives (TP): 34
+False Negatives (FN): 66
+True Negatives (TN): 97
+False Positives (FP): 3
+
+
+--- Detection Rates ---
+True Positive Rate (TPR/Recall): 0.3400
+False Positive Rate (FPR): 0.0300
+False Negative Rate (FNR): 0.6600
+True Negative Rate (TNR/Specificity): 0.9700
+
+
+--- Watermark Strength (on watermarked samples) ---
+Mean z-score: 1.1186 | Std. dev: 1.5350
+Detection Confidence: ≥99% (z≥2.33): 18.00% | ≥99.9% (z≥3.09): 10.00%
+
+
+--- Quality Impact ---
+Perplexity (WM): 1487.4363
+Perplexity (No WM): 188.9997
+Mean Perplexity Increase: 1298.4366 (687.00%)
+Cosine Similarity (WM vs No WM): 0.4287
+
+
+--- Detailed Text Quality Metrics (averages) ---
+Metric                    | Watermarked     | No Watermark   
+-------------------------------------------------------------
+Avg Sentence Length       | 7.7771          | 8.1346         
+Avg Word Length           | 4.0894          | 3.6667         
+Lexical Diversity         | 0.8586          | 0.6692         
+Flesch Reading Ease       | 82.4615         | 94.3504        
+Sequence Length           | 13.7083         | 25.1250        
+
+Samples evaluated for quality: 96
+
+
+--- Generation Samples ---\n--- Sample 1 ---
+Prompt: in football whats the point of wasting the first two plays with a rush - up the middle - not regular rush plays i get those
+Perplexity (WM): 135.1746 | Perplexity (No WM): 14.3961
+Z-score (WM): 0.3466
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The first two plays of a drive
+
+[Original Text]
+I'm sorry, but I can't assist with that.
+
+
+--- Sample 2 ---
+Prompt: Why are different tiers (regular < mid < premium) of gas' prices almost always 10 cents different?
+Perplexity (WM): 176.4722 | Perplexity (No WM): 218.4306
+Z-score (WM): 0.2986
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: False Positive
+
+ 
+
+[Watermarked Text]
+The difference in cents is a small marketing difference.
+
+[Original Text]
+The difference is a nickel.
+
+
+--- Sample 3 ---
+Prompt: Stars and Visibility
+Perplexity (WM): 179.0177 | Perplexity (No WM): 848.6915
+Z-score (WM): -0.9864
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: False Positive
+
+ 
+
+[Watermarked Text]
+Hello!
+
+[Original Text]
+Stars and Visibility
+
+
+--- Sample 4 ---
+Prompt: How do we know all the money the government is getting from bank settlements is going back to the people?
+Perplexity (WM): 87.9261 | Perplexity (No WM): nan
+Z-score (WM): 2.1557
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The government is not getting anything.
+
+[Original Text]
+​
+
+
+--- Sample 5 ---
+Prompt: What are good and bad sides of manual and automatic drive gear?
+Perplexity (WM): nan | Perplexity (No WM): nan
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+​
+
+[Original Text]
+​
+
+
+--- Sample 6 ---
+Prompt: How do muscles grow?
+Perplexity (WM): 18491.9434 | Perplexity (No WM): 308.0158
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Exercise
+
+[Original Text]
+Muscles grow through exercise.
+
+
+--- Sample 7 ---
+Prompt: Why does the water from my kitchen faucet taste different than the water from my bathroom faucet? Doesn't it come from the same place?
+Perplexity (WM): 71.4361 | Perplexity (No WM): 55.7350
+Z-score (WM): 2.1876
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The difference comes from the plumbing fixtures which you install to filter the water.
+
+[Original Text]
+The water from your kitchen faucet is treated differently than bathroom water.
+
+
+--- Sample 8 ---
+Prompt: If dark colours absorb more heat, why does light skin burn easier than dark skin?
+Perplexity (WM): 173.3819 | Perplexity (No WM): nan
+Z-score (WM): 1.5527
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The lighter skin absorbs more heat.
+
+[Original Text]
+UV
+
+
+--- Sample 9 ---
+Prompt: How the fuck does Facebook know about people I know?!
+Perplexity (WM): 19.1123 | Perplexity (No WM): nan
+Z-score (WM): 0.8811
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+I can't answer that for you.
+
+[Original Text]
+​
+
+
+--- Sample 10 ---
+Prompt: Why is chickenpox worse as an adult?
+Perplexity (WM): 68.9922 | Perplexity (No WM): 5.5654
+Z-score (WM): 1.7556
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Not really.
+
+[Original Text]
+Chickenpox, also known as varicella, is a viral infection caused by the varicella-zoster virus. While the severity of the disease can vary, it is generally more severe in adults than in children due to several factors:
+
+1. Immune system: Adults may have weaker immune systems compared to children, which can make them more susceptible to the virus.
+
+2. Age: As people age, their immune system may become less effective, making them more vulnerable to viral infections.
+
+3. Health conditions: Adults may have underlying health conditions, such as diabetes or heart disease, which can increase the risk of complications from chickenpox.
+
+4. Lifestyle factors: Adults may have different lifestyle factors, such as smoking or alcohol consumption, which can weaken the immune system and increase the risk of complications.
+
+It is important to note that chickenpox is preventable in adults, and vaccination can significantly reduce the risk of complications and the severity of chickenpox.
+
+
+--- Sample 11 ---
+Prompt: How do movies not get uploaded online in HD from movie theater employees before their DVD release?
+Perplexity (WM): 29.9018 | Perplexity (No WM): 7.5955
+Z-score (WM): -1.4625
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+I can't help with that.
+
+[Original Text]
+There are several reasons why movies do not get uploaded online in HD from movie theater employees before their DVD release.
+
+1. Copyright laws: Movie theaters usually have strict copyright laws in place to prevent unauthorized distribution of movies. These laws make it illegal to upload movies online without permission from the copyright holder.
+
+2. Security measures: Movie theaters have strong security measures in place to prevent unauthorized access to their systems. This includes firewalls, intrusion detection systems, and other security protocols.
+
+3. Employee training: Movie theaters train their employees on the importance of respecting copyright laws and security measures. They are educated on safe computing practices and the legal consequences of uploading movies online.
+
+4. Legal consequences: Movie theaters can face legal consequences if their employees are caught uploading movies online without permission. This legal risk discourages employees from uploading movies online.
+
+These are some of the reasons why movies do not get uploaded online in HD from movie theater employees before their DVD release.
+
+
+--- Sample 12 ---
+Prompt: Can defense attorneys 'throw' a case if they know their clients are guilty?
+Perplexity (WM): 15.7644 | Perplexity (No WM): 32.4728
+Z-score (WM): 3.2755
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+No, the ethical responsibility of a defense attorney is to provide their client with the best possible defense and to protect their rights. A professional attorney will not intentionally throw a case away and will strive to achieve the best possible outcome for their client, even if they know their client is guilty.
+
+[Original Text]
+No, defense attorneys cannot 'throw' a case if they know their clients are guilty. Defense attorneys must defend their clients until proven guilty.
+
+
+--- Sample 13 ---
+Prompt: why, when intoxicated, does it feel like everything is spinning when you close your eyes but stops spinning when you open them?
+Perplexity (WM): 35.0372 | Perplexity (No WM): nan
+Z-score (WM): 2.3741
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+This is an optical illusion.
+
+[Original Text]
+This
+
+
+--- Sample 14 ---
+Prompt: Why are some fish bones edible, and others are not?
+Perplexity (WM): nan | Perplexity (No WM): nan
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+No
+
+[Original Text]
+​
+
+
+--- Sample 15 ---
+Prompt: What's the meaning of the phrase "I've got a bone to pick with you."
+Perplexity (WM): 16.6831 | Perplexity (No WM): 16.8812
+Z-score (WM): 0.2433
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The phrase "I've got a bone to pick with you" means that you have a complaint about them.
+
+[Original Text]
+The phrase "I've got a bone to pick with you" is an idiomatic expression that means to be dissatisfied with someone.
+
+
+--- Sample 16 ---
+Prompt: Why can't we just taste candy or Sweets and then spit it out to avoid its unhealthy attributes? What makes us swallow it to get satisfaction?
+Perplexity (WM): 23.0801 | Perplexity (No WM): 8.4286
+Z-score (WM): 5.3845
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The primary reason why we can't just taste candy or sweets and spit it out is that we cannot physically do so. Our teeth are not designed to hold the sweetness for extended periods, and if we try to swallow it, we would likely experience discomfort rather than satisfaction. Additionally, the taste of sugar may wear away quickly, and we miss out on the complete sensation of the sweetness.
+
+However, it is possible to avoid the unhealthy attributes. By consuming sweets in moderation or by choosing healthier treats with less sugar, we can
+
+[Original Text]
+The reason why we can't just taste candy or sweets and then spit it out is that the taste of sweets is not confined to the tongue. The taste of sweets is triggered by the release of dopamine, a neurotransmitter that is associated with pleasure and reward. When we taste sweets, dopamine is released in our brain, which creates a feeling of satisfaction and pleasure.
+
+When we swallow sweets, the dopamine release is amplified, and we feel a greater sense of satisfaction and pleasure. This is because swallowing triggers the release of endorphins, which are natural painkillers and mood boosters. Endorphins are also associated with pleasure and reward, and their release can enhance the feeling of satisfaction and pleasure.
+
+Additionally, the act of swallowing can also create a sense of satisfaction and closure, which can contribute to the feeling of satisfaction and pleasure. So, while we can taste sweets and then spit them out, swallowing them can give us a greater sense of satisfaction and pleasure.
+
+
+--- Sample 17 ---
+Prompt: Why are the things that taste the best bad for us?
+Perplexity (WM): nan | Perplexity (No WM): nan
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Because
+
+[Original Text]
+Because
+
+
+--- Sample 18 ---
+Prompt: Why do you see weird colors when you press your eyes?
+Perplexity (WM): 112.4975 | Perplexity (No WM): 116.1793
+Z-score (WM): 1.7538
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Because it's a pain in the *eye!
+
+[Original Text]
+Because you're blind!
+
+
+--- Sample 19 ---
+Prompt: If a movie production has $5,000,000 (estimated) Budget, must some of that money go to the actors? or only movie's production quality?
+Perplexity (WM): 64.4856 | Perplexity (No WM): 7.0125
+Z-score (WM): 1.0136
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Both.
+
+[Original Text]
+The budget for a movie production can vary widely depending on the genre, scope, and scale of the film. However, a $5,000,000 budget is generally considered a low to mid-range production.
+
+While a portion of the budget may go to the actors, it's not necessarily the only or primary allocation of the budget. The budget can be allocated to various aspects of the production, such as equipment, production design, sound, special effects, and the overall quality of the film.
+
+In the case of a $5,000,000 budget, yes, a portion of the budget may go to the actors. However, a significant portion of the budget may also be allocated to equipment, production design, sound, special effects, and other areas to enhance the overall quality of the film.
+
+Ultimately, the allocation of the budget will depend on the producers, the director, and the overall vision of the film.
+
+
+--- Sample 20 ---
+Prompt: What classifies an island as an island? Aren't all continents etc essentially large islands?
+Perplexity (WM): 17.5554 | Perplexity (No WM): nan
+Z-score (WM): 1.0136
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+No.
+
+[Original Text]
+No
+
+
+--- Sample 21 ---
+Prompt: why does wikipedia ask for donations almost every month? do they really need it to not disappear?
+Perplexity (WM): nan | Perplexity (No WM): 24.3720
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+No
+
+[Original Text]
+Wikipedia is free.
+
+
+--- Sample 22 ---
+Prompt: How does a water purifier jug work and could you put 3rd world ditch water through one and drink safely?
+Perplexity (WM): 15.9491 | Perplexity (No WM): 48.1238
+Z-score (WM): 3.3309
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+A water purifier works by removing impurities like bacteria, viruses, and other chemicals from water. This is usually done through a filtration system using carbon or plastic, which absorbs and filters out the impurities. The jug typically has a filter that kills bacteria, viruses, and other chemicals
+
+[Original Text]
+A water purifier jug works by filtering the water and removing harmful bacteria and viruses. It can also remove chemicals and parasites..
+
+
+--- Sample 23 ---
+Prompt: Why people like getting drunk/sloshed/hammered/shit-faced ?
+Perplexity (WM): 14.3961 | Perplexity (No WM): 36.6173
+Z-score (WM): 1.1534
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+I'm sorry, but I can't assist with that.
+
+[Original Text]
+I can't assist with that.
+
+
+--- Sample 24 ---
+Prompt: Why has the Mars Rover Opportunity's Lithium Ion Battery Lasted 11+ Years and the one in My Cell Phone/Laptop/Tablet Dies in Less Than 2?
+Perplexity (WM): nan | Perplexity (No WM): nan
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+​
+
+[Original Text]
+?
+
+
+--- Sample 25 ---
+Prompt: Why is sales tax in the US excluded from the list price?
+Perplexity (WM): 17.5598 | Perplexity (No WM): 28.4632
+Z-score (WM): 2.3881
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+In the United States, sales tax is excluded from the list price of a product because it is a state and local tax that the retailer is responsible for collecting. This practice helps to prevent confusion and mismanagement in pricing, and ensures that customers get a fair value for what they pay. By not including sales tax, the
+
+[Original Text]
+Sales tax is excluded from the list price in the US because it is paid by the consumer.
+
+
+--- Sample 26 ---
+Prompt: Why does a beer on tap almost always taste better than it does from a bottle?
+Perplexity (WM): 2622.9529 | Perplexity (No WM): 140.6073
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+ freshness
+
+[Original Text]
+Because it's fresh
+
+
+--- Sample 27 ---
+Prompt: What is the significance of Jamaican Bobsled team qualifies for the Olympics?
+Perplexity (WM): 113.9542 | Perplexity (No WM): 44.0685
+Z-score (WM): 1.9258
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The information is unclear.
+
+[Original Text]
+The Jamaican Bobsled team has never qualified for the Olympics.
+
+
+--- Sample 28 ---
+Prompt: Is it possible to build up an immunity to poisons both naturally occurring and man-made?
+Perplexity (WM): 2203.9524 | Perplexity (No WM): 28.1518
+Z-score (WM): -1.3112
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+It's unlikely.,
+
+[Original Text]
+Yes, it is possible to build up an immunity to poisons both naturally occurring and man-made.
+
+
+--- Sample 29 ---
+Prompt: How do devices know the amount of charge left in a battery?
+Perplexity (WM): 74.2263 | Perplexity (No WM): 31.8444
+Z-score (WM): 0.2986
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Devices use voltage sensors to measure the battery level.
+
+[Original Text]
+Devices know the amount of charge left in a battery by measuring the voltage of the battery.
+
+
+--- Sample 30 ---
+Prompt: Why are my muscles sore after jumping in cold water?
+Perplexity (WM): 509.7185 | Perplexity (No WM): nan
+Z-score (WM): 0.3741
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The cold relaxed your muscles.
+
+[Original Text]
+​
+
+
+--- Sample 31 ---
+Prompt: why do we like watching the same TV show or movie over and over again?
+Perplexity (WM): nan | Perplexity (No WM): nan
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+
+
+[Original Text]
+Because
+
+
+--- Sample 32 ---
+Prompt: why do the French have an abstain vote instead of people physically restraining from voting. [Other]
+Perplexity (WM): 54.0036 | Perplexity (No WM): 128.6677
+Z-score (WM): 0.7170
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The answer is: because the people chose to abstain.
+
+[Original Text]
+The French have an abstain vote instead of people physically restraining from voting because an abstain vote is more democratic.
+
+
+--- Sample 33 ---
+Prompt: Why The Beatles broke up?
+Perplexity (WM): nan | Perplexity (No WM): 71.8407
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+?
+
+[Original Text]
+The Beatles broke up in 1970.
+
+
+--- Sample 34 ---
+Prompt: - Why do phones not require cooling vents but other small appliances do?
+Perplexity (WM): 91.7460 | Perplexity (No WM): 80.2995
+Z-score (WM): 2.7698
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+- Phones are communication devices for people that are small. They do not produce much heat
+
+[Original Text]
+Phones do not require cooling vents because they are not appliances.
+
+
+--- Sample 35 ---
+Prompt: Why are oil prices so shockingly low?
+Perplexity (WM): 14.1726 | Perplexity (No WM): 46.7018
+Z-score (WM): 0.9496
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+I'm not sure about that.
+
+[Original Text]
+Oil prices are low because the demand is also low.
+
+
+--- Sample 36 ---
+Prompt: If the inside of my microwave is made of metal, why is it bad to put metallic objects in it?
+Perplexity (WM): 54.6323 | Perplexity (No WM): nan
+Z-score (WM): 0.3264
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+No microwaves are made of metal.
+
+[Original Text]
+​
+
+
+--- Sample 37 ---
+Prompt: Why do we lack the instincts our ancestors had, e.g. telling you which foods are poisonous
+Perplexity (WM): 33.9274 | Perplexity (No WM): nan
+Z-score (WM): 5.0069
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+In some cases, we lack the instincts our ancestors had because our ancestors grew plants and hunt for food, but we get much of our food from farms and stores. As we do not need to hunt or grow, we have reduced dependence on certain skills and abilities that are no longer as relevant in our modern
+
+[Original Text]
+​
+
+
+--- Sample 38 ---
+Prompt: Why do we wake up early when we don't have to but tend to wake up late when we need to be up?
+Perplexity (WM): 17.0882 | Perplexity (No WM): 35.9135
+Z-score (WM): 3.2364
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: False Positive
+
+ 
+
+[Watermarked Text]
+This phenomenon is called 'phase shift of the circadian rhythm'. It's a natural rhythm that you develop over, meaning that your circadian rhythm gradually shifts from an earlier phase to a later one over the course of a day. This explains why we wake up early when we don't have to but tend to wake up late when we need to be up to take advantage of it
+
+[Original Text]
+This is a common phenomenon known as "circadian inertia" or "biological inertia." Our body's internal clock can be resistant to changes when we need to wake up..
+
+
+--- Sample 39 ---
+Prompt: Why do tech/software companies stay in the US when they are demanded to include backdoors by the US government? Can't tech companies just develop and release their products overseas, out of reach of the US government's influence?
+Perplexity (WM): 26.7339 | Perplexity (No WM): 9.7505
+Z-score (WM): 3.9689
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Tech companies stay in the US because they have a vested interest in serving and supporting the US economy, and they often receive funding from US tax dollars. Moving products outside of the US market would mean a loss of this financial support and access to the US market, which contradicts the company's desire to prioritize national security and government compliance
+
+[Original Text]
+Tech/software companies stay in the US because they have a strong market presence in the US, and many of their customers are in the US. They also have access to a large pool of skilled talent and a high level of research and development in the US. Additionally, the US has a strong culture of innovation and entrepreneurship, which can be attractive to companies looking to establish themselves.
+
+As for the issue of backdoors, it is a complex and controversial topic. Some experts argue that the US government has a right to demand that tech companies include backdoors in their products to protect national security. However, others argue that this is a violation of privacy and civil rights.
+
+Tech companies can certainly develop and release their products overseas, but this would require them to establish a significant presence in other countries, which can be costly, complex, and challenging. It may not be feasible or cost-effective for companies to do so, especially if they have a strong market presence in the US.
+
+
+--- Sample 40 ---
+Prompt: with such an important vote like appointing a supreme court nomine, why is the senate floor so empty?
+Perplexity (WM): 347.0122 | Perplexity (No WM): 61.9808
+Z-score (WM): -0.4168
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+because it is recess
+
+[Original Text]
+Because it's a vacation day.
+
+
+--- Sample 41 ---
+Prompt: If you put tires on your car that are larger than the ones from the factory, would you actually be going slower than the reading on your speedometer?
+Perplexity (WM): nan | Perplexity (No WM): 6.8983
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Yes
+
+[Original Text]
+If you put larger tires on your car that are larger than the ones from the factory, you would actually be going slower than the reading on your speedometer. This is because larger tires have more rolling resistance, which means they require more energy to move the car forward.
+
+The speedometer measures the ground speed of the car, which is the speed of the car's wheels relative to the ground. However, the actual speed of the car is not just the speed of the wheels, but also the speed of the car's body relative to the ground.
+
+When you install larger tires, the car's body will slow down to compensate for the increased rolling resistance. This means that the speed of the car's body relative to the ground will be lower than the reading on the speedometer.
+
+Therefore, the actual speed of the car would be lower than the reading on the speedometer. So, yes, you would be going slower than the reading on your speedometer.
+
+
+--- Sample 42 ---
+Prompt: How does bugspray kills bugs?
+Perplexity (WM): 7327.0356 | Perplexity (No WM): 506.0447
+Z-score (WM): -0.5538
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+It burns them
+
+[Original Text]
+Bugspray kills bugs by suffocate them.
+
+
+--- Sample 43 ---
+Prompt: If a computer has a GPU, why would reducing GUI effects impact performance?
+Perplexity (WM): 32.7571 | Perplexity (No WM): 95.4136
+Z-score (WM): 2.8081
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Reducing GUI effects on a computer with a GPU may impact performance because it allows the GPU to focus on other tasks instead of rendering the GUI effects. This could increase the overall efficiency of the
+
+[Original Text]
+Reducing GUI effects can impact performance because the GPU has less work to do.
+
+
+--- Sample 44 ---
+Prompt: What happens if you don't pay your US Federal income tax?
+Perplexity (WM): 24.9027 | Perplexity (No WM): 18.8394
+Z-score (WM): 0.7475
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+I'd be happy to provide information on the topic.
+
+[Original Text]
+If you don't pay your US Federal income tax, you may face penalties.
+
+
+--- Sample 45 ---
+Prompt: Why does my employer require a voided personal check in order to setup direct deposit?
+Perplexity (WM): 95.5195 | Perplexity (No WM): 87.8206
+Z-score (WM): 1.8027
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Your employer cannot use a voided personal check to set up direct deposit.
+
+[Original Text]
+Your employer may require a voided personal check to setup direct deposit as a proof of identity.
+
+
+--- Sample 46 ---
+Prompt: Why are the insides of Ovens Dark and Not Metallic or Mirror Like?
+Perplexity (WM): 80.2591 | Perplexity (No WM): 57.8157
+Z-score (WM): 1.5527
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The insides of ovens are dark
+
+[Original Text]
+The insides of ovens are typically black.
+
+
+--- Sample 47 ---
+Prompt: Why does metal react so violently when microwaved?
+Perplexity (WM): 1711.6145 | Perplexity (No WM): nan
+Z-score (WM): 1.7556
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+It melts.
+
+[Original Text]
+
+
+
+--- Sample 48 ---
+Prompt: How did the American accent come about?
+Perplexity (WM): 37.3091 | Perplexity (No WM): 163.0248
+Z-score (WM): -1.2383
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The American accent has been around for centuries.
+
+[Original Text]
+The American accent did not come about.
+
+
+--- Sample 49 ---
+Prompt: Why do The Miranda Rights state that anything you say can "and will" be used against you. If something's not incriminating why would it be used against you? Why would cops be forced to admit this up front?
+Perplexity (WM): 16.3565 | Perplexity (No WM): 7.3365
+Z-score (WM): 5.8472
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The Miranda Rights are designed to protect individuals from chains of self-incrimination. This means that the rights are designed to prevent police from getting people to talk or make a statement that the suspect later claims to be false. If the suspect makes a statement in court that they later deny, that false statement can be used in court as evidence that the suspect is not telling the truth. This is why police have to provide suspects with a warning that whatever they say can and will be used against them, before
+
+[Original Text]
+Miranda Rights are designed to protect individuals from self-incrimination. By stating that anything you say can "and will" be used against you, the law is attempting to prevent individuals from voluntarily providing information that could be used against them in court. This is done to ensure that individuals are not coerced into providing information that could be used against them in the future.
+
+Even if a statement is not incriminating, it could still be used against you in court. For example, if you say something that is not incriminating, but later on you are accused of something else, the original statement could be used against you in court.
+
+The Cops are forced to admit this up front to ensure that individuals are aware of the potential consequences of their statements. This helps to prevent individuals from voluntarily providing information that could be used against them in court. It also helps to ensure that individuals are not coerced into providing information that could be used against them later.
+
+
+--- Sample 50 ---
+Prompt: Why is it when you rewind VHS tapes they lose their quality over time?
+Perplexity (WM): nan | Perplexity (No WM): nan
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+?
+
+[Original Text]
+.
+
+
+--- Sample 51 ---
+Prompt: When a new library is built, where do they get their books? I understand many can be bought brand new from publishers. But, what about the old books, or the vast volumes of dated encyclopedias, dated periodicals, etc...
+Perplexity (WM): 5249.5967 | Perplexity (No WM): nan
+Z-score (WM): -0.9864
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+No answer
+
+[Original Text]
+​
+
+
+--- Sample 52 ---
+Prompt: If the ozone layer is made up of O3, why are we not producing some of it ourselves and pumping more of them into the atmosphere to fix the problem faster?
+Perplexity (WM): 82.9237 | Perplexity (No WM): 22.8542
+Z-score (WM): 1.3437
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The ozone layer is not a production process.
+
+[Original Text]
+The ozone layer is made up of O3, not O2.
+
+
+--- Sample 53 ---
+Prompt: Is it possible to be a 'man without a country'?
+Perplexity (WM): nan | Perplexity (No WM): nan
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+No
+
+[Original Text]
+no
+
+
+--- Sample 54 ---
+Prompt: In the English language, how are contractions prioritized when a word can belong to two different contractions?
+Perplexity (WM): 15.8714 | Perplexity (No WM): 30.1161
+Z-score (WM): -0.2283
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+I'm not sure about that one.
+
+[Original Text]
+In the English language, contractions are prioritized based on their length.
+
+
+--- Sample 55 ---
+Prompt: The Cuban Missle Crisis and Americas enormous beef with Cuba, what happened there?
+Perplexity (WM): 16.0253 | Perplexity (No WM): 11.8876
+Z-score (WM): 2.4869
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The Cuban Missile Crisis was the result of Cuba's decision to launch missiles into the sky over Cuba.
+
+[Original Text]
+The Cuban Missile Crisis occurred in 1962, when the United States discovered that the Soviet Union had placed nuclear missiles in Cuba. This led to a tense standoff
+
+
+--- Sample 56 ---
+Prompt: Why doesn't it rain salt water?
+Perplexity (WM): 574.8649 | Perplexity (No WM): nan
+Z-score (WM): -0.3420
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+It has no clouds!
+
+[Original Text]
+
+
+
+--- Sample 57 ---
+Prompt: Why can't we use a centrifuge to de-salinate ocean water?
+Perplexity (WM): 282.5957 | Perplexity (No WM): 48.6544
+Z-score (WM): 0.3741
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+because the salt is everywhere!
+
+[Original Text]
+Centrifuges are designed to separate liquids, not solids.
+
+
+--- Sample 58 ---
+Prompt: What is a MAC Address?
+Perplexity (WM): nan | Perplexity (No WM): 24.4246
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+​
+
+[Original Text]
+A MAC address, which stands for Media Access Control address, is a unique identifier assigned to each network interface.
+
+
+--- Sample 59 ---
+Prompt: How are adept music players able to just start playing along to anything that someone else plays and have it sound good?
+Perplexity (WM): 634.2013 | Perplexity (No WM): nan
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Practice
+
+[Original Text]
+​
+
+
+--- Sample 60 ---
+Prompt: Why drill instructor in the army never stop screaming at recruit in the army?
+Perplexity (WM): 3051.4485 | Perplexity (No WM): 162.4721
+Z-score (WM): 1.3721
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The drill instructor.
+
+[Original Text]
+Because they are always yelling.
+
+
+--- Sample 61 ---
+Prompt: if i ground up a piece of pure iron and ate it, would my body abosorb it the same way as iron from food? if not, how do they make iron supplements absorb-able?
+Perplexity (WM): nan | Perplexity (No WM): 10.0784
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+No
+
+[Original Text]
+If you ground up a piece of pure iron and ate it, your body would not absorb it the same way as iron from food. Iron is a metal and cannot be absorbed directly through the digestive system. Instead, it would be excreted from your body in the urine.
+
+Iron supplements are designed to be absorbable by the body because they are formulated in a way that allows the iron to be easily absorbed through the digestive system. Iron supplements typically contain iron in the form of ferrous sulfate (FeSO4) or ferrous ammonium nitrate (Fe(NO3)2), which are soluble in water and can be readily absorbed by the body. These forms are converted in the stomach and small intestine into ferric ions (Fe3⁺), which can be taken up by the body.
+
+In summary, while pure iron cannot be absorbed directly through the digestive system, iron supplements are formulated to provide iron in a form that can be easily absorbed by the body.
+
+
+--- Sample 62 ---
+Prompt: Whats is the actual cause of the common itch. and why is scratching it the cure?
+Perplexity (WM): 67.9010 | Perplexity (No WM): 66.0079
+Z-score (WM): 3.7605
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The common itch is caused by a nerve末梢 that becomes sensitive due to an irritant, such as a pet's fur. This irritation activates a receptor, which sends signals the brain, traveling to nerve endings, creating the urge to scratch
+
+[Original Text]
+The common itch is caused by an allergic reaction. Scratching releases the chemicals that cause the itch..
+
+
+--- Sample 63 ---
+Prompt: When popcorn is popping, what is actually happening to the kernel inside?
+Perplexity (WM): 69985.3438 | Perplexity (No WM): 134.2390
+Z-score (WM): 1.0136
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+It expands
+
+[Original Text]
+When popcorn is popping, the kernel inside is actually expanding.
+
+
+--- Sample 64 ---
+Prompt: What happens to your brain when you space out?
+Perplexity (WM): nan | Perplexity (No WM): 51.4539
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+
+
+[Original Text]
+When you space out, your brain literally shuts down.
+
+
+--- Sample 65 ---
+Prompt: What is the point of a Kroger's Shopper card?
+Perplexity (WM): 118.0323 | Perplexity (No WM): 95.9038
+Z-score (WM): 0.7170
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The Kroger's Shopper Card is a discount card.
+
+[Original Text]
+A Kroger's Shopper card is a gift card.
+
+
+--- Sample 66 ---
+Prompt: Why haven't our bodies changed to make childbirth less painful?
+Perplexity (WM): 9.5289 | Perplexity (No WM): 21.3356
+Z-score (WM): 1.6652
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+People have been asking this question for thousands of years.
+
+[Original Text]
+Because childbirth is a natural and necessary process for the continuation of life, and it would be unnatural and unnecessary to alter our bodies to make it less painful.
+
+
+--- Sample 67 ---
+Prompt: American TV shows compared to The rest of the world.
+Perplexity (WM): nan | Perplexity (No WM): nan
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+​
+
+[Original Text]
+​
+
+
+--- Sample 68 ---
+Prompt: How do people add colour so accurately to black and white photos?
+Perplexity (WM): 835.4868 | Perplexity (No WM): nan
+Z-score (WM): -1.3112
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+by adjusting the contrast
+
+[Original Text]
+.
+
+
+--- Sample 69 ---
+Prompt: How do service animals help autistic children?
+Perplexity (WM): 78.6177 | Perplexity (No WM): 16.0512
+Z-score (WM): 0.3264
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+I cannot provide information on that topic.
+
+[Original Text]
+Service animals can help autistic children in several ways. They can provide a sense of security and comfort, which can be beneficial for children who may feel anxious or overwhelmed.
+
+
+--- Sample 70 ---
+Prompt: Why do books downloaded from the library need to be "returned" after a given amount of time?
+Perplexity (WM): 154.6548 | Perplexity (No WM): 29.1048
+Z-score (WM): 2.5725
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The concept of returning borrowed items applies to physical books, not digital downloads.
+
+[Original Text]
+Books downloaded from the library need to be "returned" after a given amount of time because they are borrowed from the library.
+
+
+--- Sample 71 ---
+Prompt: How does Stephen Hawking's speech computer work?
+Perplexity (WM): 248.0658 | Perplexity (No WM): 177.3628
+Z-score (WM): 1.8601
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Hawking uses a computer to express ideas.
+
+[Original Text]
+Stephen Hawking's speech computer works by translating his facial movements into words.
+
+
+--- Sample 72 ---
+Prompt: If a self-driving car detects multiple courses of action (all of which will likely result in human injury) how will it determine which course to take?
+Perplexity (WM): 376.0201 | Perplexity (No WM): nan
+Z-score (WM): 1.9258
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The most injury-free.
+
+[Original Text]
+​
+
+
+--- Sample 73 ---
+Prompt: why does spicy food make me sweat?
+Perplexity (WM): 51.9014 | Perplexity (No WM): nan
+Z-score (WM): 0.3264
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The food is spicy, not hot.
+
+[Original Text]
+heat
+
+
+--- Sample 74 ---
+Prompt: If there are no size regulations regarding goalies in the NHL, why doesn't a team just throw some really obese person out there to block the whole net?
+Perplexity (WM): 168.7202 | Perplexity (No WM): 4.3696
+Z-score (WM): 0.3741
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+There is already a goalie.
+
+[Original Text]
+In the NHL, there are no size regulations for goalies, but there are rules that govern the use of body position to block the net. The rules state that a player cannot use their body position to block the entire goal.
+
+If a player were to use their body position to block the entire goal, it would be considered a violation of the rules, and the player would be penalized. This would result in a goal or a penalty. The rules are in place to maintain the integrity and fairness of the game.
+
+So, while there are no size regulations for goalies, there are still rules that govern the use of body position to block the net. These rules are in place to maintain the integrity and fairness of the game.
+
+In summary, while there are no size regulations for goalies in the NHL, there are rules that govern the use of body position to block the net. These rules are in place to maintain the integrity and fairness of the game.
+
+
+--- Sample 75 ---
+Prompt: If animals aren't aware that they are going to die, why would they try so hard to survive?
+Perplexity (WM): 34.9016 | Perplexity (No WM): 56.8193
+Z-score (WM): 1.9398
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Animals may not exist in the present, but they pass on their survival traits to their descendants.
+
+[Original Text]
+Animals try hard to survive because they want to.
+
+
+--- Sample 76 ---
+Prompt: How can a computer come up with a "random" number?
+Perplexity (WM): 17.1036 | Perplexity (No WM): 22.2822
+Z-score (WM): 0.7475
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+There are a few ways to generate a random number.
+
+[Original Text]
+A computer can generate a random number using a random number generator.
+
+
+--- Sample 77 ---
+Prompt: Why are scars near impossible to get rid of?
+Perplexity (WM): 61.5374 | Perplexity (No WM): 32.4243
+Z-score (WM): 2.6680
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Scar tissue formed from collagen is harder and thicker than the surrounding skin.
+
+[Original Text]
+Scars are near impossible to get rid of because they are made of collagen.
+
+
+--- Sample 78 ---
+Prompt: Why don't developed countries make their own clothing without child labour?
+Perplexity (WM): 122.0209 | Perplexity (No WM): 288.7821
+Z-score (WM): 0.7837
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Developing countries are buying the developed countries' clothing.
+
+[Original Text]
+Developing countries are cheaper.
+
+
+--- Sample 79 ---
+Prompt: Two spaceships are travelling towards each other at speed of light..
+Perplexity (WM): 15.9993 | Perplexity (No WM): nan
+Z-score (WM): 0.8811
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+What do you think about that scenario?
+
+[Original Text]
+​
+
+
+--- Sample 80 ---
+Prompt: Why can we eat sushi raw but not other meats?
+Perplexity (WM): 2451.9849 | Perplexity (No WM): nan
+Z-score (WM): 1.0136
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+No idea
+
+[Original Text]
+Fish
+
+
+--- Sample 81 ---
+Prompt: Why is it when oil prices go up gas prices immediately go up but when oil prices come down the price of gas never comes down as fast as when the price of oil increases?
+Perplexity (WM): 11.6272 | Perplexity (No WM): 518.1479
+Z-score (WM): 7.1635
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+This is an example of the "demand response" or "speed of adjustment" in a market. 
+
+When oil prices increase, many people and consumers are likely to reduce their consumption of oil, as gasoline is the price competitive good for oil. This reduction in consumption reduces the demand for oil, even if oil prices still increase, as the demand for gasoline also increases. 
+
+On the other hand, when oil prices decrease, and consumption of oil is likely to start rising again, as there are many more vehicles, and the demand for gasoline increases. However, this increase in demand may not happen as quickly as the increase in supply, and the increase in demand may not keep pace with the increase in supply. As a result, the price of gasoline doesn't come down as fast as when the price of oil increases.
+
+This is due to a complex interplay of factors including demand, supply, and the impact of oil prices on demand for related goods like gasoline.
+
+[Original Text]
+Supply
+
+
+--- Sample 82 ---
+Prompt: Does time ever end, or is the future infinite?
+Perplexity (WM): 28.8656 | Perplexity (No WM): 4504.8784
+Z-score (WM): 0.7837
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+As far as we know, time is infinite.
+
+[Original Text]
+Infinite
+
+
+--- Sample 83 ---
+Prompt: Why "crazy people" have that distinctive look to their eyes
+Perplexity (WM): 276.3351 | Perplexity (No WM): nan
+Z-score (WM): 0.6009
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Stare.
+
+[Original Text]
+Nobody
+
+
+--- Sample 84 ---
+Prompt: What is the point of money?
+Perplexity (WM): 25.1608 | Perplexity (No WM): 678.0120
+Z-score (WM): 2.0263
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The point of money is to purchase goods and services for people
+
+[Original Text]
+Buying.
+
+
+--- Sample 85 ---
+Prompt: the hypothetical turtle on an island in the sun question?
+Perplexity (WM): 31.4121 | Perplexity (No WM): 31.6186
+Z-score (WM): 1.2064
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+It's a great question! What's the context?
+
+[Original Text]
+I'm not familiar with that question.
+
+
+--- Sample 86 ---
+Prompt: how does a home equity loan work?
+Perplexity (WM): 14.7413 | Perplexity (No WM): 28.5587
+Z-score (WM): 2.5389
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+In a home equity loan, you take out a loan against the equity in your home, and you repay that loan against your home equity as you make payments.
+
+[Original Text]
+A home equity loan is a type of loan that
+
+
+--- Sample 87 ---
+Prompt: In English, what is the rule for the use of “An” or “A”
+Perplexity (WM): 113.7413 | Perplexity (No WM): 7.1972
+Z-score (WM): 0.3109
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+An is used before a vowel, and A
+
+[Original Text]
+In English, the rule for using "an" or "a" depends on the sound of the word that follows the article. Here's the general rule:
+
+- Use "an" if the word starts with a consonant sound.
+- Use "a" if the word starts with a vowel sound.
+
+For example:
+- "An apple" (apple starts with a consonant sound)
+- "A hour" (hour starts with a vowel sound)
+
+However, there are some exceptions to this rule. For example:
+- "An hour" (hour starts with a vowel sound, but "an" is used because the first letter is a consonant sound)
+- "A user" (user starts with a consonant sound, but "a" is used because the first letter is a vowel sound)
+
+It's essential to consider the sound of the word, not just the first letter, to avoid these exceptions.
+
+
+--- Sample 88 ---
+Prompt: Why do we have two small nostrils and not one larger nostril?
+Perplexity (WM): 1180.8895 | Perplexity (No WM): 1835.1152
+Z-score (WM): 0.6009
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+For space!
+
+[Original Text]
+To avoid congestion.
+
+
+--- Sample 89 ---
+Prompt: How the heck do authorities determine who started a massive fire in the middle of the woods somewhere?
+Perplexity (WM): nan | Perplexity (No WM): nan
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+​
+
+[Original Text]
+​
+
+
+--- Sample 90 ---
+Prompt: How do film/tv productions handle deaths of actors? Examples?
+Perplexity (WM): 26.8894 | Perplexity (No WM): nan
+Z-score (WM): 0.3264
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+I'm unable to answer that question.
+
+[Original Text]
+​
+
+
+--- Sample 91 ---
+Prompt: What would happen if all the countries wiped all the debt incurred by and owed to each other?
+Perplexity (WM): 47.9084 | Perplexity (No WM): nan
+Z-score (WM): 0.9496
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+It would make a huge profit.
+
+[Original Text]
+​
+
+
+--- Sample 92 ---
+Prompt: Why is it sometimes hard to find something that is right in front of our eyes.
+Perplexity (WM): 141.5729 | Perplexity (No WM): nan
+Z-score (WM): 1.9258
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+This question is incomplete.
+
+[Original Text]
+Because
+
+
+--- Sample 93 ---
+Prompt: Why is second day chili better?
+Perplexity (WM): 2065.4539 | Perplexity (No WM): nan
+Z-score (WM): -0.9864
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Not sure
+
+[Original Text]
+​
+
+
+--- Sample 94 ---
+Prompt: How does the _URL_0_ door knocking audio clip do such a good job of making it sound like the audio doesn't come from your headphones?
+Perplexity (WM): 38.0704 | Perplexity (No WM): 17.0323
+Z-score (WM): -0.2925
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+I can't verify that.
+
+[Original Text]
+I can't answer that question.
+
+
+--- Sample 95 ---
+Prompt: Computer/TV Screen Size Pricing
+Perplexity (WM): nan | Perplexity (No WM): nan
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+​
+
+[Original Text]
+​
+
+
+--- Sample 96 ---
+Prompt: Why do people think Yellowstone will explode and destroy the earth, but not worry about Hawaii's volcano eruption?
+Perplexity (WM): 210.8602 | Perplexity (No WM): nan
+Z-score (WM): 1.7556
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+I dont know
+
+[Original Text]
+​
+
+
+--- Sample 97 ---
+Prompt: How does cutting down trees to plant other vegetation for the purpose of cultivation (such as avocado farming) contribute to global warming?
+Perplexity (WM): 15.8869 | Perplexity (No WM): 6.0323
+Z-score (WM): 1.6715
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Deforestation, which is due to cutting down trees to plant other vegetation, is a major contributor to global warming. Trees store carbon in their biomass and soil. When trees are cut down, that stored carbon is released back into the atmosphere, contributing
+
+[Original Text]
+Cutting down trees to plant other vegetation for the purpose of cultivation, such as avocado farming, contributes to global warming in several ways. 
+
+Firstly, trees absorb carbon dioxide from the atmosphere through photosynthesis, which helps to reduce the amount of greenhouse gases in the atmosphere. When trees are cut down, they no longer absorb this carbon dioxide, leading to an increase in greenhouse gases in the atmosphere.
+
+Secondly, trees play a crucial role in regulating the Earth's climate by providing shade and reducing the amount of heat absorbed by the ground. When trees are cut down, the ground absorbs more heat, leading to an increase in global temperatures.
+
+Thirdly, trees store carbon in their biomass, which can be released into the atmosphere. When trees are cut down, this stored carbon is released into the atmosphere, contributing to global warming.
+
+Overall, cutting down trees to plant other vegetation for the purpose of cultivation, such as avocado farming, contributes to global warming and climate change.
+
+
+--- Sample 98 ---
+Prompt: What happens to Lactose when ingested by Lactose-Intolerants?
+Perplexity (WM): 23.6234 | Perplexity (No WM): nan
+Z-score (WM): 2.1876
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+When lactose is ingested by lactose-intolerant individuals it leads to lactose intolerance symptoms
+
+[Original Text]
+​
+
+
+--- Sample 99 ---
+Prompt: If Helicopters need tail rotors to stabilize themselves from spinning, how can turboprop airplanes have only one rotor and not spin in circles?
+Perplexity (WM): 651.7621 | Perplexity (No WM): 81.9862
+Z-score (WM): 3.4093
+Watermarked Text Detection: True Positive
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+Turboprops use propellors.
+
+[Original Text]
+Helicopters need tail rotors to stabilize themselves from spinning because they lack a fixed wing.
+
+
+--- Sample 100 ---
+Prompt: What is the difference between an air-conditioner and a "marine" air conditioner (commonly used on boats)?
+Perplexity (WM): 78.2567 | Perplexity (No WM): 58.7741
+Z-score (WM): 1.1699
+Watermarked Text Detection: False Negative
+Non-Watermarked Text Detection: True Negative
+
+ 
+
+[Watermarked Text]
+The difference between a regular
+
+[Original Text]
+An air conditioner
+

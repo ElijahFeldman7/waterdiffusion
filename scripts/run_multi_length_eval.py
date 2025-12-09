@@ -39,7 +39,7 @@ RUN_NAME = "eli5_multi_length"
 SEED = 42
 OUTPUT_DIR = "runs"
 SECRET_KEY = "xooks"
-WATERMARK_DELTA = 4.0
+WATERMARK_DELTA = 2.0
 
 
 def set_global_seed(seed: int):

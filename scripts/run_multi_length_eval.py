@@ -197,6 +197,8 @@ def main():
             text = ex.get("question")
             if text:
                 prompt = text.strip()
+                if not (50 <= len(prompt) <= 1024):
+                    continue
                 prompts.append(prompt)  
         if len(prompts) < NUM_PROMPTS:
             raise ValueError(f"Could not find enough prompts. Found {len(prompts)}, but need {NUM_PROMPTS}.")
@@ -229,7 +231,6 @@ def main():
                 plot_data['perplexity_wm'].append(metrics['perplexity_wm'])
                 plot_data['perplexity_no_wm'].append(metrics['perplexity_no_wm'])
         
-        print("\n----- All evaluations complete! -----")
 
         if not plot_data['gen_lengths']:
             print("Could not find any valid results to plot.")

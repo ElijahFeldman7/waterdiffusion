@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional, Union
 import torch
 import numpy as np
 import hashlib
-from scipy.stats import norm
+from scipy.stats import norm, binom
 
 class SimpleRemaskWatermark:
 
@@ -118,18 +118,18 @@ class SimpleRemaskWatermark:
         satisfaction_rate = satisfied_pairs / total_pairs_checked if total_pairs_checked > 0 else 0.0
 
         null_satis_rate = 0.5
-        null_satis_rate_mean = 0.5
-        std_dev = np.sqrt(total_pairs_checked * null_satis_rate * (1 - null_satis_rate))
-        if std_dev == 0: z_score = 0.0
-        else: z_score = (satisfied_pairs - total_pairs_checked * null_satis_rate_mean) / std_dev
+        # For binomial test, n = total_pairs_checked, k = satisfied_pairs, p = null_satis_rate
+        # p_value = P(X >= satisfied_pairs) = 1 - P(X <= satisfied_pairs - 1)
+        if total_pairs_checked == 0:
+            p_value = 1.0 # Cannot perform test if no pairs checked
+        else:
+            p_value = float(1 - binom.cdf(satisfied_pairs - 1, total_pairs_checked, null_satis_rate))
         
-        p_value = float(1 - norm.cdf(z_score))
         is_watermarked = p_value < p_value_threshold_corrected
 
         return {
             "is_watermarked": is_watermarked,
             "score": p_value,                
-            "z_score": float(z_score),
             "satisfied_pairs": satisfied_pairs,
             "total_pairs_checked": total_pairs_checked,
             "satisfaction_rate": float(satisfaction_rate),

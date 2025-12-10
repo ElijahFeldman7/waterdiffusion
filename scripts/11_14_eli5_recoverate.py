@@ -141,14 +141,14 @@ def main():
                         tokenizer=generator.tokenizer,
                         num_timestamps=GEN_STEPS,
                         unmasked_tokens_per_timestamp=GEN_LENGTH / GEN_STEPS,
-                        p_value_threshold=0.05
+                        p_value_threshold=0.01
                     )
                     detection_no_wm_result = watermark.detect(
                         text=generated_text_no_wm,
                         tokenizer=generator.tokenizer,
                         num_timestamps=GEN_STEPS,
                         unmasked_tokens_per_timestamp=GEN_LENGTH / GEN_STEPS,
-                        p_value_threshold=0.05
+                        p_value_threshold=0.01
                     )
                     
                     result_entry = {

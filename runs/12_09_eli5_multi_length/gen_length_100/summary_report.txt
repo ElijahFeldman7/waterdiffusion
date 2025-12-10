@@ -1,53 +1,53 @@
 --- Watermark Detection Analysis ---
 Total samples processed: 100
-True Positives (TP): 20
-False Negatives (FN): 80
+True Positives (TP): 23
+False Negatives (FN): 77
 True Negatives (TN): 95
 False Positives (FP): 5
 
 
 --- Detection Rates ---
-True Positive Rate (TPR/Recall): 0.2000
+True Positive Rate (TPR/Recall): 0.2300
 False Positive Rate (FPR): 0.0500
-False Negative Rate (FNR): 0.8000
+False Negative Rate (FNR): 0.7700
 True Negative Rate (TNR/Specificity): 0.9500
 
 
 --- Watermark Strength (on watermarked samples) ---
-Mean z-score: 0.7725 | Std. dev: 1.3691
-Detection Confidence: ≥99% (z≥2.33): 13.00% | ≥99.9% (z≥3.09): 8.00%
+Mean z-score: 0.9049 | Std. dev: 1.3011
+Detection Confidence: ≥99% (z≥2.33): 13.00% | ≥99.9% (z≥3.09): 9.00%
 
 
 --- Quality Impact ---
-Perplexity (WM): 4178.8840
+Perplexity (WM): 4260.3140
 Perplexity (No WM): 90.7048
-Mean Perplexity Increase: 4088.1792 (4507.12%)
-Cosine Similarity (WM vs No WM): 0.4292
+Mean Perplexity Increase: 4169.6092 (4596.90%)
+Cosine Similarity (WM vs No WM): 0.4566
 
 
 --- Detailed Text Quality Metrics (averages) ---
 Metric                    | Watermarked     | No Watermark   
 -------------------------------------------------------------
-Avg Sentence Length       | 7.2455          | 9.7246         
-Avg Word Length           | 3.9805          | 3.3966         
-Lexical Diversity         | 0.8293          | 0.5878         
-Flesch Reading Ease       | 87.5022         | 99.9518        
-Sequence Length           | 12.4082         | 32.5102        
+Avg Sentence Length       | 8.0183          | 9.7246         
+Avg Word Length           | 3.9801          | 3.3966         
+Lexical Diversity         | 0.8134          | 0.5878         
+Flesch Reading Ease       | 85.1082         | 99.9518        
+Sequence Length           | 14.8571         | 32.5102        
 
 Samples evaluated for quality: 98
 
 
 --- Generation Samples ---\n--- Sample 1 ---
 Prompt: in football whats the point of wasting the first two plays with a rush - up the middle - not regular rush plays i get those
-Perplexity (WM): 498.6871 | Perplexity (No WM): nan
-Z-score (WM): 0.4139
+Perplexity (WM): 468.0697 | Perplexity (No WM): nan
+Z-score (WM): 0.4776
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The answer is a timeout
+The question is unclear
 
 [Original Text]
 ​
@@ -167,15 +167,15 @@ There are several reasons why movies do not get uploaded online in HD from movie
 
 --- Sample 9 ---
 Prompt: Can defense attorneys 'throw' a case if they know their clients are guilty?
-Perplexity (WM): 25.1633 | Perplexity (No WM): 53.3374
-Z-score (WM): 3.7378
+Perplexity (WM): 26.3709 | Perplexity (No WM): 53.3374
+Z-score (WM): 3.3884
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-No, as a language model AI, I must emphasize that it is illegal and unethical for defense attorneys to throw a case. Defense attorneys' primary responsibility is to provide a strong and fair representation to their clients on the assumption that they are innocent until proven guilty. To maintain integrity in the legal system, it is imperative that defense attorneys follow
+No, as a language model AI, I must emphasize that it is illegal and unethical for defense attorneys to throw a case. They are obligated to provide an effective defense to their clients, guilty or not, and to uphold the principles of innocence until proven guilty. To maintain integrity in the legal system, it is imperative that defense attorneys follow
 
 [Original Text]
 No, defense attorneys cannot 'throw' a case if they know their clients are guilty.
@@ -183,15 +183,15 @@ No, defense attorneys cannot 'throw' a case if they know their clients are guilt
 
 --- Sample 10 ---
 Prompt: why, when intoxicated, does it feel like everything is spinning when you close your eyes but stops spinning when you open them?
-Perplexity (WM): 43.6087 | Perplexity (No WM): 6.6519
-Z-score (WM): 1.7538
+Perplexity (WM): 82.8313 | Perplexity (No WM): 6.6519
+Z-score (WM): 2.3765
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The answer lies in the concept of relative motion.
+The answer lies in and behind your eyes.
 
 [Original Text]
 This phenomenon is known as "visual disorientation." It occurs when the brain is unable to process the visual information it receives from the eyes. When you close your eyes, your brain is unable to process the visual information that allows you to perceive the world around you. This creates a sense of disorientation, making it feel like everything is spinning. When you open your eyes and your brain is able to process the visual information, the disorientation disappears, and it feels like everything stops spinning.
@@ -359,15 +359,15 @@ I can't help with that.
 
 --- Sample 21 ---
 Prompt: Why has the Mars Rover Opportunity's Lithium Ion Battery Lasted 11+ Years and the one in My Cell Phone/Laptop/Tablet Dies in Less Than 2?
-Perplexity (WM): 25795.1504 | Perplexity (No WM): nan
-Z-score (WM): 1.0136
+Perplexity (WM): nan | Perplexity (No WM): nan
+Z-score (WM): 0.0000
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Too Hot
+?
 
 [Original Text]
 ?
@@ -375,15 +375,15 @@ Too Hot
 
 --- Sample 22 ---
 Prompt: Why is sales tax in the US excluded from the list price?
-Perplexity (WM): 16.0944 | Perplexity (No WM): 26.7951
-Z-score (WM): 2.6479
-Watermarked Text Detection: True Positive
+Perplexity (WM): 28.7117 | Perplexity (No WM): 26.7951
+Z-score (WM): 0.6480
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-In the United States, sales tax is not included in the list price of a product. This is because sales tax is levied by state and local governments, and retailers are allowed to pass the costs to consumers by including the final price and sales tax. This
+In the United States, sales tax is not part of the list price.
 
 [Original Text]
 Sales tax in the US is excluded from the list price because it is paid by the buyer.
@@ -407,15 +407,15 @@ Because it's fresh.
 
 --- Sample 24 ---
 Prompt: What is the significance of Jamaican Bobsled team qualifies for the Olympics?
-Perplexity (WM): 33.0678 | Perplexity (No WM): 15.0997
-Z-score (WM): 1.0408
+Perplexity (WM): 73.9690 | Perplexity (No WM): 15.0997
+Z-score (WM): 1.5527
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-I do not have that information
+I'm unable to verify that information
 
 [Original Text]
 The Jamaican Bobsled team's qualification for the Olympics is significant as it marks the first time the country has sent a bobsled team to the Olympics since 1984. This achievement highlights the country's progress in sports and its commitment to developing and supporting athletes across various disciplines. The presence of the bobsled team at the Olympics also signifies a step forward in Jamaica's sports infrastructure and capabilities, demonstrating the nation's ability to compete and produce athletes on the global stage.
@@ -423,15 +423,15 @@ The Jamaican Bobsled team's qualification for the Olympics is significant as it 
 
 --- Sample 25 ---
 Prompt: Is it possible to build up an immunity to poisons both naturally occurring and man-made?
-Perplexity (WM): 17.7851 | Perplexity (No WM): 28.1518
-Z-score (WM): 3.5668
+Perplexity (WM): 15.9652 | Perplexity (No WM): 28.1518
+Z-score (WM): 2.2335
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-While it is possible to develop immunity to certain poisons over time, it is important to note that this process can vary between naturally occurring and man-made poisons. In addition, natural immunity is very rare or
+While it is possible to develop immunity to certain poisons over time, it is generally not possible to build up immunity to a variety of poisons. In the case of naturally occurring poisons, very rare or
 
 [Original Text]
 Yes, it is possible to build up an immunity to poisons both naturally occurring and man-made.
@@ -471,15 +471,15 @@ When you jump in cold water, your muscles contract rapidly.
 
 --- Sample 28 ---
 Prompt: why do we like watching the same TV show or movie over and over again?
-Perplexity (WM): 39.1611 | Perplexity (No WM): nan
-Z-score (WM): -0.2564
+Perplexity (WM): 308.5046 | Perplexity (No WM): nan
+Z-score (WM): 0.0000
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-There must be a logical reason.
+金
 
 [Original Text]
 
@@ -487,7 +487,7 @@ There must be a logical reason.
 
 --- Sample 29 ---
 Prompt: why do the French have an abstain vote instead of people physically restraining from voting. [Other]
-Perplexity (WM): 32.6062 | Perplexity (No WM): 18.7522
+Perplexity (WM): 26.1750 | Perplexity (No WM): 18.7522
 Z-score (WM): 4.3827
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
@@ -495,7 +495,7 @@ Non-Watermarked Text Detection: True Negative
  
 
 [Watermarked Text]
-The Abstain Option was added to the French Constitution in 1946 to make voting optional and to prevent elected officials from forcibly abstaining. No elected official could be removed from office for voting if they chose to abstain.
+The Abstain Option was added to the French Constitution in 1946 to make voting optional and to prevent elected officials from voting for themselves. No elected official could be removed from office for voting if they chose to abstain.
 
 [Original Text]
 The French have an abstain vote instead of people physically restraining from voting because an abstain vote is a peaceful and democratic way to express disagreement or abstain from a decision. It allows individuals to voice their opinions without resorting to physical restraint or violence. An abstain vote also ensures that the democratic process remains fair and inclusive, allowing all citizens to participate and have their voices heard. By using an abstain vote, the French maintain a culture of respect and cooperation in the democratic process.
@@ -503,15 +503,15 @@ The French have an abstain vote instead of people physically restraining from vo
 
 --- Sample 30 ---
 Prompt: - Why do phones not require cooling vents but other small appliances do?
-Perplexity (WM): 52.2436 | Perplexity (No WM): 33.0306
-Z-score (WM): -0.2564
-Watermarked Text Detection: False Negative
+Perplexity (WM): 29.8557 | Perplexity (No WM): 33.0306
+Z-score (WM): 2.6680
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-- This is a technical question.
+Mobile phones are very low power devices and do not generate much heat.
 
 [Original Text]
 Phones do not require cooling vents because they are not designed to generate significant heat.
@@ -551,15 +551,15 @@ Non-Watermarked Text Detection: True Negative
 
 --- Sample 33 ---
 Prompt: Why do we wake up early when we don't have to but tend to wake up late when we need to be up?
-Perplexity (WM): 21.2432 | Perplexity (No WM): 7.4484
-Z-score (WM): -0.1218
-Watermarked Text Detection: False Negative
+Perplexity (WM): 9.1236 | Perplexity (No WM): 7.4484
+Z-score (WM): 3.7160
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-This phenomenon is due to the circadian rhythm of our sleep-wake cycle.
+This phenomenon is due to the natural circadian rhythm in our body. Our internal clock is influenced by factors such as light exposure, sleep patterns, and stress. When we don't need to wake up early, our bodies tend to get up earlier than usual, disrupting our internal clock and sleep-wake cycle. On the other hand, when we do need to wake up early, our internal clock helps regulate our sleep-wake cycle, causing us to feel more alert and refreshed in the morning.
 
 [Original Text]
 We wake up early when we don't have to because we have a natural circadian rhythm, which is our body's internal clock. This rhythm is influenced by the amount of light we receive during the day. When we don't have to wake up, our circadian rhythm helps us sleep in. However, when we need to be up, our circadian rhythm is disrupted, making it harder for us to get up. This is why we tend to wake up late when we need to be up.
@@ -567,15 +567,15 @@ We wake up early when we don't have to because we have a natural circadian rhyth
 
 --- Sample 34 ---
 Prompt: Why do tech/software companies stay in the US when they are demanded to include backdoors by the US government? Can't tech companies just develop and release their products overseas, out of reach of the US government's influence?
-Perplexity (WM): 39.0162 | Perplexity (No WM): 9.0108
-Z-score (WM): 0.9665
-Watermarked Text Detection: False Negative
+Perplexity (WM): 28.6560 | Perplexity (No WM): 9.0108
+Z-score (WM): 1.8273
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-As an AI language model, I do not have personal opinions or beliefs. However, tech companies may stay in the US because they have established a strong presence in the country.
+As an AI language model, I do not have personal opinions or beliefs. However, tech companies may stay in the US to avoid being a target for foreign governments or they may be motivated by the strong market and favorable business environment of the US. While some companies may choose to develop and release their products overseas, others may not.
 
 [Original Text]
 Tech/software companies stay in the US because they have a strong presence in the US market and have invested heavily in the US economy. They also have a network of employees and partners based in the US, which makes it difficult for them to relocate their operations overseas. Additionally, the US government has strict regulations and requirements for tech companies to meet in order to operate in the US market. This makes it necessary for tech companies to comply with these regulations and maintain their presence in the US market.
@@ -615,15 +615,15 @@ Yes
 
 --- Sample 37 ---
 Prompt: If a computer has a GPU, why would reducing GUI effects impact performance?
-Perplexity (WM): 12.6906 | Perplexity (No WM): 23.5668
-Z-score (WM): 3.4281
+Perplexity (WM): 15.9095 | Perplexity (No WM): 23.5668
+Z-score (WM): 3.7160
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Reducing GUI effects on a computer with a GPU can impact performance because the GPU (Graphics Processing Unit) is responsible for rendering the User Interface (GUI) and other graphical effects. The more graphical effects that are applied to the GUI, the more processing it takes for the GPU to render them, which can impact the overall performance of the system. Therefore, by reducing the number of graphical effects, it would lower the processing load on the GPU, ultimately impacting the overall performance of the system.
+Reducing GUI effects on a computer with a GPU can impact performance because the GPU (Graphics Processing Unit) is responsible for rendering the graphical user interface, including the GUI effects. The more graphical effects you enable, the more the GPU has to do to complete the rendering, resulting in slower performance. By reducing GUI effects, reducing the number of graphical rendering tasks on the GPU would lower the amount of work for the GPU and consequently decrease the rendering time, impacting the overall performance of the system.
 
 [Original Text]
 Reducing GUI effects can impact performance because they require additional processing power from the GPU. By reducing these effects, the GPU can allocate more resources to other tasks, which can potentially improve overall system performance.
@@ -647,15 +647,15 @@ If you don't pay your US Federal income tax, you will face penalties and interes
 
 --- Sample 39 ---
 Prompt: Why does my employer require a voided personal check in order to setup direct deposit?
-Perplexity (WM): 72.2637 | Perplexity (No WM): 11.6227
-Z-score (WM): 2.4106
+Perplexity (WM): 147.5302 | Perplexity (No WM): 11.6227
+Z-score (WM): 2.4873
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Your employer can request a voided personal check in order to set up direct deposit.
+Your employer is likely requiring a voided personal check to establish an employer account.
 
 [Original Text]
 Your employer may require a voided personal check in order to set up direct deposit because it is a common method of payment for payroll and other expenses. Direct deposit is a secure and efficient way for employers to receive payments from their employees. By providing a voided personal check, your employer can verify your identity and ensure that the payment is coming from a legitimate source. Additionally, a voided personal check can be used as a proof of payment and can be easily reconciled for payroll purposes.
@@ -663,15 +663,15 @@ Your employer may require a voided personal check in order to set up direct depo
 
 --- Sample 40 ---
 Prompt: Why are the insides of Ovens Dark and Not Metallic or Mirror Like?
-Perplexity (WM): 70.1301 | Perplexity (No WM): 26.7412
-Z-score (WM): 0.2887
+Perplexity (WM): 51.7422 | Perplexity (No WM): 26.7412
+Z-score (WM): -0.6290
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The interior of an oven is often dark or black.
+The inside of an oven is red, not black.
 
 [Original Text]
 The insides of ovens are made of charcoal, which is black.
@@ -679,15 +679,15 @@ The insides of ovens are made of charcoal, which is black.
 
 --- Sample 41 ---
 Prompt: Why does metal react so violently when microwaved?
-Perplexity (WM): 147.4081 | Perplexity (No WM): nan
-Z-score (WM): 1.2064
+Perplexity (WM): 74.6853 | Perplexity (No WM): nan
+Z-score (WM): 0.6004
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Metal reacts violently when microwaved because it conducts electricity.
+Metal reacts violently when microwaved because the microwave generates electrical heat instead of heating the metal.
 
 [Original Text]
 ​
@@ -695,15 +695,15 @@ Metal reacts violently when microwaved because it conducts electricity.
 
 --- Sample 42 ---
 Prompt: Why do The Miranda Rights state that anything you say can "and will" be used against you. If something's not incriminating why would it be used against you? Why would cops be forced to admit this up front?
-Perplexity (WM): 14.2680 | Perplexity (No WM): 8.0943
-Z-score (WM): 4.7238
+Perplexity (WM): 18.4724 | Perplexity (No WM): 8.0943
+Z-score (WM): 3.7160
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The answer is that anything you say can be used against you even if it is not immediately incriminating. If, for example, you tell a false answer to a question which might later be relevant to a crime, your false answer can be used against you in a later case. In court, it is also possible to claim that you have the right to remain silent, even if you are not, whether by law or otherwise, and thus lying to the police and out of court.
+The answer is that anything you say can be used against you regardless of whether or not it was incriminating. This is a fundamental principle of the Fifth Amendment to the US Constitution, which states that "No person shall be compelled to to be a witness against himself." Therefore, the Miranda Rights are designed to enforce the rule of evidence，以确保 that any information provided by a suspect can be used against them, regardless of whether or not the suspect was being incriminating or exercising their rights.
 
 [Original Text]
 The Miranda Rights are designed to protect individuals from self-incrimination. By stating that anything you say can "and will" be used against you, the rights aim to prevent individuals from incriminating themselves. This is a fundamental aspect of the Fifth Amendment to the United States Constitution, which states, "No person shall be compelled to be a witness against himself." The Miranda Rights serve as a warning to individuals to be aware of their rights and avoid making statements that could incriminate themselves.
@@ -727,15 +727,15 @@ Because friction
 
 --- Sample 44 ---
 Prompt: When a new library is built, where do they get their books? I understand many can be bought brand new from publishers. But, what about the old books, or the vast volumes of dated encyclopedias, dated periodicals, etc...
-Perplexity (WM): 188.0291 | Perplexity (No WM): 23.9101
-Z-score (WM): -1.3112
+Perplexity (WM): 2870.0884 | Perplexity (No WM): 23.9101
+Z-score (WM): 0.0000
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Used bookstores.
+.org
 
 [Original Text]
 When a new library is built, they typically get their books from a variety of sources. In addition to new books from publishers, they may also acquire old books from donations, auctions, or through partnerships with private collectors. For outdated encyclopedias and periodicals, they may work with other libraries or historical societies to obtain these materials. They may also invest in digitization technology to preserve and make these materials accessible to patrons, allowing them to continue to be useful despite being physically outdated.
@@ -743,15 +743,15 @@ When a new library is built, they typically get their books from a variety of so
 
 --- Sample 45 ---
 Prompt: If the ozone layer is made up of O3, why are we not producing some of it ourselves and pumping more of them into the atmosphere to fix the problem faster?
-Perplexity (WM): 16.5435 | Perplexity (No WM): 11.9735
-Z-score (WM): 2.5487
+Perplexity (WM): 46.5654 | Perplexity (No WM): 11.9735
+Z-score (WM): 1.6652
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The ozone layer is not made up of O3; it is made up of O3 molecules.
+The ozone layer is not made up of O3.
 
 [Original Text]
 The ozone layer is indeed made up of O3, but it is a naturally occurring phenomenon that protects a small portion of the Earth's atmosphere. Additionally, adding more O3 into the atmosphere would not necessarily solve the problem, as the depletion of the ozone layer is primarily caused by human activities such as the release of greenhouse gases and other harmful pollutants. It would be more effective to focus on reducing the factors that damage the ozone layer, rather than artificially injecting more O3 into the atmosphere.
@@ -775,15 +775,15 @@ In the English language, contractions are prioritized based on their frequency a
 
 --- Sample 47 ---
 Prompt: The Cuban Missle Crisis and Americas enormous beef with Cuba, what happened there?
-Perplexity (WM): 28.4398 | Perplexity (No WM): 7.9254
-Z-score (WM): 0.8517
+Perplexity (WM): 34.0911 | Perplexity (No WM): 7.9254
+Z-score (WM): 0.5467
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The Cuban Missile Crisis happened in 1962 when the US discovered the Soviet nuclear missiles in Cuba.
+The Cuban Missile Crisis happened in 1962 when the US discovered the Soviet nuclear missiles on Cuba.
 
 [Original Text]
 The Cuban Missile Crisis occurred in 1962 when the Soviet Union installed nuclear missiles in Cuba. The United States, under President John F. Kennedy, discovered the missiles and responded with a naval blockade of Cuba. The Soviet Union, under Premier Nikita Khrushchev, agreed to remove the missiles in exchange for a written promise from the United States not to invade Cuba. The crisis was a result of the Cold War tensions between the United States and the Soviet Union.
@@ -855,15 +855,15 @@ No, your body would not absorb pure iron the same way as iron from food. Iron fr
 
 --- Sample 52 ---
 Prompt: Whats is the actual cause of the common itch. and why is scratching it the cure?
-Perplexity (WM): 93.8972 | Perplexity (No WM): 12.3821
-Z-score (WM): 3.1226
+Perplexity (WM): 26.5919 | Perplexity (No WM): 12.3821
+Z-score (WM): 1.9188
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The cause of a common itch is often a substance get under the skin or a lack of skin moisture. Scratching removes the substance by stimulating nerve endings.  #TheItch
+The cause of a common itch is often a result of exposure to a stimulus or an irritant, such as pollen, detergent, or fragrance, which activates sensory receptors in our skin
 
 [Original Text]
 The common itch is caused by the presence of histamine, a substance released by the immune system in response to various stimuli. Histamine binds to specific receptors on the skin, causing the itchy sensation. Scratching the itch is a temporary relief because it breaks the bond between histamine and the receptors, reducing the itch sensation. However, scratching does not address the underlying cause of the itch. To cure the itch, it is necessary to remove the original stimulus that triggered the histamine release.
@@ -1015,15 +1015,17 @@ A computer can generate a random number using a random number generator.
 
 --- Sample 62 ---
 Prompt: Why don't developed countries make their own clothing without child labour?
-Perplexity (WM): 18.5315 | Perplexity (No WM): 256.4143
-Z-score (WM): 4.1479
+Perplexity (WM): 24.8327 | Perplexity (No WM): 256.4143
+Z-score (WM): 3.9853
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-As an AI language model, I do not have a stance on this issue, but developing countries often have limited resources and infrastructure to produce their own clothing without child labor. These countries are often more reliant on imports from developing countries where labor standards are lower, including the use of child labor. While it is possible for these countries to produce their own clothing without child labor, it would require policy changes, international cooperation, and a commitment to improving labor standards and working conditions in the supply chain.
+As an AI language model, I do not have a stance or opinions, but I can provide some information. 
+
+Developing countries often rely on their global supply chains and exports to support their economies. These countries may have limited resources or manufacturing capabilities to produce their own clothing, and may rely on imports from other countries that produce their own clothing using child labor. Additionally, developed countries may produce their own clothing using child labor, provided they respect child labor rights and do not exploit child workers.
 
 [Original Text]
 Developing countries have cheaper labour.
@@ -1047,15 +1049,15 @@ That sounds intense. Can you imagine the collision?
 
 --- Sample 64 ---
 Prompt: Why is it when oil prices go up gas prices immediately go up but when oil prices come down the price of gas never comes down as fast as when the price of oil increases?
-Perplexity (WM): 249.4524 | Perplexity (No WM): 9.5159
-Z-score (WM): -1.6259
-Watermarked Text Detection: False Negative
+Perplexity (WM): 13.4275 | Perplexity (No WM): 9.5159
+Z-score (WM): 4.4359
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The price of gas follows oil
+The answer to this question is typically referred to as the 'conventional oil prices' model. Because to purchase a gallon of gasoline requires a certain amount of oil, and if that amount of oil increases in price, gasoline price will increase as well. However, as there is a fixed amount of oil used to produce gasoline, a significant drop in the price would require a significant drop in oil prices as well. This is why gas prices don't come down as quickly when oil prices decrease.
 
 [Original Text]
 When oil prices go up, gas prices immediately go up because gas is a derivative of oil. Gas is produced from oil, so when oil prices increase, the cost of producing gas also increases. However, when oil prices come down, the cost of producing gas may decrease, but the demand for gas may also increase due to other factors, such as increased economic activity or changes in the energy market. This is why gas prices do not come down as fast as when oil prices went up.
@@ -1079,7 +1081,7 @@ It is a myth.
 
 --- Sample 66 ---
 Prompt: the hypothetical turtle on an island in the sun question?
-Perplexity (WM): 28.3497 | Perplexity (No WM): nan
+Perplexity (WM): 30.1783 | Perplexity (No WM): nan
 Z-score (WM): 0.4139
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
@@ -1087,7 +1089,7 @@ Non-Watermarked Text Detection: True Negative
  
 
 [Watermarked Text]
-what's that about?
+I'm not sure.
 
 [Original Text]
 ​
@@ -1175,15 +1177,15 @@ There would be a nuclear war.
 
 --- Sample 72 ---
 Prompt: Why is it sometimes hard to find something that is right in front of our eyes.
-Perplexity (WM): 111.7749 | Perplexity (No WM): 172.2117
-Z-score (WM): 1.7075
-Watermarked Text Detection: True Positive
+Perplexity (WM): nan | Perplexity (No WM): 172.2117
+Z-score (WM): 0.0000
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Sometimes our eyes are busy.
+Because
 
 [Original Text]
 Because it's blind.
@@ -1223,15 +1225,15 @@ People are afraid of Yellowstone.
 
 --- Sample 75 ---
 Prompt: How does cutting down trees to plant other vegetation for the purpose of cultivation (such as avocado farming) contribute to global warming?
-Perplexity (WM): 11.7292 | Perplexity (No WM): 12.0030
-Z-score (WM): 2.4099
+Perplexity (WM): 14.3321 | Perplexity (No WM): 12.0030
+Z-score (WM): 1.6938
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Deforestation, including the intentional cutting down of trees for agriculture, is a major contributor to global warming. Trees draw down carbon dioxide from the atmosphere through photosynthesis, and store carbon in their biomass and soil organic matter. When trees are cut down and cleared for agricultural use, the stored carbon is released back into the atmosphere, contributing to increased greenhouse gas emissions and global warming. Additionally, deforestation can lead to increased soil erosion and the loss of important wetlands, further exacerbating the effects of climate change.
+Deforestation, including the intentional cutting down of trees to expand agricultural land like avocado farming, contributes to global warming by reducing the amount of carbon dioxide that trees can absorb and store. When forests are cleared, the stored carbon released into the atmosphere through the burning of plant matter and carbon sequestration by agriculture and soil contributes to global warming. Additionally, deforestation can lead to changes in hydrological cycles, soil erosion, and loss of biodiversity, all of which can contribute to global warming and climate change.
 
 [Original Text]
 Cutting down trees to plant other vegetation for the purpose of cultivation, such as avocado farming, contributes to global warming by reducing the number of trees in the environment. Trees absorb carbon dioxide from the atmosphere during photosynthesis, which helps to regulate the Earth's temperature. When trees are cut down, the carbon dioxide they absorbed is released back into the atmosphere, contributing to global warming. Additionally, the process of clearing and preparing land for cultivation can also release greenhouse gas emissions, further contributing to global warming.
@@ -1239,15 +1241,15 @@ Cutting down trees to plant other vegetation for the purpose of cultivation, suc
 
 --- Sample 76 ---
 Prompt: What happens to Lactose when ingested by Lactose-Intolerants?
-Perplexity (WM): nan | Perplexity (No WM): 20.5943
-Z-score (WM): 0.0000
-Watermarked Text Detection: False Negative
+Perplexity (WM): 18.3298 | Perplexity (No WM): 20.5943
+Z-score (WM): 1.8027
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-When
+When lactose is ingested by lactose-intolerant people, it causes gastrointestinal symptoms.
 
 [Original Text]
 When lactose is ingested by lactose-intolerant individuals, it is not broken down.
@@ -1255,15 +1257,15 @@ When lactose is ingested by lactose-intolerant individuals, it is not broken dow
 
 --- Sample 77 ---
 Prompt: If Helicopters need tail rotors to stabilize themselves from spinning, how can turboprop airplanes have only one rotor and not spin in circles?
-Perplexity (WM): 147.4422 | Perplexity (No WM): 416.9547
-Z-score (WM): 1.8601
-Watermarked Text Detection: True Positive
+Perplexity (WM): 188.2232 | Perplexity (No WM): 416.9547
+Z-score (WM): 1.3437
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Turboprops do not have rotors
+Turboprop airplanes have two propellers.
 
 [Original Text]
 Turboprop airplanes are not helicopters.
@@ -1287,20 +1289,15 @@ An air conditioning
 
 --- Sample 79 ---
 Prompt: Why do people bother keeping savings in banks/currencies which are potentially unstable?
-Perplexity (WM): 82.1686 | Perplexity (No WM): 171.8941
-Z-score (WM): 1.8246
-Watermarked Text Detection: True Positive
+Perplexity (WM): 91.9335 | Perplexity (No WM): 171.8941
+Z-score (WM): 1.0299
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-People keep savings in banks and currencies for a variety of reasons:
-
-- Protection
-- Growth
-- Freedom to use
-- Ease of access
+People keep savings in banks and currencies that are potentially unstable for several reasons, these reasons could be safety, asset protection, and the need of easy access
 
 [Original Text]
 People keep savings in banks and currencies that are potentially unstable because they have faith.
@@ -1308,15 +1305,15 @@ People keep savings in banks and currencies that are potentially unstable becaus
 
 --- Sample 80 ---
 Prompt: Why does water freeze from top to bottom? Deep in the ocean it’s below freezing, why doesn’t it freeze?
-Perplexity (WM): 105.2815 | Perplexity (No WM): 37.5134
-Z-score (WM): -0.2925
+Perplexity (WM): 119.4661 | Perplexity (No WM): 37.5134
+Z-score (WM): 0.3264
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-This phenomenon is called thermal convection
+This is a Joke Riddle.
 
 [Original Text]
 Water freezes from top to bottom because it has a high surface tension.
@@ -1324,15 +1321,15 @@ Water freezes from top to bottom because it has a high surface tension.
 
 --- Sample 81 ---
 Prompt: how they catch digital pirates who use hotspots or do they?
-Perplexity (WM): 248.9046 | Perplexity (No WM): nan
-Z-score (WM): -0.9864
+Perplexity (WM): 2451.9849 | Perplexity (No WM): nan
+Z-score (WM): 1.0136
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Thanks!
+No idea
 
 [Original Text]
 ​
@@ -1340,15 +1337,15 @@ Thanks!
 
 --- Sample 82 ---
 Prompt: The voting rights of citizens in the District of Columbia historically differ from the rights of citizens in each of the 50 U.S. states. Why can't the U.S. just add an amendment to fix that right now?
-Perplexity (WM): 6.1174 | Perplexity (No WM): 6.6101
-Z-score (WM): 6.1634
+Perplexity (WM): 7.1250 | Perplexity (No WM): 6.6101
+Z-score (WM): 4.7238
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The U.S. government does not own the District of Columbia. The District of Columbia is a territory created by the United States, and as a territory, it is not a state. As a result, the U.S. government does not own the right to vote in the District. The U.S. government does own the right to vote in each of the states. So, the current issue is not the right to vote in the District itself, but rather in each of the states.
+The U.S. government does have the power to amend the U.S. Constitution. An amendment would need to be approved by two-thirds of the states to become part of the Constitution. As of now, the District of Columbia does not have equal voting rights with the states, but it does have equal voting rights to each of the states. This is because citizens living in the District of Columbia do not have the right to vote in the District itself, but rather in each of the states.
 
 [Original Text]
 The U.S. can't add an amendment to fix the voting rights of citizens in the District of Columbia right now because the District of Columbia is not a state. The District of Columbia is a federal district, and as such, it does not have the same voting rights as the 50 U.S. states. If the U.S. wanted to add an amendment to fix the District of Columbia's voting rights, the amendment would need to add the District of Columbia as a state.
@@ -1420,15 +1417,15 @@ heat
 
 --- Sample 87 ---
 Prompt: Why do posts on reddit not start on 0 (what's the purpose of allowing one to vote for oneself)?
-Perplexity (WM): 117.8571 | Perplexity (No WM): 14.7000
-Z-score (WM): 1.1534
+Perplexity (WM): 120.7462 | Perplexity (No WM): 14.7000
+Z-score (WM): 0.7170
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Reddit does allow posts and comments to start with 0.
+Reddit's posts start on -1, not 0.
 
 [Original Text]
 The reason why posts on Reddit do not start on 0 is that it would allow a user to vote for themselves, which is a discouraged practice. In Reddit, users upvote or downvote posts based on their relevance, humor, or other factors. If a user were to upvote their own post, it would be seen as a form of self-promotion and could lead to spam. Therefore, Reddit's moderation team has implemented this rule to prevent posts from starting on 0.
@@ -1452,15 +1449,15 @@ The word 'cunt' is considered a taboo word in the U.S. because it is highly offe
 
 --- Sample 89 ---
 Prompt: Why is the USA drinking age set at 21 when in most other respects you're an adult at 18.
-Perplexity (WM): 274.6710 | Perplexity (No WM): 9.8131
-Z-score (WM): 0.4139
+Perplexity (WM): 219.4111 | Perplexity (No WM): 9.8131
+Z-score (WM): 1.1699
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The reason is historic.
+The answer is constitutional.
 
 [Original Text]
 The drinking age in the USA is set at 21 because of a 1984 Supreme Court decision. The court ruled that the federal government could not regulate the drinking age, and that each state could set its own age. This decision caused controversy, as many states had set the drinking age at 18. In response, Congress passed the National Minimum Drinking Age Act of 1984, which required states to set 21 as the minimum drinking age.
@@ -1500,15 +1497,15 @@ I can't help with that.
 
 --- Sample 92 ---
 Prompt: Why can I not remember what happens when I'm drunk?
-Perplexity (WM): 309.5713 | Perplexity (No WM): 274.0064
-Z-score (WM): 1.1699
+Perplexity (WM): 19457.4102 | Perplexity (No WM): 274.0064
+Z-score (WM): 0.6009
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-You have a blackout!
+The alcohol!
 
 [Original Text]
 Because of a blackout.
@@ -1516,15 +1513,15 @@ Because of a blackout.
 
 --- Sample 93 ---
 Prompt: Why does having noise in the background (TV, music, etc.) make me feel safer when I'm home alone?
-Perplexity (WM): 52.2024 | Perplexity (No WM): 11.0601
-Z-score (WM): 0.2986
-Watermarked Text Detection: False Negative
+Perplexity (WM): 73.7782 | Perplexity (No WM): 11.0601
+Z-score (WM): 2.2389
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The sound of it blocks out the other noise.
+The noise creates a false impression of a presence.
 
 [Original Text]
 Having noise in the background can make you feel safer when you're home alone because it can create a sense of normalcy and comfort. The background noise can help mask any unexpected sounds or movements that might make you feel uneasy. Additionally, it can help distract you from any potential threats or dangers. It can also provide a sense of familiarity and make you feel more in control. Overall, having noise in the background can help reduce anxiety and provide a sense of security when you're home alone.
@@ -1580,15 +1577,15 @@ Unknown.
 
 --- Sample 97 ---
 Prompt: A neighborhood cat comes to your home and you feed it. A day/week later, other cats appear at your house looking for food. How did the other cats find out that you're a food giver?
-Perplexity (WM): 129.1056 | Perplexity (No WM): 21.0889
-Z-score (WM): -0.1320
+Perplexity (WM): 206.2688 | Perplexity (No WM): 21.0889
+Z-score (WM): -0.5320
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The other cats probably saw you feeding the other cat in the neighborhood.
+The other cats probably saw you feeding the first cat from the neighborhood.
 
 [Original Text]
 The other cats likely found out that you're a food giver by observing the neighborhood cat that initially came to your home. When you fed that cat, it learned that food was available at your house. This information could have been shared with other cats through vocalizations, body language, or even by leaving a scent or visual trail around your home. Over time, this information would have been passed on and replicated by other cats, leading them to come to your home in search of food.
@@ -1596,15 +1593,15 @@ The other cats likely found out that you're a food giver by observing the neighb
 
 --- Sample 98 ---
 Prompt: Why do southern states freak out over a little snow?
-Perplexity (WM): 99.7528 | Perplexity (No WM): 73.7100
-Z-score (WM): -1.7085
+Perplexity (WM): nan | Perplexity (No WM): 73.7100
+Z-score (WM): 0.0000
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Try this.
+Because
 
 [Original Text]
 Because it's cold.
@@ -1612,15 +1609,15 @@ Because it's cold.
 
 --- Sample 99 ---
 Prompt: What is the origin and meaning of "Strange women lying in ponds distributing swords is no basis for a system of government."
-Perplexity (WM): 42.0846 | Perplexity (No WM): 18.6268
-Z-score (WM): 0.3264
-Watermarked Text Detection: False Negative
+Perplexity (WM): 27.7703 | Perplexity (No WM): 18.6268
+Z-score (WM): 4.2919
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-This quote is by Bertrand Russell.
+This statement is attributed to the American writer and essayist James Joyce Carver. It was first published in his essay "The Man Who Wasn't Himself" (1936). The statement suggests that the idea of a strange woman in a pond distributing swords is insufficient to support a system of government. It critiques the idea that communism or totalitarianism, particularly the idea of violent revolution or an overthrow of the established order, is not compatible with the principles of a democratic society.
 
 [Original Text]
 The phrase "Strange women lying in ponds distributing swords is no basis for a system of government" is often attributed to the French philosopher Voltaire. The phrase suggests that any system of government that relies on fear or violence to maintain control is flawed and ineffective. The image of strange women lying in ponds distributing swords is a metaphor for the use of violence or intimidation to maintain political power. Voltaire believed that government should be based on reason and justice, rather than fear or force.

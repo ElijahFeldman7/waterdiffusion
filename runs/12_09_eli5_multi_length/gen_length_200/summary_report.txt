@@ -1,38 +1,38 @@
 --- Watermark Detection Analysis ---
 Total samples processed: 100
-True Positives (TP): 27
-False Negatives (FN): 73
+True Positives (TP): 36
+False Negatives (FN): 64
 True Negatives (TN): 93
 False Positives (FP): 7
 
 
 --- Detection Rates ---
-True Positive Rate (TPR/Recall): 0.2700
+True Positive Rate (TPR/Recall): 0.3600
 False Positive Rate (FPR): 0.0700
-False Negative Rate (FNR): 0.7300
+False Negative Rate (FNR): 0.6400
 True Negative Rate (TNR/Specificity): 0.9300
 
 
 --- Watermark Strength (on watermarked samples) ---
-Mean z-score: 1.0198 | Std. dev: 1.3977
-Detection Confidence: ≥99% (z≥2.33): 16.00% | ≥99.9% (z≥3.09): 9.00%
+Mean z-score: 1.2407 | Std. dev: 1.5442
+Detection Confidence: ≥99% (z≥2.33): 20.00% | ≥99.9% (z≥3.09): 11.00%
 
 
 --- Quality Impact ---
-Perplexity (WM): 5919.5696
+Perplexity (WM): 6094.5268
 Perplexity (No WM): 600.6593
-Mean Perplexity Increase: 5318.9104 (885.51%)
-Cosine Similarity (WM vs No WM): 0.4165
+Mean Perplexity Increase: 5493.8675 (914.64%)
+Cosine Similarity (WM vs No WM): 0.4484
 
 
 --- Detailed Text Quality Metrics (averages) ---
 Metric                    | Watermarked     | No Watermark   
 -------------------------------------------------------------
-Avg Sentence Length       | 8.2922          | 7.6376         
-Avg Word Length           | 4.1124          | 3.6064         
-Lexical Diversity         | 0.8761          | 0.6361         
-Flesch Reading Ease       | 76.2862         | 97.2414        
-Sequence Length           | 13.7158         | 23.7368        
+Avg Sentence Length       | 8.5740          | 7.6376         
+Avg Word Length           | 4.0358          | 3.6064         
+Lexical Diversity         | 0.8419          | 0.6361         
+Flesch Reading Ease       | 80.1577         | 97.2414        
+Sequence Length           | 15.4211         | 23.7368        
 
 Samples evaluated for quality: 95
 
@@ -71,15 +71,15 @@ Because
 
 --- Sample 3 ---
 Prompt: How do we know all the money the government is getting from bank settlements is going back to the people?
-Perplexity (WM): 22.5351 | Perplexity (No WM): 28606.1055
-Z-score (WM): 2.4836
+Perplexity (WM): 25.6303 | Perplexity (No WM): 28606.1055
+Z-score (WM): 2.2585
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The article does not provide information on how the government is ensuring that the money is returned to individuals. If you can elaborate more on the information you are referring to, I'll be happy to expand on it
+The article does not provide information on how the government is ensuring that the money is going back to the people. Please elaborate more on the information you are referring to, I'll be happy to expand on it
 
 [Original Text]
 Transparency
@@ -103,15 +103,15 @@ Non-Watermarked Text Detection: True Negative
 
 --- Sample 5 ---
 Prompt: Why does the water from my kitchen faucet taste different than the water from my bathroom faucet? Doesn't it come from the same place?
-Perplexity (WM): 29.3952 | Perplexity (No WM): 63.5998
-Z-score (WM): 1.7969
+Perplexity (WM): 25.3970 | Perplexity (No WM): 63.5998
+Z-score (WM): 2.8384
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The water in your bathroom is probably heated by a heater in a way that changes the taste of the water. Give it a try, in a way.
+The water in your bathroom is probably heated by a water heater, and that changes the taste of the water. Give it a try, in a way.
 
 [Original Text]
 The water from your kitchen faucet has gone through filters.
@@ -119,15 +119,15 @@ The water from your kitchen faucet has gone through filters.
 
 --- Sample 6 ---
 Prompt: If dark colours absorb more heat, why does light skin burn easier than dark skin?
-Perplexity (WM): 268.0631 | Perplexity (No WM): 337.8224
-Z-score (WM): 0.9496
-Watermarked Text Detection: False Negative
+Perplexity (WM): 2708.3882 | Perplexity (No WM): 337.8224
+Z-score (WM): 2.3741
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The lighter skin reflects more heat.
+The sun sees light skin.
 
 [Original Text]
 Light skin reflects more heat.
@@ -183,15 +183,15 @@ No, defense attorneys cannot 'throw' a case if they know their clients are guilt
 
 --- Sample 10 ---
 Prompt: why, when intoxicated, does it feel like everything is spinning when you close your eyes but stops spinning when you open them?
-Perplexity (WM): 392.1190 | Perplexity (No WM): nan
-Z-score (WM): 0.3264
+Perplexity (WM): 4034.7517 | Perplexity (No WM): nan
+Z-score (WM): -0.5538
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-This phenomenon is called disentigo.
+It keeps spinning
 
 [Original Text]
 ​
@@ -215,15 +215,15 @@ Not edible
 
 --- Sample 12 ---
 Prompt: What's the meaning of the phrase "I've got a bone to pick with you."
-Perplexity (WM): 19.4200 | Perplexity (No WM): 15.6334
-Z-score (WM): -0.0752
+Perplexity (WM): 14.4825 | Perplexity (No WM): 15.6334
+Z-score (WM): 0.8680
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The phrase "I've got a bone to pick with you" means that you have grievances against them.
+The phrase "I've got a bone to pick with you" means that you are angry with the person.
 
 [Original Text]
 The phrase "I've got a bone to pick with you" is an idiomatic expression that means you have a disagreement or argument with someone.
@@ -231,15 +231,15 @@ The phrase "I've got a bone to pick with you" is an idiomatic expression that me
 
 --- Sample 13 ---
 Prompt: Why can't we just taste candy or Sweets and then spit it out to avoid its unhealthy attributes? What makes us swallow it to get satisfaction?
-Perplexity (WM): 103.2298 | Perplexity (No WM): 9.7908
-Z-score (WM): 3.2763
-Watermarked Text Detection: True Positive
+Perplexity (WM): 378.6877 | Perplexity (No WM): 9.7908
+Z-score (WM): 0.4776
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The reason we don't just taste candy or sweets and spit it out is because our tongues respond to all tastes, and longer-lasting satisfaction and social factors in eating drive us to consume food.,
+The act of,
 
 [Original Text]
 We can't just taste candy or sweets and then spit it out to avoid its unhealthy attributes because the act of swallowing food is not just a matter of taste, but also of satisfaction and pleasure. When we taste something, we experience the flavor, texture, and aroma, but when we swallow it, we also experience the satisfaction and pleasure that comes with it. This is because the act of swallowing food triggers the release of endorphins, which are neurotransmitters that create a feeling of pleasure and satisfaction.
@@ -267,15 +267,15 @@ Because
 
 --- Sample 15 ---
 Prompt: Why do you see weird colors when you press your eyes?
-Perplexity (WM): 173.1683 | Perplexity (No WM): 90.5633
-Z-score (WM): 0.9496
-Watermarked Text Detection: False Negative
+Perplexity (WM): 434.2398 | Perplexity (No WM): 90.5633
+Z-score (WM): 2.1557
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-It's probably just the pressure!
+It's because of optical pressure!
 
 [Original Text]
 Because I'm color blind.
@@ -305,15 +305,15 @@ In summary, if a movie production has a budget of $5,000,000, it is likely that 
 
 --- Sample 17 ---
 Prompt: What classifies an island as an island? Aren't all continents etc essentially large islands?
-Perplexity (WM): 32.9011 | Perplexity (No WM): nan
-Z-score (WM): 1.2688
+Perplexity (WM): 79.5916 | Perplexity (No WM): nan
+Z-score (WM): 1.4358
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-An island is a land completely surrounded by water.
+An island is land surrounded by water.
 
 [Original Text]
 No
@@ -337,15 +337,18 @@ Wikipedia is a non-profit.
 
 --- Sample 19 ---
 Prompt: How does a water purifier jug work and could you put 3rd world ditch water through one and drink safely?
-Perplexity (WM): 14.3961 | Perplexity (No WM): 75.0277
-Z-score (WM): 1.1534
-Watermarked Text Detection: False Negative
+Perplexity (WM): 28.6427 | Perplexity (No WM): 75.0277
+Z-score (WM): 5.1633
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-I'm sorry, but I can't assist with that.
+A water purifier jug is a portable device that removes impurities from water. 
+It uses a physical filter to remove large particles, and a chemical filter to remove dissolved particles and pathogens. 
+Whether you could put water in the 3rd world through the jug depends on the quality of the water. 
+While there is an international standard for drinking water, that could
 
 [Original Text]
 A water purifier jug works by filtering out impurities and contaminants.
@@ -353,15 +356,15 @@ A water purifier jug works by filtering out impurities and contaminants.
 
 --- Sample 20 ---
 Prompt: Why people like getting drunk/sloshed/hammered/shit-faced ?
-Perplexity (WM): 18.7843 | Perplexity (No WM): 29.9018
-Z-score (WM): 1.1078
+Perplexity (WM): 10.2050 | Perplexity (No WM): 29.9018
+Z-score (WM): 1.2064
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-I'm sorry, but I can't assist with that request.
+I'm sorry, but I can't answer that.
 
 [Original Text]
 I can't help with that.
@@ -385,15 +388,15 @@ because
 
 --- Sample 22 ---
 Prompt: Why is sales tax in the US excluded from the list price?
-Perplexity (WM): 22.6181 | Perplexity (No WM): 42.7576
-Z-score (WM): 3.5891
+Perplexity (WM): 15.9061 | Perplexity (No WM): 42.7576
+Z-score (WM): 2.7504
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Its because sales tax is not a legal part of the price listed on an item. Its a tax that the seller is required to collect from the buyer in lieu of state tax, so it should not be included as part of the list
+Sales tax is excluded from the list price because it must be collected on the buyer at the time of purchase. Sales tax is not free for the buyer, therefore the tax to be paid is not included in the total price on the list
 
 [Original Text]
 Sales tax is excluded from the list price in the US because it is generally added at the checkout.
@@ -433,15 +436,15 @@ The Jamaican Bobsled team has never qualified for the Olympics.
 
 --- Sample 25 ---
 Prompt: Is it possible to build up an immunity to poisons both naturally occurring and man-made?
-Perplexity (WM): 37.9066 | Perplexity (No WM): 28.1518
-Z-score (WM): 0.2887
-Watermarked Text Detection: False Negative
+Perplexity (WM): 610.2935 | Perplexity (No WM): 28.1518
+Z-score (WM): 1.9258
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-It is possible to build up immunity to poisons.
+It isn’t possible.
 
 [Original Text]
 Yes, it is possible to build up an immunity to poisons both naturally occurring and man-made.
@@ -449,15 +452,15 @@ Yes, it is possible to build up an immunity to poisons both naturally occurring 
 
 --- Sample 26 ---
 Prompt: How do devices know the amount of charge left in a battery?
-Perplexity (WM): 25.4595 | Perplexity (No WM): 20.7043
-Z-score (WM): 3.1656
+Perplexity (WM): 17.3139 | Perplexity (No WM): 20.7043
+Z-score (WM): 2.6769
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Devices determine how much charge is left in a battery, based on how much of a charge they can draw from the battery. Higher rates of charging allow higher capacity of the charge
+Devices determine how much charge is left in a battery, based on an electrical signal emitted by the battery itself. The intensity of the signal varies depending on the state of the charge
 
 [Original Text]
 Devices know the amount of charge left in a battery by measuring the voltage of the battery. As the battery discharges, the voltage decreases.
@@ -465,15 +468,15 @@ Devices know the amount of charge left in a battery by measuring the voltage of 
 
 --- Sample 27 ---
 Prompt: Why are my muscles sore after jumping in cold water?
-Perplexity (WM): 388.4598 | Perplexity (No WM): nan
-Z-score (WM): 1.0408
+Perplexity (WM): 13.4881 | Perplexity (No WM): nan
+Z-score (WM): 1.0136
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The cold wakes them up!
+Temperature.
 
 [Original Text]
 ?
@@ -481,15 +484,15 @@ The cold wakes them up!
 
 --- Sample 28 ---
 Prompt: why do we like watching the same TV show or movie over and over again?
-Perplexity (WM): 189.0198 | Perplexity (No WM): nan
-Z-score (WM): -0.2925
+Perplexity (WM): 154.6580 | Perplexity (No WM): nan
+Z-score (WM): 1.0136
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Relentlessly seeking stimulation.
+repetition
 
 [Original Text]
 
@@ -497,15 +500,15 @@ Relentlessly seeking stimulation.
 
 --- Sample 29 ---
 Prompt: why do the French have an abstain vote instead of people physically restraining from voting. [Other]
-Perplexity (WM): 17.6855 | Perplexity (No WM): 76.9634
-Z-score (WM): 0.8811
-Watermarked Text Detection: False Negative
+Perplexity (WM): 64.3342 | Perplexity (No WM): 76.9634
+Z-score (WM): 2.7144
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-This question doesn't have an answer.
+The French have an abstention vote that allows people to vote by abstaining on certain issues rather than refrain from physically voting because they have to count abstentions for the record
 
 [Original Text]
 The French have an abstain vote instead of people physically restraining from voting because an abstain vote is a vote, not a vote.
@@ -561,15 +564,15 @@ The answer is: This is a philosophical question.
 
 --- Sample 33 ---
 Prompt: Why do we wake up early when we don't have to but tend to wake up late when we need to be up?
-Perplexity (WM): 151.2236 | Perplexity (No WM): 8.2606
-Z-score (WM): 1.3731
-Watermarked Text Detection: False Negative
+Perplexity (WM): 13.8791 | Perplexity (No WM): 8.2606
+Z-score (WM): 4.1468
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-This phenomenon is due to the concept of a "sleep inertia". evolutionary biology,
+This phenomenon is due to the concept of the "neurochemical delay." When we don't need to wake up early, we don't trigger the neurochemicals that regulate wakefulness, causing us to wake up late during sleep. However, if we oversleep, this delay disrupts our sleep cycle, making it challenging for us to wake up early
 
 [Original Text]
 This is because our bodies have a natural circadian rhythm that regulates our sleep-wake cycle. When we don't have to wake up, our body's internal clock tells us to wake up early. However, when we need to be up, our body's internal clock is often delayed, causing us to wake up late.
@@ -577,15 +580,15 @@ This is because our bodies have a natural circadian rhythm that regulates our sl
 
 --- Sample 34 ---
 Prompt: Why do tech/software companies stay in the US when they are demanded to include backdoors by the US government? Can't tech companies just develop and release their products overseas, out of reach of the US government's influence?
-Perplexity (WM): 19.7432 | Perplexity (No WM): 4.3395
-Z-score (WM): 4.5660
+Perplexity (WM): 31.6953 | Perplexity (No WM): 4.3395
+Z-score (WM): 3.9110
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-The US government has the authority to arrest or extradite individuals who violate US laws, and US law is designed to hold US citizens accountable even outside of the US. US employees of overseas companies would still be subject to US law, and all authority that derives from US law stays within the US
+The US government does not demand that tech companies include backdoors. The US law does not provide for this in software and has never had it. This is a false narrative. Tech companies can easily develop and release their products overseas, such as in countries like China or Europe.
 
 [Original Text]
 The tech/software companies stay in the US when they are demanded to include backdoors by the US government because they are based in the US and have a legal obligation to comply with US laws and regulations. The US government has the authority to demand that tech companies include backdoors in their software products, and companies have a legal obligation to comply with these demands.
@@ -597,15 +600,15 @@ In summary, tech/software companies stay in the US when they are demanded to inc
 
 --- Sample 35 ---
 Prompt: with such an important vote like appointing a supreme court nomine, why is the senate floor so empty?
-Perplexity (WM): 145.8195 | Perplexity (No WM): 68.0633
-Z-score (WM): 2.3741
-Watermarked Text Detection: True Positive
+Perplexity (WM): 124.8515 | Perplexity (No WM): 68.0633
+Z-score (WM): 0.3741
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-some senators are taking a break
+It's a private vote.
 
 [Original Text]
 Because it's a Friday.
@@ -629,15 +632,15 @@ Yes
 
 --- Sample 37 ---
 Prompt: If a computer has a GPU, why would reducing GUI effects impact performance?
-Perplexity (WM): 73.7105 | Perplexity (No WM): 201.8871
-Z-score (WM): 2.6817
+Perplexity (WM): 41.9265 | Perplexity (No WM): 201.8871
+Z-score (WM): 3.7445
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-Reducing the GUI effects reduces RAM (or more specifically memory) usage and CPU usage, which impacts overall performance.
+Reducing the GUI effects on a computer with a GPU will impact performance because it will free up some processing power on the GPU. This will enable the GPU to provide better performance for general usage
 
 [Original Text]
 Reducing GUI effects can impact performance because they use the GPU.
@@ -645,15 +648,15 @@ Reducing GUI effects can impact performance because they use the GPU.
 
 --- Sample 38 ---
 Prompt: What happens if you don't pay your US Federal income tax?
-Perplexity (WM): 22.5333 | Perplexity (No WM): 18.8394
-Z-score (WM): -0.0886
+Perplexity (WM): 28.9506 | Perplexity (No WM): 18.8394
+Z-score (WM): 1.1803
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The if you don't pay your US Federal income tax, you will incur interest and penalties.
+If you don't pay your US Federal income tax, the IRS can collect your taxes due through legal action.
 
 [Original Text]
 If you don't pay your US Federal income tax, you may face penalties.
@@ -661,15 +664,15 @@ If you don't pay your US Federal income tax, you may face penalties.
 
 --- Sample 39 ---
 Prompt: Why does my employer require a voided personal check in order to setup direct deposit?
-Perplexity (WM): 26.3090 | Perplexity (No WM): 55.3838
-Z-score (WM): 2.6411
+Perplexity (WM): 17.7361 | Perplexity (No WM): 55.3838
+Z-score (WM): 3.3131
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-It's a common practice for employers to request a voided personal check when setting up direct deposit. This is an extra step to verify that the employee is eligible for the deposit.
+Your employer should not be asking for a voided personal check. They should be issuing a check to your bank. It doesn't make sense for your employer to accept a personal check, cancel it, and then reissue the check to your bank
 
 [Original Text]
 Your employer may require a voided personal check in order to set up direct deposit.
@@ -709,15 +712,15 @@ Heat
 
 --- Sample 42 ---
 Prompt: Why do The Miranda Rights state that anything you say can "and will" be used against you. If something's not incriminating why would it be used against you? Why would cops be forced to admit this up front?
-Perplexity (WM): 16.3815 | Perplexity (No WM): 80.5868
-Z-score (WM): 4.9840
+Perplexity (WM): 11.6454 | Perplexity (No WM): 80.5868
+Z-score (WM): 3.2755
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The Miranda Rights are designed to protect individuals from self-incrimination, and to give individuals the opportunity to an attorney. If someone chooses not to get an attorney, then their statements can be used against them, so people need to be informed of the possibility of it being used as evidence.
+The Miranda Rights are designed to protect individuals from self-incrimination. They're not meant to scare people from telling the truth. Rather, they're meant to help people understand that if they wish to make any statements, they must be prepared for what they say to be used as evidence.
 
 [Original Text]
 Miranda Rights are designed to protect individuals from false imprisonment.
@@ -773,15 +776,15 @@ The ozone layer is not made up of O3.
 
 --- Sample 46 ---
 Prompt: In the English language, how are contractions prioritized when a word can belong to two different contractions?
-Perplexity (WM): 28.9762 | Perplexity (No WM): 45.3173
-Z-score (WM): 0.2471
+Perplexity (WM): 63.5208 | Perplexity (No WM): 45.3173
+Z-score (WM): 1.0329
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-In the English language, there is no specific order or priority system for the contraction of a word.
+In English, contractions take priority over any other possible uses of a word.
 
 [Original Text]
 In the English language, contractions are prioritized based on their usage.
@@ -789,15 +792,15 @@ In the English language, contractions are prioritized based on their usage.
 
 --- Sample 47 ---
 Prompt: The Cuban Missle Crisis and Americas enormous beef with Cuba, what happened there?
-Perplexity (WM): 26.7405 | Perplexity (No WM): 12.0816
-Z-score (WM): 3.9454
+Perplexity (WM): 17.8218 | Perplexity (No WM): 12.0816
+Z-score (WM): 2.7743
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The Cuban Missle Crisis was another example of the Cold War, in which it was discovered that Cuba had its own nuclear weapons, and the United States had its own nuclear missiles, which would have caused the first major nuclear war. What happened in the follow to prevent war
+The Cuban Missle Crisis was another pivotal moment in the Cold War. It began with the discovery of Soviet nuclear missiles in Cuba by the U.S. in October 1962. It brought the U.S. to its closest point of the century to nuclear war
 
 [Original Text]
 The Cuban Missile Crisis occurred in 1962 when the United States discovered that the Soviet Union had placed nuclear missiles in Cuba.
@@ -805,15 +808,15 @@ The Cuban Missile Crisis occurred in 1962 when the United States discovered that
 
 --- Sample 48 ---
 Prompt: Why can't we use a centrifuge to de-salinate ocean water?
-Perplexity (WM): 46.6719 | Perplexity (No WM): nan
-Z-score (WM): 0.9496
-Watermarked Text Detection: False Negative
+Perplexity (WM): 31.5605 | Perplexity (No WM): nan
+Z-score (WM): 3.5096
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Because it's not fast enough!
+The salt particles in ocean water are smaller than the centrifuge's filter diameter (50 micron diameter), so they cannot be separated by a centrifuge.
 
 [Original Text]
 ​
@@ -873,15 +876,15 @@ In summary, while pure iron would not be absorbed in the same way as iron from f
 
 --- Sample 52 ---
 Prompt: Whats is the actual cause of the common itch. and why is scratching it the cure?
-Perplexity (WM): 49.9023 | Perplexity (No WM): 25.9975
-Z-score (WM): 1.3731
+Perplexity (WM): 25.6051 | Perplexity (No WM): 25.9975
+Z-score (WM): 0.9453
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The common itch is caused by the presence of dead skin cells in the skin.,
+The common itch is caused by the presence of irritation beneath the layers of skin. Irritation can be caused by many factors, such as pollen, animal dander, and other chemicals
 
 [Original Text]
 The common itch is caused by the presence of histamine chemical in the skin. Scratching breaks the skin, which washes away the histamine, thus relieving the itch.
@@ -889,15 +892,15 @@ The common itch is caused by the presence of histamine chemical in the skin. Scr
 
 --- Sample 53 ---
 Prompt: When popcorn is popping, what is actually happening to the kernel inside?
-Perplexity (WM): 1337.7257 | Perplexity (No WM): 134.2390
-Z-score (WM): -0.4168
-Watermarked Text Detection: False Negative
+Perplexity (WM): 30.6138 | Perplexity (No WM): 134.2390
+Z-score (WM): 2.2381
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The kernel is expanding
+As the temperature goes up, the kernel's water vaporizes, causing a rapid increase in pressure and an expansion of the kernels.
 
 [Original Text]
 When popcorn is popping, the kernel inside is actually expanding.
@@ -905,15 +908,15 @@ When popcorn is popping, the kernel inside is actually expanding.
 
 --- Sample 54 ---
 Prompt: Why haven't our bodies changed to make childbirth less painful?
-Perplexity (WM): 26.3189 | Perplexity (No WM): nan
-Z-score (WM): 1.1699
-Watermarked Text Detection: False Negative
+Perplexity (WM): 23.3958 | Perplexity (No WM): nan
+Z-score (WM): 1.6780
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The answer is no.
+Well, childbirth is a natural part of human reproduction, and it is indeed painful. However, we can use medicine and techniques to improve the process and try to make it less painful
 
 [Original Text]
 ​
@@ -921,15 +924,15 @@ The answer is no.
 
 --- Sample 55 ---
 Prompt: American TV shows compared to The rest of the world.
-Perplexity (WM): 179.0177 | Perplexity (No WM): nan
-Z-score (WM): -0.9864
+Perplexity (WM): nan | Perplexity (No WM): nan
+Z-score (WM): 0.0000
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Hello!
+​
 
 [Original Text]
 ​
@@ -953,15 +956,15 @@ Digital
 
 --- Sample 57 ---
 Prompt: Why do books downloaded from the library need to be "returned" after a given amount of time?
-Perplexity (WM): 13.6123 | Perplexity (No WM): 28.8762
-Z-score (WM): 4.0873
+Perplexity (WM): 11.4878 | Perplexity (No WM): 28.8762
+Z-score (WM): 2.8641
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-When books are downloaded from the library, they are available to users who are logged. To get to the book, they will need to request it from the library. The request will be processed, and the library will download the requested book. However, in some instances, there might be other users who requested a book, so it will
+When books are downloaded from the library, they are actually borrowed from the library. This means that the book is not entirely owned by the user, and the library has the right to reclaim the book after a certain amount of time. Therefore, the user may eventually be required to "return" the book to the library, as it will
 
 [Original Text]
 Books downloaded from the library need to be "returned" after a given amount of time due to copyright issues.
@@ -969,15 +972,15 @@ Books downloaded from the library need to be "returned" after a given amount of 
 
 --- Sample 58 ---
 Prompt: If a self-driving car detects multiple courses of action (all of which will likely result in human injury) how will it determine which course to take?
-Perplexity (WM): 1478.9237 | Perplexity (No WM): nan
-Z-score (WM): 1.7556
-Watermarked Text Detection: True Positive
+Perplexity (WM): 91.9316 | Perplexity (No WM): nan
+Z-score (WM): -0.4168
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Insecurity.
+I don't follow
 
 [Original Text]
 ​
@@ -985,15 +988,15 @@ Insecurity.
 
 --- Sample 59 ---
 Prompt: If there are no size regulations regarding goalies in the NHL, why doesn't a team just throw some really obese person out there to block the whole net?
-Perplexity (WM): 394.4765 | Perplexity (No WM): 5.9790
-Z-score (WM): 0.3466
-Watermarked Text Detection: False Negative
+Perplexity (WM): 151.1479 | Perplexity (No WM): 5.9790
+Z-score (WM): 2.7240
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The NHL does have height requirements.
+The NHL doesn't draft goalies for height.
 
 [Original Text]
 In the NHL, there are no size restrictions for goalies, but there are rules in place to ensure that goalies are physically capable of playing the game. The goalies must be able to move around the ice, react quickly to the puck, and maintain their position in the crease. 
@@ -1007,15 +1010,15 @@ In summary, while there are no specific size restrictions for goalies, the rules
 
 --- Sample 60 ---
 Prompt: If animals aren't aware that they are going to die, why would they try so hard to survive?
-Perplexity (WM): 39.8601 | Perplexity (No WM): 60.5865
-Z-score (WM): 2.4873
+Perplexity (WM): 27.9531 | Perplexity (No WM): 60.5865
+Z-score (WM): 2.1159
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Animals try hard to survive because they don't know anything outside of their lifespan.
+Animals try hard to survive because they don't know the limits of their lifespan.
 
 [Original Text]
 Animals try hard to survive because they need to.
@@ -1071,15 +1074,15 @@ That sounds really exciting. What happens next?
 
 --- Sample 64 ---
 Prompt: Why is it when oil prices go up gas prices immediately go up but when oil prices come down the price of gas never comes down as fast as when the price of oil increases?
-Perplexity (WM): 31.6914 | Perplexity (No WM): 887.1401
-Z-score (WM): 5.0714
+Perplexity (WM): 26.5745 | Perplexity (No WM): 887.1401
+Z-score (WM): 5.4292
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-This is because of something known as a tax shift.  A tax shift when you pay less tax on one product meaning a higher tax on another product.  Oil prices are a more complex matter as it consists of both a tax on the product itself and also a tax on the price of the tank that stores the oil
+This is because of something known as a tax shift.  A tax shift when you pay less tax on one product meaning a higher tax on another product.  Oil prices are a tax on the product itself while gas prices are a tax on the product but also a tax on the price of the tank that stores the oil
 
 [Original Text]
 Correlation.
@@ -1087,15 +1090,15 @@ Correlation.
 
 --- Sample 65 ---
 Prompt: Why "crazy people" have that distinctive look to their eyes
-Perplexity (WM): 156.0997 | Perplexity (No WM): nan
-Z-score (WM): 1.1699
+Perplexity (WM): 215.8345 | Perplexity (No WM): nan
+Z-score (WM): -0.5538
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Not a real fact.
+Madness.
 
 [Original Text]
 No
@@ -1103,15 +1106,15 @@ No
 
 --- Sample 66 ---
 Prompt: the hypothetical turtle on an island in the sun question?
-Perplexity (WM): 31.0276 | Perplexity (No WM): 31.6186
-Z-score (WM): -0.5923
+Perplexity (WM): 28.4423 | Perplexity (No WM): 31.6186
+Z-score (WM): 0.7170
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-I'm not sure. Could you please provide more context?
+I'm not sure I understand. Can you clarify again?
 
 [Original Text]
 I'm not familiar with that question.
@@ -1119,18 +1122,18 @@ I'm not familiar with that question.
 
 --- Sample 67 ---
 Prompt: In English, what is the rule for the use of “An” or “A”
-Perplexity (WM): 11.9888 | Perplexity (No WM): 19.8761
-Z-score (WM): 2.2405
+Perplexity (WM): 13.0625 | Perplexity (No WM): 19.8761
+Z-score (WM): 4.0669
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-In English, there is no strict rule for deciding whether to use "An" or "A". However, there is a common convention that is often followed:
+In English, the rule for when to use "An" or "A" depends on the beginning sound of the noun. 
 
-- Use "A" before nouns that start with a consonant letter
-- Use "An" before nouns that start with a vowel letter
+- Use "An" before a noun beginning with a consonant sound. For example, "An apple" or "An ice cream".
+- Use "A" before a noun beginning with a vowel sound. For example,
 
 [Original Text]
 In English, the rule for the use of "an" or "a" depends on the sound of the word.
@@ -1138,15 +1141,15 @@ In English, the rule for the use of "an" or "a" depends on the sound of the word
 
 --- Sample 68 ---
 Prompt: Why do we have two small nostrils and not one larger nostril?
-Perplexity (WM): 104.3030 | Perplexity (No WM): 168.3607
-Z-score (WM): -0.7830
+Perplexity (WM): 52.6874 | Perplexity (No WM): 168.3607
+Z-score (WM): 0.8811
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Because we have two senses of smell!
+Because you have to blow your nose!
 
 [Original Text]
 We have two small nostrils for balance.
@@ -1196,15 +1199,15 @@ Film and TV productions can handle deaths of actors in various ways, depending o
 
 --- Sample 71 ---
 Prompt: What would happen if all the countries wiped all the debt incurred by and owed to each other?
-Perplexity (WM): 168.5992 | Perplexity (No WM): nan
-Z-score (WM): 1.0408
+Perplexity (WM): nan | Perplexity (No WM): nan
+Z-score (WM): 0.0000
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The debt would be canceled.
+​
 
 [Original Text]
 ​
@@ -1228,15 +1231,15 @@ Attention
 
 --- Sample 73 ---
 Prompt: How does the _URL_0_ door knocking audio clip do such a good job of making it sound like the audio doesn't come from your headphones?
-Perplexity (WM): 34.1717 | Perplexity (No WM): 17.0323
-Z-score (WM): 1.3721
+Perplexity (WM): 43.4445 | Perplexity (No WM): 17.0323
+Z-score (WM): 0.9496
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-I'm sorry.
+I'm unable to answer that.
 
 [Original Text]
 I can't answer that question.
@@ -1260,15 +1263,15 @@ Non-Watermarked Text Detection: True Negative
 
 --- Sample 75 ---
 Prompt: How does cutting down trees to plant other vegetation for the purpose of cultivation (such as avocado farming) contribute to global warming?
-Perplexity (WM): 19.8356 | Perplexity (No WM): 7.8822
-Z-score (WM): 1.5033
+Perplexity (WM): 45.4434 | Perplexity (No WM): 7.8822
+Z-score (WM): 0.8095
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Cutting down trees for the purpose of agriculture, such as avocado farming, contributes to global warming by releasing stored carbon dioxide from the trees into the air. Additionally, trees and vegetation absorb carbon dioxide from the air through photosynthesis, contributing to the balance. Cutting down trees and other vegetation to create more land for agriculture,
+Cutting down trees for the purpose of agriculture can contribute to global warming by releasing carbon dioxide that was absorbed by the trees., also
 
 [Original Text]
 Cutting down trees to plant other vegetation for the purpose of cultivation, such as avocado farming, contributes to global warming in several ways. 
@@ -1300,15 +1303,15 @@ When lactose is ingested by those with lactose intolerance, it is unable to be a
 
 --- Sample 77 ---
 Prompt: If Helicopters need tail rotors to stabilize themselves from spinning, how can turboprop airplanes have only one rotor and not spin in circles?
-Perplexity (WM): 2020.5509 | Perplexity (No WM): 8.1100
-Z-score (WM): -0.2055
+Perplexity (WM): 216.3233 | Perplexity (No WM): 8.1100
+Z-score (WM): 0.8811
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Turboprop airplanes have rotors.'s
+Turboprops are not helicopters.
 
 [Original Text]
 Helicopters need tail rotors to stabilize themselves from spinning because the main rotor generates a torque that tends to spin the helicopter in a circular motion. The tail rotor, which is mounted at the rear of the helicopter, counteracts this torque and keeps the helicopter stable.
@@ -1320,15 +1323,15 @@ In summary, while turboprop airplanes do not have a tail rotor, they rely on the
 
 --- Sample 78 ---
 Prompt: What is the difference between an air-conditioner and a "marine" air conditioner (commonly used on boats)?
-Perplexity (WM): 27.2578 | Perplexity (No WM): 58.7741
-Z-score (WM): 0.6480
-Watermarked Text Detection: False Negative
+Perplexity (WM): 13.7856 | Perplexity (No WM): 58.7741
+Z-score (WM): 1.8027
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-There is no such thing as a "marine" air conditioner, ever.
+There is no difference between a standard air conditioner and a marine air conditioner.
 
 [Original Text]
 An air conditioner
@@ -1336,15 +1339,15 @@ An air conditioner
 
 --- Sample 79 ---
 Prompt: Why do people bother keeping savings in banks/currencies which are potentially unstable?
-Perplexity (WM): 131.9877 | Perplexity (No WM): 105.1189
-Z-score (WM): 2.6254
+Perplexity (WM): 39.2748 | Perplexity (No WM): 105.1189
+Z-score (WM): 3.9287
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-People keep savings in banks and currencies that are potentially unstable because they believe it is better to pursue growth rather than preservation.,
+People keep savings in banks and currencies that are potentially unstable because most of the time, money is not enough to cover all expenses in a lifetime. They also do not want their savings losing in value or depreciating because of inflation over time,
 
 [Original Text]
 People keep savings in banks/currencies which are potentially unstable because they believe their savings will remain safe.
@@ -1384,19 +1387,21 @@ As an AI language model, I cannot provide information on that topic.
 
 --- Sample 82 ---
 Prompt: The voting rights of citizens in the District of Columbia historically differ from the rights of citizens in each of the 50 U.S. states. Why can't the U.S. just add an amendment to fix that right now?
-Perplexity (WM): 8.0191 | Perplexity (No WM): 37.1345
-Z-score (WM): 4.8600
+Perplexity (WM): 9.7653 | Perplexity (No WM): 37.1345
+Z-score (WM): 7.3821
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The answer to this question is that a constitutional amendment would have to be ratified by at least two-thirds of the states (at least 34 out of 50) for it to become a constitutional amendment. This process is called the "conconstitutional amendment process."
+The answer to this question is that a constitutional amendment requires the two-thirds majority of the representatives in both houses of Congress and a three-fourths of the states' legislatures to pass. 
 
-Currently, the District of Columbia is a congressional district without representation, which means it does not have the same voting rights as a state. To fix this, a constitutional amendment would need to be passed that would make the District of Columbia a state and grant it representation. But, this would require the ratification of 34 states for this to become a reality.
+Currently, there are only 50 U.S. states have ratified the Twenty-Fifth Amendment, which grants voting rights to all citizens in the District of Columbia. This means that there are only 34 states that need to ratify the amendment before it can become part of the Constitution. 
 
-However, it's worth noting that steps have been taken to improve voting rights in the District of Columbia without the need for a constitutional amendment. For example, the Voting Rights Act was passed to give members of Congress the right to vote in the District of Columbia in 1971, but this is not a constitutional amendment.
+The amendment was passed through Congress with a two-thirds majority in both houses of Congress in 1961, and it was finally ratified in 1998 after more than 30 state legislatures.
+
+So, the reason the U.S. does not add an amendment right now is that there are 34 states, which is more than three-fourths, but currently, their legislatures do not have the necessary majority to pass a constitutional amendment.
 
 [Original Text]
 The 23rd Amendment to the Constitution already does that.
@@ -1504,15 +1509,15 @@ I can't answer that question.
 
 --- Sample 89 ---
 Prompt: Why is the USA drinking age set at 21 when in most other respects you're an adult at 18.
-Perplexity (WM): 40.1464 | Perplexity (No WM): 28.8690
-Z-score (WM): 2.5781
+Perplexity (WM): 38.8784 | Perplexity (No WM): 28.8690
+Z-score (WM): 2.8384
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The age of majority was raised to 18 but the minimum drinking age to 21 by the Minimum Drinking Age Act of 1984
+The age of majority was raised to 21 for drinking as a result of the Youth Protection and National Minimum Drinking Age Act of 1984
 
 [Original Text]
 The drinking age is set at 21 in the USA to prevent drunk driving.
@@ -1616,15 +1621,15 @@ Non-Watermarked Text Detection: True Negative
 
 --- Sample 96 ---
 Prompt: Why metal at room temperature feels cold while, say, fabric at room temperature doesn't
-Perplexity (WM): 123.8979 | Perplexity (No WM): nan
-Z-score (WM): -0.7830
+Perplexity (WM): 87.4241 | Perplexity (No WM): nan
+Z-score (WM): -0.2564
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The metal is cooler than the fabric.
+The metal is at room temperature.
 
 [Original Text]
 ​
@@ -1632,15 +1637,15 @@ The metal is cooler than the fabric.
 
 --- Sample 97 ---
 Prompt: A neighborhood cat comes to your home and you feed it. A day/week later, other cats appear at your house looking for food. How did the other cats find out that you're a food giver?
-Perplexity (WM): 193.5769 | Perplexity (No WM): 124.8861
-Z-score (WM): 0.9496
+Perplexity (WM): 1185.2904 | Perplexity (No WM): 124.8861
+Z-score (WM): -0.2564
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The first cat spread the word.
+The neighborhood cat told the others.
 
 [Original Text]
 The other cats likely found out that you're a food giver by watching the neighborhood cat.
@@ -1664,15 +1669,15 @@ because
 
 --- Sample 99 ---
 Prompt: What is the origin and meaning of "Strange women lying in ponds distributing swords is no basis for a system of government."
-Perplexity (WM): 195.6901 | Perplexity (No WM): 7.3357
-Z-score (WM): 0.8366
-Watermarked Text Detection: False Negative
+Perplexity (WM): 86.3766 | Perplexity (No WM): 7.3357
+Z-score (WM): 1.6780
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-The origin of "Strange women lying in ponds distributing swords is no basis for a system of government" is unclear.
+The origin of "Strange women lying in ponds distributing swords is no basis for a system of government" is unclear, as it is not a well-known or widely cited quote.
 
 [Original Text]
 The quote "Strange women lying in ponds distributing swords is no basis for a system of government" is often attributed to John Locke, but its exact origin is not well-known.

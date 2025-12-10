@@ -1,38 +1,38 @@
 {
     "summary": {
         "total_samples": 100,
-        "true_positives": 20,
-        "false_negatives": 80,
+        "true_positives": 23,
+        "false_negatives": 77,
         "true_negatives": 95,
         "false_positives": 5
     },
     "detection_rates": {
-        "tpr": 0.2,
+        "tpr": 0.23,
         "fpr": 0.05,
-        "fnr": 0.8,
+        "fnr": 0.77,
         "tnr": 0.95
     },
     "watermark_strength": {
-        "mean_z_score": 0.7724908529632515,
-        "std_dev_z_score": 1.3690947000243074,
+        "mean_z_score": 0.9049368891393327,
+        "std_dev_z_score": 1.3010509750444397,
         "strong_detection_rate_percent": 13.0,
-        "very_strong_detection_rate_percent": 8.0
+        "very_strong_detection_rate_percent": 9.0
     },
     "performance_impact": {},
     "quality_impact": {
-        "mean_perplexity_wm": 4178.883996137759,
+        "mean_perplexity_wm": 4260.3140103459355,
         "mean_perplexity_no_wm": 90.70483592019153,
-        "mean_perplexity_increase": 4088.179160217567,
-        "mean_perplexity_increase_percent": 4507.123703762205,
-        "mean_cosine_similarity": 0.4292043336061761
+        "mean_perplexity_increase": 4169.609174425744,
+        "mean_perplexity_increase_percent": 4596.898425674302,
+        "mean_cosine_similarity": 0.4566396835306659
     },
     "detailed_quality_metrics": {
         "watermarked": {
-            "avg_sentence_length": 7.245516388373532,
-            "avg_word_length": 3.9804655861795175,
-            "lexical_diversity": 0.8292596270052399,
-            "flesch_reading_ease": 87.50220758143166,
-            "sequence_length": 12.408163265306122
+            "avg_sentence_length": 8.01828231292517,
+            "avg_word_length": 3.9800985893163334,
+            "lexical_diversity": 0.8133743788142278,
+            "flesch_reading_ease": 85.10823849998977,
+            "sequence_length": 14.857142857142858
         },
         "no_watermark": {
             "avg_sentence_length": 9.724635568513118,

@@ -1,38 +1,38 @@
 {
     "summary": {
         "total_samples": 100,
-        "true_positives": 27,
-        "false_negatives": 73,
+        "true_positives": 36,
+        "false_negatives": 64,
         "true_negatives": 93,
         "false_positives": 7
     },
     "detection_rates": {
-        "tpr": 0.27,
+        "tpr": 0.36,
         "fpr": 0.07,
-        "fnr": 0.73,
+        "fnr": 0.64,
         "tnr": 0.93
     },
     "watermark_strength": {
-        "mean_z_score": 1.0197848744848357,
-        "std_dev_z_score": 1.397699856125439,
-        "strong_detection_rate_percent": 16.0,
-        "very_strong_detection_rate_percent": 9.0
+        "mean_z_score": 1.2407384133487966,
+        "std_dev_z_score": 1.544166638435655,
+        "strong_detection_rate_percent": 20.0,
+        "very_strong_detection_rate_percent": 11.0
     },
     "performance_impact": {},
     "quality_impact": {
-        "mean_perplexity_wm": 5919.569642147386,
+        "mean_perplexity_wm": 6094.526780140252,
         "mean_perplexity_no_wm": 600.6592830829933,
-        "mean_perplexity_increase": 5318.910359064393,
-        "mean_perplexity_increase_percent": 885.5120546483716,
-        "mean_cosine_similarity": 0.41648366099223494
+        "mean_perplexity_increase": 5493.867497057259,
+        "mean_perplexity_increase_percent": 914.639572181251,
+        "mean_cosine_similarity": 0.4484444734826684
     },
     "detailed_quality_metrics": {
         "watermarked": {
-            "avg_sentence_length": 8.292230576441103,
-            "avg_word_length": 4.112409243185555,
-            "lexical_diversity": 0.8760897308530909,
-            "flesch_reading_ease": 76.28618579391002,
-            "sequence_length": 13.715789473684211
+            "avg_sentence_length": 8.574043441938178,
+            "avg_word_length": 4.0357623680974415,
+            "lexical_diversity": 0.8419113502249624,
+            "flesch_reading_ease": 80.15771673379575,
+            "sequence_length": 15.421052631578947
         },
         "no_watermark": {
             "avg_sentence_length": 7.637599681020734,

@@ -1,53 +1,53 @@
 --- Watermark Detection Analysis ---
 Total samples processed: 100
-True Positives (TP): 56
-False Negatives (FN): 44
+True Positives (TP): 58
+False Negatives (FN): 42
 True Negatives (TN): 92
 False Positives (FP): 8
 
 
 --- Detection Rates ---
-True Positive Rate (TPR/Recall): 0.5600
+True Positive Rate (TPR/Recall): 0.5800
 False Positive Rate (FPR): 0.0800
-False Negative Rate (FNR): 0.4400
+False Negative Rate (FNR): 0.4200
 True Negative Rate (TNR/Specificity): 0.9200
 
 
 --- Watermark Strength (on watermarked samples) ---
-Mean z-score: 3.0063 | Std. dev: 3.1754
-Detection Confidence: ≥99% (z≥2.33): 39.00% | ≥99.9% (z≥3.09): 34.00%
+Mean z-score: 2.9567 | Std. dev: 3.0650
+Detection Confidence: ≥99% (z≥2.33): 42.00% | ≥99.9% (z≥3.09): 34.00%
 
 
 --- Quality Impact ---
-Perplexity (WM): 449.1754
+Perplexity (WM): 460.1350
 Perplexity (No WM): 47.7676
-Mean Perplexity Increase: 401.4078 (840.33%)
-Cosine Similarity (WM vs No WM): 0.5995
+Mean Perplexity Increase: 412.3674 (863.28%)
+Cosine Similarity (WM vs No WM): 0.5939
 
 
 --- Detailed Text Quality Metrics (averages) ---
 Metric                    | Watermarked     | No Watermark   
 -------------------------------------------------------------
-Avg Sentence Length       | 11.7448         | 11.3133        
-Avg Word Length           | 4.4215          | 4.2057         
-Lexical Diversity         | 0.7762          | 0.5213         
-Flesch Reading Ease       | 68.7609         | 77.8269        
-Sequence Length           | 88.0816         | 176.0204       
+Avg Sentence Length       | 11.7944         | 11.3133        
+Avg Word Length           | 4.4752          | 4.2057         
+Lexical Diversity         | 0.7515          | 0.5213         
+Flesch Reading Ease       | 69.0642         | 77.8269        
+Sequence Length           | 95.5408         | 176.0204       
 
 Samples evaluated for quality: 98
 
 
 --- Generation Samples ---\n--- Sample 1 ---
 Prompt: in football whats the point of wasting the first two plays with a rush - up the middle - not regular rush plays i get those
-Perplexity (WM): 11.8393 | Perplexity (No WM): 4.0507
-Z-score (WM): 6.8687
+Perplexity (WM): 15.8775 | Perplexity (No WM): 4.0507
+Z-score (WM): 5.7280
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-In football, using a rush up the middle for the next play, also known as a pick two, is a designed to create an opening for the quarterback to throw a pick to a receiver. The purpose of the rush up the middle is to create a space between the defensive line and the line of scrimmage for the quarterback to throw a pick. By rushing up the middle, the quarterback is likely to get sacked or fumble, giving up possession of the ball or losing yardage. Therefore, the rush up the middle is designed to create an opportunity for the to take advantage of the turnover and regain possession of the ball
+In football, using a rush up the middle for the next play, known as a "two-down pass play," is a strategy used by the offense to force the defense to attempt a pass. The quarterback rush up the middle and then not advance the ball, but wait for the next play in hopes that a pass will be thrown by the defense. Since the offense is looking for a pass, the team is forced to gain a minimum of 10 yards on two downs, giving the offense the opportunity to score a touchdown. This strategy is often used when the offense is down first down and unable to gain possession of the ball
 
 [Original Text]
 In football, wasting the first two plays with a "rush up the middle" (also known as a "slow play" or "big play") can be a strategic decision made by the coach. Here are some reasons why this might be done:
@@ -95,15 +95,15 @@ In summary, the difference of 10 cents between different tiers of gas is often d
 
 --- Sample 3 ---
 Prompt: How do we know all the money the government is getting from bank settlements is going back to the people?
-Perplexity (WM): 16.8237 | Perplexity (No WM): 7.4795
-Z-score (WM): 0.3109
+Perplexity (WM): 17.0323 | Perplexity (No WM): 7.4795
+Z-score (WM): -0.8594
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-I'm not able to answer that question.
+I can't answer that question.
 
 [Original Text]
 Ensuring that all the money the government receives from bank settlements is going back to the people is a complex process that involves multiple steps and checks. Here are some key aspects:
@@ -145,15 +145,15 @@ Non-Watermarked Text Detection: True Negative
 
 --- Sample 5 ---
 Prompt: Why does the water from my kitchen faucet taste different than the water from my bathroom faucet? Doesn't it come from the same place?
-Perplexity (WM): 26.7346 | Perplexity (No WM): 35.4147
-Z-score (WM): 1.0680
-Watermarked Text Detection: False Negative
+Perplexity (WM): 32.9499 | Perplexity (No WM): 35.4147
+Z-score (WM): 1.8680
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The difference comes from the types of pipes used to transport the water.
+The water from your kitchen faucet is treated to be used for cooking.
 
 [Original Text]
 The water from your kitchen faucet tastes different because it is treated with chlorine.
@@ -177,15 +177,15 @@ Light skin reflects more heat.
 
 --- Sample 7 ---
 Prompt: How the fuck does Facebook know about people I know?!
-Perplexity (WM): 180.2577 | Perplexity (No WM): nan
-Z-score (WM): -0.2564
+Perplexity (WM): 178.5542 | Perplexity (No WM): nan
+Z-score (WM): 0.4139
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-It's probably on their profiles.
+It's called stalking.
 
 [Original Text]
 ​
@@ -193,8 +193,8 @@ It's probably on their profiles.
 
 --- Sample 8 ---
 Prompt: How do movies not get uploaded online in HD from movie theater employees before their DVD release?
-Perplexity (WM): 11.9125 | Perplexity (No WM): 3.7439
-Z-score (WM): 5.8496
+Perplexity (WM): 15.7367 | Perplexity (No WM): 3.7439
+Z-score (WM): 5.6754
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
@@ -203,13 +203,15 @@ Non-Watermarked Text Detection: True Negative
 [Watermarked Text]
 There are a few reasons why movies may not get uploaded online in HD from movie theater employees before their DVD release.
 
-1. Copyright concerns: Movies are copyrighted content, and the copyright or trademark holders of the movie may not have the rights to share or distribute them. This could lead to legal action against the movie theater employees who upload the movies.
+1. Legal reasons: Movies are copyright laws and that means the filmmakers do not want to share it off the ground. They do not want to risk getting into trouble with the law or even face lawsuits.
 
-2. Licensing agreements: If the movies are being sold through a licensing agreement, the terms of the agreement may state that the movies must not be shared online. This could prevent the movie theater employees from uploading the movies.
+2. Quality issues: The quality of the movies from the theater might not be high enough, and there may be issues with sound or video quality.
 
-3. Brand image: Movie theaters have a reputation of being the best version of the movies. This brand image assumes that the theaters own the movies. If employees were found to be uploading the movies online, it could be an indication that the theater did not own the movies, which could negatively impact their ticket sales.
+3. Contract agreements: Movie theaters may have an agreement with the filmmakers or the studio that it will only work for the theater and not to share it online.
 
-4. Technology: The technology required to share the movies online may not be available until the release of the DVD,
+4. Fair use: In some cases, movie theaters may be allowed to share film clips or movie trailers online, but this is also subject to legal clauses and terms of distribution. Even in this scenario, the theaters would not have the right to make their own copies of the film as well.
+ 
+5. Trailers: Trailers might be released online as part of the movie's marketing to build an anticipation for the film's release, but the trailers would not be uploaded online as they are also copyrighted,
 
 [Original Text]
 To prevent movies from getting uploaded online in HD from movie theater employees before their DVD release, studios can take several measures:
@@ -235,15 +237,15 @@ By implementing these measures, studios can effectively prevent movies from gett
 
 --- Sample 9 ---
 Prompt: Can defense attorneys 'throw' a case if they know their clients are guilty?
-Perplexity (WM): 22.3778 | Perplexity (No WM): 53.3374
-Z-score (WM): 2.7584
+Perplexity (WM): 15.9750 | Perplexity (No WM): 53.3374
+Z-score (WM): 2.1318
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-As an AI language model, I do not have personal views or beliefs. However, in general, it is not ethical or legal for defense attorneys to 'throw' a case if they know that their clients are guilty. The attorneys have an ethical and legal obligation to ensure that their clients have a fair trial, and to disclose any knowledge of their guilt until completion of the trial or until after the holding of the court
+As an AI language model, I cannot interpret the law in a particular jurisdiction. However, defense attorneys have a duty to present a defense, even if they believe their client is guilty. This is because criminal charges require proof beyond a reasonable doubt, and a defense attorney has a duty to ensure that their client is presumed innocent until proven guilty. However, the outcome of a case is ultimately within the discretion of the court
 
 [Original Text]
 No, defense attorneys cannot 'throw' a case if they know their clients are guilty.
@@ -251,15 +253,15 @@ No, defense attorneys cannot 'throw' a case if they know their clients are guilt
 
 --- Sample 10 ---
 Prompt: why, when intoxicated, does it feel like everything is spinning when you close your eyes but stops spinning when you open them?
-Perplexity (WM): 357.8386 | Perplexity (No WM): 5.4439
-Z-score (WM): 0.8273
+Perplexity (WM): 75.0591 | Perplexity (No WM): 5.4439
+Z-score (WM): 0.3109
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-This phenomenon is called a perceived movement illusion.
+This phenomenon is called the Haller effect.
 
 [Original Text]
 The phenomenon you're describing is known as "visual illusion" or "vestibular illusion." It's a common experience that can occur under various conditions, including intoxication.
@@ -293,15 +295,15 @@ Fish bones are all edible.
 
 --- Sample 12 ---
 Prompt: What's the meaning of the phrase "I've got a bone to pick with you."
-Perplexity (WM): 39.8518 | Perplexity (No WM): 15.4505
-Z-score (WM): 1.5527
+Perplexity (WM): 39.3448 | Perplexity (No WM): 15.4505
+Z-score (WM): 0.9496
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-I have a complaint about you.
+I'm very upset with you.
 
 [Original Text]
 The phrase "I've got a bone to pick with you" means to be angry with someone.
@@ -309,8 +311,8 @@ The phrase "I've got a bone to pick with you" means to be angry with someone.
 
 --- Sample 13 ---
 Prompt: Why can't we just taste candy or Sweets and then spit it out to avoid its unhealthy attributes? What makes us swallow it to get satisfaction?
-Perplexity (WM): 12.9465 | Perplexity (No WM): 7.9523
-Z-score (WM): 7.1656
+Perplexity (WM): 12.7199 | Perplexity (No WM): 7.9523
+Z-score (WM): 8.4440
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
@@ -319,14 +321,14 @@ Non-Watermarked Text Detection: True Negative
 [Watermarked Text]
 There are several reasons why we can't just taste candy or sweets and then spit it out to avoid their unhealthy attributes:
 
-1. **Natural reward system**: The natural human reward system, also known as the limbic system, is triggered by the taste of sugar. This system is responsible for processing information from stimuli that have value, such as food, sex, and social interactions. When we taste sugar, our reward system is activated, releasing neurotransmitters like serotonin and dopamine, which create a feeling of pleasure and satisfaction.
-2. **荣誉感**: Swallowing sugar can create a sense of satisfaction and achievement, as we've successfully consumed something sweet and pleasurable. A feeling of satisfaction can trigger the release of dopamine, a neurotransmitter that's associated with pleasure and reward.
-3. **Habits and conditioning**: Swallowing sugar can become a habitual behavior, as we're conditioned to associate it with pleasure and satisfaction. This habit can be ingrained, making it more challenging to break away from it.
-4. **Variety**: Sugar comes in various shapes and forms, making it accessible and appealing. Swallowing sugar can feel like we're getting something special and enjoyable, creating a sense of pleasure and satisfaction.
-5. **Education and awareness**: Many people are becoming more aware of the negative consequences of excessive sugar in our diet. However, even if you're more aware of the health benefits of swallowing sugar, the brain may not override the natural human reward system, which is triggered by the taste of sugar.
-6. **Environmental factors**: The bright colors, smells, and flavors associated with sugar can also contribute to feelings of pleasure and satisfaction. However, these factors may not override the brain's natural reward system, which is triggered by the taste of sugar.
+1. **Natural reward system**: Our brains have a reward system that triggers the release of dopamine, a neurotransmitter associated with pleasure and satisfaction. When we consume sweets or candies, the reward system is activated, and we feel good. Spitting out the sweet would provide no dopamine release, leaving us feeling incomplete.
+2. **Caste sensation**: Our taste buds are designed to experience the full flavor and texture of a sweet. Spitting out the sweet would not provide the full sensory experience, leaving us unsatisfied.
+3. **Cultural and social norms**: Our culture and social norms often emphasize consuming sweets or candies as part of playfulness, fun, and celebration. Spitting out the sweet would break these norms and social expectations.
+4. **Hunger and satiety**: Our bodies have evolved to rely on the sensation of hunger and satiety to regulate our food intake. Spitting out the sweet would not satisfy our hunger, leading to our body to continue searching for food.
+5. **Addiction and habit**: Many people struggle with food addiction or have a habit of consuming sweets or candies, which are high in refined carbohydrates and sugar. Spitting out the sweet would not satisfy these cravings and reinforce unhealthy habits.
+6. **Nutrients and balance**: While sweets by themselves cannot provide the necessary nutrients and balance that are essential for overall health. Regularly consuming sweets without proper nutrients can lead to metabolic disruptions, weight gain, and poor overall health.
 
-It's worth noting that while spitting out candy may help you avoid the health risks of excessive sugar, it's crucial to remember that moderation is key to maintaining good overall health.
+While tasting a sweet and spitting it out might seem like an option for short-term avoidance strategies, it might not be effective for long-term health and wellness. It's essential to establish healthy habits and maintain a healthy relationship with food. While it's possible to indulge in sweets or candies as part of a healthy diet, moderation is key to maintaining good overall health.
 
 [Original Text]
 We can't just taste candy or sweets and then spit it out to avoid its unhealthy attributes because the act of swallowing is an integral part of the overall eating experience. Here are some reasons why:
@@ -346,26 +348,22 @@ Ultimately, the experience of eating is a complex interplay of sensory, physiolo
 
 --- Sample 14 ---
 Prompt: Why are the things that taste the best bad for us?
-Perplexity (WM): 9.2764 | Perplexity (No WM): nan
-Z-score (WM): 6.3843
+Perplexity (WM): 6.0184 | Perplexity (No WM): nan
+Z-score (WM): 7.3787
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-While taste can be subjective and personal, it's important to recognize that the nutritional content of foods is a crucial aspect of health. Taste alone is not enough to guarantee a good health. Here are some reasons why things that taste the best might be bad for us:
+While taste is an aspect of food that many people appreciate, the idea that the best-tasting foods are bad for us is counterintuitive. However, there are some reasons why certain foods can be bad for us even if they taste good:
 
-1. **Caloric-dense, nutrient-poor foods**: Many tasty foods, such as fried foods, candy, and sugary drinks, are high in calories, low in nutrients, and high in unhealthy fats, sugars, and盐和.
-2. **Processed and packaged foods**: Many tasty, addictive foods are often processed, preserved, and packaged, which can lead to unwanted levels of sodium, sodium, and other unhealthy ingredients.
-3. **Salt and sugar**: Tasty foods often contain high levels of sodium and sugar, which can contribute to high blood pressure, diabetes, and other health problems.
-4. **Unhealthy fats**: Many tasty foods contain unhealthy fats, like saturated and trans fats, which are linked to heart disease, stroke, and other health conditions.
-5. **Antioxidants and additives**: Some tasty foods contain antioxidants, like artificial colors and flavors, which can contribute to health problems, like allergies and asthma.
-6. **Sugar and calorie**: Many tasty, processed foods contain high amounts of sugar and calories, which can contribute to weight gain, obesity, and diabetes.
-7. **Addictive**: Many tasty foods, like sugary drinks and fried foods, are addictive, which can lead to overconsumption and contribute to poor health.
-8. **Lack in nutrients**: When tasty foods are not nutritious, they can be lacking in essential nutrients and contribute to health problems.
+1. **High calorie density**: Many delicious and calorie-dense foods, such as sweets, processed foods, and sugary drinks, are high in calories and low in nutritional value. Consuming too much of these foods can lead to weight gain, obesity, and related health problems.
+2. **Low in essential nutrients**: Some best-tasting foods may lack essential nutrients like vitamins, minerals, and fiber that we need for overall health and well-being. For example, sugary snacks and processed foods often contain essential nutrients like vitamins and minerals.
+3. **Unhealthy ingredients**: Some best-tasting foods may contain unhealthy ingredients, such as high amounts of sugar, salt, and unhealthy fats. For example, sugary snacks and processed foods often contain added sugars and unhealthy fats.
+4. **Overconsumption**: People often consume best-tasting foods out of boredom, out of boredom, out of boredom, out of boredom, out of boredom, out of boredom, out of boredom, out of boredom, out of boredom, out of boredom, out of boredom, out of boredom, out of boredom, out of boredom, out of boredom, out of boredom, out of boredom, out of boredom, out of boredom, such as out of boredom, boredom, or stress or emotions. This can lead to overeating, obesity, and related health problems.
 
-While tasty foods can be a enjoyable part of your diet, it's crucial to consider nutritional content when making food choices. A balanced diet, including a variety of fruits, vegetables, whole grains, lean proteins, and healthy fats, is also important for maintaining good health.
+However, it's essential to recognize that the best-tasting foods are not inherently bad or unhealthy. The key is to find a balanced diet that allows you to consume them in moderation and still enjoy your favorite foods. A varied and healthy diet, including fruits, vegetables, whole grains, lean proteins, and healthy fats, is also important for maintaining good health.
 
 [Original Text]
 Nothing
@@ -373,15 +371,15 @@ Nothing
 
 --- Sample 15 ---
 Prompt: Why do you see weird colors when you press your eyes?
-Perplexity (WM): 18.3445 | Perplexity (No WM): 78.0187
-Z-score (WM): 0.2495
+Perplexity (WM): 56.9008 | Perplexity (No WM): 78.0187
+Z-score (WM): -1.4408
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-I don't have eyes. I'm just a robot, so there's nothing to see!
+I don't see any weird colors when I press my eyes. It's a fun question!
 
 [Original Text]
 It's because the pressure distorts your vision.
@@ -451,28 +449,17 @@ While donations are essential for Wikipedia's operations, they are not the only 
 
 --- Sample 19 ---
 Prompt: How does a water purifier jug work and could you put 3rd world ditch water through one and drink safely?
-Perplexity (WM): 10.2543 | Perplexity (No WM): 25.1716
-Z-score (WM): 6.9018
+Perplexity (WM): 10.4654 | Perplexity (No WM): 25.1716
+Z-score (WM): 4.3941
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-A water purifier jug, also known as a water filter or filter cartridge, is a device designed to remove impurities from water, such as bacteria, parasites, viruses, and heavy metals, using a series of filters. It operates in several stages, each stage removing different types of contaminants.
+A water purifier jug, also known as a water filter or purification device, is designed to capture and remove impurities such as bacteria, viruses, and other microorganisms from water. This is done through a variety of processes such as filtration, heating, and chemical treatment. In general, water purifier jugs are effective at removing impurities and making it safer to drink water. 
 
-Here's a basic overview of how a water purifier jug works:
-
-1.  **Pre-Filter**: The first filter removes large particles like sand, gravel, and debris.
-2.  **Infrared Filter**: The second filter uses infrared radiation to kill oractivate bacteria, viruses, and other pathogens.
-3.  **PChem、化学 Filter**: The third filter uses chemicals to kill oractivate bacteria, viruses, and other pathogens.
-4.  **UV Filter**: The fourth filter uses UV radiation to kill oractivate bacteria, viruses, and other pathogens.
-5.  **Reverse Osmosis Filter**: The fifth filter uses high pressure to remove impurities like salt, and heavy metals.
-6.  **Final Filter**: The final filter removes any remaining impurities, like dust and sediment.
-
-However, while a water purifier jug can remove many impurities, it may not be able to completely eliminate all contaminants, like heavy metals, pesticides, and chemical compounds.
-
-It's still recommended to use a water filter or purifier when dealing with unsafe water sources, such as 3rd World ditch water, to ensure it's free from parasites, viruses, and other pathogens. If you need to use 3rd World ditch water, you may need to filter the water through a
+As for safely drinking 3rd world ditch water, it depends on the purification method being used and the quality of the water. Water purifier jugs are tested according to standards set by the World Health Organization (WHO) to ensure that the water is safe for drinking. By following the manufacturer's instructions for water purifier jugs, you can
 
 [Original Text]
 A water purifier jug works by filtering the water through a series of layers that remove impurities such as bacteria, viruses, and chemicals.
@@ -480,15 +467,15 @@ A water purifier jug works by filtering the water through a series of layers tha
 
 --- Sample 20 ---
 Prompt: Why people like getting drunk/sloshed/hammered/shit-faced ?
-Perplexity (WM): 33.2939 | Perplexity (No WM): 4.4357
-Z-score (WM): 0.7475
+Perplexity (WM): 20.0774 | Perplexity (No WM): 4.4357
+Z-score (WM): 1.5898
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-There can be several reasons why people like getting drunk.
+There can be several reasons why people like to get drunk.
 
 [Original Text]
 People may enjoy getting drunk or engaging in activities that involve being "sloshed," "hammered," or "shit-faced" for several reasons:
@@ -511,27 +498,15 @@ It's essential to remember that everyone's experience with alcohol can be influe
 
 --- Sample 21 ---
 Prompt: Why has the Mars Rover Opportunity's Lithium Ion Battery Lasted 11+ Years and the one in My Cell Phone/Laptop/Tablet Dies in Less Than 2?
-Perplexity (WM): 15.5748 | Perplexity (No WM): 8.1718
-Z-score (WM): 9.3673
+Perplexity (WM): 92.1734 | Perplexity (No WM): 8.1718
+Z-score (WM): 2.1240
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The longevity of the Opportunity's Lithium Ion battery can be attributed to a combination of design and operational factors. 
-
-1. **Temperature Protection**: The Mars environment is extremely extreme, with temperatures from -80°C to 20°C. The rover's battery is designed to operate efficiently in very cold and hot conditions, allowing it to maintain high performance over long periods.
-
-2. **Mass and Size**: The rover is small and lightweight. This means that the battery has less mass to support. A battery with less mass to handle can be more stable and last longer.
-
-3. **Design and Thermal Management**: The rover's design includes advanced thermal management systems that ensure the battery remains within a safe temperature range. This helps to reduce thermal stress and extends the battery's lifespan.
-
-4. **Reduced Wear**: The rover's mission is relatively long, but the environment and the mission itself are different. A battery on a rover is not subject to the same level of wear and tear as a personal device battery, which is designed for continuous operation, frequent charging, and higher current demands.
-
-As for the battery in your cellphone/laptop/tablet, the type of device and its operations play a role. Personal electronic devices, for example, undergo a more frequent charge and discharge cycle and have higher currents running through them. This can lead to increased thermal and physical stresses on the battery cells, causing them to degrade more quickly, which is why they typically last less than 2 years.
-
-It's important to note that the degradation in lithium-ion batteries is typically a gradual process that takes place over months or years. It can be a result of the battery charge being discharged slowly over long periods, as well as issues such as overcharge, over-discharge, and other thermal management problems. Proper battery management practices such as avoiding overcharging, reduced discharge rates, and thermal throttling can greatly extend their lifespan.
+The Opportunity Rover has a well-designed thermal management system.
 
 [Original Text]
 The Mars Rover Opportunity's lithium-ion battery has lasted over 11 years due to several factors:
@@ -612,8 +587,8 @@ In summary, aeration, carbonation, and exposure to light are the primary reasons
 
 --- Sample 24 ---
 Prompt: What is the significance of Jamaican Bobsled team qualifies for the Olympics?
-Perplexity (WM): 8.5573 | Perplexity (No WM): 20.7767
-Z-score (WM): 8.5150
+Perplexity (WM): 8.8976 | Perplexity (No WM): 20.7767
+Z-score (WM): 9.0832
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
@@ -622,17 +597,19 @@ Non-Watermarked Text Detection: True Negative
 [Watermarked Text]
 The qualification of the Jamaican bobsled team for the Olympics is a significant achievement for several reasons:
 
-1. **Increased Visibility**: The qualification brings the sport of bobsledding to the international stage, increasing visibility and interest in the sport among Jamaicans and sports fans worldwide.
-2. **National Pride and Identity**: The team's qualification to the Olympics is a source of pride and identity for Jamaicans, demonstrating the country's commitment to excellence in sports.
-3. **Media Coverage**: The team's qualification to the Olympics is likely to receive widespread media coverage, raising awareness of the sport and promoting bobsledding as a priority in Jamaica.
-4. **Increased Participation**: The qualification could inspire more people to participate in bobsledding, contributing to the growth and development of the sport in the country.
-5. **Support for Ongoing Development**: The success will encourage continued investment and support for bobsledding in Jamaica, potentially leading to further development of training programs, coaching, and infrastructure.
-6. **Increased Investment**: The team's qualification to the Olympics can lead to increased investment in the country's sports industry, infrastructure, and related sectors, leading to economic benefits and opportunities for the country.
-7. **Global Recognition**: The team's qualification to the Olympics brings global recognition and support for the country's participation in the Olympics, potentially leading to increased recognition and funding for new projects and initiatives.
-8. **Strengthening Alliances**: The team's qualification to the Olympics is an opportunity for the country to establish connections with allies and partners in international sports, fostering new relationships and opportunities for the country.
-9. **Sports Tourism**: The team's qualification to the Olympics could stimulate the growth of sports tourism, potentially creating new economic opportunities and revenue for the country.
+1. **Historical Context**: Jamaica has a rich sports history, particularly in track and field, which has historically been the sport associated with the country. Bobsled is a relatively new sport in Jamaica, and their qualification marks a significant shift in the country's sports landscape.
 
-Overall, the qualification of the Jamaican bobsled team for the Olympics is a significant achievement that could lead to numerous benefits and opportunities for the country.
+2. **Sports Diversification**: Jamaica qualifies not only for its traditional strengths in track and field but also for a sport that has not historically been a focus. This diversification of sports can lead to increased development and popularization of bobsled in the country.
+
+3. **National Pride and Achievement**: The qualification of the bobsled team is a testament to the skill and dedication of the athletes and the coaching staff. It also serves as a national achievement, demonstrating the country's potential to compete at the highest level in bobsled.
+
+4. **Media and Public Engagement**: A qualification for the Olympics is a major achievement that garners significant media and public attention. This can lead to increased awareness and interest in bobsled among the Jamaican public, potentially leading to broader support and participation in the sport.
+
+5. **Economic Benefits**: A qualification for the Olympics can inject hundreds of thousands of dollars into the local economy due to investments in infrastructure, training, and tourism. This could lead to a substantial economic boost for the country.
+
+6. **Future Outlook**: A successful qualification for the Olympics signals a promising future for the sport of bobsled in Jamaica. It could lead to increased exposure and recognition, both at the national and international levels, for the sport.
+
+In summary, the qualification of the Jamaican bobsled team for the Olympics is a significant step towards diverse sports, national pride, and economic development for Jamaica. It highlights the country's potential in competitive bobsled and is a bright sign for the future of the sport.
 
 [Original Text]
 The Jamaican Bobsled team qualifying for the Olympics is significant as it marks the first time the country has competed in the Olympics.
@@ -640,15 +617,17 @@ The Jamaican Bobsled team qualifying for the Olympics is significant as it marks
 
 --- Sample 25 ---
 Prompt: Is it possible to build up an immunity to poisons both naturally occurring and man-made?
-Perplexity (WM): 217.6853 | Perplexity (No WM): 3.4339
-Z-score (WM): 1.9419
+Perplexity (WM): 13.6991 | Perplexity (No WM): 3.4339
+Z-score (WM): 5.0233
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Building up immunity to poisons is not typically a desired outcome.,
+Building up immunity to poisons, both naturally occurring and man-made, is a common theme in science fiction and fantasy. However, in real life, it is not possible to build up immunity to all poisons with minimal effort.
+
+That being said, human body has evolved to handle certain poisons over time. For example, the protein alpha-glutamase, which is produced by the small intestine, can neutralize many poisons that are ingested by the human body. This suggests that it’s possible for the human body to develop immunity to certain poisons. Additionally, repeated exposure to certain toxins can
 
 [Original Text]
 Building up immunity to poisons, both naturally occurring and man-made, is a complex and challenging process. While some organisms can develop resistance to certain toxins, it is generally not possible to achieve complete immunity to all poisons.
@@ -687,15 +666,15 @@ Devices know the amount of charge left in a battery by measuring the voltage of 
 
 --- Sample 27 ---
 Prompt: Why are my muscles sore after jumping in cold water?
-Perplexity (WM): 25.3187 | Perplexity (No WM): 2.1941
-Z-score (WM): 0.8226
+Perplexity (WM): 20.3782 | Perplexity (No WM): 2.1941
+Z-score (WM): 1.4060
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-When jumping in cold water, your muscles will quickly contract due to the shock of the cold temperature, leading to the soreness.
+When jumping in cold water, your body tries to warm itself up quickly, which temporarily reduces the blood flow to your muscles.
 
 [Original Text]
 Jumping in cold water can cause muscle soreness for several reasons:
@@ -749,15 +728,24 @@ Overall, the desire to watch the same TV show or movie over and over again is dr
 
 --- Sample 29 ---
 Prompt: why do the French have an abstain vote instead of people physically restraining from voting. [Other]
-Perplexity (WM): 13.7644 | Perplexity (No WM): 4.1472
-Z-score (WM): 3.4426
+Perplexity (WM): 10.4288 | Perplexity (No WM): 4.1472
+Z-score (WM): 8.3922
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-In France, the abstain vote is a way for voters to express their disagreement or doubt about a candidate's policies or platform. By abstaining, a voter can show that they are unwilling to vote for the candidate, without voting outright against them. In some cases, the abstain vote is also used to express support for a candidate, particularly in cases where a physical vote would be difficult to achieve
+In France, the concept of the "Abstain vote" or " abstention" is often used by the French government and the National Assembly to manage situations where citizens are unable or unable to vote due to various reasons. This practice is not a physical restraint of people from voting; rather, it's a way to ensure fair, fair, and effective democratic participation.
+
+Here are some specific uses of the abstain vote in France:
+
+1. **Civic representation**: In cases where citizens are unable to vote, like in prisons or remote areas, their interests may be represented by a designated representative. In such situations, the citizens may abstain, their voices being heard through their representatives.
+2. **Political abstention**: In times of political controversy, some citizens may choose to abstain, either out of protest or to avoid voting in a way they don't agree with. This is a common practice in France, where politics can be polarized and complex.
+3. **No voting on specific issues**: In certain situations, there is "no voting" on specific issues where the citizens are not eligible to vote or prefer not to participate. In such cases, the government may use the abstain vote, allowing citizens to express their opinions and still reach a collective decision.
+4. **Emergency situations**: The abstain vote can also be used in the case of unexpected events, such as epidemics or natural disasters, that make it difficult or impossible for citizens to vote. In such situations, the abstain vote allows citizens to participate in the democratic process, even if they're not able to exercise their rights.
+
+In summary, the abstain vote in France is not a physical restraint of people from voting; rather, it's a way to ensure fair, fair, and effective democratic participation in situations that would otherwise make voting impossible or inoperative. It aims to protect citizens' rights and autonomy while respecting the integrity of the democratic system.
 
 [Original Text]
 The French have an abstain vote, or verbal abstention, rather than having people physically abstain from voting. Verbal abstention is a form of protest where voters express their dissatisfaction with a particular issue or candidate by abstaining from voting, rather than physically abstaining from voting.
@@ -842,23 +830,21 @@ The answer is not known to me!
 
 --- Sample 33 ---
 Prompt: Why do we wake up early when we don't have to but tend to wake up late when we need to be up?
-Perplexity (WM): 8.5436 | Perplexity (No WM): 12.7311
-Z-score (WM): 5.8738
+Perplexity (WM): 9.9202 | Perplexity (No WM): 12.7311
+Z-score (WM): 6.0665
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-The phenomenon you're referring to is known as "hagliffism," also known as the "hagliff effect."
+The phenomenon you're describing is known as the sleep-wake cycle, also known as the circadian rhythm. This is an internal biological clock that regulates a wide range of physiological processes and behaviors, including sleep and wakefulness, hunger and metabolism.
 
-When we don't have to wake up, our body starts to produce melatonin, the hormone that regulates the sleep-wake cycle. This melatonin production signals to our body that it's time to fall asleep. However, our internal clock doesn't immediately reset, and it takes a few minutes to get ready for sleep. As a result, we tend to wake up earlier than we normally would.
+The circadian rhythm is influenced by the natural cycle of light and dark. In the morning, as you're exposed to light, your body starts to produce hormones that prepare you to wake up. This is because our internal clock is programmed to respond to the natural day-night light cycle, which helps us regulate the timing of our sleep-wake cycle.
 
-On the other hand, when we need to wake up, our body has yet to produce enough melatonin to signal that it's time to wake up. Our internal clock is still trying to get ready for sleep, and as a result, we tend to wake up later than we normally would.
+However, the circadian rhythm can also be disrupted by external factors such as artificial light, jet lag, and sleep schedules. When artificial light is present at night, it can interfere with the production of hormones that regulate your sleep-wake cycle, making it difficult to wake up fully in the morning. This is why you tend to wake up late when you need to be up.
 
-This phenomenon is named after Robert Hagliff, a Canadian neuroscientist who first described the effect in the early 1970s.
-
-It's a fascinating aspect of the human body to automatically adjust our wake-up schedule and account for the differences in our internal clock and readiness for sleep. It's not just a neurobiological phenomenon - it's a
+In contrast, when you wake up early when you don't have to, it is a sign that you're trying to align with that natural lead to wake time, likely in response to avoiding
 
 [Original Text]
 This is a common phenomenon that can be explained by our internal body clock, also known as our circadian rhythm. Our circadian rhythm is influenced by factors such as light, temperature, and stress. When we don't need to be up, our circadian rhythm may be shifted forward, causing us to wake up early.
@@ -866,27 +852,31 @@ This is a common phenomenon that can be explained by our internal body clock, al
 
 --- Sample 34 ---
 Prompt: Why do tech/software companies stay in the US when they are demanded to include backdoors by the US government? Can't tech companies just develop and release their products overseas, out of reach of the US government's influence?
-Perplexity (WM): 15.0887 | Perplexity (No WM): 10.3421
-Z-score (WM): 9.5803
+Perplexity (WM): 11.9086 | Perplexity (No WM): 10.3421
+Z-score (WM): 6.5264
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-There are several reasons why technology companies may stay in the US despite the demands to include backdoors by the US government in their products:
+There are several reasons why tech and software companies may choose to stay in the US, despite the demands from the US government for backdoors. These reasons include:
 
-1. **IP protection**: The US has the strongest patent protection laws in the world, which helps safeguard the company's innovations and intellectual property.
-2. **Marketing and growth opportunities**: The US has one of the world's largest and most competitive markets and industries, offering significant opportunities for business growth and expansion.
-3. **Government relationships**: The US government has a close relationship with many technology companies, and companies may prioritize collaboration and communication with the government.
-4. **Regulatory environment**: The US has a relatively clear and predictable regulatory framework, which reduces the complexity and uncertainty associated with investing in different jurisdictions.
-5. **Tax benefits**: The US has a favorable tax system that can reduce tax liabilities and costs.
-6. **Employee attract and retain**: The US has a highly skilled and experienced workforce, and companies may prioritize attracting and retaining top talent within the country.
-7. **Technical innovation**: The US has a strong reputation for technology innovation, and companies may prioritize research and development within the country to stay ahead of the curve.
+1. **Tax Benefits**: The US has a favorable tax system that allows companies to keep a significant portion of their profits after deducting taxes. This can be particularly appealing to tech companies, which often generate substantial revenue.
 
-While tech companies could potentially develop and release their products overseas, the US is a unique market with incentives and loyalty. Backdoors can be used to exclude competitors and maintain market share, making it harder for foreign companies to get into the US market. It may also raise concerns about security, data protection, and ethical business practices, which could harm the company's reputation and brand within the US market. Companies may prioritize loyalty over potential profits, especially if their goal is to maintain high standards and control over their products and services.
+2. **Regulatory Framework**: The US has a well-established regulatory framework for tech companies, which includes laws and guidelines for privacy, security, and intellectual property. This framework helps companies navigate and understand the legal landscape of their business activities.
 
-That said, some companies may prioritize global markets and maintain a strong presence worldwide. However, maintaining a presence in both the US and internationally has its benefits and trade-offs, and it is a complex decision based on various strategic and economic considerations.
+3. **Innovation and Competence**: The US has a strong ecosystem for innovation, including research and development institutions, academic partnerships, and a highly skilled workforce. Staying in the US can provide access to these resources and help companies stay ahead of industry trends.
+
+4. **Trust and Branding**: Consumers and investors often place trust in companies that are based and headquartered in the US, as they are perceived to be more committed to transparency and accountability. This can be a competitive advantage in the market.
+
+5. **Legal and Compliance Considerations**: Companies that comply with US laws and regulations often have better reputations and fewer penalties. Overseas development could lead to more legal challenges and regulatory scrutiny.
+
+6. **Growth and Expansion**: Having a presence in the US can provide a stable base for expansion, investment, and growth opportunities both domestically and internationally.
+
+While it might be possible to develop and release products outside of the US, there are practical and economic considerations. However, even if companies develop and market their products abroad, they still need to have operations for various reasons, such as applying for patents, opening sales offices, and maintaining other commercial operations. This allows for compliance with US laws and regulations.
+
+Overall, the decision on development location is influenced by a complex array of economic, legal, and ethical considerations.
 
 [Original Text]
 There are several reasons why tech/software companies stay in the US despite the demands to include backdoors by the US government:
@@ -935,27 +925,26 @@ No
 
 --- Sample 37 ---
 Prompt: If a computer has a GPU, why would reducing GUI effects impact performance?
-Perplexity (WM): 10.3606 | Perplexity (No WM): 8.2234
-Z-score (WM): 7.8758
+Perplexity (WM): 8.6353 | Perplexity (No WM): 8.2234
+Z-score (WM): 7.5122
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Reducing GUI effects can impact performance because Graphics Processing Units (GPUs) are designed to handle graphics-related tasks. When a graphical interface element requires complex effects, such as 3D models, animations, lighting, or shadows, the GPU needs to perform a significant amount of work. This increased workload can lead to slower system performance.
+Reducing GUI effects can impact performance for several reasons:
 
-Here are some reasons why reducing GUI effects can impact performance:
+1. **Resource Overhead**: GUI effects, such as animation, transparency, and complex graphics, require a significant amount of GPU resources. By reducing these effects, you free up GPU resources that can be used directly by other applications or tasks, improving overall system performance.
+2. **Reduced Latency**: Reducing GUI effects can reduce the time required to render the GUI, resulting in lower latency. This can lead to a smoother, more responsive user experience.
+3. **Improved Performance**: Lower GPU usage can help your system perform better, especially if you have a limited GPU. By reducing GUI effects, you can help optimize your system's resources and improve performance.
+4. **Better Power Management**: Reducing GUI effects can also help reduce power consumption, as the GPU may not have to work as hard to rendering the effects. This can lead to better energy efficiency and reduced heat generation.
+5. **Increased Reliability**: Complex GUI effects can be prone to errors, such as system slowdowns or flickering. By reducing these effects, you can minimize the risk of errors and improve system reliability.
+6. **Efficient GPU Utilization**: Reducing GUI effects can help ensure that your GPU is being used efficiently, rather than wasting resources on rendering. This can lead to better system performance and more optimized GPU utilization.
+7. **GPU Overload**: The GPU can offload the GUI, making it less CPU-intensive and more dependent on the GPU. By reducing GUI effects, you can reduce the load on the GPU, freeing up CPU resources that can be used by other applications or tasks.
+8. **System Overload**: Overloading system resources, including the GPU, can lead to reduced system performance. By reducing GUI effects, you can help ensure that your system runs smoothly and efficiently.
 
-1. **Increased workload**: Complex GUI effects require the GPU to perform a significant amount of rendering tasks, such as shaders, rendering, and textures. This increased workload can lead to reduced system performance.
-2. **GPU resource allocation**: When a graphical interface element requires complex effects, the GPU needs more resources to process the data. This can lead to reduced performance for other applications or tasks running on the same GPU.
-3. **Frame rate**: Complex GUI effects can cause frame rate drops, where the GPU takes longer to process the data, resulting in slower response times and a disjointed interface.
-4. **GPU latency**: Complex GUI effects can cause GPU latency, where the GPU takes longer to process the data, causing the interface to appear sluggish or unresponsive.
-5. **GPU cache usage**: Complex GUI effects can use a significant amount of GPU cache, leading to reduced system performance. Reducing GPU cache usage can help improve system performance without impacting the quality of effects.
-6. **System overhead**: Complex GUI effects introduce additional overhead, such as communication between CPU and GPU, which can negatively impact overall system performance. By reducing GUI effects, you'll also reduce the load on the CPU, thus improving system performance.
-7. **Hardware limitations**: Running complex applications may require you to disable hardware acceleration, software scaling, and other optimizations to maintain system performance. Reducing or optimizing GUI effects can keep your applications running smoothly.
-
-By minimizing GUI effects, you reduce the load on the GPU, which in turn can contribute to better system performance.
+Overall, reducing GUI effects can lead to smoother performance, more efficient GPU utilization, and more optimized system resources.
 
 [Original Text]
 Reducing GUI effects can impact performance on a computer with a GPU for several reasons:
@@ -979,26 +968,24 @@ By reducing GUI effects, you can decrease the GPU load, reduce memory usage, and
 
 --- Sample 38 ---
 Prompt: What happens if you don't pay your US Federal income tax?
-Perplexity (WM): 10.3230 | Perplexity (No WM): 3.4333
-Z-score (WM): 6.9454
+Perplexity (WM): 10.0812 | Perplexity (No WM): 3.4333
+Z-score (WM): 8.0167
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-If you fail to pay your US Federal income tax, you'll face legal consequences, including:
+If you don't pay your US Federal income tax, you'll face legal consequences, including fines, interest, penalties, and imprisonment. Here's what you can expect to happen:
 
-1.  **Fines**: The IRS can impose a fine on you for failing to pay your income tax, which can range from a few thousand dollars to tens of thousands of dollars.
-2.  **Interest**: You'll be subject to interest on the amount you owe, known as " back taxes," which can add up over time.
-3.  **Forfeiture**: The IRS can seize your assets, such as a house or car, to pay off your owed taxes. In some cases, you might lose your entire residence.
-4.  **Legal Action**: If you fail to pay your taxes, you might be liable to legal action, especially if you've engaged in illegal activities, such as tax evasion or theft of income.
-5.  **Credit Damage**: Dealing with tax issues can damage your credit score, making it harder for you to get a loan or operate a business in good standing.
-6.  **Criminal Charges**: In severe cases, you might face criminal charges, especially if you demonstrate:
-   - Intentional failure to pay income tax.
-   - Falsifying or underreporting income.
-   - Evasion or hiding/concealation of income.
-   - Failure to submit
+1. **Fines**: The IRS may charge you a fine and interest on the amount you owe.
+2. **Penalties**: The IRS may seek additional penalties, known as "lapse fees," for each month you don't pay your taxes. The penalty will be calculated at a rate, typically a percentage of the unpaid balance.
+3. **Interest**: The IRS may charge you interest on the unpaid balance.
+4. **Tax Refunds**: You'll also be eligible for a tax refund if you've overpaid in the past.
+5. **Tax Collector**: The IRS may hire a tax collector to seek payment of the unpaid balance. They may send you collection notices, attempt to seize your assets, and file for a court order.
+6. **Tax Evasion**: If you try to avoid filing a tax return, you'll also face consequences for tax evasion. For example, if you fail to file a tax return in part because of penalties or restitution, you'll be subject to additional fines and penalties.
+
+In summary, not paying your Federal income tax is a serious offense that can result in severe penalties, fines, and imprisonment. It's
 
 [Original Text]
 If you don't pay your US Federal income tax, you may face several legal consequences. Here are some of the potential outcomes:
@@ -1018,32 +1005,22 @@ It's essential to pay your taxes on time to avoid these legal consequences and m
 
 --- Sample 39 ---
 Prompt: Why does my employer require a voided personal check in order to setup direct deposit?
-Perplexity (WM): 11.5623 | Perplexity (No WM): 5.8071
-Z-score (WM): 9.1000
+Perplexity (WM): 9.1151 | Perplexity (No WM): 5.8071
+Z-score (WM): 10.9230
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Your employer may require a voided personal check to set up direct deposit for several reasons:
+Your employer likely requires a voided personal check as part of the direct deposit setup process for several reasons:
 
-1. **Employee Verification**: The employer needs to verify your identity to ensure that the direct deposit is intended for you. A voided check serves as a proof of your employee identity.
-   This helps the employer confirm that the direct deposit is for you and not for another individual.
+1. **Proof of Compliance**: Many banks and depository institutions require employers to provide proof of compliance with payroll regulations, particularly in jurisdictions with existing payroll arrangements. Voids a check show that the employer is in compliance with payroll regulations and that they're not subject to a preempted salary plan, which is a type of salary plan that has been superseded by federal or state regulations. This process is referred to as a "proof of salary compliance" or "proof of compliance with payroll regulations.
+2. **Salary Compliance Process**: Some banks and depository institutions may require a compliance verification process to ensure that the employer is in compliance with payroll regulations, particularly in jurisdictions with existing payroll arrangements. This process may require voiding a check to verify that the employer is in compliance with payroll regulations.
+3. **Employer Verification**: Some banks and depository institutions may require a verification process to ensure that the employer is in compliance with payroll regulations, particularly in jurisdictions with existing payroll arrangements. This process may require voiding a check to verify that the employer is compliant with payroll regulations.
+4. **State and Agency Requirements**: Some states and agencies may have requirements for payroll compliance, particularly in jurisdictions with existing payroll arrangements. These requirements can be fulfilled by voiding a check to verify that the employer is in compliance with payroll regulations.
 
-2. **Risk Management**: The employer wants to ensure that the direct deposit is for employees only and not for unauthorized access.
-   This helps identify any potential fraud or unauthorized access to the direct deposit.
-3. **Documentation**: The voided personal check serves as a record-keeping document for the employer to verify that the direct deposit is for you.
-   This can be useful when you need to provide proof of direct deposit for tax purposes, such as tax returns or deductions.
-4. **IRS Requirement**: According to United States Internal Revenue Service (IRS) regulations, it is common for employers to provide proof of employee identification, including a voided personal check, to set up direct deposit.
-   This requirement ensures that the employer complies with IRS guidelines and regulations.
-
-To set up direct deposit, you may need to provide:
-
-- A voided personal check (which you can generate online or purchase a check in your name)
-- A valid photo ID (e.g., driver's license or state ID)
-- A proof of identification from your employer (e.g., IRS Form 1099 or IRS Form 10)
-- Have your personal information on the check,
+If you're uncomfortable voiding a check, it's worth bringing this up with your employer or your financial institution. They might be able to waive this requirement, allowing you to set up direct deposit without voiding a check. It's a
 
 [Original Text]
 Your employer may require a voided personal check to set up direct deposit for several reasons:
@@ -1069,15 +1046,24 @@ It's essential to note that not all employers require a voided check to set up d
 
 --- Sample 40 ---
 Prompt: Why are the insides of Ovens Dark and Not Metallic or Mirror Like?
-Perplexity (WM): 51.7975 | Perplexity (No WM): 80.2591
-Z-score (WM): 0.5876
-Watermarked Text Detection: False Negative
+Perplexity (WM): 11.6858 | Perplexity (No WM): 80.2591
+Z-score (WM): 4.2090
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The insides of ovens are typically dark and not metallic or mirror-like due to a variety of
+The insides of ovens are typically dark and not metallic or mirror-like due to several reasons:
+
+1. **Thermal Insulation**: Dark-colored walls absorb more heat, which helps to maintain a consistent temperature within the oven. This is essential for baking and cooking.
+2. **Reflectivity**: Dark-colored walls reflect less heat than metallic or mirror-like walls. This means that the walls absorb more of the heat generated by the burner or heat elements, making the air inside the oven stay warmer for longer.
+3. **Appearance**: Dark-colored walls add a touch of warmth and helps to make the oven appear more cozy and inviting.
+4. **Performance**: Mirrors can reflect heat, which can cause the air inside the oven to cool down and maintain a lower temperature. This can affect the performance of the oven and lead to uneven cooking.
+
+Metallic material, on the other hand, is also not used because it can reflect heat and create a reflection on the walls of the oven, which can lead to uneven cooking. It can also cause the oven to feel cool on the inside, which can make it difficult for the food to cook. Additionally, metallic walls can leave the taste of burnt food on the interior of the oven, which can affect the overall taste of the food.
+
+In conclusion, ovens are typically constructed using high-quality materials
 
 [Original Text]
 The insides of ovens are dark
@@ -1101,30 +1087,25 @@ This is a myth. The reaction is not violent.
 
 --- Sample 42 ---
 Prompt: Why do The Miranda Rights state that anything you say can "and will" be used against you. If something's not incriminating why would it be used against you? Why would cops be forced to admit this up front?
-Perplexity (WM): 9.8427 | Perplexity (No WM): 4.5848
-Z-score (WM): 10.0065
+Perplexity (WM): 10.4527 | Perplexity (No WM): 4.5848
+Z-score (WM): 9.5803
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The Miranda Rights are designed to protect individuals against self-incrimination by ensuring that they are informed of the potential consequences of declinating to answer questions from law enforcement officials. An arrest is made during one of the following situations:
+The Miranda Rights are designed to protect individuals against self-incrimination by ensuring that they are informed of the potential consequences of declinating their Miranda rights. This principle is based on the US Supreme Court's ruling in Miranda v. Arizona, which established that individuals must be informed of their Rights before they can be interrogated by law enforcement officers. 
 
-1. A person is beyond age of majority.
-2. A person is by virtue of being a U.S. national in a foreign country.
-3. During a search.
-4. A person is in possession of a U.S. passport.
-5. A person's vehicle has been stopped.
-6. A person is a United States Marshal.
+The Miranda Rights specifically state that "anything you say can be used against you" to alert individuals of the potential legal consequences of their statements. Even if a statement does not immediately appear incriminating, the potential to be used against them can be significant in court. It's important to note that the nature of evidence can be complex and ambiguous, and a statement might not be immediately incriminating but could still be used against them in certain contexts. 
 
-The primary purpose of the Miranda Rights is to protect individuals from giving incriminating statements, which could be used against them in court. In the United States, the right to self-incrimination is protected by the Fifth Amendment, which states, "No person shall be compelled tojure himself."
+The reason for this is to ensure that individuals are aware of the potential consequences of declinating their Miranda rights. This helps to prevent:
 
-The statement in the Miranda Rights that "anything you say can and will be used against you" is a fairness warning to individuals who are arrest or interrogated by law enforcement officials. It ensures that individuals are aware that their statements, no matter how innocent, could be used against them if they are charged and convicted of a crime.
+1. **Cognitive falsehood**: The individual might not realize that their statements can be used against them, leading to a false confessions. Declinating their rights ensures that the individual understands the potential consequences of their statements.
+2. **Potential false confessions**: The individual might be pressured into declinating, leading to a false confessions, even if it's not immediately incriminating. Declinating their rights ensures that the declinating is not the result of coercion.
+3. **Lack of understanding of the potential charges**: The individual might not know that declinating could lead to severe legal consequences, even if there is not enough evidence to build a case. Declinating their rights ensures that the individual understands the gravity of the potential charges.
 
-The purpose of the Miranda Rights is to protect individuals from being held accountable for any statements they make, regardless of whether the statement is incriminating or not. It is a fundamental right that applies to every individual, not just those suspected of committing a crime.
-
-Law enforcement officers are forced to read these rights to individuals out of respect for their rights and to uphold the principles of the rule of law. By doing so, it ensures that all individuals are treated equally before the law, and every person has the right to know their rights when speaking to law enforcement officers, regardless of whether the statements are incriminating or not. This ensures that everyone has the right to justice and a fair trial based on the gravity of the charges.
+In summary, the Miranda Rights are designed to inform individuals of the potential consequences of declinating, even if it's not immediately incriminating, to prevent coerced confessions, potential false confessions, and ensure that they understand the gravity of the charges.
 
 [Original Text]
 The Miranda Rights are designed to protect individuals from self-incrimination, which is a fundamental right under the Fifth Amendment to the United States Constitution. The Fifth Amendment states, "No person shall be compelled to be a witness against himself." This means that a person cannot be forced to divulge information that could incriminate them.
@@ -1187,24 +1168,27 @@ It's essential to note that libraries often use a combination of these methods t
 
 --- Sample 45 ---
 Prompt: If the ozone layer is made up of O3, why are we not producing some of it ourselves and pumping more of them into the atmosphere to fix the problem faster?
-Perplexity (WM): 11.6784 | Perplexity (No WM): 8.0281
-Z-score (WM): 8.6571
+Perplexity (WM): 11.3086 | Perplexity (No WM): 8.0281
+Z-score (WM): 6.8105
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The depletion of the ozone layer is a complex issue, and it presents a significant challenge for the Earth's environment. While it may seem tempting to consider introducing more ozone into the atmosphere, there are several reasons why this approach is not feasible.
+The ozone layer is indeed composed of ozone (O₃) molecules, which are composed of three oxygen atoms bonded to each other. However, there are several reasons why we don't produce more ozone ourselves and pump it into the atmosphere to fix the problem faster:
 
-1. **Chemical reactions**: Ozone (O3) is a highly reactive molecule that reacts quickly with other molecules in the atmosphere to convert into oxygen (O2) and other compounds. This means that introducing more O3 into the atmosphere would likely lead to a shift in the balance of chemical reactions, potentially causing new problems or exacerbating existing ones.
-2. **Technological limitations**: While it is possible to manufacture ozone using methods like the Ozone Discharge Technique, it is not a readily available or efficient process for large-scale production. Introducing more ozone into the atmosphere would require significant investment, research, and expertise.
-3. **Environmental and health concerns**: The production and release of ozone into the atmosphere pose risks to the environment and human health. Ozone can damage plants, forests, and crops, as well as harm human health through respiratory problems, skin irritation, and other issues. Furthermore, ozone can also leach into water bodies, affecting aquatic life and ecosystems.
-4. **Energy and resource requirements**: The process of producing and releasing ozone into the atmosphere would be energy-intensive, potentially contributing to greenhouse gas emissions and undermining efforts to mitigate climate change.
+1. **Chemical Stability:** The ozone molecule is relatively unstable in the atmosphere. It readily reacts with other molecules, absorbs ultraviolet (UV) radiation, and splits apart into oxygen (O₂) and a hydroxyl radical (OH). This dynamic nature makes it difficult to produce and control ozone in a way that can be effectively injected into the atmosphere.
 
-Rather than introducing more ozone into the atmosphere, the scientific community has recognized the importance of protecting the ozone layer and has made efforts to restore the balance. The Montreal Protocol has led to the development of ozone recovery systems and other methods to help restore ozone levels. A global reduction in emissions and industrialization can also help restore ozone levels to some extent.
+2. **Energy Requirements:** Producing ozone requires a significant amount of energy. The process typically involves the use of electrical discharges, which are energy-intensive. This energy requirement is not feasible for large-scale or continuous production of ozone.
 
-Remember, the ozone layer is a delicate and interconnected system, and it is our responsibility to protect and preserve the environment. Our interactions have consequences, and the actions we take can help effect change.
+3. **Environmental and Health Concerns:** Producing ozone for industrial use, such as water purification, can pose environmental and health risks. Ozone is highly reactive and can generate harmful byproducts if not managed properly. Additionally, the energy-intensive process can contribute to greenhouse gas emissions and other pollutants.
+
+4. **Natural Processes:** The production and breakdown of ozone in the atmosphere are natural processes that are carefully controlled by the environment. The ozone layer has a natural balance that provides protection from UV radiation. Artificial injection of ozone could interfere with these natural processes.
+
+5. **Alternative Solutions:** The problem of ozone depletion is multifaceted, and one of the most effective solutions is to reduce emissions and other human activities that damage the ozone layer's natural balance. This includes protecting forests, promoting sustainable agriculture, and mitigating climate change.
+
+In summary, while it is important to protect the ozone layer, producing more ozone and pumping it into the atmosphere is not a practical solution. Instead, efforts focus on preserving and protecting the natural production of ozone by reducing reliance on fossil fuels, protecting forests, and mitigating climate change.
 
 [Original Text]
 The ozone layer is indeed made up of ozone (O₃) molecules, which play a crucial role in protecting the Earth from harmful ultraviolet (UV) radiation. However, producing more ozone and injecting it into the atmosphere is not a feasible or practical solution for several reasons:
@@ -1224,17 +1208,15 @@ Instead, focusing on reducing human activities that harm the ozone layer, such a
 
 --- Sample 46 ---
 Prompt: In the English language, how are contractions prioritized when a word can belong to two different contractions?
-Perplexity (WM): 23.9866 | Perplexity (No WM): 5.3989
-Z-score (WM): 3.3829
+Perplexity (WM): 11.5870 | Perplexity (No WM): 5.3989
+Z-score (WM): 2.5643
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-In English, if a word can belong to two different contractions, the word before the contraction is used first. For example: 
-- "I'll going home" is interpreted as "I'm gonna go"
-- "I have to go" is simply interpreted as "I have to"
+In the English language, contractions are prioritized based on personal preference and context. Some people prefer to use contractions for all words, while others prefer to use them only for certain words. In informal writing, contractions are often used, while in formal writing, they are less common. If a word can belong to two different contractions, it is usually important to choose the one that fits best within the context and tone of the text. Overall, the use of contractions depends on individual preference and style.
 
 [Original Text]
 In the English language, contractions are prioritized based on the context and the structure of the sentence. When a word can belong to two different contractions, the correct contraction is determined by the surrounding words and the overall meaning of the sentence.
@@ -1266,31 +1248,27 @@ In general, the correct contraction is determined by the surrounding words and t
 
 --- Sample 47 ---
 Prompt: The Cuban Missle Crisis and Americas enormous beef with Cuba, what happened there?
-Perplexity (WM): 9.0477 | Perplexity (No WM): 5.9676
-Z-score (WM): 6.5974
+Perplexity (WM): 8.0959 | Perplexity (No WM): 5.9676
+Z-score (WM): 6.3133
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The Cuban Missle Crisis, also known as the crisis cuban de la高潮 missilees, is one of the most famous events of the Cold War. It took place in 1962 when the United States discovered that the Soviet Union had installed long-range ballistic missiles in Cuba. 
+The Cuban Missle Crisis was a pivotal event during the Cold War, occurring in October 1962. It brought the United States and the Soviet Union dangerously close to the brink of nuclear war. Here's a brief overview of what happened:
 
-Here are some key points about the Cuban Missile Crisis:
+1. **Discovery**: The U.S. government discovered Soviet nuclear missile installations in Cuba on October 14, 1962. The missiles were believed to be capable of delivering nuclear weapons within 30-60 minutes to the continental U.S. mainland.
 
-1. **Discovery of the missiles**: The U.S. government became aware of the missiles' existence on October 14, 1962, during a reconnaissance mission by American U-2 spy planes.
+2. **Response**: The U.S. government responded by imposing a naval blockade around Cuba, aiming to prevent any further Soviet shipments to Cuba. The U.S. also initiated a diplomatic crisis by demanding that the Soviet Union dismantle the missiles in Cuba.
 
-2. **Cuba's response**: The Cuban government deployed the missiles in response to a threat from the Soviet Union, which warned Cuba that the U.S. would attack Cuba if they did not remove the missiles.
+3. **Escalation**: The crisis continued for several days, with both sides warning each other of the potential for a nuclear exchange. At first, the Soviet Union was reluctant to withdraw the missiles, but the U.S. pressure continued to mount.
 
-3. **The initial crisis**: The discovery of the missiles led to a severe diplomatic crisis between the U.S. and Cuba. The U.S. government responded by imposing economic sanctions on Cuba and placing a naval naval quarantine around it.
+4. **Compromise**: After several days of standoff, the Soviet Union finally agreed to withdraw the missiles in exchange for a U.S. promise to remove its nuclear missiles from Turkey within 60 days. This was a significant concession for the Soviet Union, as they wanted to ensure that they would not have a nuclear presence so close to their home.
 
-4. **World leaders intervene**: The crisis drew international attention, with world leaders, including the United Nations General Assembly, calling for an end to the crisis.
+5. **Legacy**: The Cuban Missile Crisis marked a turning point in the Cold War, as it demonstrated the power of willpower and diplomatic efforts to prevent nuclear war. It also improved the U.S.-Soviet relations in the aftermath of the crisis, marking as a significant turning point in the Cold War.
 
-5. **Diplomatic negotiations**: Over a three-day period, the U.S. and Soviet Union engaged in secret negotiations, outside regular diplomatic channels, to prevent nuclear war.
-
-6. **The resolution**: After negotiations to end the crisis, an agreement was reached, with the U.S. agreeing to remove the missiles from Cuba and strip nearby Turkey of U.S. troops to prevent their invasion.
-
-The Cuban Missile Crisis was a significant turning point for the United States and the Soviet Union, and it highlighted the ongoing conflicts between the two countries during the Cold War. It also led to a temporary reduction in the military tension between the United States and the Soviet Union, marking a significant turning point in the Cold War.
+The Cuban Missile Crisis is a prime example of the height of the Cold War, a period of heightened tensions and mistrust. It also serves as a stark reminder of the potentially devastating consequences of a nuclear war.
 
 [Original Text]
 The Cuban Missile Crisis was a pivotal event during the Cold War, occurring in October 1962. Here's a brief overview of what happened:
@@ -1312,26 +1290,29 @@ The Cuban Missile Crisis was a critical lesson in international relations, diplo
 
 --- Sample 48 ---
 Prompt: Why can't we use a centrifuge to de-salinate ocean water?
-Perplexity (WM): 11.8548 | Perplexity (No WM): 9.5410
-Z-score (WM): 7.5207
+Perplexity (WM): 8.4191 | Perplexity (No WM): 9.5410
+Z-score (WM): 7.5917
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Using a centrifuge to de-salinate ocean water is not a practical method due to several reasons:
+Using a centrifuge to de-salinate ocean water is not a practical solution due to several reasons:
 
-1. **Energy requirements**: Centrifuges require a significant amount of energy to achieve the necessary force to separate solid particles from a liquid. The energy requirements of using a centrifuge to desalinate ocean water would be enormous.
-2. **Speed and torque**: The speed and torque required to spin a centrifuge at such high speeds would be massive. This would require a significant amount of power, which would be impractical and overuse our energy infrastructure.
-3. **Centrifugal force and gravity**: The centrifugal force generated by the centrifuge would be less than the force exerted by gravity, which means the salt and other solid particles would still be attached to the seawater.
-4. **Size limitations**: The size of the container would be required to create a centrifugal force capable of separating salt from seawater would be enormous. This would require a massive amount of space and have a significant impact on the environment.
-5. **Cost of construction and maintenance**: The cost of building a centrifuge designed to desalinate ocean water is immense. Maintenance and operation of large centrifuges are also expensive.
-6. **Operator and safety**: A highly skilled operator is required to run a centrifuge, and a life support system is required to ensure continuous operation.
+1. **Energy requirements**: Centrifuges are extremely energy-intensive, requiring a significant amount of electrical power to achieve the necessary speeds. A centrifuge would need to be able to spin at speeds of 20,000 RPM or higher, which would require a massive amount of electricity.
 
-Despite these challenges, even if we were to use a centrifuge, the method of vacuum pressure distillation, which uses pressure to separate salts and other impurities from seawater. This method is expensive, energy-intensive, and not efficient in removing other minerals and organic compounds from seawater.
+2. **Scalability**: Desalination requires a large volume of water, and centrifuges alone would not be sufficient to handle the entire ocean's water. Centrifuges would need to be able to process a massive amount of water, which would be costly and impractical.
 
-For the time being, if centrifuges were to be used to desalinate ocean water, they would be used in combination with other desalination techniques like reverse osmosis (RO) or ion exchange, to improve overall efficiency and water quality.
+3. **Limited efficiency**: Centrifuges are not as efficient at removing salts and other minerals from water, compared to existing desalination techniques like reverse osmosis or distillation. Centrifuges would likely retain more salt and other minerals, which would not be suitable for desalination.
+
+4. **Operational costs**: Centrifuges would require a significant amount of equipment, maintenance, and operator training, making it a cost-effective way to de-salinate ocean water. The cost of equipment, labor, and maintenance would likely outweigh the potential benefits of using centrifuges.
+
+5. **Water quality**: Ocean water is often contaminated with bacteria, viruses, and other biological agents, and centrifuges may not be designed to handle this type of contamination.
+
+6. **De-salinate sand**: Sand is a porous material that is difficult to de-salinate ocean water, while centrifuges are designed to des-sal water. This would require advanced material handling and filtration equipment, which would be challenging and costly.
+
+In summary, while it is theoretically possible to use centrifuges to de-salinate ocean water, it would be too expensive, impractical, and would require careful maintenance and monitoring to ensure efficiency and water quality.
 
 [Original Text]
 Using a centrifuge to de-salinate ocean water is not feasible for several reasons:
@@ -1355,15 +1336,15 @@ In summary, while large centrifuges could theoretically be used to separate salt
 
 --- Sample 49 ---
 Prompt: How are adept music players able to just start playing along to anything that someone else plays and have it sound good?
-Perplexity (WM): 1527.1545 | Perplexity (No WM): 8.5627
-Z-score (WM): -0.4168
-Watermarked Text Detection: False Negative
+Perplexity (WM): 2047.3820 | Perplexity (No WM): 8.5627
+Z-score (WM): 2.3765
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-At ear training.
+Apt music players are trained ear listeners.
 
 [Original Text]
 Apt music players are able to play along with others through a combination of skill, practice, and experience. Here are some key factors that contribute to their ability:
@@ -1389,15 +1370,15 @@ By combining these factors, adept music players can play along with others and c
 
 --- Sample 50 ---
 Prompt: Why drill instructor in the army never stop screaming at recruit in the army?
-Perplexity (WM): 52.4116 | Perplexity (No WM): 8.8467
-Z-score (WM): 1.4926
-Watermarked Text Detection: False Negative
+Perplexity (WM): 406.0518 | Perplexity (No WM): 8.8467
+Z-score (WM): 1.6652
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The drill instructor in the army may be yelling because they are trying to instill discipline and obedience in the recruits.
+The drill instructor in the army may have a雷达!
 
 [Original Text]
 Drill instructors in the army may never stop screaming at recruits for several reasons:
@@ -1423,15 +1404,15 @@ While it may seem harsh or intimidating to some, the use of loud voices by drill
 
 --- Sample 51 ---
 Prompt: if i ground up a piece of pure iron and ate it, would my body abosorb it the same way as iron from food? if not, how do they make iron supplements absorb-able?
-Perplexity (WM): 16.2888 | Perplexity (No WM): 8.5021
-Z-score (WM): 4.3496
+Perplexity (WM): 13.4344 | Perplexity (No WM): 8.5021
+Z-score (WM): 3.2156
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-No, if you ground up a piece of pure iron and ate it, your body would not absorb it the same way it would absorb iron from food. This is because iron in the body is absorbed in ferrous (fer +2) form in the stomach and intestine, and then converted to ferric (fer +3) form in the stomach. Pure iron is in ferric form and cannot be absorbed easily. To make iron supplements absorbable, they are often combined with vitamin C, as it converts ferrous iron to a form called ferrous or absorbable iron, which is more readily absorbed by the body.
+No, if you ground up a piece of pure iron and ate it, your body would not absorb it the same way it would absorb iron from food. This is because iron in the body is absorbed in a different form than pure iron. To make iron supplements absorbable, they are usually formulated with ingredients like ferrous sulfate, ferrous sulfate, and hemin, which are all compounds that contain iron in a form that is easily absorbed by the body. These ingredients help to convert pure iron, which is not in an easily absorbable form, into absorbable iron, which is more readily absorbed by the body.
 
 [Original Text]
 If you ground up a piece of pure iron and ate it, your body would not absorb it the same way as iron from food. Here's why:
@@ -1457,15 +1438,15 @@ By considering these factors, iron supplements are formulated to provide iron in
 
 --- Sample 52 ---
 Prompt: Whats is the actual cause of the common itch. and why is scratching it the cure?
-Perplexity (WM): 25.4682 | Perplexity (No WM): 15.6522
-Z-score (WM): 1.6995
+Perplexity (WM): 33.5496 | Perplexity (No WM): 15.6522
+Z-score (WM): 2.6769
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-The cause of the common itch is an allergic reaction that is caused by proteins in the skin. Scratching triggers the release of chemicals from the nerves and removes the urge to scratch
+The actual cause of the common itch is due to a physical stretching of the skin. It is a physical feeling that is caused by specialized nerve cells which are activated when we scratch
 
 [Original Text]
 The common itch is caused by the presence of an allergen on the skin. Scratching removes the allergen and allows the skin to recover, thus curing the itch.
@@ -1473,29 +1454,15 @@ The common itch is caused by the presence of an allergen on the skin. Scratching
 
 --- Sample 53 ---
 Prompt: When popcorn is popping, what is actually happening to the kernel inside?
-Perplexity (WM): 14.9768 | Perplexity (No WM): 7.8334
-Z-score (WM): 5.8371
-Watermarked Text Detection: True Positive
+Perplexity (WM): 82.6780 | Perplexity (No WM): 7.8334
+Z-score (WM): -0.1218
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-When popcorn is popping, a fascinating physical process occurs inside the kernel. Here's a breakdown of what happens:
-
-1. Heat Accumulation: As the popcorn kernel is warmed by the heat of the pan, the temperature inside the kernel increases.
-
-2. Pressure Increase: As the temperature rises, the water inside the kernel turns into steam. This expansion of water molecules into steam builds pressure inside the kernel.
-
-3. Kernel Expansion: As the pressure builds, the kernel grows in size.
-
-4. Explosion: Once the pressure inside the kernel exceeds the strength of the kernel walls, the kernel bursts apart. This violent release of pressure causes the kernel to pop.
-
-5. Fragmentation: The explosion of the kernel turns it into a small, round piece of popcorn. This fragmentation occurs because the release in internal pressure causes the kernel to break apart and split into smaller pieces.
-
-6. Popcorn Formation: The resulting popcorn pieces then stick together in the pan to form the popcorn.
-
-The explosion of the kernels, as well as the size of the kernels, affects the texture of the popcorn. Lightly popping popcorn, for example, produces popcorn that is firmer and softer,开发出 more quickly than typical, making it characteristics
+When popcorn is popping, a small amount of the kernel inside is escaping.
 
 [Original Text]
 When popcorn is popping, the kernel inside undergoes a series of physical changes. Here's a step-by-step explanation of what's happening:
@@ -1515,15 +1482,15 @@ In summary, when popcorn is popping, the kernel inside undergoes a series of phy
 
 --- Sample 54 ---
 Prompt: Why haven't our bodies changed to make childbirth less painful?
-Perplexity (WM): 34.2926 | Perplexity (No WM): 6.2623
-Z-score (WM): 1.4680
-Watermarked Text Detection: False Negative
+Perplexity (WM): 10.3669 | Perplexity (No WM): 6.2623
+Z-score (WM): 3.1929
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The human body has undergone a slow evolution when it comes to childbirth.
+The human body has undergone a lot of changes over the years.
 
 [Original Text]
 The idea that our bodies have evolved to make childbirth less painful is a common misconception. While it's true that childbirth has been a part of human evolution for millions of years, the pain of childbirth has remained relatively constant over the years. Here are some reasons why our bodies haven't changed to reduce the pain of childbirth:
@@ -1555,7 +1522,7 @@ Non-Watermarked Text Detection: True Negative
 
 --- Sample 56 ---
 Prompt: How do people add colour so accurately to black and white photos?
-Perplexity (WM): nan | Perplexity (No WM): nan
+Perplexity (WM): 223.2384 | Perplexity (No WM): nan
 Z-score (WM): 0.0000
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
@@ -1563,7 +1530,7 @@ Non-Watermarked Text Detection: True Negative
  
 
 [Watermarked Text]
-AI
+Printing
 
 [Original Text]
 ?
@@ -1571,15 +1538,15 @@ AI
 
 --- Sample 57 ---
 Prompt: Why do books downloaded from the library need to be "returned" after a given amount of time?
-Perplexity (WM): 21.2642 | Perplexity (No WM): 10.2615
-Z-score (WM): 3.9043
+Perplexity (WM): 30.7005 | Perplexity (No WM): 10.2615
+Z-score (WM): 1.8050
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-The concept of "returning" books downloaded from the library after a certain amount of time is not a standard practice or requirement implemented by libraries worldwide. In many cases, the idea of returning borrowed books is related to the physical lending of books from the library's physical collection, not digital books downloaded or purchased from the library. Digital books might still be available through the library's system, allowing you to borrow them for a period of time,
+The concept of "returning" books downloaded from the library after a certain amount of time is not applicable.
 
 [Original Text]
 Books downloaded from the library need to be "returned" after a given amount of time for several reasons:
@@ -1605,15 +1572,15 @@ In summary, returning borrowed books to the library is essential for managing li
 
 --- Sample 58 ---
 Prompt: If a self-driving car detects multiple courses of action (all of which will likely result in human injury) how will it determine which course to take?
-Perplexity (WM): 48.6310 | Perplexity (No WM): 7.1166
-Z-score (WM): 0.2495
+Perplexity (WM): 15.3598 | Perplexity (No WM): 7.1166
+Z-score (WM): 0.5653
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-A self-driving car would likely have ethical rules programmed into it to determine which course to take.
+A self-driving car would likely use a combination of sensors and artificial intelligence to determine which course to take.
 
 [Original Text]
 If a self-driving car detects multiple courses of action that will likely result in human injury, it will typically use a combination of sensors, algorithms, and ethical guidelines to determine the best course of action. Here are some key factors it might consider:
@@ -1637,23 +1604,22 @@ In summary, the self-driving car will use a combination of sensor data, ethical 
 
 --- Sample 59 ---
 Prompt: If there are no size regulations regarding goalies in the NHL, why doesn't a team just throw some really obese person out there to block the whole net?
-Perplexity (WM): 10.2721 | Perplexity (No WM): 3.6498
-Z-score (WM): 9.6596
+Perplexity (WM): 13.5620 | Perplexity (No WM): 3.6498
+Z-score (WM): 8.6822
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-In the NHL, there are no strict size enforce for goalies, but the sport's design, equipment, and strategy all play a role in when and why a team might choose to play a larger player or a specific position near the net. 
+In the NHL, there are no strict size requirements for goalies, but the sport's design, equipment, and the inherent characteristics of the ice and the puck play a crucial role in determining who can effectively protect the net.
 
-The primary goal of the goalie's position is to stop the puck from entering the net and prevent scoring. There are various strategies a team can use to achieve this goal, including using better positioning, ice management, and communication with the defense.
+There are a few reasons why smaller players are more likely to be used as goalies:
 
-The size of the goalie is not directly related to the effectiveness of their skills on the ice. While bigger goalies can offer advantages in certain situations, such as better control, better positioning, and a higher profile in puck play, the primary focus is on the player's physical fitness, endurance, and conditioning to maintain their effectiveness on the ice.
-
-The game's design and equipment also play a role in how teams choose to play their goalie. For example, the size of the net and the distance between the goalie and the defenders can affect how big the goalie should be. Additionally, some teams prefer to play a smaller goalie who has more speed and agility to handle the puck.
-
-In summary, in the NHL, size is not enforced for goalies, and teams focus on players' physical fitness, endurance, and conditioning to maintain their effectiveness on the ice. While bigger goalies can offer advantages in certain situations such as better control, better positioning, and a higher profile in puck play,
+1. **Shielding and blocking**: The NHL rules explicitly require the goalie to use their shoulders and torso to protect their skate from pucks. This means that larger players tend to block the puck with their bodies, making it harder for them to make saves. Smaller players are more likely to effectively use their shoulders and torso to move the puck away from their net and make saves.
+2. **Positioning and precision**: The NHL's rules and equipment create specific areas for puck play, and goalies need to be in specific areas to make saves. Smaller players tend to have better reflexes, positioning, and precision, making them effective goalies.
+3. **Agility and speed**: Goalies often work in high-pressure situations, with the potential for the puck to move quickly, and they need to make quick passes or saves. Smaller goalies' agility, speed, and quick reflexes allow them to handle these situations more effectively than larger players.
+4. **Higher profile in puck play**: Due to the physical characteristics of the ice, the puck, and the way hockey players use their hands, smaller players tend to have a higher profile in puck play,
 
 [Original Text]
 In the NHL, there are indeed size regulations regarding goalies, and they are designed to ensure that goalies are physically capable of performing their duties effectively. The NHL has specific rules regarding the height and weight of goalies, which are intended to prevent them from being too large or heavy to perform their duties safely.
@@ -1674,15 +1640,25 @@ In summary, the size regulations for goalies in the NHL are necessary to ensure 
 
 --- Sample 60 ---
 Prompt: If animals aren't aware that they are going to die, why would they try so hard to survive?
-Perplexity (WM): 21.8532 | Perplexity (No WM): 34.7047
-Z-score (WM): 3.7936
+Perplexity (WM): 12.3817 | Perplexity (No WM): 34.7047
+Z-score (WM): 8.4440
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The question of why animals try hard to survive even if they aren't aware of death can be approached from several perspectives. One view is that animals are actually not fully aware of death.
+The question of why animals try hard to survive even if they aren't aware of their own death is a complex one. It touches on evolutionary biology, cognitive neuroscience, and ethics.
+
+1. **Evolutionary Perspective**: From an evolutionary standpoint, survival is a fundamental aspect of life. Traits that enhance survival are passed down through natural selection. Animals that have behaviors that increase their chances of survival are more likely to survive, reproduce, and pass on those behaviors to their offspring. Over time, survival behaviors become more common in the population.
+
+2. **Cognitive Neuroscience**: No matter how we categorize animals' understanding of their own death, survival behaviors are not driven by a conscious understanding of death. They involve behaviors that are more about survival than they are about understanding their future. For example, building a nest, eating food, and seeking shelter are behaviors that help animals survive without knowing they will die.
+
+3. **Ethics and Consciousness**: Engaging from an ethical standpoint is intriguing but speculative. If animals have a rudimentary understanding of self or their environment, we might empathize that their drive to survive is motivated by a desire to live. Even if we categorize this as survival without a sense of self or purpose, we might view animals as striving to live life to the fullest in each stage of their lives.
+
+4. **Neuroscientific Insights**: Neuroscience has shown that the human brain has instinctual mechanisms that drive survival behaviors, independent of the concept of death. This suggests that animals are wired to behave in ways that enhance their survival, even without conscious awareness of their own death. Their behaviors can be influenced by a combination of genetic, environmental, and evolutionary contexts.
+
+In summary, the behavior of animals trying hard to survive even if they are not aware of their own death can be understood at multiple levels, including evolutionary biology, cognitive neuroscience, and ethical considerations. Understanding these dynamics helps explain the powerful drive for survival seen in various animal behaviors.
 
 [Original Text]
 Animals try hard to survive because they know they will die.
@@ -1690,15 +1666,15 @@ Animals try hard to survive because they know they will die.
 
 --- Sample 61 ---
 Prompt: How can a computer come up with a "random" number?
-Perplexity (WM): 54.9498 | Perplexity (No WM): 4.3465
-Z-score (WM): 1.7075
-Watermarked Text Detection: True Positive
+Perplexity (WM): 124.3538 | Perplexity (No WM): 4.3465
+Z-score (WM): 0.3741
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-It doesn't trust you.
+It doesn't trust the source
 
 [Original Text]
 A computer can generate a "random" number using several methods, including:
@@ -1716,15 +1692,15 @@ It's essential to note that none of these methods produce truly random numbers, 
 
 --- Sample 62 ---
 Prompt: Why don't developed countries make their own clothing without child labour?
-Perplexity (WM): 28.1596 | Perplexity (No WM): 5.5617
-Z-score (WM): 3.4504
+Perplexity (WM): 17.4912 | Perplexity (No WM): 5.5617
+Z-score (WM): 4.3081
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Developing countries are cheap and the demand is large. If you are interested in something made with child labour, you are going to find it somewhere. It's faster and cheaper to produce it there than here, and they can keep
+Developing countries are cheap and the demand is high. They have the capital to make their own clothing, if they actually want to. If developed countries don't have the capital to make their own clothing, then maybe they can keep
 
 [Original Text]
 There are several reasons why developed countries don't make their own clothing without child labor:
@@ -1745,15 +1721,15 @@ It's worth noting that while developed countries may not produce their own cloth
 
 --- Sample 63 ---
 Prompt: Two spaceships are travelling towards each other at speed of light..
-Perplexity (WM): 17.5554 | Perplexity (No WM): nan
-Z-score (WM): 1.0136
+Perplexity (WM): nan | Perplexity (No WM): nan
+Z-score (WM): 0.0000
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-No.
+​
 
 [Original Text]
 ​
@@ -1761,27 +1737,28 @@ No.
 
 --- Sample 64 ---
 Prompt: Why is it when oil prices go up gas prices immediately go up but when oil prices come down the price of gas never comes down as fast as when the price of oil increases?
-Perplexity (WM): 8.8412 | Perplexity (No WM): 4.0474
-Z-score (WM): 8.2279
+Perplexity (WM): 10.4421 | Perplexity (No WM): 4.0474
+Z-score (WM): 6.5638
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-This phenomenon can be attributed to a few factors. One of them is supply.  When the price of oil rises, there is a pressure on the supply chain of oil, transport and distribution. This leads to a dry run of the price increase of oil.
+This phenomenon can be attributed to a variety of factors, including:
 
-However, the price of oil increases when there is a pressure on the supply chain of oil. This pressure can cause delays and disruptions to the transport and distribution of oil.
+1. **Double lines**: When oil prices increase, gas prices increase due to the presence of a double line, which is a pipeline that transports both oil and gas. This allows for a gain in demand, leading to a rise in gas prices. This is a common occurrence in the energy market.
+2. **Supply and demand**: When oil prices rise, demand for gas increases, and if supply is limited, gas prices will rise. This is a fundamental aspect of the energy market.
+3. **Regulatory and infrastructure constraints**: Gas prices may also be influenced by regulatory and infrastructure constraints, such as limitations on pipeline capacity or regulatory policies that restrict gas production or distribution.
+4. **Weather and climate**: Gas prices may also be influenced by weather and climate, such as cold temperatures or extreme weather events that increase demand for heating oil.
+5. **Competition and technology**: Gas prices may also be influenced by competition and technology, such as advancements in shale gas production or changes in energy policy that shift demand for gas or oil.
 
-When the price of oil rises, it is cheaper to buy oil, and as a result, there is a rise in demand for oil. This leads to higher prices for oil, and as a result, gas prices start to increase.
+The fact that gas prices often rise with increases in oil prices and do not drop in response to the increases in oil prices can have a significant impact on the energy market. High gas prices can:
 
-However, when oil prices come down, oil is also cheaper to buy, which causes a drop in demand for oil. This leads to a drop in prices of oil.
-
-However, the price of gas never comes down as fast when there is a reduction in supply of gas. This reduction in supply of gas can be due to various reasons such as weather and production disruptions, political factors, and supply chain storage.
-
-This is the reason why that when oil prices come down, the price of gas never comes down as fast as when the price of oil increases.  Therefore, there is a need for other viable options to avoid the price increases that occur with the increase of oil prices.
-
-One option is to invest in natural gas storage, which is expensive and not efficient in the long run.  Another option is to use alternatives to energy sources such as natural gas power and renewable energy
+* Increase the cost of other forms of oil and energy
+* Affect consumer spending and decrease demand for oil and energy
+* Reduce the production of energy-intensive goods and services
+* Hamper economic growth in certain sectors, such as natural gas power and renewable energy
 
 [Original Text]
 The reason why gas prices go up when oil prices go up but don't decrease as fast when oil prices come down is due to the interconnectedness of the oil and gas markets.
@@ -1801,15 +1778,25 @@ It's worth noting that the relationship between oil and gas prices is not always
 
 --- Sample 65 ---
 Prompt: Why "crazy people" have that distinctive look to their eyes
-Perplexity (WM): 22.8798 | Perplexity (No WM): 7.2975
-Z-score (WM): 0.5172
-Watermarked Text Detection: False Negative
+Perplexity (WM): 13.8875 | Perplexity (No WM): 7.2975
+Z-score (WM): 6.1713
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The notion that "crazy people" have a distinctive look to their eyes is a common stereotype and is not supported by scientific evidence.
+The idea that "crazy people" have a distinctive look to their eyes is a common stereotype, but it's important to recognize that this perception is not supported by scientific evidence. It's a cultural stereotype that has been perpetuated through media, art, and literature.
+
+Here are some possible reasons why this perception might exist:
+
+1. **Cognitive biases**: Our brains are wired to look for patterns and connections in the world around us. This cognitive bias, known as the "pattern-finding bias," can lead us to perceive unique features in others, even when they don't exist.
+2. **Emotional expression**: The eyes are an essential part of the face, and they can convey strong emotions. When someone is agitated or anxious, their eyes might appear wide or glutamate, which can be misinterpreted as "crazy eyes."
+3. **Media and art**: Throughout history, art and literature have depicted characters with distinctive facial features, such as unusual eyes or appearance, to emphasize their eccentricity or madness. This widespread representation has reinforced the idea that "crazy eyes" are a distinct feature.
+4. **Cultural and social influences**: Our perception of someone's eyes can be influenced by our cultural and social norms. In some cultures, a "wild" look might be seen as a sign of passion or creativity, while in others, it might be associated with chaos or madness.
+5. **Evoking associations**: Our brains are wired to associate certain physical features, such as eyes or appearance, with our existing emotions and preconceived beliefs. If we associate someone with an image of "crazy" eyes, we might assume that they are more likely to beCrazy.
+
+While there are some urban legends or myths that support the notion that "crazy eyes" are synonymous with greatness, the idea that "crazy people" have a distinctive look to their eyes is entirely subjective and not based on empirical evidence or scientific research.
 
 [Original Text]
 The idea that "crazy people" have a distinctive look to their eyes is a common stereotype that has been perpetuated in popular culture. However, it's essential to note that this stereotype is largely inaccurate and misleading.
@@ -1845,15 +1832,15 @@ no
 
 --- Sample 67 ---
 Prompt: In English, what is the rule for the use of “An” or “A”
-Perplexity (WM): 25.5037 | Perplexity (No WM): 10.2291
-Z-score (WM): 1.6978
+Perplexity (WM): 38.7241 | Perplexity (No WM): 10.2291
+Z-score (WM): 2.2812
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-In English, the rule is that "An" should be used before a word whose first letter begins with a vowel sound.
+In English, the rule is that “A” is used before a vowel sound and “An” before a vowel sound.
 
 [Original Text]
 In English, the rule for the use of "an" or "a" depends on the sound of the word that follows. Here are the guidelines:
@@ -1864,7 +1851,7 @@ In English, the rule for the use of "an" or "a" depends on the sound of the word
 
 --- Sample 68 ---
 Prompt: Why do we have two small nostrils and not one larger nostril?
-Perplexity (WM): 33.7242 | Perplexity (No WM): 230.1949
+Perplexity (WM): 34.2867 | Perplexity (No WM): 230.1949
 Z-score (WM): 2.8442
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
@@ -1872,7 +1859,7 @@ Non-Watermarked Text Detection: True Negative
  
 
 [Watermarked Text]
-The answer to this: 'Why do we have two small nostrils and not one larger nostril?' is: It helps to reduce the pressure of air flowing out of our nose.
+The answer is that: we have two small nostrils and not one larger nostril, because a single larger nostril would create a strong current of air flowing out of our nose.
 
 [Original Text]
 The answer is size.
@@ -1880,28 +1867,25 @@ The answer is size.
 
 --- Sample 69 ---
 Prompt: How the heck do authorities determine who started a massive fire in the middle of the woods somewhere?
-Perplexity (WM): 9.2577 | Perplexity (No WM): 7.3916
-Z-score (WM): 9.5803
+Perplexity (WM): 12.6970 | Perplexity (No WM): 7.3916
+Z-score (WM): 7.7338
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Determining who started a massive fire in the middle of the woods can be a challenging task, as the investigation may be limited by the remote and inaccessible location. However, there are several steps that authorities can take to gather information and identify potential suspects:
+Determining who started a massive fire in the middle of the woods can be a challenging task, as the investigation may be limited by the remote and inaccessible location of the area. Here are some possible methods authorities might use to determine the cause and perpetrators of the fire:
 
-1. **Forensic Analysis**: Analyze the fire's remains, such as charred wood, debris, and soil, to identify the cause and source of the fire.
-2. **Witness Interviews**: Speak to residents or visitors who may have witnessed the fire or be familiar with the area.
-3. **Surveillance**: Check for surveillance cameras or security footage that may have captured the fire or surrounding area.
-4. **Environmental Analysis**: Analyze the environment, including the terrain, vegetation, and climate, to determine any unknown factors that may have contributed to the fire.
-5. **Remote Imaging**: Use remote imaging technologies, such as aerial drones or thermal imaging cameras, to survey the area and identify any potential sources of sparks or ignition.
-6. **Chemical Testing**: Conduct chemical analysis on fire-related materials, such as smoke or soil, to identify any potential sources of sparks or ignition.
-7. **Collaboration with Law Enforcement**: Collaborate with local law enforcement agencies to identify any suspicious or criminal activities in the area.
-8. **Visual Inspection**: Conduct a physical inspection of the surrounding terrain to identify any potential sources of sparks or ignition.
-9. **Archaeological Study**: Research local history to determine if there is a history of other fires or incidents in the area.
-10. **Background Check**: Conduct a thorough search of databases, public records, and police reports to identify suspicious or or criminal activities in the area.
+1. **Forensic analysis**: Forensic experts can collect samples from the fire scene, including wood samples, debris, and other remains, to determine the cause of the fire. They may also try to identify any potential suspects or track their movements.
+2. **Witness statements**: Interviews with nearby residents, hikers, or campers who witnessed the fire can provide valuable information. This can include identifying any vehicles or people that may have started the fire.
+3. **Digital evidence**: Investigators might search nearby neighborhoods, public records, and computer systems for any information that could lead to the fire's perpetrators.
+4. **Archaeological analysis**: In some cases, the fire may have left behind artifacts or remains that can provide clues about its cause and perpetrators. Archaeologists can study these remains to identify any potential suspects or track their movements.
+5. **Citizen science programs**: Engaging the public to help identify potential suspects or track their movements can be a valuable resource. Public tips and observations can be analyzed by investigators.
+6. **Drones and surveillance**: In remote areas, authorities might utilize drones or surveillance cameras to monitor the area and identify any suspicious individuals.
+7. **Wait for further investigation**: Given the remote location, identifying the cause and perpetrators of the fire beyond the immediate response can be challenging. Investigators might need to take a step back and allow for a more thorough analysis of the evidence.
 
-By following these steps, authorities can gather information and identify potential suspects who may have started the fire. However, the limitations and expertise of the authorities, as well as the quality of the evidence, will ultimately determine the success of the investigation.
+It's essential to note that determining who started a fire in the woods can be complex and require significant time, effort, and resources. The cooperation and coordination among authorities, including first responders, forensic experts, and the public, will ultimately determine the success of the investigation.
 
 [Original Text]
 Determining the cause of a massive fire in the middle of the woods can be a complex and challenging task. However, authorities typically follow a multi-faceted approach to identify the cause:
@@ -1952,26 +1936,15 @@ These examples illustrate how film and TV productions handle the deaths of actor
 
 --- Sample 71 ---
 Prompt: What would happen if all the countries wiped all the debt incurred by and owed to each other?
-Perplexity (WM): 9.6883 | Perplexity (No WM): nan
-Z-score (WM): 10.2906
-Watermarked Text Detection: True Positive
+Perplexity (WM): 41.0177 | Perplexity (No WM): nan
+Z-score (WM): 1.4060
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-If all the countries on Earth were to unilaterally erase all the debt incurred by and owed to each other, the results would be far-reaching and complex. Here are some possible scenarios:
-
-1.  **Global stability:** With no debt and no international aid, countries would likely experience a period of stability, as they would be free from the burden of debt and default. This would lead to reduced economic instability and a more stable global economy.
-2.  **Increased investment:** Countries would be more willing to invest with each other, as there would be no risk of default or repayment. This could lead to increased foreign direct investment, economic growth, and innovation.
-3.  **Global recession:** The sudden elimination of debt could lead to a global recession, as countries would need to adjust their economies and invest in debt-free infrastructure. This could result in reduced economic growth, job losses, and a decline in GDP.
-4.  **Global shift:** With no debt, countries would be free to pursue their economic interests, which could lead to a shift in economic priorities and a new global order.
-5.  **Increased inequality:** The elimination of debt could lead to increased inequality, as countries would have more resources to spend on debt repayment rather than on social welfare programs.
-6.  **Reduction in government spending:** With no debt, countries could reduce the need to spend more on debt, freeing up resources for other critical areas such as healthcare, education, and social enterprises.
-7.  **Shift in power dynamics:** The elimination of debt could lead to a shift in global power dynamics, as countries prioritize economic growth, security, and sovereignty.
-8.  **Reduced conflict:** The elimination of debt could potentially reduce global conflict, inequality, and poverty by fostering a sense of stability, trust, and cooperation.
-
-In summary, the wiping of debt by all countries would have significant and far-reaching effects on the global economy and society.
+If all the countries in the world wiped all the debt incurred by and owed to each other, the world would still exist.
 
 [Original Text]
 ​
@@ -2029,23 +2002,29 @@ This question is unclear.
 
 --- Sample 75 ---
 Prompt: How does cutting down trees to plant other vegetation for the purpose of cultivation (such as avocado farming) contribute to global warming?
-Perplexity (WM): 8.1723 | Perplexity (No WM): 5.7444
-Z-score (WM): 5.3681
+Perplexity (WM): 8.0690 | Perplexity (No WM): 5.7444
+Z-score (WM): 6.0292
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The act of cutting down trees to cultivate other vegetation for the purpose of agriculture can contribute to global warming in several ways. 
+The act of cutting down trees to plant other vegetation for the purpose of cultivation - such as avocado farming - known as deforestation, contributes to global warming in several ways:
 
-1. Carbon Sequestration: Trees absorb carbon dioxide in the process of photosynthesis and store carbon in their tissues. When trees are cut down, the stored carbon is released back into the atmosphere, contributing to global warming. 
+1. **Carbon Dioxide Release**: Trees absorb carbon dioxide during photosynthesis and store it in their biomass and soil. When trees are cut down and burned, the stored carbon is released back into the atmosphere, contributing to the carbon footprint. This release of carbon dioxide contributes to global warming.
 
-2. Soil Erosion: Trees prevent soil erosion by embed their roots in the soil. When trees are cut down, the soil is more susceptible to erosion, which can lead to more carbon being released into the atmosphere. 
+2. **Loss of Carbon Sequestration**: When forests are cleared, the trees no longer have the ability to absorb carbon dioxide from the atmosphere. This loss of carbon sequestration results in a net increase of atmospheric carbon, contributing to global warming.
 
-3. Water Erosion: Trees also prevent water erosion by holding down the soil. Water erosion can lead to the release of carbon from soils and vegetation into the atmosphere, which can contribute to global warming. 
+3. **Increased Emissions**: Deforestation can also lead to increased emissions of other greenhouse gases, such as methane (CH4) and nitrous oxide (N2O). These gases are released during agriculture and livestock activities and contribute to global warming.
 
-4. Reduced Biodiversity: Forests are home to a variety of species that play a role in regulating climate change. Cutting down trees to cultivate other vegetation can lead to a reduction in biodiversity, increasing the
+4. **Turbance Soil**: The removal and disturbance of soil can contribute to greenhouse gas emissions by releasing the carbon stored in the soil. This release of carbon can contribute to global warming.
+
+5. **Loss of Biodiversity**: Deforestation can lead to a loss of biodiversity, which can have cascading effects on ecosystems and the climate. Biodiversity is important for maintaining ecological balance, and its loss can lead to a decline in ecosystem services that mitigate climate change.
+
+6. **Climate Alteration**: Forests play a crucial role in regulating local climates, including regulating humidity levels, temperature, and precipitation. Deforestation can lead to increased frequency of droughts, soil erosion, and changes in weather patterns, all of which can contribute to global warming.
+
+In summary, cutting down trees to plant other vegetation for cultivation, known as deforestation, is a significant contributor to global warming and climate change. Supporting sustainable agriculture practices and conservation of forest areas can help mitigate climate change.
 
 [Original Text]
 Cutting down trees to plant other vegetation for the purpose of cultivation, such as avocado farming, contributes to global warming in several ways:
@@ -2063,15 +2042,15 @@ In summary, cutting down trees to plant other vegetation for the purpose of cult
 
 --- Sample 76 ---
 Prompt: What happens to Lactose when ingested by Lactose-Intolerants?
-Perplexity (WM): 16.4323 | Perplexity (No WM): 20.8733
-Z-score (WM): 2.4106
+Perplexity (WM): 29.4365 | Perplexity (No WM): 20.8733
+Z-score (WM): 2.8587
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-When lactose is ingested by lactose-intolerant individuals, it is completely indigestible.
+When lactose is ingested by lactose-intolerant individuals, it passes undigested.
 
 [Original Text]
 When lactose is ingested by lactose-intolerant individuals, it remains in their system.
@@ -2079,22 +2058,24 @@ When lactose is ingested by lactose-intolerant individuals, it remains in their 
 
 --- Sample 77 ---
 Prompt: If Helicopters need tail rotors to stabilize themselves from spinning, how can turboprop airplanes have only one rotor and not spin in circles?
-Perplexity (WM): 14.1698 | Perplexity (No WM): 7.5272
-Z-score (WM): 4.9407
+Perplexity (WM): 10.0152 | Perplexity (No WM): 7.5272
+Z-score (WM): 9.9354
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Turboprop airplanes, unlike helicopters, are designed to operate with fixed wings and a single main engine. They do not have the rotating rotors found on helicopters, which are necessary for their stability and control.
+Turboprop airplanes, unlike helicopters, are designed with two main engines and a tail unit or propeller to stabilize and maintain control. The reasons why they don't spin in circles are:
 
-Here's how turboprop airplanes achieve stability and control:
+1. **2 Engines:** Turboprop airplanes have two main engines, and like helicopters, the second engine is designed to create a yawing moment, which is countered by the tail unit or propeller. The left main engine is designed to create a yawing moment that is balanced by a horizontal stabilizer, which helps stabilize the aircraft.
+2. **Horizontal Stabilizer:** Most turboprop airplanes also have a horizontal stabilizer (the back of the aircraft) that helps stabilize the aircraft. This stabilizer is designed to counteract the yawing moment created by the main engine.
+3. **Fixed Wings:** Turboprop airplanes have fixed wings that provide lift, control, and yaw. The wings are designed to create an opposite force to the yawing moment produced by the main engine, keeping the aircraft upright and stable.
+4. **Propellers:** The main engine and tail unit or propeller work together to create a force that helps stabilize the aircraft.
+4. **Advanced Control Systems:** Turboprop airplanes are equipped with sophisticated control systems that allow the pilot to adjust the propeller angle and engine torque in real time, ensuring the aircraft maintains its stability and control.
+6. **Real-time Monitoring and Control:** Modern turboprop airplanes are equipped with systems like air traffic collision avoidance systems (TCAS) and flight control systems that provide real-time monitoring and control of the aircraft. This allows the pilot to adjust the propeller angle and engine torque in real time, preventing potential accidents caused by unpredictable yawing.
 
-1. **Fixed wings**: The wings of a turboprop airplane are fixed and cannot rotate. This eliminates the need for a tail rotor to stabilize the aircraft.
-2. **Single main engine**: The turboprop engine is designed to provide thrust, which is the airflow through the air to generate and maintain flight, rather than relying on the rotational speed of the blades.
-
-So, instead of a tail rotor, a
+In summary, while turboprop airplanes have only one rotor without a tail rotor, the combination of fixed wings, horizontal stabilizers, two engines, and a TAIL PROPELLER, along with advanced monitoring and control systems, ensure they can operate safely and reliably.
 
 [Original Text]
 Helicopters need tail rotors to stabilize themselves from spinning because they rely on the rotation of the main rotor to generate lift and thrust. When the main rotor spins, it creates a torque that causes the helicopter to rotate in the opposite direction. The tail rotor, which is mounted at the rear of the helicopter, spins in the opposite direction to counteract the main rotor's torque and stabilize the helicopter.
@@ -2131,15 +2112,19 @@ I'm sorry
 
 --- Sample 79 ---
 Prompt: Why do people bother keeping savings in banks/currencies which are potentially unstable?
-Perplexity (WM): 189.3208 | Perplexity (No WM): 8.2532
-Z-score (WM): 1.5898
+Perplexity (WM): 44.0804 | Perplexity (No WM): 8.2532
+Z-score (WM): 1.1696
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-People keep their savings in banks and currencies for several reasons.,
+People keep their savings in banks and currencies for a variety of reasons:
+
+1. Access to their funds
+2. Preservation of purchasing power
+3. Currency as a store of value
 
 [Original Text]
 People keep their savings in banks or currencies that are potentially unstable for several reasons:
@@ -2163,8 +2148,8 @@ In summary, the decision to keep savings in unstable banks or currencies is driv
 
 --- Sample 80 ---
 Prompt: Why does water freeze from top to bottom? Deep in the ocean it’s below freezing, why doesn’t it freeze?
-Perplexity (WM): 60.2458 | Perplexity (No WM): 64.5113
-Z-score (WM): 1.8463
+Perplexity (WM): 17.4062 | Perplexity (No WM): 64.5113
+Z-score (WM): 3.4767
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
@@ -2173,7 +2158,17 @@ Non-Watermarked Text Detection: True Negative
 [Watermarked Text]
 Here's a great riddle!
 
-The answer is that water doesn't have万象!1,
+The answer is that water freezes from top to bottom due to thermal expansion. As water cools, it expands. This creates a pressure difference, causing the water to freeze first from the surface and then from the bottom.
+
+The answer to the riddle is:
+
+ Why does the surface of the earth
+
+ (and not the bottom of the ground
+
+or the depth of the ocean)
+
+freeze, the
 
 [Original Text]
 Water freezes from top to bottom because it's a symmetrical molecule.
@@ -2181,35 +2176,31 @@ Water freezes from top to bottom because it's a symmetrical molecule.
 
 --- Sample 81 ---
 Prompt: how they catch digital pirates who use hotspots or do they?
-Perplexity (WM): 9.8827 | Perplexity (No WM): nan
-Z-score (WM): 8.0087
+Perplexity (WM): 8.8836 | Perplexity (No WM): nan
+Z-score (WM): 5.5321
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Digital piracy, including the use of hotspots, is a complex issue, and traditional methods of enforcement are often challenging. Here are some methods used to track digital pirates who use hotspots:
+Digital piracy, including the use of hotspots, is a complex issue, and catching it can be challenging. Authorities and organizations employ several strategies to track and stop digital piracy:
 
-1. **IP Address Tracking**: IP addresses can be used to identify the location of the device accessing a website. This helps local law enforcement agencies to investigate pirate seedlers.
+1. **IP Tracking**: IP addresses can be used to track users who are accessing unauthorized content. This helps identify the location of the pirate and send them alerts to stop their activities.
 
-2. **Spotter Software**: Specialized software called "spotters" can be installed on monitoring devices, such as routers or routers, which are connected to the internet. These software can track and log online activity, helping law enforcement agencies to identify IP address hotspots.
+2. **Device Identification**: Unique device identifiers, such as MAC addresses, can be used to track individuals who are accessing hotspots. This helps identify the device used to access stolen content, allowing for more targeted action.
 
-3. **Monitoring and Surveillance**: Law enforcement agencies can use monitoring and surveillance techniques to identify patterns and trends in online behavior.
+3. **Content Delivery Networks (CDNs)**: CDNs can be used to deliver content, but they can also be monitored to detect unauthorized content. CDNs can flag and restrict access to stolen content, making it difficult for pirates to access it.
 
-However, digital pirates have employed various methods to avoid detection, including:
+4. **WAN (Wide Area Network) Monitoring**: WANs can be monitored to detect and prevent unauthorized access to stolen content. This helps identify and block hotspots that are being used by digital pirates to access stolen material.
 
-1. **VPN and Tor**: Virtual Private Networks (VPNs) and Tor (hidden) network services can mask their IP addresses and distribute data traffic across multiple nodes, making them harder to track and trace.
+5. **Anti-Piracy Tools**: There are various software and hardware tools available that can help track and stop digital piracy. These tools can detect and block users who share or use stolen hotspots, making it easier for law enforcement to take action.
 
-2. **Encryption**: Encryption tools like PGP OpenPGP can be used to encrypt data traffic, making it difficult for law enforcement agencies to intercept and analyze data.
+6. **Collaboration with Law Enforcement**: Digital rights companies often work closely with local law enforcement agencies to track down digital pirates. This allows them to share expertise and resources to disrupt their activities.
 
-3. **Direct Download**: Software tools can be used to download pirated content directly onto your device, without having to use a public hotspot or encryption.
+7. **Data Analysis**: Digital rights companies also use data analysis and analytics to track and prevent digital piracy. They can collect data on the number of hotspots used, the extent of their activities, and the effectiveness of enforcement measures.
 
-4. **Private Hotspots**: Private hotspots can be used to create secure hotspots that offer faster internet speeds and are more secure than public Wi-Fi, making them attractive to mobile users.
-
-5. **VPNs**: Virtual private networks (VPNs) can create secure hotspots that offer faster internet speeds and are more secure than public Wi-Fi, making them attractive for mobile users.
-
-Despite these efforts, digital piracy remains a significant problem, and enforcement remains challenging. Effective law enforcement, international cooperation, and enforcement are essential in the fight against digital piracy.
+While these methods can help catch digital pirates who use hotspots, it's important to note that the ability to detect and combat digital piracy continues to evolve, making it an ongoing challenge.
 
 [Original Text]
 ​
@@ -2217,29 +2208,27 @@ Despite these efforts, digital piracy remains a significant problem, and enforce
 
 --- Sample 82 ---
 Prompt: The voting rights of citizens in the District of Columbia historically differ from the rights of citizens in each of the 50 U.S. states. Why can't the U.S. just add an amendment to fix that right now?
-Perplexity (WM): 9.0518 | Perplexity (No WM): 6.5913
-Z-score (WM): 7.1656
+Perplexity (WM): 10.7324 | Perplexity (No WM): 6.5913
+Z-score (WM): 7.8758
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The voting rights of citizens in the District of Columbia (D.C.) have historically differed from those of citizens in the states for a variety of reasons:
+The voting rights of citizens in the District of Columbia have historically differed from those of citizens in the states, as the District is not a state. There are several practical and procedural reasons why an amendment to the U.S. Constitution would be difficult to add immediately:
 
-1. **Historical Context**: The District of Columbia was originally created by Congress in 1790 as the capital of the United States, without being a state. This unique status allowed for a distinct set of governmental arrangements that differ from typical state-level governance.
+1. **Constitutional Amendment Process**: To amend the U.S. Constitution, the bill must be approved by two-thirds of the House of Representatives and the Senate, and then ratified by at least three quarters of the states. This process can take years and requires significant political consensus.
 
-2. **Federal Powers**: The District of Columbia is a federal territory under the direct jurisdiction of Congress. Its governance has been established by federal laws and regulations, which differs from state governments that have their own sets of laws and governance.
+2. **Interstate Relations**: The U.S. Constitution grants the federal government the power to regulate commerce between the states. A vote in the District of Columbia could affect interstate commerce, as the District is a federal entity. The amendment would need to address how to ensure that the District's vote would not interfere with states' rights or interests.
 
-3. **Constitutional Provisions**: The U.S. Constitution does not directly address the District of Columbia as a state. Article I, Section 8 grants Congress the authority to regulate the District of Columbia's status, but it does not provide for its sovereignty.
+3. **Historical Context**: The District of Columbia was originally not intended to be a voting entity, and since it was not part of any state, residents did not have the right to vote. This would require a shift in the District's status and governance.
 
-4. **State Rights**: The 29th Amendment, ratified in 1971, grants voting rights to residents of the District of Columbia regardless of their state origin. However, there is no constitutional amendment that would alter voting rights in the D.C. without converting it into a state.
+4. **Policy and Administration**: Implementing such an amendment would require significant changes to federal policy and administration. This would mean including the District in federal elections, and setting up the necessary infrastructure would be complex.
 
-5. **Legislative Process**: The primary process for changing voting rights in the D.C. would be through legislative action, not by constitutional amendment. This would require support from all 50 states, which is not guaranteed given the current political climate.
+5. **State Support**: Any such amendment would need to have the support of the states, but the District is no longer a state. Fixing things that have already been done would involve significant legal and administrative changes, including whether the District would have its own government and whether it would become a state.
 
-6. **Amendment Requirement**: A constitutional amendment requires a two-thirds majority in both the House and Senate. Therefore, no amendment could significantly alter the voting rights in D.C. without making it a state.
-
-While the District of Columbia could decide to move toward statehood, either by gaining statehood or losing its current special status, the process for such a change would require significant political consensus and a careful legislative process within the federal system.
+In summary, while it would be ideal to add an amendment to provide voting rights for citizens in the District of Columbia, the process and practical considerations make it impractical for now. However, understanding the challenges can provide context and potentially inform future efforts to add such an amendment later.
 
 [Original Text]
 The U.S. Constitution has a specific process for amending it, which is quite rigorous and complex. The amendment process involves several steps:
@@ -2292,31 +2281,27 @@ In summary, the Nevada nuclear tests did not cause a nuclear winter.
 
 --- Sample 84 ---
 Prompt: How come cars are able to go up to 220 km/h but highways only allow speeds of up to 110 km/h. Wouldn't it be wiser to have cars max out at 110 km/h-ish and reduce the engine capabilities?
-Perplexity (WM): 14.9865 | Perplexity (No WM): 8.3998
-Z-score (WM): 8.4440
+Perplexity (WM): 9.6640 | Perplexity (No WM): 8.3998
+Z-score (WM): 8.3019
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The discrepancy between a car's top speed and the speeds allowed on highways can be attributed to a combination of factors, including safety regulations, fuel efficiency, and practical driving considerations.
+The difference between a car's top speed and the speed limit on highways is a matter of safety and practicality. Here's why it makes sense for cars to have a top speed higher than the speed limit:
 
-1. **Safety**: Regulations are designed to protect passengers, pedestrians, and other drivers from accidents. Higher speeds can make accidents more severe and more difficult to avoid. Therefore, limits are set to minimize the risk of severity.
+1. **Safety and Stability**: A higher top speed of a car allows more time to respond in unexpected situations, such as sudden changes in speed or road conditions. This can lead to a smoother and more stable driving experience.
 
-2. **Fuel Efficiency**: Higher speeds come with higher fuel consumption, potentially increasing the vehicle's carbon footprint and cost of operation. This is a practical consideration that aims to reduce the environmental impact of transportation systems.
+2. **Efficiency and Compliance**: Allowing a car to travel at or below the speed limit ensures that it is compliant with traffic regulations and reduces the risk of accidents. It also means that the car can operate more efficiently within the law.
 
-3.  **Practical Driving**: Highway speeds are usually designed to allow drivers to comfortably maintain a safe distance from other vehicles and to react to unexpected situations. Higher speeds can make it more challenging to achieve this balance.
+3. **Aerodynamic and Suspension**: Cars are designed with aerodynamics and suspension systems that are optimized for higher speeds. These systems are designed to handle high speeds without compromising safety and comfort. A higher top speed would allow for more advanced technologies that improve these systems.
 
-4.  **Infrastructure**: Highways are designed with specific configurations for vehicle speeds, including the placement of barriers, bridge design, and lane markings. Higher speeds could require significant upgrades to this infrastructure to ensure safety and comfort.
+4. **Engine Capabilities**: Modern engines are designed to provide the necessary power and torque to achieve a higher top speed. If the top speed was lower, the engines would need to be more fuel-efficient, limiting the car's size and weight.
 
-Reducing engine capabilities to achieve a higher top speed without changing vehicle design isn't a straightforward solution, and it comes with its own limitations and practical challenges.
+Reducing a car's top speed to 110 km/h would not be feasible or practical, as it would make the car extremely heavy and difficult to handle safely at those speeds. Additionally, optimizing an engine for high speeds would involve trade-offs, such as increased engine size, lower fuel efficiency, and maintenance costs, which might negate the benefits of operating at lower speeds.
 
-1.  **Engine Capabilities**: While cars are designed to achieve a high top speed, their design also considers practical highway speeds. The handling, vehicle dynamics, and safety systems are tailored to support specific highway speeds.
-
-2.  **Modifications**: Major engine changes or modifications in vehicle structure can impact fuel economy, emissions, and overall performance. Changes in engine capabilities can also affect the experience and comfort of the drivers.
-
-In summary, while it might seem practical to reduce engine capabilities to achieve a higher speed, it's important to consider the balance between practicality, fuel efficiency, and the impact on the safety and comfort of other drivers. Regulations are designed to prioritize these concerns, which often limits highway speeds.
+In summary, while cars can be optimized for higher speeds, they also need to ensure that they can be driven safely and efficiently to achieve those speeds. A car's standard top speed (usually 210-220 km/h) provides a good balance between safety and practicality, allowing drivers to get to their destinations safely and in compliance with speed limits.
 
 [Original Text]
 The decision to allow cars to go up to 220 km/h while highways only permit speeds of up to 110 km/h is influenced by several factors:
@@ -2428,22 +2413,29 @@ It's essential to recognize that the word "cunt" can have a profound impact on i
 
 --- Sample 89 ---
 Prompt: Why is the USA drinking age set at 21 when in most other respects you're an adult at 18.
-Perplexity (WM): 9.9223 | Perplexity (No WM): 7.4105
-Z-score (WM): 7.3076
+Perplexity (WM): 12.7796 | Perplexity (No WM): 7.4105
+Z-score (WM): 6.1713
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The drinking age in the United States is set at 21 for several reasons:
+The drinking age in the United States is set at 21 for several reasons, aligning it with the general concept of adulthood rather than the specific act of purchasing alcohol.
 
-1. **Youth Protection**: The government has a responsibility to protect young people from exposure to the harmful effects of alcohol. Research shows that even the smallest amounts of alcohol can have negative effects on the developing brain, impairing judgment, memory, and decision-making.
-2. **Legal and Social Maturity**: In many other countries, a person is considered a full adult by the age of 18, meaning they can vote, marry, and enter into contracts. In the USA, an 18-year-old is still considered a minor, and the minimum drinking age of 21 reflects a more mature and informed decision process.
-3. **Developing Brain:** Research shows that alcohol consumption can negatively affect brain development during the early stages of adulthood. The brain to 18-year-olds is still developing, and alcohol consumption can have long-term consequences for mental health, cognitive function, and decision-making.
-4. **Alcohol and Youth**: Drinking youth under the age of 18 are more likely to be involved in risky behaviors while drinking, such as increased risk of drug use, crime, and health problems. Setting the minimum drinking age at 21 can help to protect young people from experiencing these negative outcomes.
-5. **Public Safety and Social Responsibility**: Drinking youth under the age of 18 can have negative social consequences, including increased risk of opioid use, crime, and health problems. Setting the minimum drinking age at 21 can help to prevent these negative outcomes.
-6. **Social and Cultural Norms**: The drinking age of 21 was also chosen to reflect American values, social norms, and cultural values associated with independence, self-reliance, and responsibility. Overall, the decision to set the drinking age at 21 reflects a pragmatic approach that prioritizes youth protection, public safety, and the future well-being of young adults.
+1. **Legal and Social Consistency**: The 21st birthday is often associated with maturity and adulthood in many societies. This age is often marked with special ceremonies and celebrations, making it a significant milestone in an individual's life.
+
+2. **International Standards**: The 75% of countries have a drinking age of 21. This global consistency facilitates international travel, tourism, and commerce.
+
+3. **Health and Safety Concerns**: The primary reason behind setting a drinking age at 21 is to prevent alcohol use by young people. Studies have shown that the peak of heavy alcohol use occurs between 18 and 21. Raising the drinking age to 21 can help reduce this behavior and its associated risks, such as accidents, injuries, and fatalities.
+
+4. **Historical Context**: The 21st Amendment was added to the Constitution in 1984, making it illegal to sell alcohol to anyone under the age of 21.
+
+5. **Availability and Licensing**: The USA and some countries have licensing and home brewing laws that allow individuals who are of age to produce, sell, and consume alcohol at home. The drinking age of 21 ensures that individuals can do this safely and responsibly.
+
+6. **Freedom and Autonomy**: The drinking age of 21 ensures that adults have the freedom to make their own choices around alcohol, without the worry or stress of knowing they might be under the age or breaking the law when they purchase alcohol.
+
+In summary, while in many other respects you are legally of 18 as an adult, the drinking age set at 21 aligns with broader legal standards, social norms, and public health regulations regarding the sale of alcohol to minors.
 
 [Original Text]
 The drinking age in the United States is set at 21 for several reasons:
@@ -2518,15 +2510,15 @@ Because your memory is drunk.
 
 --- Sample 93 ---
 Prompt: Why does having noise in the background (TV, music, etc.) make me feel safer when I'm home alone?
-Perplexity (WM): 32.5841 | Perplexity (No WM): 3.9940
-Z-score (WM): 1.6652
-Watermarked Text Detection: True Positive
+Perplexity (WM): 108.3261 | Perplexity (No WM): 3.9940
+Z-score (WM): 1.1078
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-When you're alone, silence can be a threat.
+The background noise prevents you from the sounds that things are happening.
 
 [Original Text]
 Having noise in the background can make you feel safer when you're home alone for several reasons:
@@ -2543,31 +2535,30 @@ Overall, having noise in the background can help you feel safer when you're home
 
 --- Sample 94 ---
 Prompt: Isn't the freshwater we have to work with just going in a cycle? How are we losing fresh water?
-Perplexity (WM): 9.8863 | Perplexity (No WM): 6.9507
-Z-score (WM): 6.8815
+Perplexity (WM): 11.5562 | Perplexity (No WM): 6.9507
+Z-score (WM): 6.2423
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-While it's true that freshwater is in a constant cycle of evaporation, condensation, precipitation, and collection, the reality is that freshwater supplies are a finite resource. Here are some reasons why we are losing fresh water:
+While it's true that freshwater is in a continuous cycle, the reality is that freshwater resources are finite and not sustainable for the long-term use. Here are some reasons why we're losing freshwater:
 
-1. **Evaporation**: Even as water replenishes through precipitation, it is also lost through evaporation. As temperatures rise due to climate change, evaporation rates increase, reducing the amount of freshwater available.
+1. **Overuse**: The global population is growing, and the demand for freshwater is increasing. This leads to overuse of water resources, such as irrigation for agriculture, domestic and industrial use, and consumption.
+2. **Water pollution**: Many freshwater sources are polluted by industrial waste, agricultural runoff, and untreated sewage, reducing their availability for use.
+3. **Climate change**: Rising global temperatures are causing droughts, floods, and melting glaciers, which affects the availability and quality of freshwater sources.
+4. **Urbanization**: As cities grow, the demand for freshwater increases, and wastewater treatment plants become less efficient, leading to water pollution.
+5. **Industrialization**: Industrial processes consume vast amounts of freshwater, including cooling and manufacturing.
 
-2. **Groundwater Depletion**: Over-pumping of groundwater for drinking, agriculture, and industrial uses can lead to groundwater depletion. This can result in increased salinity, reduced water table, and decreased availability of water.
+The loss of freshwater resources due to climate change, in particular, has significant consequences for the environment and society. For example, climate change can lead to:
 
-3. **Water Mismanagement**: Inefficient or mismanagement of water resources, such as poor water conservation practices, can lead to wastage of water. This includes things like runoff from leaky irrigation systems, leaks in water supply networks, and inefficient water usage in households and industrial settings.
+1. **Melting ice**: The melting of ice reduces the availability of freshwater, affecting industries like agriculture, which are major economic drivers.
+2. **Altered weather patterns**: Changes in weather patterns can lead to droughts, floods, and water shortages.
+3. **Water quality**: Rising temperatures can cause the intrusion of salty water into freshwater sources, leading to algal blooms and decreased water quality.
+4. **Increased contamination**: Climate change can lead to increased runoff of pollutants from land and water sources, contaminating freshwater sources.
 
-4. **Climate Change**: Rising global temperatures can lead to changes in precipitation patterns, causing more frequent droughts, increased frequency of heavy rainfall events, and reduced water availability in some regions.
-
-5. **Salinization**: The salinity of water bodies can affect the availability of freshwater for consumption, agriculture, and ecosystems. While it's a natural part of the water cycle, human activities such as salinization, wastewater dumping, and diversion of water bodies can significantly damage water resources and aquatic ecosystems.
-
-6. **Land Use Changes**: Large-scale groundwater extraction, deforestation, and urbanization can have various impacts on water resources, including the risks of flooding, landslides, and sinkholes.
-
-7. **Water Quality**: Pollution and contamination from industrial waste, agricultural runoff, and human activities can negatively impact water quality, which in turn can affect the health of aquatic ecosystems.
-
-Understanding the water cycle and the factors that impact it is crucial for promoting responsible water use and ensuring a sustainable water supply.
+In summary, while freshwater is in a continuous cycle, the loss of freshwater resources is primarily due to human overuse, pollution, and climate change. As global populations grow and water demand continue to increase, it's crucial to conserve and manage freshwater resources to ensure a sustainable water supply.
 
 [Original Text]
 You're right that freshwater is in a continuous cycle, but it's important to understand that the amount of freshwater available for human use is actually decreasing due to various factors. Here are some reasons why we're losing freshwater:
@@ -2588,15 +2579,15 @@ In summary, while freshwater is in a continuous cycle, the amount of freshwater 
 
 --- Sample 95 ---
 Prompt: Why is there such a large Insane Clown Posse (Juggalo) following?
-Perplexity (WM): 53.4595 | Perplexity (No WM): 10.9524
-Z-score (WM): 1.7075
-Watermarked Text Detection: True Positive
+Perplexity (WM): 290.6502 | Perplexity (No WM): 10.9524
+Z-score (WM): 1.3721
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-The answer is a mystery.
+The Iceman.
 
 [Original Text]
 Insane Clown Posse (ICP), also known as the Juggalo movement, has a large following due to several factors:
@@ -2615,15 +2606,15 @@ Overall, ICP's large following can be attributed to a combination of these facto
 
 --- Sample 96 ---
 Prompt: Why metal at room temperature feels cold while, say, fabric at room temperature doesn't
-Perplexity (WM): 54.4313 | Perplexity (No WM): 4.3271
-Z-score (WM): 0.5467
-Watermarked Text Detection: False Negative
+Perplexity (WM): 53.7576 | Perplexity (No WM): 4.3271
+Z-score (WM): 1.7667
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The difference is due to the thermal conductivity of metal compared to fabric and based on the
+The difference is due to the thermal conductivity of the two materials in relation to the 
 temperature of the skin.
 
 [Original Text]
@@ -2644,15 +2635,15 @@ On the other hand, fabric at room temperature doesn't feel as cold because:
 
 --- Sample 97 ---
 Prompt: A neighborhood cat comes to your home and you feed it. A day/week later, other cats appear at your house looking for food. How did the other cats find out that you're a food giver?
-Perplexity (WM): 128.9749 | Perplexity (No WM): 144.6813
-Z-score (WM): 1.9398
-Watermarked Text Detection: True Positive
+Perplexity (WM): 460.8939 | Perplexity (No WM): 144.6813
+Z-score (WM): 1.2688
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The other cats figured out that you're a food giver by watching the first neighborhood cat.
+The other cats saw you feed the neighborhood cat.
 
 [Original Text]
 The other cats likely found out that you're a food giver by watching the neighborhood cat you fed.
@@ -2660,15 +2651,15 @@ The other cats likely found out that you're a food giver by watching the neighbo
 
 --- Sample 98 ---
 Prompt: Why do southern states freak out over a little snow?
-Perplexity (WM): 27.3274 | Perplexity (No WM): 7.2068
-Z-score (WM): 1.8050
-Watermarked Text Detection: True Positive
+Perplexity (WM): 54.6694 | Perplexity (No WM): 7.2068
+Z-score (WM): 0.2887
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The term "freak out" is a common expression to describe an emotional reaction to becoming excited or frightened.
+The term "freak out" means get upset.
 
 [Original Text]
 Southern states might freak out over a little snow for several reasons:
@@ -2698,15 +2689,15 @@ It's essential to note that while southern states might freak out over a little 
 
 --- Sample 99 ---
 Prompt: What is the origin and meaning of "Strange women lying in ponds distributing swords is no basis for a system of government."
-Perplexity (WM): 220.0205 | Perplexity (No WM): 172.7702
-Z-score (WM): 0.2357
-Watermarked Text Detection: False Negative
+Perplexity (WM): 121.2029 | Perplexity (No WM): 172.7702
+Z-score (WM): 1.7969
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The statement "Strange women lying in ponds distributing swords is no basis for a system of government" is a famous quote from HP Lovecraft.
+The quote "Strange women lying in ponds distributing swords is no basis for a system of government" is a famous line from Mary Bysshe Shelley.
 
 [Original Text]
 The phrase "Strange women lying in ponds distributing swords is no basis for a system of government" is a fabricated quote.
@@ -2714,15 +2705,15 @@ The phrase "Strange women lying in ponds distributing swords is no basis for a s
 
 --- Sample 100 ---
 Prompt: What are those bastardly little tongue sores you get from eating too much salt or sugar, and how do you get rid of them?
-Perplexity (WM): 155.9250 | Perplexity (No WM): 214.5560
-Z-score (WM): 1.5527
-Watermarked Text Detection: False Negative
+Perplexity (WM): 36.7203 | Perplexity (No WM): 214.5560
+Z-score (WM): 2.3642
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Those pesky little sores, huh?
+Those pesky little sores... *sigh* They're caused by the excess salt and sugar in my diet, I suppose. But don't worry—I just treat them with a bit of honey and they magically disappear! *laughs* Now I can sweetly speak again!
 
 [Original Text]
 Those are called cheilitis.

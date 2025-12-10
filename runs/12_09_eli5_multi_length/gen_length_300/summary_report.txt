@@ -1,38 +1,38 @@
 --- Watermark Detection Analysis ---
 Total samples processed: 100
-True Positives (TP): 42
-False Negatives (FN): 58
+True Positives (TP): 39
+False Negatives (FN): 61
 True Negatives (TN): 97
 False Positives (FP): 3
 
 
 --- Detection Rates ---
-True Positive Rate (TPR/Recall): 0.4200
+True Positive Rate (TPR/Recall): 0.3900
 False Positive Rate (FPR): 0.0300
-False Negative Rate (FNR): 0.5800
+False Negative Rate (FNR): 0.6100
 True Negative Rate (TNR/Specificity): 0.9700
 
 
 --- Watermark Strength (on watermarked samples) ---
-Mean z-score: 1.8023 | Std. dev: 2.1179
-Detection Confidence: ≥99% (z≥2.33): 32.00% | ≥99.9% (z≥3.09): 23.00%
+Mean z-score: 1.7211 | Std. dev: 2.1899
+Detection Confidence: ≥99% (z≥2.33): 31.00% | ≥99.9% (z≥3.09): 22.00%
 
 
 --- Quality Impact ---
-Perplexity (WM): 15268.8037
+Perplexity (WM): 7261.9967
 Perplexity (No WM): 88.8252
-Mean Perplexity Increase: 15179.9785 (17089.72%)
-Cosine Similarity (WM vs No WM): 0.5402
+Mean Perplexity Increase: 7173.1715 (8075.61%)
+Cosine Similarity (WM vs No WM): 0.5443
 
 
 --- Detailed Text Quality Metrics (averages) ---
 Metric                    | Watermarked     | No Watermark   
 -------------------------------------------------------------
-Avg Sentence Length       | 10.7790         | 8.8515         
-Avg Word Length           | 4.2274          | 3.6985         
-Lexical Diversity         | 0.7812          | 0.5809         
-Flesch Reading Ease       | 77.0282         | 95.9891        
-Sequence Length           | 35.8750         | 70.3750        
+Avg Sentence Length       | 10.5952         | 8.8515         
+Avg Word Length           | 4.3970          | 3.6985         
+Lexical Diversity         | 0.7671          | 0.5809         
+Flesch Reading Ease       | 72.7736         | 95.9891        
+Sequence Length           | 38.2083         | 70.3750        
 
 Samples evaluated for quality: 96
 
@@ -55,15 +55,15 @@ In football, wasting the first two plays with a rush up the middle is considered
 
 --- Sample 2 ---
 Prompt: Why are different tiers (regular < mid < premium) of gas' prices almost always 10 cents different?
-Perplexity (WM): 174.3132 | Perplexity (No WM): 1593.1400
-Z-score (WM): 1.2688
+Perplexity (WM): 662.0341 | Perplexity (No WM): 1593.1400
+Z-score (WM): 0.7837
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The difference is usually 100 cents.
+The standard meter displays 100 cents.
 
 [Original Text]
 Profit margins.
@@ -71,15 +71,15 @@ Profit margins.
 
 --- Sample 3 ---
 Prompt: How do we know all the money the government is getting from bank settlements is going back to the people?
-Perplexity (WM): 13.7781 | Perplexity (No WM): nan
-Z-score (WM): 2.3695
+Perplexity (WM): 32.7063 | Perplexity (No WM): nan
+Z-score (WM): 1.7350
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Determining whether all the money that the government is getting from bank settlements is going back to the people can be challenging, as the flow of money can be complex and not always transparent. It may be possible to monitor the flow through financial reports and audits, as well as community engagement and advocacy. However, it is important to note that the government may also have to rely on other funding sources, such as public services, taxes, and charitable donations, to ensure that the money is ultimately going back to the people.
+As an AI language model, I do not have the capability to provide specific information about how all the money from bank settlements is being used by the government. However, you can contact your local government representative for more information about that
 
 [Original Text]
 ​
@@ -103,15 +103,15 @@ Non-Watermarked Text Detection: True Negative
 
 --- Sample 5 ---
 Prompt: Why does the water from my kitchen faucet taste different than the water from my bathroom faucet? Doesn't it come from the same place?
-Perplexity (WM): 96.4899 | Perplexity (No WM): 30.3304
-Z-score (WM): 2.2680
-Watermarked Text Detection: True Positive
+Perplexity (WM): 17.3818 | Perplexity (No WM): 30.3304
+Z-score (WM): 1.0680
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The difference in taste comes from the different fixtures that filter the water.
+The difference in taste is due to the chemical composition of the water.
 
 [Original Text]
 The water from your kitchen faucet is treated with chlorine.
@@ -135,15 +135,15 @@ Light colours reflect heat.
 
 --- Sample 7 ---
 Prompt: How the fuck does Facebook know about people I know?!
-Perplexity (WM): 77.2199 | Perplexity (No WM): nan
-Z-score (WM): 0.7837
+Perplexity (WM): 67.6079 | Perplexity (No WM): nan
+Z-score (WM): 1.2064
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-It knows about people you know through your connections.
+Facebook knows about people you know through your Facebook connections.
 
 [Original Text]
 ​
@@ -151,23 +151,23 @@ It knows about people you know through your connections.
 
 --- Sample 8 ---
 Prompt: How do movies not get uploaded online in HD from movie theater employees before their DVD release?
-Perplexity (WM): 14.2110 | Perplexity (No WM): 9.0616
-Z-score (WM): 6.7030
+Perplexity (WM): 10.5153 | Perplexity (No WM): 9.0616
+Z-score (WM): 5.5414
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-There are a few reasons why movies may not get uploaded online in HD by movie theater employees before their DVD release.
+There are a few reasons why movies may not get uploaded online in HD by movie theater employees before their DVD release:
 
-1. Copyright laws: Theaters and DVDs have made deals with the copyright holders, and if they upload the movies online before DVD release, they are violating copyright laws that result from this deal.
+1. Copyright laws: Movies are protected by copyright laws, but they are subject to certain limitations and exceptions. If the production company has not yet given permission for the movie to be uploaded online or if the movie is still within a certain period of protection (often 75 years after the author's death), it may not be legal to share it.
 
-2. Quality vs. Quantity: If movies are uploaded before the DVD release, the quality is likely to be lower compared to officially released versions. If there are multiple versions of the same movie available online, it might cut down on the revenue for the studios and the theaters.
+2. Licensing agreements: Production companies often have licensing agreements with media companies that are responsible for distributing movies. These agreements may include restrictions on what the movie can be used for, and if the agreements are not met, the movie may not be available for upload online.
 
-3. Social Media: Nowadays, people rely on social media platforms to share movies. Not all theaters are active on social media or have their own websites or channels, and they might be hesitant to share their unreleased material.
+3. Employee agreements: Movie theater employees may have certain policies in place regarding the use and sharing of media that is owned by the company they work for. These policies may either prohibit downloading and distributing movies online or make it difficult for employees to upload high-quality versions of the movies.
 
-4. Publicity: The industry and movie theaters try to generate publicity and revenue for the movies. If they were to upload the movies online before the DVD release, it could harm the industry and cut into the revenue for the movie
+4. Theater policies: In some cases, movie theaters may have policies on the sources and types of content they can use, which may make it difficult for employees to upload high-quality versions of the movie
 
 [Original Text]
 There are several reasons why movies do not get uploaded online in HD by movie theater employees before their DVD release:
@@ -184,15 +184,15 @@ Overall, these factors work together to prevent movies from being uploaded onlin
 
 --- Sample 9 ---
 Prompt: Can defense attorneys 'throw' a case if they know their clients are guilty?
-Perplexity (WM): 16.4764 | Perplexity (No WM): 6.5491
-Z-score (WM): 3.8329
+Perplexity (WM): 13.1649 | Perplexity (No WM): 6.5491
+Z-score (WM): 2.9786
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-No, defense attorneys cannot 'throw' a case if they know their clients are guilty. They must remain neutral and advocate for the client's rights throughout the legal process, as their primary duty is to uphold the integrity and fairness of the legal system. Defense attorneys also have a legal obligation to present a valid defense, even if their client is guilty.
+No, defense attorneys cannot 'throw' a case if they know their clients are guilty. They must act in the best interest of their clients and adhere to their code of ethics. As a professional lawyer, a defense attorney has a duty to provide their client with the best possible representation and a fair trial, even if they believe their client is guilty.
 
 [Original Text]
 In the legal system, defense attorneys are obligated to provide the best possible defense for their clients, regardless of whether they believe their clients are guilty or innocent. This obligation is known as the "defense duty" or "uty of care."
@@ -244,7 +244,7 @@ Non-Watermarked Text Detection: True Negative
 
 --- Sample 12 ---
 Prompt: What's the meaning of the phrase "I've got a bone to pick with you."
-Perplexity (WM): 64.6255 | Perplexity (No WM): 21.9696
+Perplexity (WM): 195.5719 | Perplexity (No WM): 21.9696
 Z-score (WM): 2.2389
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
@@ -252,7 +252,7 @@ Non-Watermarked Text Detection: True Negative
  
 
 [Watermarked Text]
-I'm angry or upset with you about something.
+It means having a criticism or dislike towards someone.
 
 [Original Text]
 The phrase "I've got a bone to pick with you" is an idiom that means you have dissatisfaction or resentment with someone.
@@ -260,25 +260,25 @@ The phrase "I've got a bone to pick with you" is an idiom that means you have di
 
 --- Sample 13 ---
 Prompt: Why can't we just taste candy or Sweets and then spit it out to avoid its unhealthy attributes? What makes us swallow it to get satisfaction?
-Perplexity (WM): 11.8228 | Perplexity (No WM): 10.6167
-Z-score (WM): 7.0355
+Perplexity (WM): 10.8994 | Perplexity (No WM): 10.6167
+Z-score (WM): 6.6963
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-There are several reasons why we can't just taste candy or sweets and then spit it out to avoid their unhealthy attributes. 
+There are several reasons why we can't just taste candy or sweets and spit it out:
 
-1. Subjective Taste: Our sense of taste is subjective and varies greatly from person to person. One person may find a sweet taste of candy or sweets pleasurable, while another may find it unappealing.
+1. The reward system in our brain: The reward system in our brain, also known as the mesolimbic pathway, is responsible for feeling pleasure and satisfaction. When we taste our favorite sweets, dopamine, a neurotransmitter that gives a feeling of pleasure, is released. This creates a feedback loop that makes us want more of the sweet.
 
-2. Digestive Habits: When we consume food, our body starts breaking it down to extract nutrients and energy. Since candies and sweets contain added sugars, our digestive system will work to absorb those sugars into our bloodstream. This can lead to a spike in blood sugar levels and a drop in energy levels. If we were to spit out the candy or sweets after tasting, we would experience a micro-absorption of sugar.
+2. The taste of sweets: Candy and sweets often contain sugar, which stimulates our taste buds. When we taste sugar, it triggers a physiological response and our brain starts to prepare our body for the ingestion of sugar. This can create a desire for the sweet and make us want to swallow it.
 
-3. Nutritional Balance: If we only consume candy or sweets, we miss out on other essential nutrients like proteins, vitamins, and minerals. A balanced diet that provides all the necessary nutrients is crucial for overall health.
+3. Social and psychological influences: We are social creatures and often consume sweets in groups or as part of celebrations. The pressure to conform to the group can be both social and psychological, making it more likely to swallow the sweet rather than spit it out.
 
-4. Satisfaction: The feeling of satisfaction that comes with consuming food is not physical, but rather emotional or psychological. In the case of unhealthy foods like candy or sweets, excessive consumption can lead to guilt or discomfort, not a feeling of satisfaction. It's important to practice moderation and limit your intake of unhealthy foods for overall health.
+4. Sensory sensitivity: As we consume our favorite sweets, our taste buds become more sensitive to different tastes and textures. This heightened sensory perception can make it easier and more motivating to swallow the sweet rather than spit it out.
 
-Remember, while some individuals may enjoy the taste of candy or sweets, it's important to consume them in moderation for overall health.
+However, it's also important to recognize that excessive consumption of sweets can lead to negative consequences such as tooth decay, obesity, and other health problems. Limiting our intake of these treats is important for overall health.
 
 [Original Text]
 We can't just taste candy or sweets and then spit it out to avoid its unhealthy attributes because the taste and texture of these foods are designed to be consumed. The sweetness, texture, and visual appeal of candy and sweets are intended to be enjoyed by the senses.
@@ -328,15 +328,25 @@ That's a great question.
 
 --- Sample 16 ---
 Prompt: If a movie production has $5,000,000 (estimated) Budget, must some of that money go to the actors? or only movie's production quality?
-Perplexity (WM): 21.3073 | Perplexity (No WM): nan
-Z-score (WM): 3.2022
+Perplexity (WM): 8.9769 | Perplexity (No WM): nan
+Z-score (WM): 6.9427
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The allocation of funds in a movie production can vary widely depending on the specific project, the desired outcome, and the particular circumstances of the production.
+The allocation of a $5,000,000 budget for a movie production can vary widely depending on the film's production company, director, and studio. While it's possible that a portion of the budget may go to actors and production quality, it's not a strict rule.
+
+Here are some possible ways the budget might be allocated:
+
+1. **Production Quality**: A portion of the budget may go to high-quality production, including special effects, set design, and photography.
+2. **Actors**: A portion of the budget may go to paying the actors and actor-writers, as well as any additional costs associated with having actors in attendance.
+3. **Marketing and Distribution**: A portion of the budget may go to marketing, promotion, and distribution.
+
+It's possible that some of the budget may go to paying the actors, especially if the production has contracted several of them to work on the film. However, that doesn't necessarily mean it's essential to use a portion of the budget for production quality. Investing in high-quality production, excellent set design, and special effects can also contribute to the film standing out in the market.
+
+Ultimately, the allocation of the budget can vary based on the decisions made by the production company, director, and studio. While it's common practice to use a portion of the budget for production quality and actors, the actual allocation can vary depending on the production's priorities and vision.
 
 [Original Text]
 Both
@@ -390,17 +400,15 @@ While Wikipedia does rely on donations to fund its operations, it's essential to
 
 --- Sample 19 ---
 Prompt: How does a water purifier jug work and could you put 3rd world ditch water through one and drink safely?
-Perplexity (WM): 20.6639 | Perplexity (No WM): 14.1038
-Z-score (WM): 2.6112
+Perplexity (WM): 13.9328 | Perplexity (No WM): 14.1038
+Z-score (WM): 4.8168
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-A water purifier jug works by treating a small amount of the water that you want to purify. It's exact method depends on the type of water purifier you're using, but many of them use filtration, boiling, or chemicals to purify the water. 
-
-It is possible to put 3rd world ditch water through a water purifier jug and drink safely, but it may depend on the quality and source of the water. So, the
+A water purifier jug works by treating a small amount of the water that you want to drink with a small amount of chlorine or another treatment. Typically, you add a few drops of the treatment to a small amount of water, like a few cups. The treatment will then kill any bacteria or other harmful micro-organisms that may be in the water, making the water drinkable. No matter what the water is being treated with, follow the instructions based on what the
 
 [Original Text]
 A water purifier jug works by using a series of filters to remove impurities from the water. These filters can be made of various materials, such as sediment, carbon, or ceramic, and can be designed to remove specific types of contaminants.
@@ -441,7 +449,7 @@ The difference is Mars.
 
 --- Sample 22 ---
 Prompt: Why is sales tax in the US excluded from the list price?
-Perplexity (WM): 13.9132 | Perplexity (No WM): 6.9785
+Perplexity (WM): 12.6254 | Perplexity (No WM): 6.9785
 Z-score (WM): 4.0143
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
@@ -449,7 +457,7 @@ Non-Watermarked Text Detection: True Negative
  
 
 [Watermarked Text]
-In the United States, sales tax is excluded from the list price on product labels and advertisements to provide consumers with a clear and accurate representation of the total cost of their purchase. This way, customers can make informed decisions when purchasing goods and services without worrying about the additional cost of sales tax. It also allows for comparison of prices between similar products, making it easier for customers to compare their costs and get an estimate of the total price they will pay.
+In the United States, sales tax is excluded from the list price on product labels to give consumers a clearer picture of the final price they will be paying when they purchase the item. This allows customers to make informed decisions when purchasing items, and to better understand the impact of the sales tax rate on the total cost of the item. Excluding sales tax also makes it easier for customers to compare different items, and ensure they are getting a good deal.
 
 [Original Text]
 In the United States, sales tax is excluded from the list price of goods and services for several reasons:
@@ -465,15 +473,15 @@ In summary, sales tax is excluded from the list price of goods and services to p
 
 --- Sample 23 ---
 Prompt: Why does a beer on tap almost always taste better than it does from a bottle?
-Perplexity (WM): 79.4844 | Perplexity (No WM): 455.6703
-Z-score (WM): 1.5527
+Perplexity (WM): 1663.2864 | Perplexity (No WM): 455.6703
+Z-score (WM): -0.9864
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Because it's a live one!
+Carbonation
 
 [Original Text]
 Carbonation.
@@ -511,15 +519,15 @@ Overall, the Jamaican Bobsled team's qualification for the Olympics is a signifi
 
 --- Sample 25 ---
 Prompt: Is it possible to build up an immunity to poisons both naturally occurring and man-made?
-Perplexity (WM): 21.3262 | Perplexity (No WM): 22.3835
-Z-score (WM): 3.0539
+Perplexity (WM): 19.0605 | Perplexity (No WM): 22.3835
+Z-score (WM): 2.4032
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-While it is possible to build up immunity to certain natural poisons over time, it is not possible with man-made poisons. This process usually requires repeated exposure to the toxin and is not applicable to all poisons.
+While there are some instances where individuals or organisms may develop a level of immunity to certain poisons, such as spiders after repeated exposure to certain toxins, it is not possible to develop a complete immunity to all poisons.
 
 [Original Text]
 Yes, it is possible to build up an immunity to poisons, both naturally occurring and man-made.
@@ -575,19 +583,19 @@ because
 
 --- Sample 29 ---
 Prompt: why do the French have an abstain vote instead of people physically restraining from voting. [Other]
-Perplexity (WM): 13.3338 | Perplexity (No WM): 149.3878
-Z-score (WM): 7.5208
+Perplexity (WM): 8.7976 | Perplexity (No WM): 149.3878
+Z-score (WM): 4.7798
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-In France, the concept of the "abstain vote" or " abstention" is a common practice in parliamentary and legislative settings. It allows members to vote " abstain" if they are unable to vote or if they want to vote for a particular option without actually abstaining.
+In France, the concept of an "abstain vote" or " abstention" is a way for voters to express their preference for a particular candidate or party without actually voting for them. This is a common practice in French elections, where voters are allowed to choose abstention instead of voting for a candidate.
 
-However, the French also have a unique "present" vote, or "présent." This vote allows members to participate in debates and voted on proposals, even if they choose to abstain. It is a way for members to make a conscious choice to be present and participate in the legislative process, without being required to vote " absent" when they abstain.
+The reason for abstention is that it allows voters to express a sense of faith or belief in the power of their vote, or to align with a particular candidate or party's platform or policies.
 
-In this regard, the "present" vote serves as an alternative to the abstain vote, allowing members to express their choice not to refrain from voting and actively participate in discussions and debate.
+It's important to note that while abstention is a legitimate part of the French electoral system, it is not the equivalent of a "no vote" or
 
 [Original Text]
 The French have an abstain vote instead of people physically restraining from voting because an abstain vote is less disruptive.
@@ -611,15 +619,15 @@ Phones do not require cooling vents because they are not small appliances.
 
 --- Sample 31 ---
 Prompt: If the inside of my microwave is made of metal, why is it bad to put metallic objects in it?
-Perplexity (WM): nan | Perplexity (No WM): nan
-Z-score (WM): 0.0000
+Perplexity (WM): 101.8933 | Perplexity (No WM): nan
+Z-score (WM): 0.3466
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-1
+That's a question for chemistry.
 
 [Original Text]
 ​
@@ -627,15 +635,15 @@ Non-Watermarked Text Detection: True Negative
 
 --- Sample 32 ---
 Prompt: Why do we lack the instincts our ancestors had, e.g. telling you which foods are poisonous
-Perplexity (WM): 94.8232 | Perplexity (No WM): nan
-Z-score (WM): 1.3721
+Perplexity (WM): 70.5352 | Perplexity (No WM): nan
+Z-score (WM): 0.6009
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Lack of experience.
+Lack of information
 
 [Original Text]
 ​
@@ -643,7 +651,7 @@ Lack of experience.
 
 --- Sample 33 ---
 Prompt: Why do we wake up early when we don't have to but tend to wake up late when we need to be up?
-Perplexity (WM): 11.4680 | Perplexity (No WM): 22.3737
+Perplexity (WM): 15.4894 | Perplexity (No WM): 22.3737
 Z-score (WM): 2.5366
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
@@ -651,7 +659,7 @@ Non-Watermarked Text Detection: True Negative
  
 
 [Watermarked Text]
-This phenomenon is related to the circadian rhythm which is an internal biological process that regulates sleep and wake cycles. It is a daily rhythm that starts in late night and peaks in the evening. The circadian rhythm is regulated by the suprachiasmatic nucleus (SCN) in the brain
+This phenomenon is related to the circadian rhythm which is an internal biological process that regulates sleep and wake cycles. It follows a 24-hour pattern, prioritizing sleep earlier in the evening. The circadian rhythm is controlled by the suprachiasmatic nucleus (SCN) in the brain
 
 [Original Text]
 This is because our internal clock, or circadian rhythm, is influenced by external factors such as light and schedule. When we don't need to be up, our body may naturally wake up earlier.
@@ -659,17 +667,15 @@ This is because our internal clock, or circadian rhythm, is influenced by extern
 
 --- Sample 34 ---
 Prompt: Why do tech/software companies stay in the US when they are demanded to include backdoors by the US government? Can't tech companies just develop and release their products overseas, out of reach of the US government's influence?
-Perplexity (WM): 14.9049 | Perplexity (No WM): 4.3985
-Z-score (WM): 5.4322
+Perplexity (WM): 15.2776 | Perplexity (No WM): 4.3985
+Z-score (WM): 4.7486
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-While it's true that tech and software companies have faced pressure from the US government to include backdoors in their products, it's important to note that the vast majority of tech companies do not have the power to negotiate with the US government or control its policy decisions. While some companies may choose to release their products overseas, this is not a common practice for the majority of tech or software companies.
-
-It's also true that the US tech industry is a major contributor to the US economy and provides millions of jobs. Tech companies are not likely to leave over this, and they appreciate the support of the US government more than to continue their operations. These companies are likely to bring in billions of millions in investment and growth opportunities within the US
+While tech companies may have to comply with US government regulations regarding data privacy and cybersecurity, they are not legally required to include backdoors in their products. Additionally, developing and releasing products overseas can be both expensive and challenging. It also requires specialized talent and infrastructure that may not be available elsewhere. Furthermore, if a company did decide to move their products overseas, it may be difficult to continue their operations in the US as well, which would create a significant disruption to their operations. For this reason, many tech companies prefer to maintain their operations in the US
 
 [Original Text]
 There are several reasons why tech/software companies stay in the US when they are demanded to include backdoors by the US government. Some of these reasons are:
@@ -693,15 +699,15 @@ In conclusion, while it is possible for tech companies to develop and release th
 
 --- Sample 35 ---
 Prompt: with such an important vote like appointing a supreme court nomine, why is the senate floor so empty?
-Perplexity (WM): 458.7882 | Perplexity (No WM): 87.2804
-Z-score (WM): 1.7075
+Perplexity (WM): 112.1538 | Perplexity (No WM): 87.2804
+Z-score (WM): 2.3741
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The voting session is private.
+The voting is done electronically.
 
 [Original Text]
 The Senate floor is not empty.
@@ -725,15 +731,15 @@ Yes
 
 --- Sample 37 ---
 Prompt: If a computer has a GPU, why would reducing GUI effects impact performance?
-Perplexity (WM): 21.2877 | Perplexity (No WM): 6.1090
-Z-score (WM): 2.1321
+Perplexity (WM): 25.6761 | Perplexity (No WM): 6.1090
+Z-score (WM): 1.6574
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Reducing the graphical effects of a user interface (GUI) can impact performance, especially if a computer has a Graphics Processing Unit (GPU). This is because graphical processing is required for the
+Reducing the graphical effects of a user interface (GUI) can impact performance because the graphical effects consume a significant amount of resource from both the CPU and the GPU. By optimizing for the
 
 [Original Text]
 Reducing GUI effects can impact performance on a computer with a GPU for several reasons:
@@ -755,8 +761,8 @@ Overall, reducing GUI effects can help optimize resource usage, reduce system lo
 
 --- Sample 38 ---
 Prompt: What happens if you don't pay your US Federal income tax?
-Perplexity (WM): 5.9346 | Perplexity (No WM): 7.4263
-Z-score (WM): 6.9427
+Perplexity (WM): 12.2778 | Perplexity (No WM): 7.4263
+Z-score (WM): 7.4354
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
@@ -765,19 +771,13 @@ Non-Watermarked Text Detection: True Negative
 [Watermarked Text]
 If you fail to pay your US Federal income tax, you can face legal and financial consequences. Here are some of the potential outcomes:
 
-1. **Penties**: The IRS may impose penalties, and you may need to pay additional interest on the amount you owe. The exact amount of penalties and interest depends on how much you owe and how long you've been delinquent.
+1. **Penties**: The IRS may impose penalties, and you may need to pay additional interest on the amount you owe. These add-ons can quickly escalate the cost of not paying your tax.
+2. **IRS Unrecoverable Account**: If your tax is still unpayable, the IRS may place your account on the IRS Unrecoverable Account. This is a public record, and it can affect your credit, including your ability to get employment or credit.
+3. **Fines**: The IRS may also impose fines for failure to file a tax return, even if you're not delinquent.
+4. **Benefit loss**: If you've received benefits like Social Security, unemployment insurance, or Medicaid, you may need to pay back tax on these benefits if you file a claim with the IRS.
+5. **Loss of assets**: If the IRS has a lien on your assets, you may lose them if you haven't paid your Federal income tax.
 
-2. **Fines**: The IRS may also impose fines. These can be significant depending on the circumstances.
-
-3. **Legal Action**: The IRS may take legal action against you to recover what is due. This can include a fine, interest, or a lawsuit. This happens if you are behind on your income tax.
-
-4. **Garnishing Accounts**: The IRS may garnish certain accounts from you, such as checking or savings, if you are behind on your income tax.
-
-5. **Retirement Account Deductions**: If you have contributed to a retirement account, the IRS may deduct interest from the account if you are behind on your income tax.
-
-6. **Retirement Account Deductions**: If you have contributed to a retirement account, the IRS may deduct interest from your retirement account if you are behind on your income tax.
-
-These are just some of the potential consequences of failing to pay your US Federal income tax. It's recommended that you stay up-to-date on your tax obligations or seek professional advice from a tax professional to avoid these penalties.
+It's crucial to act quickly if you're facing these consequences to catch up on your Federal income tax. The IRS may have options to make paying up on your tax possible, especially if you're behind on your income tax obligations. It's a good idea to create a tax plan or seek advice from a tax professional to avoid these penalties.
 
 [Original Text]
 If you don't pay your US Federal income tax, you may face several consequences:
@@ -789,15 +789,15 @@ If you don't pay your US Federal income tax, you may face several consequences:
 
 --- Sample 39 ---
 Prompt: Why does my employer require a voided personal check in order to setup direct deposit?
-Perplexity (WM): 21.5450 | Perplexity (No WM): 97.9096
-Z-score (WM): 3.3829
+Perplexity (WM): 108.1356 | Perplexity (No WM): 97.9096
+Z-score (WM): 2.6817
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Your employer typically requires a voided personal check to set up direct deposit because it is a necessary step in the process. This involves providing your bank with identification and providing documentation as well as a personal check to verify the identity of the account holder. The voided check is required as part of the process
+Your employer typically requires a voided personal check to set up direct deposit because it provides a proof of account identification.
 
 [Original Text]
 Your employer may require a voided personal check to set up direct deposit to
@@ -805,15 +805,15 @@ Your employer may require a voided personal check to set up direct deposit to
 
 --- Sample 40 ---
 Prompt: Why are the insides of Ovens Dark and Not Metallic or Mirror Like?
-Perplexity (WM): 36.7389 | Perplexity (No WM): 9.5134
-Z-score (WM): 2.3544
-Watermarked Text Detection: True Positive
+Perplexity (WM): 24.4614 | Perplexity (No WM): 9.5134
+Z-score (WM): 0.5000
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The insides of ovens are typically dark because they are made of metal. Metal is shiny and reflects more light when polished than when made of other materials
+The insides of ovens are typically dark and not metallic or mirror-like because they are made of a combination of stainless steel, enamel, and other materials
 
 [Original Text]
 The insides of ovens are typically dark and not metallic or mirror-like due to several reasons:
@@ -851,15 +851,15 @@ Non-Watermarked Text Detection: True Negative
 
 --- Sample 42 ---
 Prompt: Why do The Miranda Rights state that anything you say can "and will" be used against you. If something's not incriminating why would it be used against you? Why would cops be forced to admit this up front?
-Perplexity (WM): 22.9116 | Perplexity (No WM): 6.9005
-Z-score (WM): 3.5816
+Perplexity (WM): 23.3264 | Perplexity (No WM): 6.9005
+Z-score (WM): 4.6919
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-The Miranda Rights are designed to protect individuals from giving up incriminating information under duress or coercion. They serve as a warning to ensure individuals are careful when giving information to avoid self-incrimination. The police are required to explicitly state the rights to the individuals to inform them of their rights and make them aware that even if what they thought was not incriminating can still be used against them later.
+The Miranda Rights are designed to protect individuals from giving statements that could harm them in later legal proceedings. This is way of protecting the suspect from giving anything that could potentially be used against them later. While it's true that not everything they say will need to be used against them, it's still possible that even innocent or non-incriminating statements could later be used in a successful prosecution of charges later.
 
 [Original Text]
 The Miranda Rights are designed to protect individuals from self-incrimination. The statement that "anything you say can 'and will' be used against you" is a protective measure to ensure that suspects do not voluntarily provide information that could be used against them in court.
@@ -879,15 +879,15 @@ In summary, the Miranda Rights are designed to protect individuals from self-inc
 
 --- Sample 43 ---
 Prompt: Why is it when you rewind VHS tapes they lose their quality over time?
-Perplexity (WM): 611.6400 | Perplexity (No WM): nan
-Z-score (WM): 1.4358
+Perplexity (WM): 16066.1094 | Perplexity (No WM): nan
+Z-score (WM): -0.5538
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The tape is getting physically worn out!
+The tape stretches
 
 [Original Text]
 Because
@@ -928,15 +928,15 @@ Overall, libraries use a variety of methods to acquire books and keep their coll
 
 --- Sample 45 ---
 Prompt: If the ozone layer is made up of O3, why are we not producing some of it ourselves and pumping more of them into the atmosphere to fix the problem faster?
-Perplexity (WM): 36.7270 | Perplexity (No WM): 9.2965
-Z-score (WM): 1.7538
+Perplexity (WM): 16.3323 | Perplexity (No WM): 9.2965
+Z-score (WM): 3.6521
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The ozone layer is made up of O2.
+The ozone layer is indeed made up of ozone (O3). However, we cannot produce it artificially and pump more into the atmosphere because ozone is a highly reactive molecule that reacts with other molecules in the atmosphere to form halocarbons, which are harmful to the environment. The consequences of introducing more ozone into the atmosphere could have severe and unintended consequences. To address the issue of ozone depletion, we typically launch ozones into the atmosphere, which are converted into ozone when exposed to UV radiation. This helps to increase ozone levels in the upper atmosphere, rather than direct injection of ozone molecules into the atmosphere
 
 [Original Text]
 The ozone layer is indeed made up of ozone (O₃), which is crucial for protecting the Earth from harmful ultraviolet (UV) radiation. However, producing and injecting more ozone into the atmosphere is not a practical solution for several reasons:
@@ -972,17 +972,16 @@ In the English language, contractions are prioritized based on the base word.
 
 --- Sample 47 ---
 Prompt: The Cuban Missle Crisis and Americas enormous beef with Cuba, what happened there?
-Perplexity (WM): 17.7698 | Perplexity (No WM): 11.8903
-Z-score (WM): 4.6384
+Perplexity (WM): 9.9833 | Perplexity (No WM): 11.8903
+Z-score (WM): 3.3818
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The Cuban Missile Crisis occurred in October 1962 when the United States discovered that Soviet Union had been placing missiles in Cuba. This led to a tense standoff between the two countries, as many feared that an invasion of Cuba by the U.S. would trigger a nuclear exchange. 
-
-As for the part about America's enormous beef with Cuba, that's a bit unclear. However, a possible reference could be to other issues. For example, Cuban support for the United States and asylum in Cuba or Cuban support for the United States in Cuba during the Vietnam War. During that crisis, the
+The Cuban Missile Crisis happened in October 1962 when Cuba informed the U.S. that it had nuclear missiles on the island. This led to a tense standoff between the U.S. and Cuba. The U.S. began to blockade Cuba, and Cuba demanded a U.S. military invasion, but ultimately agreed to remove the missiles. The crisis marked a turning point in the Cold War and had a lasting impact on the relationship between Cuba and the U.S. 
+ Cuba in 
 
 [Original Text]
 The Cuban Missile Crisis occurred in 1962 when the United States discovered that Russia had installed nuclear missiles in Cuba. This led to a crisis between the two countries.
@@ -990,15 +989,15 @@ The Cuban Missile Crisis occurred in 1962 when the United States discovered that
 
 --- Sample 48 ---
 Prompt: Why can't we use a centrifuge to de-salinate ocean water?
-Perplexity (WM): 67.6105 | Perplexity (No WM): 82.3112
-Z-score (WM): 1.4680
+Perplexity (WM): 457.2271 | Perplexity (No WM): 82.3112
+Z-score (WM): -0.2925
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-We can't because that would require an enormous centrifuge machine.
+You can't spin salt.
 
 [Original Text]
 Centrifuges are designed to separate liquids.
@@ -1022,15 +1021,15 @@ Apt music players are able to play along by playing by ear.
 
 --- Sample 50 ---
 Prompt: Why drill instructor in the army never stop screaming at recruit in the army?
-Perplexity (WM): 67.0510 | Perplexity (No WM): 8.4882
-Z-score (WM): -0.9592
+Perplexity (WM): 146.7280 | Perplexity (No WM): 8.4882
+Z-score (WM): -1.0979
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-To keep them in line!
+Because there is a drill
 
 [Original Text]
 Drill instructors in the army may refuse to stop screaming at recruits for several reasons:
@@ -1050,8 +1049,8 @@ It's essential to note that excessive screaming can be harmful and traumatic to 
 
 --- Sample 51 ---
 Prompt: if i ground up a piece of pure iron and ate it, would my body abosorb it the same way as iron from food? if not, how do they make iron supplements absorb-able?
-Perplexity (WM): 10.6507 | Perplexity (No WM): 7.0020
-Z-score (WM): 5.2874
+Perplexity (WM): 12.3095 | Perplexity (No WM): 7.0020
+Z-score (WM): 5.8289
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
@@ -1060,11 +1059,11 @@ Non-Watermarked Text Detection: True Negative
 [Watermarked Text]
 No, if you ground up a piece of pure iron and ate it, your body would not absorb it the same way it absorbs iron from food. 
 
-The iron you eat would be in the form of pure metal, and would not be broken down and absorbed by the body. 
+The iron you consume from food is typically bound to a protein called heme, which is more easily absorbed by the body. Metal ions also need to be broken down by digestive acids, before they can be absorbed into the body. 
 
-In contrast, iron from food is absorbed by the body through the small intestine, where the iron is broken down and then absorbed into the bloodstream.
+To make iron supplements absorbable, iron needs to be in a form that can be absorbed by the body. This is typically achieved through a process called chelation, where the iron is bound to a protein like transferrin, which can then be absorbed into the bloodstream. 
 
-To make iron supplements absorbable, they need to be in a form that can be absorbed by the body. Common forms used in iron supplements include ferrous sulfate, ferrous gluconate, and ferric ferrous iron. The supplements are designed so that they can be absorbed by the digestive system, broken down, and absorbed into the small intestine, where it enters the bloodstream and binds to the
+When consuming iron supplements, the iron is absorbed by the digestive system, broken down, and absorbed into the small intestine, where it enters the bloodstream and binds to the
 
 [Original Text]
 No, your body would not absorb pure iron in the same way as iron from food. The absorption of iron from food is facilitated by the presence of certain compounds, such as vitamin C, which helps convert non-heme iron into a form that is more easily absorbed. Non-heme iron is the type of iron found in plant-based foods, such as spinach, lentils, and legumes.
@@ -1155,15 +1154,15 @@ Non-Watermarked Text Detection: True Negative
 
 --- Sample 56 ---
 Prompt: How do people add colour so accurately to black and white photos?
-Perplexity (WM): 145.9130 | Perplexity (No WM): nan
-Z-score (WM): 0.3741
+Perplexity (WM): 2255.6108 | Perplexity (No WM): nan
+Z-score (WM): -0.5538
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-They use photo editing software.
+ Increase saturation.
 
 [Original Text]
 software
@@ -1171,17 +1170,15 @@ software
 
 --- Sample 57 ---
 Prompt: Why do books downloaded from the library need to be "returned" after a given amount of time?
-Perplexity (WM): 17.0162 | Perplexity (No WM): 29.1048
-Z-score (WM): 4.1676
+Perplexity (WM): 16.3471 | Perplexity (No WM): 29.1048
+Z-score (WM): 5.7595
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The concept of returning books from the library is not a standard practice, and it's likely that you're referring to an e-book service or a specific digital library system. 
-
-However, some e-book services may have policies that require books to be "returned" after a certain period of use, similar to how physical books are returned to the library after a borrowing period, to avoid late fees or fines. However,returning books from the library is not a common practice
+The concept of returning books from the library is not a standard practice, and it is possible that there may be a misunderstanding or a false assumption. If you are referring to borrowing books from the library and returning them after a certain period of time, the concept of returning books may apply if the borrowing period is expired or if late fines are due. Many libraries have policies for late fines and may impose penalties or fines, but the concept of returning books from the library is not a common practice
 
 [Original Text]
 Books downloaded from the library need to be "returned" after a given amount of time because they are borrowed from the library.
@@ -1189,15 +1186,15 @@ Books downloaded from the library need to be "returned" after a given amount of 
 
 --- Sample 58 ---
 Prompt: If a self-driving car detects multiple courses of action (all of which will likely result in human injury) how will it determine which course to take?
-Perplexity (WM): 44.2513 | Perplexity (No WM): 62.0539
-Z-score (WM): 0.9737
+Perplexity (WM): 32.5953 | Perplexity (No WM): 62.0539
+Z-score (WM): 1.2064
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-In such a scenario, the car would likely choose the option that causes fewer injuries.
+In such a scenario, the car should shut down.
 
 [Original Text]
 The self-driving car will not answer.
@@ -1205,15 +1202,15 @@ The self-driving car will not answer.
 
 --- Sample 59 ---
 Prompt: If there are no size regulations regarding goalies in the NHL, why doesn't a team just throw some really obese person out there to block the whole net?
-Perplexity (WM): 12.2614 | Perplexity (No WM): 5.8603
-Z-score (WM): 3.3019
+Perplexity (WM): 9.9097 | Perplexity (No WM): 5.8603
+Z-score (WM): 2.3380
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: False Positive
 
  
 
 [Watermarked Text]
-While there are no size regulations for goalies in the NHL, there are weight regulations for the players in the league. This means that the goalies in the NHL must be within a certain weight limit. But weight is not the only factor that affects the performance of the goalies. To be an effective goalie, their speed, agility, reflexes, and swimming ability must also be excellent,
+While there are no size regulations for goalies in the NHL, there are weight regulations for the players in the league. This means that the goalies in the NHL must be physically strong enough to play their position. In addition to strength, the goalies in the NHL also need to be physically fit to play their position. Their agility, reflexes, and swimming ability must also be excellent,
 
 [Original Text]
 In the NHL, there are no size regulations regarding goalies, but there are other factors that influence the selection and performance of goalies:
@@ -1233,15 +1230,15 @@ So, while size is not a requirement, there are other factors that influence the 
 
 --- Sample 60 ---
 Prompt: If animals aren't aware that they are going to die, why would they try so hard to survive?
-Perplexity (WM): 25.5961 | Perplexity (No WM): 156.5398
-Z-score (WM): 4.4564
-Watermarked Text Detection: True Positive
+Perplexity (WM): 28.6913 | Perplexity (No WM): 156.5398
+Z-score (WM): 0.8095
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-It's a great question. If animals are truly unaware of their own mortality, their desire to survive would be a result of instinctual behaviors that are associated with food and shelter. Survivalists are driven by an instinctual drive to survive that compels them to seek sustenance and safety. Subjective natural selection could create an environment that provides resources and shelter for survivalists to thrive, independently of the concept of death.
+It's a great question! If they're not aware of death, they might just be trying to figure out how to live!,
 
 [Original Text]
 Animals are curious.
@@ -1297,15 +1294,17 @@ Non-Watermarked Text Detection: True Negative
 
 --- Sample 64 ---
 Prompt: Why is it when oil prices go up gas prices immediately go up but when oil prices come down the price of gas never comes down as fast as when the price of oil increases?
-Perplexity (WM): 13.0571 | Perplexity (No WM): 4.3846
-Z-score (WM): 5.5726
+Perplexity (WM): 13.0870 | Perplexity (No WM): 4.3846
+Z-score (WM): 5.9371
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-This phenomenon is not entirely understood, but many factors might contribute to it. In general, oil and gas prices are closely tied because they can move in tandem. When oil prices rise, the demand for gas increases, and if there is a shortage of gas to meet the demand, this can lead to a rise in gas prices as well. In addition, oil serves as a low-price elasticity input for the production of gasoline and other petroleum products, meaning that falls in oil prices do not lead to significant falls in gas prices
+This phenomenon is because of the price index relationship between oil and gas.  Oil and gas are considered a "bundle" of products.  When oil price increases the price of oil increases because that's how gas prices are relative to oil prices.  If oil price is $50 and gas price is $55 and oil price increases, gas price increases.  When oil price decreases, gas price decreases as well, and the decrease is relative to oil prices.  Eventually the economy and supply and demand will bring both oil and gas prices back to the same level of oil price after some time.
+
+See https://www.bloomberg.com for more information on how the price of crude oil affects the price of gasoline
 
 [Original Text]
 The relationship between oil prices and gas prices can be explained through the concept of relative demand and supply.
@@ -1337,15 +1336,15 @@ Non-Watermarked Text Detection: True Negative
 
 --- Sample 66 ---
 Prompt: the hypothetical turtle on an island in the sun question?
-Perplexity (WM): 161.1277 | Perplexity (No WM): nan
-Z-score (WM): 1.3721
-Watermarked Text Detection: False Negative
+Perplexity (WM): 68.1227 | Perplexity (No WM): nan
+Z-score (WM): 1.7075
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-I'm going.
+The answer is "none".
 
 [Original Text]
 What
@@ -1353,8 +1352,8 @@ What
 
 --- Sample 67 ---
 Prompt: In English, what is the rule for the use of “An” or “A”
-Perplexity (WM): 9.9628 | Perplexity (No WM): 9.1693
-Z-score (WM): 1.8769
+Perplexity (WM): 11.8571 | Perplexity (No WM): 9.1693
+Z-score (WM): 3.3314
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
@@ -1363,8 +1362,8 @@ Non-Watermarked Text Detection: True Negative
 [Watermarked Text]
 The rule for the use of "An" or "A" in English is as follows:
 
-- "An" should be used before singular nouns that start with a consonant or a vowel letter
-- "A" should be used before singular nouns that start with a vowel or a consonant letter
+- "An" should be used before nouns and singular countable  nouns that start with a vowel letter
+- "A" should be used before nouns and singular countable nouns that start with a consonant letter
 
 [Original Text]
 In English, the rule for the use of "An" or "A" is as follows:
@@ -1488,25 +1487,25 @@ Non-Watermarked Text Detection: True Negative
 
 --- Sample 75 ---
 Prompt: How does cutting down trees to plant other vegetation for the purpose of cultivation (such as avocado farming) contribute to global warming?
-Perplexity (WM): 9.0472 | Perplexity (No WM): 4.8460
-Z-score (WM): 6.5221
+Perplexity (WM): 8.5441 | Perplexity (No WM): 4.8460
+Z-score (WM): 6.6041
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The act of cutting down trees for planting other vegetation, such as in avocado farming, contributes to global warming in several ways. 
+The act of cutting down trees to cultivate other vegetation, such as avocado farming, can contribute to global warming through several processes. 
 
-1. Deforestation: Trees are carbon sinks, meaning they absorb carbon dioxide from the air. When trees are cut down, the stored carbon is released back into the air, contributing to the greenhouse effect and warming of the planet. Deforestation is a significant cause of greenhouse gas emissions.
+1. Carbon Sequestration: Trees act as carbon sinks, sequestering carbon from the atmosphere when they are standing. When trees are cut down and burned, the stored carbon is released back into the air, contributing to global warming.
 
-2. Soil erosion: Cutting down trees and not replanting them can lead to soil erosion, where the soil is carried away by rain and wind, exposing the underlying soil layers. This contributes to the loss of carbon stored in the soil.
+2. Deforestation: Cutting down trees can lead to deforestation, which is the clearing of forests of trees. Deforestation can lead to the loss of carbon sequestration, the disruption of wildlife, destruction of habitats, and degradation of the soil, all of which can contribute to global warming.
 
-3. Carbon sequestration and ecosystems: When trees are cut down, the stored carbon is released back into the air, and the trees' carbon sequestration is lost. Additionally, deforestation can lead to the loss of ecosystems, which can further affect carbon sequestration and contribute to global warming.
+3. Soil Erosion: Cutting down trees can lead to soil erosion, which can cause more landslides, soil compaction, and loss of carbon-holding capacity. Soil erosion can also contribute to carbon emissions and greenhouse gas emissions.
 
-4. Land use change: Cutting down trees for other agriculture-related activities can contribute to land use change, which can also release stored carbon and contribute to global warming.
+4. Carbon Emissions: Cutting down trees, burning trees and other vegetation, and releasing stored carbon back into the atmosphere release carbon dioxide and other greenhouse gases, making them a significant contributor to global warming. For example, biomass energy production can be used by burning trees and other vegetation and releasing carbon dioxide into the atmosphere, contributing to global warming.
 
-The combination of agricultural expansion, deforestation, and other human activities can lead to higher levels of carbon dioxide in the atmosphere, which is one of the main causes of climate change. In contrast, sustainable agriculture methods do not involve significant deforestation, and reforestation and conservation of forests are crucial to reduce greenhouse gas emissions and mitigate climate change.
+Overall, cutting down trees has negative consequences that can contribute to global warming, including the loss of carbon sequestration, deforestation, and the emission of greenhouse gases, making it a significant contributor to climate change.
 
 [Original Text]
 Cutting down trees to plant other vegetation for the purpose of cultivation, such as avocado farming, contributes to global warming in several ways:
@@ -1540,21 +1539,23 @@ When lactose is ingested by lactose-intolerant individuals, it cannot be digeste
 
 --- Sample 77 ---
 Prompt: If Helicopters need tail rotors to stabilize themselves from spinning, how can turboprop airplanes have only one rotor and not spin in circles?
-Perplexity (WM): 12.7438 | Perplexity (No WM): 101.8302
-Z-score (WM): 6.8903
+Perplexity (WM): 8.3027 | Perplexity (No WM): 101.8302
+Z-score (WM): 5.1799
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Turboprop airplanes, like helicopters, are rotors, meaning they rotate their blades to generate thrust, which is used for lift. However, a turboprop airplane's rotor is a fixed-axis rotor, it is fixed to the aircraft's fuselage and does not move in tandem with the main rotor. 
+Turboprop airplanes, like helicopters, are rotors, meaning they use rapidly rotating propeller-like blades to generate lift and thrust. The main difference between turboprop airplanes and helicopters is the direction of the rotor blades.
 
-In a turboprop aircraft, the fixed-axis rotor is designed to handle the lift and stability without the need for a tail rotor. The rotor blades generate lift by creating a pressure difference between the front and back of the blades, and the aircraft's aerodynamic design and control surfaces help with stability and control.
+In a turboprop airplane, the rotor blades spin in a specific direction relative to the aircraft's movement. This allows the blades to create lift without spinning in circles. Helicopters, on the other hand, require tail rotors to provide stability and control, as their rotor blades spin in opposite directions.
 
-Turboprop airplanes also use other control surfaces, such as ailerons, elevators, and rudder, to assist with stability and control. These surfaces work in tandem with the main rotor, contributing to the overall stability and control of the aircraft.
+The direction of the blades in turboprop airplanes is determined by the aircraft's nose and tail. The rotor blades spin in a direction opposite to the aircraft's movement, creating lift. This allows the turboprop airplane to stay aloft without the need for tail rotors.
 
-Tail rotors are typically found in certain types of helicopters or tilt-rotor rotor models that work in tandem with the main rotor for stability. They are not necessary in fixed-axis rotor models, like those in turboprop airplanes
+It's important to note that a helicopter will always have both main and tail rotors due to the requirement that the rotor blades spin in the opposite direction. However, in turboprop airplanes, only one rotor is required to generate lift.
+
+The specific direction for the blades in turboprop airplanes
 
 [Original Text]
 Helicopters need tail rotors to stabilize themselves from spinning because they lack fixed wings.
@@ -1578,15 +1579,15 @@ Environmental factors.
 
 --- Sample 79 ---
 Prompt: Why do people bother keeping savings in banks/currencies which are potentially unstable?
-Perplexity (WM): 83.0520 | Perplexity (No WM): 30.6926
-Z-score (WM): 1.8463
+Perplexity (WM): 54.9336 | Perplexity (No WM): 30.6926
+Z-score (WM): 2.9684
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-People bother keeping savings in banks and currencies that are potentially unstable because they don't have any other choice.
+People bother keeping savings in banks and currencies that are potentially unstable because they try to make their investments grow. They put their savings into things with the goal of making more money than they invested so it can
 
 [Original Text]
 People keep savings in banks and currencies that are potentially unstable because they believe that the potential for returns may outweigh the risks. They also believe that they can protect their assets by diversifying their investments and savings.
@@ -1594,15 +1595,15 @@ People keep savings in banks and currencies that are potentially unstable becaus
 
 --- Sample 80 ---
 Prompt: Why does water freeze from top to bottom? Deep in the ocean it’s below freezing, why doesn’t it freeze?
-Perplexity (WM): 57.0399 | Perplexity (No WM): 65.9840
-Z-score (WM): 1.0680
-Watermarked Text Detection: False Negative
+Perplexity (WM): 68.7515 | Perplexity (No WM): 65.9840
+Z-score (WM): 2.2680
+Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-It freezes from the top to the bottom because water increases in density.
+It freezes from the top to the bottom because ice has lower density.
 
 [Original Text]
 Water freezes from top to bottom because it is liquid.
@@ -1626,19 +1627,19 @@ Digital piracy is not legal.
 
 --- Sample 82 ---
 Prompt: The voting rights of citizens in the District of Columbia historically differ from the rights of citizens in each of the 50 U.S. states. Why can't the U.S. just add an amendment to fix that right now?
-Perplexity (WM): 11.9479 | Perplexity (No WM): 4.9572
-Z-score (WM): 5.3157
+Perplexity (WM): 6.4668 | Perplexity (No WM): 4.9572
+Z-score (WM): 4.8799
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The voting rights of citizens in the District of Columbia historically differ from the rights of citizens in each of the 50 U.S. states because Washington, DC. is not a state. It is a federal district. As a result, Washington residents do not qualify to vote for federal or state elections. 
+The voting rights of citizens in the District of Columbia historically differ from the rights of citizens in each of the 50 U.S. states because Washington, DC. is not a state. It is a federal district. As a result, the U.S. Constitution does not provide for voting rights in the District of Columbia.
 
-The U.S. could add an amendment to fix that right now, and it has already passed an amendment. The 29th Amendment, passed in 1981, grants voting rights to residents of Washington, DC. However, for the amendment to take effect as a constitutional amendment, it also must be ratified by 2/3s of the states.
+The U.S. government could add an amendment to the Constitution to grant voting rights in the District of Columbia, but adding an amendment to the Constitution is a complex and lengthy process. It requires two-thirds of the members of both houses Congress to pass an amendment, and then it must be ratified by three-fourths of the states.
 
-In order for the U.S. to pass an amendment, 2/3s of the states must be ratified after it is passed by Congress
+There have been several efforts to add an amendment to the Constitution to grant voting rights in the District of Columbia, but as of now, none of them have been passed by Congress
 
 [Original Text]
 The voting rights of citizens in the District of Columbia have historically differed from the rights of citizens in each of the 50 U.S. states because the District of Columbia is not a state. Citizens of the District of Columbia do not have the same voting rights as citizens of the 50 states. Instead, they have the right to vote in the District of Columbia, but not in the federal elections.
@@ -1654,15 +1655,15 @@ To fix this issue, Congress would need to propose an amendment to the Constituti
 
 --- Sample 83 ---
 Prompt: I've been reading up on nukes. Did the Nevada nuclear tests have nuclear winter? Why or why not?
-Perplexity (WM): 192.5423 | Perplexity (No WM): 17.5554
-Z-score (WM): 3.0417
-Watermarked Text Detection: True Positive
+Perplexity (WM): 17.5554 | Perplexity (No WM): 17.5554
+Z-score (WM): 1.0136
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-No, the Nevada tests didn't have nuclear winter.
+No.
 
 [Original Text]
 No.
@@ -1670,25 +1671,27 @@ No.
 
 --- Sample 84 ---
 Prompt: How come cars are able to go up to 220 km/h but highways only allow speeds of up to 110 km/h. Wouldn't it be wiser to have cars max out at 110 km/h-ish and reduce the engine capabilities?
-Perplexity (WM): 11.1619 | Perplexity (No WM): 9.9464
-Z-score (WM): 6.9336
+Perplexity (WM): 10.7847 | Perplexity (No WM): 9.9464
+Z-score (WM): 8.9959
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-There are a few reasons for this mismatch of speeds. 
+There are several reasons why cars are designed to reach speeds of up to 220 km/h despite highways allowing speeds of only up to 110 km/h. 
 
-1. Safety: High-speed travel can be dangerous, and if accidents occur at high speeds, the consequences can be severe. Speed limits are designed to minimize the risk of accidents.
+1. Performance: Cars are designed to provide drivers with superior performance and a thrilling driving experience. The higher speed allows for better acceleration, improved handling, and a more enjoyable driving experience. 
 
-2. Efficiency: Cars are designed to achieve specific speeds, and if they were to travel at higher speeds, they would likely consume more fuel and produce more emissions.
+2. Market Demand: Car manufacturers are constantly striving to innovate and improve their products to meet the demands of their customers. A higher speed capability can help to differentiate a car from competitors and appeal to a broader audience. 
 
-3. Engineering: Cars are designed to handle a specific range of speeds, and if they were to travel at higher speeds, they would likely experience less efficient operation.
+3. Engineering: A higher speed capability allows for more advanced engineering and manufacturing techniques. This can lead to better fuel efficiency, stronger roads, and more reliable engines. 
 
-4. Economics: Allowing higher speeds could lead to more reckless driving and increase insurance premiums or fines. Speed limits are designed to influence the behavior of drivers.
+4. Flexibility: While highways may assign speed limits, they are designed to accommodate a wide range of vehicle types and speeds. A higher speed can provide drivers with more flexibility, allowing them to reach their destinations quickly, even on highways with high speed limits. 
 
-It's worth noting that the maximum speeds on vehicles often match the speed limits or the vehicle's top possible speed. For example, some states and regions of the United States allow for higher speed limits, and most high-performance vehicles are designed to have a top speed of 210-220 km/h.
+5. Safety: Higher speeds can be safer on highways, as these long, open roads typically allow for longer stopping distances. The higher speed capabilities help to ensure that drivers can respond quickly in the event of an emergency.
+
+Overall, while highways may assign speed limits and accidents to vehicles, cars are designed to provide drivers with superior performance and to ensure that they are prepared for a wider range of driving scenarios.
 
 [Original Text]
 There are several reasons why cars are able to reach speeds of up to 220 km/h while highways only allow speeds of up to 110 km/h:
@@ -1721,15 +1724,15 @@ No
 
 --- Sample 86 ---
 Prompt: why does spicy food stay spicy when it comes out the other end?
-Perplexity (WM): 755266.7500 | Perplexity (No WM): nan
-Z-score (WM): -0.9864
+Perplexity (WM): 81.9091 | Perplexity (No WM): nan
+Z-score (WM): 1.0136
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-because digestion
+digestion
 
 [Original Text]
 because
@@ -1763,15 +1766,15 @@ Overall, the purpose of allowing users to vote for themselves is to empower user
 
 --- Sample 88 ---
 Prompt: Why is the word 'cunt' such a taboo word in the U.S.?
-Perplexity (WM): 26.2756 | Perplexity (No WM): 5.9190
-Z-score (WM): 0.2680
+Perplexity (WM): 75.8421 | Perplexity (No WM): 5.9190
+Z-score (WM): 0.3109
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The word 'cunt' is a taboo word in all countries.
+The word is very offensive and degrading.
 
 [Original Text]
 The word 'cunt' is considered a taboo word in the U.S. due to its strong negative connotations and its association with violence, disrespect, and aggression. The word is often used as a derogatory term to insult or belittle someone, which can be extremely hurtful and offensive.
@@ -1818,15 +1821,15 @@ Overall, the decision to set the drinking age at 21 is influenced by a combinati
 
 --- Sample 90 ---
 Prompt: Why do I not smell perfume I've sprayed on me but other people do?
-Perplexity (WM): 142.3726 | Perplexity (No WM): 8.0631
-Z-score (WM): -1.0979
+Perplexity (WM): 191.8463 | Perplexity (No WM): 8.0631
+Z-score (WM): 0.4139
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Perfumes are synthetic.
+Perfume needs water.
 
 [Original Text]
 There could be several reasons why you don't smell the perfume you've sprayed on yourself, but other people do:
@@ -1846,15 +1849,15 @@ It's also worth noting that some people might be more sensitive to the scent of 
 
 --- Sample 91 ---
 Prompt: How does a two headed reptile/siamese twins work? How do they move their bodies assuming there are two brains?
-Perplexity (WM): 14.3961 | Perplexity (No WM): 29.9018
-Z-score (WM): 1.1534
+Perplexity (WM): 26.8894 | Perplexity (No WM): 29.9018
+Z-score (WM): 0.3264
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-I'm sorry, but I can't assist with that.
+I'm unable to answer that question.
 
 [Original Text]
 I can't help with that.
@@ -1878,15 +1881,15 @@ I'm sorry.
 
 --- Sample 93 ---
 Prompt: Why does having noise in the background (TV, music, etc.) make me feel safer when I'm home alone?
-Perplexity (WM): 40.9291 | Perplexity (No WM): 22.9988
-Z-score (WM): 1.0408
+Perplexity (WM): nan | Perplexity (No WM): 22.9988
+Z-score (WM): 0.0000
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-There are a few reasons...
+​
 
 [Original Text]
 Having noise in the background can make you feel safer when you're home alone.
@@ -1958,15 +1961,15 @@ The other cats likely found out that you're a food giver through the initial nei
 
 --- Sample 98 ---
 Prompt: Why do southern states freak out over a little snow?
-Perplexity (WM): 76.9410 | Perplexity (No WM): 72.6995
-Z-score (WM): 0.3109
+Perplexity (WM): 70913.9062 | Perplexity (No WM): 72.6995
+Z-score (WM): 1.0136
 Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Because southern states just don't like snow.
+Because snow
 
 [Original Text]
 Because they have no heart.
@@ -1974,18 +1977,15 @@ Because they have no heart.
 
 --- Sample 99 ---
 Prompt: What is the origin and meaning of "Strange women lying in ponds distributing swords is no basis for a system of government."
-Perplexity (WM): 53.5543 | Perplexity (No WM): 7.2843
-Z-score (WM): 2.3311
-Watermarked Text Detection: True Positive
+Perplexity (WM): 147.8356 | Perplexity (No WM): 7.2843
+Z-score (WM): 1.0952
+Watermarked Text Detection: False Negative
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-The quote "Strange women lying in ponds distributing swords is no basis for a system of government" is a famous phrase attributed to Thomas Saine, an English writer and critic of the 17th century.
-
-The
-
+The quote "Strange women lying in ponds distributing swords is no basis for a system of government" is a famous phrase attributed to
 
 [Original Text]
 The phrase "Strange women lying in ponds distributing swords is no basis for a system of government" is a quote from the English philosopher and writer Thomas Hobbes, who wrote it in his famous 1651 book "Leviathan."
@@ -2001,15 +2001,15 @@ In summary, Hobbes' quote suggests that the state of nature is not a viable basi
 
 --- Sample 100 ---
 Prompt: What are those bastardly little tongue sores you get from eating too much salt or sugar, and how do you get rid of them?
-Perplexity (WM): 26.4523 | Perplexity (No WM): 10.3221
-Z-score (WM): 4.6430
+Perplexity (WM): 23.9600 | Perplexity (No WM): 10.3221
+Z-score (WM): 5.4567
 Watermarked Text Detection: True Positive
 Non-Watermarked Text Detection: True Negative
 
  
 
 [Watermarked Text]
-Those annoying little sores are called canker sores. They're caused by a virus, which makes them a bit tricky to get rid of. I found a good remedy for them. It's to crush or powder an amount of aspirin and rub the sore with the substance. The sore should be taken of your mouth, rubbed with aspirin, and put back in your mouth. Now you can
+Those annoying little sores are called pernicious tongue. It's a condition caused by a deficiency of B12. It's a vitamin that makes red blood blood cells for your body. You can go to the hospital, and they can tell if you're missing a vitamin or mineral, then you can get what you need, and your little sores will go away, and you can
 
 [Original Text]
 Those little sores you get on your tongue from eating too much salt or sugar are called "cheilosis" or "tongue ulcers." They are usually caused by a combination of factors, including:

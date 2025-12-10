@@ -95,6 +95,9 @@ class SimpleRemaskWatermark:
         seq_len = len(tokens)
         p_value_threshold = kwargs.get("p_value_threshold", 0.05)
         
+        fpr_correction_factor = kwargs.get("fpr_correction_factor", 1.0)
+        p_value_threshold_corrected = p_value_threshold / fpr_correction_factor
+
         seen_pairs = set()
 
         for i in range(seq_len):
@@ -121,7 +124,7 @@ class SimpleRemaskWatermark:
         else: z_score = (satisfied_pairs - total_pairs_checked * null_satis_rate_mean) / std_dev
         
         p_value = float(1 - norm.cdf(z_score))
-        is_watermarked = p_value < p_value_threshold
+        is_watermarked = p_value < p_value_threshold_corrected
 
         return {
             "is_watermarked": is_watermarked,
@@ -130,7 +133,9 @@ class SimpleRemaskWatermark:
             "satisfied_pairs": satisfied_pairs,
             "total_pairs_checked": total_pairs_checked,
             "satisfaction_rate": float(satisfaction_rate),
-            "threshold": p_value_threshold,
+            "threshold": p_value_threshold_corrected, # Return the corrected threshold
+            "original_threshold": p_value_threshold,
+            "fpr_correction_factor": fpr_correction_factor,
             "num_timestamps": num_timestamps,
             "unmasked_tokens_per_timestamp": unmasked_tokens_per_timestamp,
         }

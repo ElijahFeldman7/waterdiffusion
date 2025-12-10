@@ -54,6 +54,7 @@ def get_dataset(dataset_config: EvaluationDataset):
 class Evaluator:
     def __init__(self, config: EvaluationConfiguration):
         self.config = config
+        self.z_scores = []
 
     def prepare_dataset(self, dataset_config, tokenizer):
         dataset = get_dataset(dataset_config)
@@ -184,6 +185,9 @@ class Evaluator:
                 }
                 line.update(detection_output)
                 
+                if "z_score" in detection_output:
+                    self.z_scores.append(detection_output["z_score"])
+                
                 res.append(line)
                 
         return res
@@ -280,6 +284,24 @@ class Evaluator:
                 print(f"No (new) results for dataset {dataset_name}. Skipping.")
                 continue
             self.save_results(res)
+
+        if self.z_scores:
+            is_watermarked_run = self.watermark_parameters_dict.get("watermark_type", "none") != "none"
+            z_score_filename = "watermarked_z_scores.json" if is_watermarked_run else "unwatermarked_z_scores.json"
+            
+            output_dir = os.path.dirname(self.config.save_path)
+            if output_dir:
+                try:
+                    os.makedirs(output_dir, exist_ok=True)
+                except FileNotFoundError:
+                    pass
+                
+                full_path = os.path.join(output_dir, z_score_filename)
+
+                print(f"Saving {len(self.z_scores)} z-scores to {full_path}")
+                with open(full_path, "w") as f:
+                    json.dump(self.z_scores, f, indent=4)
+
             
     def load_data_from_path(self):
         

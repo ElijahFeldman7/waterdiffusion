@@ -78,7 +78,7 @@ def analyze_jsonl(file_path: Path, output_txt_path: Path):
                     sample_details.append(f"Prompt: {result.get('prompt', 'N/A')}")
                     sample_details.append(f"Perplexity (WM): {result.get('perplexity_wm', 'N/A'):.4f} | Perplexity (No WM): {result.get('perplexity_no_wm', 'N/A'):.4f}")
                     sample_details.append(f"Z-score (WM): {detection_wm.get('z_score', 'N/A'):.4f}")
-                    sample_details.append(f"Z-score (NoWM):" {detection_no_wm.get('z_score', 'N/A')})
+                    sample_details.append(f"Z-score (NoWM): {detection_no_wm.get('z_score', 'N/A'):.4f}")
                     
                     wm_status = "True Positive" if detection_wm.get('is_watermarked', False) else "False Negative"
                     no_wm_status = "False Positive" if detection_no_wm.get('is_watermarked', False) else "True Negative"

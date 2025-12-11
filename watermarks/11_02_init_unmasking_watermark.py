@@ -95,20 +95,10 @@ class SimpleRemaskWatermark:
         seq_len = len(tokens)
         p_value_threshold = kwargs.get("p_value_threshold", 0.05)
         
-        fpr_correction_factor = kwargs.get("fpr_correction_factor", 1.0)
-        p_value_threshold_corrected = p_value_threshold / fpr_correction_factor
-
-        seen_pairs = set()
-
         for i in range(seq_len):
             for j in self.context_window:
                 neighbor_index = i + j
                 if 0 <= neighbor_index < seq_len:
-                    pair_key = tuple(sorted((i, neighbor_index)))
-                    if pair_key in seen_pairs:
-                        continue
-                    seen_pairs.add(pair_key)
-
                     total_pairs_checked += 1
                     if j < 0:
                         if SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[neighbor_index], tokens[i]): satisfied_pairs += 1
@@ -118,14 +108,10 @@ class SimpleRemaskWatermark:
         satisfaction_rate = satisfied_pairs / total_pairs_checked if total_pairs_checked > 0 else 0.0
 
         null_satis_rate = 0.5
-        # For binomial test, n = total_pairs_checked, k = satisfied_pairs, p = null_satis_rate
-        # p_value = P(X >= satisfied_pairs) = 1 - P(X <= satisfied_pairs - 1)
-        if total_pairs_checked == 0:
-            p_value = 1.0 # Cannot perform test if no pairs checked
-        else:
-            p_value = float(1 - binom.cdf(satisfied_pairs - 1, total_pairs_checked, null_satis_rate))
+        if total_pairs_checked == 0: p_value = 1.0 
+        else: p_value = float(1 - binom.cdf(satisfied_pairs - 1, total_pairs_checked, null_satis_rate))
         
-        is_watermarked = p_value < p_value_threshold_corrected
+        is_watermarked = p_value < p_value_threshold
 
         return {
             "is_watermarked": is_watermarked,
@@ -133,9 +119,7 @@ class SimpleRemaskWatermark:
             "satisfied_pairs": satisfied_pairs,
             "total_pairs_checked": total_pairs_checked,
             "satisfaction_rate": float(satisfaction_rate),
-            "threshold": p_value_threshold_corrected, # Return the corrected threshold
             "original_threshold": p_value_threshold,
-            "fpr_correction_factor": fpr_correction_factor,
             "num_timestamps": num_timestamps,
             "unmasked_tokens_per_timestamp": unmasked_tokens_per_timestamp,
         }

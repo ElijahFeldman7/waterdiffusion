@@ -136,8 +136,8 @@ def main():
                     generator.watermark = watermark
                     perplexity_wm = calculate_perplexity(generated_text_wm, perplexity_model, perplexity_tokenizer)
                     perplexity_no_wm = calculate_perplexity(generated_text_no_wm, perplexity_model, perplexity_tokenizer)
-                    embeddings = similarity_model.encode([generated_text_wm, generated_text_no_wm])
-                    cos_sim = F.cosine_similarity(torch.tensor(embeddings[0]), torch.tensor(embeddings[1]), dim=0).item()
+                    embedding_wm, embedding_no_wm = similarity_model.encode([generated_text_wm, generated_text_no_wm])
+                    cos_sim = F.cosine_similarity(torch.tensor(embedding_wm), torch.tensor(embedding_no_wm), dim=0).item()
                     detection_wm_result = watermark.detect(
                         text=generated_text_wm,
                         tokenizer=generator.tokenizer,

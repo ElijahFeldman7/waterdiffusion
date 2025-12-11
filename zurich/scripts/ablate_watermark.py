@@ -99,6 +99,7 @@ def main():
     if not args.disable_generation:   
         print(f"Evaluating with watermark: {delta}, kernel: {kernel}, topk: {topk}")
         model, tokenizer = load_model(config.model_configuration, tokenizer_only=False)    
+        model.tie_weights()
 
         # Generation parametters
         model.config.temperature = args.temperature if args.temperature is not None else model.config.temperature

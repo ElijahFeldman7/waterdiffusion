@@ -249,7 +249,8 @@ def main():
             ax1.set_title(f"Watermark Detection Performance (Length: {GEN_LENGTH})")
             ax1.set_ylim(0, 1.05)
             for i, v in enumerate(values):
-                ax1.text(i, v + 0.02, f"{v:.3f}", ha='center', fontweight='bold')
+                if isinstance(v, (int, float)):
+                    ax1.text(i, v + 0.02, f"{v:.3f}", ha='center', fontweight='bold')
             perf_plot_path = run_dir / "detection_performance.png"
             fig1.savefig(perf_plot_path, dpi=300)
             print(f"Saved detection performance plot to: {perf_plot_path}")
@@ -261,7 +262,8 @@ def main():
             ax2.set_ylabel("Perplexity")
             ax2.set_title(f"Text Quality (Perplexity) (Length: {GEN_LENGTH})")
             for i, v in enumerate(values_quality):
-                ax2.text(i, v + 0.5, f"{v:.2f}", ha='center', fontweight='bold')
+                if isinstance(v, (int, float)):
+                    ax2.text(i, v + 0.5, f"{v:.2f}", ha='center', fontweight='bold')
             quality_plot_path = run_dir / "text_quality_impact.png"
             fig2.savefig(quality_plot_path, dpi=300)
             print(f"Saved text quality plot to: {quality_plot_path}")

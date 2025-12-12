@@ -76,9 +76,13 @@ def analyze_jsonl(file_path: Path, output_txt_path: Path):
                     
                     sample_details.append(f"--- Sample {i+1} ---")
                     sample_details.append(f"Prompt: {result.get('prompt', 'N/A')}")
-                    sample_details.append(f"Perplexity (WM): {result.get('perplexity_wm', 'N/A'):.4f} | Perplexity (No WM): {result.get('perplexity_no_wm', 'N/A'):.4f}")
-                    sample_details.append(f"Z-score (WM): {detection_wm.get('z_score', 'N/A'):.4f}")
-                    sample_details.append(f"Z-score (NoWM): {detection_no_wm.get('z_score', 'N/A'):.4f}")
+                    ppl_wm = result.get('perplexity_wm')
+                    ppl_no_wm = result.get('perplexity_no_wm')
+                    z_wm = detection_wm.get('z_score')
+                    z_no_wm = detection_no_wm.get('z_score')
+                    sample_details.append(f"Perplexity (WM): {f'{ppl_wm:.4f}' if isinstance(ppl_wm, (int, float)) else 'N/A'} | Perplexity (No WM): {f'{ppl_no_wm:.4f}' if isinstance(ppl_no_wm, (int, float)) else 'N/A'}")
+                    sample_details.append(f"Z-score (WM): {f'{z_wm:.4f}' if isinstance(z_wm, (int, float)) else 'N/A'}")
+                    sample_details.append(f"Z-score (NoWM): {f'{z_no_wm:.4f}' if isinstance(z_no_wm, (int, float)) else 'N/A'}")
                     
                     wm_status = "True Positive" if detection_wm.get('is_watermarked', False) else "False Negative"
                     no_wm_status = "False Positive" if detection_no_wm.get('is_watermarked', False) else "True Negative"

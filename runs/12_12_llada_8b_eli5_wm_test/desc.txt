@@ -1,9 +1,9 @@
 RUN CONFIG 
-TIMESTAMP: 2025-12-12 13:20:58 UTC
+TIMESTAMP: 2025-12-12 21:35:01 UTC
 RUN_NAME: llada_8b_eli5_wm_test
 SEED: 42
 OUTPUT_DIR: /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/12_12_llada_8b_eli5_wm_test
-NUM_PROMPTS: 100
+NUM_PROMPTS: 1000
 WATERMARK_KEY: xooks
 WATERMARK_DELTA: 2.0
 GENERATION_LENGTH: 400

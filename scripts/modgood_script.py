@@ -32,7 +32,7 @@ SimpleRemaskWatermark = init_unmasking_watermark.SimpleRemaskWatermark
 
 SECRET_KEY = "xooks"
 WATERMARK_DELTA = 2.0
-NUM_SAMPLES = 1000
+NUM_SAMPLES = 100
 OUTPUT_DIR = "runs"
 RUN_NAME = "llada_8b_eli5_wm_test"
 SEED = 42
@@ -196,14 +196,14 @@ def main():
                         tokenizer=generator.tokenizer,
                         num_timestamps=GEN_STEPS,
                         unmasked_tokens_per_timestamp=GEN_LENGTH / GEN_STEPS,
-                        p_value_threshold=0.01
+                        p_value_threshold=0.001
                     )
                     detection_no_wm_result = watermark.detect(
                         text=generated_text_no_wm,
                         tokenizer=generator.tokenizer,
                         num_timestamps=GEN_STEPS,
                         unmasked_tokens_per_timestamp=GEN_LENGTH / GEN_STEPS,
-                        p_value_threshold=0.01
+                        p_value_threshold=0.001
                     )
 
                     result_entry = {

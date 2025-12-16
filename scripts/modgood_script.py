@@ -38,6 +38,7 @@ RUN_NAME = "llada_8b_eli5_wm_test"
 SEED = 42
 GEN_STEPS = 400
 GEN_LENGTH = 400
+P_VALUE_THRESHOLD = 0.0005
 
 
 # calculate ppl and cosine sim
@@ -61,7 +62,7 @@ def set_global_seed(seed: int):
         torch.cuda.manual_seed_all(seed)
 
 
-def save_run_desc(run_dir: Path, gen_length: int):
+def save_run_desc(run_dir: Path, gen_length: int, p_value_threshold: float):
     config_data = {
         "TIMESTAMP": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
         "RUN_NAME": RUN_NAME,
@@ -71,6 +72,8 @@ def save_run_desc(run_dir: Path, gen_length: int):
         "WATERMARK_KEY": SECRET_KEY,
         "WATERMARK_DELTA": WATERMARK_DELTA,
         "GENERATION_LENGTH": gen_length,
+        "GENERATION_STEPS": GEN_STEPS,
+        "P_VALUE_THRESHOLD": p_value_threshold,
         "LLADA_CONFIG_PATH": str(project_root / "configs" / "llada_8b_instruct.yaml"),
         "PERPLEXITY_MODEL": "GPT2",
         "SIMILARITY_MODEL": "all-MiniLM-L6-v2"
@@ -111,7 +114,7 @@ def parse_summary_report(report_path: Path) -> dict:
 
 def main():
     base_output_dir = project_root / OUTPUT_DIR
-    date_str = datetime.utcnow().strftime("%m_%d")
+    date_str = datetime.utcnow().strftime("%m_%d_%H_%M")
     run_dir = base_output_dir / f"{date_str}_{RUN_NAME}"
     run_dir.mkdir(parents=True, exist_ok=True)
 
@@ -127,7 +130,7 @@ def main():
         set_global_seed(SEED)
         print(f"Seed set to {SEED}")
 
-        save_run_desc(run_dir, GEN_LENGTH)
+        save_run_desc(run_dir, GEN_LENGTH, P_VALUE_THRESHOLD)
 
         print("Initializing watermark...")
         watermark = SimpleRemaskWatermark(
@@ -196,14 +199,14 @@ def main():
                         tokenizer=generator.tokenizer,
                         num_timestamps=GEN_STEPS,
                         unmasked_tokens_per_timestamp=GEN_LENGTH / GEN_STEPS,
-                        p_value_threshold=0.0005
+                        p_value_threshold=P_VALUE_THRESHOLD
                     )
                     detection_no_wm_result = watermark.detect(
                         text=generated_text_no_wm,
                         tokenizer=generator.tokenizer,
                         num_timestamps=GEN_STEPS,
                         unmasked_tokens_per_timestamp=GEN_LENGTH / GEN_STEPS,
-                        p_value_threshold=0.0005
+                        p_value_threshold=P_VALUE_THRESHOLD
                     )
 
                     result_entry = {

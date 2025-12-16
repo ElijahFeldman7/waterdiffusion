@@ -36,8 +36,8 @@ NUM_SAMPLES = 1000
 OUTPUT_DIR = "runs"
 RUN_NAME = "llada_8b_eli5_wm_test"
 SEED = 42
-GEN_STEPS = 400
-GEN_LENGTH = 400
+GEN_STEPS = 100
+GEN_LENGTH = 100
 P_VALUE_THRESHOLD = 0.0005
 
 
@@ -177,7 +177,7 @@ def main():
                         prompt=prompt,
                         gen_length=GEN_LENGTH,
                         steps=GEN_STEPS,
-                        block_length=40
+                        block_length=10
                     )
                     gen_time_wm = time.time() - start_time_wm
                     generator.watermark = None

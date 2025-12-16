@@ -186,7 +186,7 @@ def main():
                         prompt=prompt,
                         gen_length=GEN_LENGTH,
                         steps=GEN_STEPS,
-                        block_length=40
+                        block_length=10
                     )
                     gen_time_no_wm = time.time() - start_time_no_wm
                     generator.watermark = watermark

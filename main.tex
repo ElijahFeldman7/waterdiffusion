@@ -1,0 +1,130 @@
+\documentclass{article}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Define a custom function style
+\algnewcommand{\LeftComment}[1]{\Statex \(\triangleright\) #1}
+
+\begin{document}
+
+\section*{SimpleRemaskWatermark Algorithms (Short Variables)}
+\begin{algorithm}
+\caption{\texttt{apply\_watermark}}
+\label{alg:apply_watermark}
+\begin{algorithmic}[1]
+\Procedure{Apply}{$L, T_{curr}, M, C, T_0, k, \delta, W$}
+    \State $C' \gets \text{clone}(C)$
+    \State $B, S \gets \text{shape}(C)$ \Comment{Batch size, Sequence length}
+    
+    \For{$b \gets 0$ to $B-1$}
+        \For{$i \gets 0$ to $S-1$}
+            \State $t_p \gets T_0[b, i]$ 
+            \State $c \gets 0.0$ 
+            
+            \For{$j$ \textbf{in} $W$} 
+                \State $n \gets i + j$
+                \If{$0 \le n < S$}
+                    \If{$M[b, n]$ is \textbf{true}} \Comment{Neighbor is masked}
+                        \State $t_o \gets T_0[b, n]$ 
+                        \If{$j < 0$}
+                            \If{\Call{Rule}{$k, t_o, t_p$}}
+                                \State $c \gets c + C[b, n]$
+                            \EndIf
+                        \Else
+                            \If{\Call{Rule}{$k, t_p, t_o$}}
+                                \State $c \gets c + C[b, n]$
+                            \EndIf
+                        \EndIf
+                    \Else \Comment{Neighbor is not masked}
+                        \State $t_o \gets T_{curr}[b, n]$
+                        \If{$j < 0$}
+                            \If{\Call{Rule}{$k, t_o, t_p$}}
+                                \State $c \gets c + 1$
+                            \EndIf
+                        \Else
+                            \If{\Call{Rule}{$k, t_p, t_o$}}
+                                \State $c \gets c + 1$
+                            \EndIf
+                        \EndIf
+                    \EndIf
+                \EndIf
+            \EndFor
+            
+            \If{$M[b, i]$ is \textbf{true}}
+                \State $C'[b, i] \gets C'[b, i] + c \times \delta$
+            \Else
+                \State $C'[b, i] \gets -\infty$
+            \EndIf
+        \EndFor
+    \EndFor
+    \State \Return $C'$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{\texttt{detect}}
+\label{alg:detect}
+\begin{algorithmic}[1]
+    \Procedure{Detect}{$T, tokenizer, k, W, p_{th}$}
+    \State $S_{pair} \gets 0$ 
+    \State $N_{pair} \gets 0$ 
+    \State $S \gets \text{length}(T)$ 
+    
+    \For{$i \gets 0$ to $S - 1$}
+        \For{$j$ \textbf{in} $W$}
+            \State $n \gets i + j$ 
+            \If{$0 \le n < S$}
+                \State $N_{pair} \gets N_{pair} + 1$
+                \If{\Call{Rule}{$k, T[i], T[n]$}}
+                    \State $S_{pair} \gets S_{pair} + 1$
+                \EndIf
+            \EndIf
+        \EndFor
+    \EndFor
+    
+    \If{$N_{pair} > 0$}
+        \State $r \gets S_{pair} / N_{pair}$ \Comment{Satisfaction rate}
+    \EndIf
+    
+    \State $\mu \gets N_{pair} \times 0.5$
+    \State $\sigma \gets \sqrt{N_{pair} \times 0.5 \times 0.5}$
+    
+    \State $z \gets (S_{pair} - \mu) / \sigma$
+    
+    \State $p \gets 1 - \Phi(z)$ \Comment{$\Phi$ is Normal CDF, $p$ is p-value}
+    \State $is\_wm \gets p < p_{th}$
+    
+    \State \Return $\{is\_wm, p, z, S_{pair}, N_{pair}\}$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\newpage
+\section{Detectability}
+Detectability theorem 1:
+Under the Random Oracle assumption, the expected increase in the number of green pairs per token is exactly:$$\text{Margin} = k \left( \frac{1}{1 + e^{-\delta}} - 0.5 \right)$$Where $k$ is the context window size and $\delta$ is the logit bias.
+\newline
+Detectability theorem 2:
+The expected increase in the satisfaction rate $R$ over the baseline $p_0$ is lower-bounded by the average logistic gain of individual pairs:$$E[R] - p_0 \geq \mathbb{E}\left[ \frac{(e^\delta - 1) P_g (1 - P_g)}{1 + (e^\delta - 1) P_g} \right]$$Where $P_g$ is the prior probability of the token being green.
+\newline
+Corollary 1.1: $P(\text{False Negative}) \leq \exp\left( -2 N \left( \text{Margin} \right)^2 \right)$
+\newline
+Corollary 1.2: Let $P$ be the baseline distribution over the vocabulary $V$. If $P$ converges to a deterministic distribution (a Kronecker delta $\delta_{x, x^*}$) where $P(x^*) \to 1$ for some token $x^*$, then the watermarked distribution $Q$ converges to $P$ regardless of the hash value $h(x^*)$.$$\lim_{P(x^*) \to 1} D_{KL}(Q || P) = 0$$
+\section{Quality Preservation}
+Quality Preservation theorem 1:
+Let $P(x)$ be the original probability distribution over the vocabulary at any given generation step. Let $Q(x)$ be the watermarked distribution obtained by applying the logit bias $\delta$ based on the context window of size $k$.The Kullback-Leibler (KL) divergence from $P$ to $Q$ is strictly bounded by the product of the bias and the window size:$$D_{KL}(Q || P) \le \delta \cdot k$$
+Collorary 1:
+The perplexity of the watermarked model $Q$ on the original distribution $P$ is bounded relative to the original perplexity by a constant factor:$$PPL_{wm} \le PPL_{orig} \cdot e^{\delta k}$$
+\section{Robustnes}
+Theorem 1:
+Let $N$ be the text length and $k$ be the context window size. Let $S_{wm}$ be the detected watermark score (satisfaction rate) of the text, and $S_{thresh}$ be the detection threshold (typically determined by a p-value).The minimum number of token edits (substitutions) $E$ required to reduce the score below the threshold is lower-bounded by:$$E \ge \frac{N}{2} \left( S_{wm} - S_{thresh} \right)$$
+Theorem 2:
+Without access to the secret key $K$, the probability that an attacker can generate a text of length $N$ that satisfies the detection threshold $S_{thresh}$ is bounded by the Chernoff bound for a random coin toss:$$P(\text{Forgery}) \le \exp \left( -2N (S_{thresh} - 0.5)^2 \right)$$
+\section{Misc.}
+False Positive theorem: 
+Let $T$ be an unwatermarked text of length $N$. Let $S$ be the observed satisfaction rate (score). The probability that $S$ exceeds the detection threshold $\tau$ (where $\tau > 0.5$) is bounded by:$$P(S \ge \tau) \le \exp\left( -\frac{2N(\tau - 0.5)^2}{k + 1} \right)$$
+Time complexity:
+Statement:The time complexity to generate a watermarked token is $O(k \cdot V)$ in the worst case (or $O(k)$ with caching), and the time complexity to detect the watermark in a text of length $N$ is $O(N \cdot k)$.
+\end{document}

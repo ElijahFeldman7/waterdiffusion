@@ -36,9 +36,9 @@ NUM_SAMPLES = 1000
 OUTPUT_DIR = "runs"
 RUN_NAME = "llada_8b_eli5_wm_test"
 SEED = 42
-GEN_STEPS = 300
-GEN_LENGTH = 300
-P_VALUE_THRESHOLD = 0.0005
+GEN_STEPS = 400
+GEN_LENGTH = 400
+P_VALUE_THRESHOLD = 0.01
 
 
 # calculate ppl and cosine sim

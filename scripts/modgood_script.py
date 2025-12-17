@@ -39,6 +39,7 @@ SEED = 42
 GEN_STEPS = 400
 GEN_LENGTH = 400
 P_VALUE_THRESHOLD = 0.01
+BLOCK_LENGTH = 40
 
 
 # calculate ppl and cosine sim
@@ -76,7 +77,8 @@ def save_run_desc(run_dir: Path, gen_length: int, p_value_threshold: float):
         "P_VALUE_THRESHOLD": p_value_threshold,
         "LLADA_CONFIG_PATH": str(project_root / "configs" / "llada_8b_instruct.yaml"),
         "PERPLEXITY_MODEL": "GPT2",
-        "SIMILARITY_MODEL": "all-MiniLM-L6-v2"
+        "SIMILARITY_MODEL": "all-MiniLM-L6-v2",
+        "BLOCK_LENGTH": BLOCK_LENGTH
     }
     desc_path = run_dir / "desc.txt"
     with open(desc_path, 'w') as f:
@@ -177,7 +179,7 @@ def main():
                         prompt=prompt,
                         gen_length=GEN_LENGTH,
                         steps=GEN_STEPS,
-                        block_length=30
+                        block_length=BLOCK_LENGTH
                     )
                     gen_time_wm = time.time() - start_time_wm
                     generator.watermark = None
@@ -186,7 +188,7 @@ def main():
                         prompt=prompt,
                         gen_length=GEN_LENGTH,
                         steps=GEN_STEPS,
-                        block_length=30
+                        block_length=BLOCK_LENGTH
                     )
                     gen_time_no_wm = time.time() - start_time_no_wm
                     generator.watermark = watermark

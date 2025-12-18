@@ -1,0 +1,15 @@
+RUN CONFIG 
+TIMESTAMP: 2025-12-17 16:55:05 UTC
+RUN_NAME: llada_8b_eli5_wm_test
+SEED: 42
+OUTPUT_DIR: /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/12_17_16_55_llada_8b_eli5_wm_test
+NUM_PROMPTS: 1000
+WATERMARK_KEY: xooks
+WATERMARK_DELTA: 2.0
+GENERATION_LENGTH: 400
+GENERATION_STEPS: 400
+P_VALUE_THRESHOLD: 0.01
+LLADA_CONFIG_PATH: /scratch/efeldma5/waterdiffusion/waterdiffusion/configs/llada_8b_instruct.yaml
+PERPLEXITY_MODEL: GPT2
+SIMILARITY_MODEL: all-MiniLM-L6-v2
+BLOCK_LENGTH: 40

@@ -13,3 +13,4 @@ LLADA_CONFIG_PATH: /scratch/efeldma5/waterdiffusion/waterdiffusion/configs/llada
 PERPLEXITY_MODEL: GPT2
 SIMILARITY_MODEL: all-MiniLM-L6-v2
 BLOCK_LENGTH: 40
+double counting

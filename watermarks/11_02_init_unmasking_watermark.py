@@ -97,16 +97,14 @@ class SimpleRemaskWatermark:
         
         for i in range(seq_len):
             for j in self.context_window:
-                if j > 0: 
-                    neighbor_index = i + j
-                    if neighbor_index < seq_len:
-                        total_pairs_checked += 1
-                        if SimpleRemaskWatermark.pair_rule_follows(
-                        self.key, 
-                        tokens[i], 
-                        tokens[neighbor_index]
-                        ):
-                            satisfied_pairs += 1
+                neighbor_index = i + j
+                if 0 <= neighbor_index < seq_len:
+                    total_pairs_checked += 1
+                    if j < 0:
+                        if SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[neighbor_index], tokens[i]): satisfied_pairs += 1
+                    if j > 0:
+                        if SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[i], tokens[neighbor_index]): satisfied_pairs += 1
+
         satisfaction_rate = satisfied_pairs / total_pairs_checked if total_pairs_checked > 0 else 0.0
 
         null_satis_rate = 0.5

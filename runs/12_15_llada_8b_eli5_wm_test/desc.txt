@@ -11,3 +11,4 @@ LLADA_CONFIG_PATH: /scratch/efeldma5/waterdiffusion/waterdiffusion/configs/llada
 PERPLEXITY_MODEL: GPT2
 SIMILARITY_MODEL: all-MiniLM-L6-v2
 alpha 0.005
+this was with the change of the double counting bug

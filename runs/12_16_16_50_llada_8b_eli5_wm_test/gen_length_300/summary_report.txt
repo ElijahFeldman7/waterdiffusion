@@ -1,17 +1,26 @@
 --- Watermark Detection Analysis ---
 Total samples processed: 1000
-True Positives (TP): 944
-False Negatives (FN): 56
-True Negatives (TN): 968
-False Positives (FP): 32
+True Positives (TP): 875
+False Negatives (FN): 125
+True Negatives (TN): 991
+False Positives (FP): 9
 
 
 --- Detection Rates ---
-True Positive Rate (TPR/Recall): 0.9440
-False Positive Rate (FPR): 0.0320
-False Negative Rate (FNR): 0.0560
-True Negative Rate (TNR/Specificity): 0.9680
+True Positive Rate (TPR/Recall): 0.8750
+False Positive Rate (FPR): 0.0090
+False Negative Rate (FNR): 0.1250
+True Negative Rate (TNR/Specificity): 0.9910
 
+
+--- Aggregate Detection Counts ---
+Summary across configurations (Original, 1% FPR, 5% FPR):
+
+Config               | TP  | FN  | FP  | TN   | TPR    | FPR
+--------------------------------------------------------------
+Original             | 875 | 125 | 9   | 991  | 0.8750 | 0.0090
+1% FPR (k=10)        | 875 | 125 | 9   | 991  | 0.8750 | 0.0090
+5% FPR (k=50)        | 959 | 41  | 48  | 952  | 0.9590 | 0.0480
 
 --- Performance Impact ---
 Generation Time (WM): 30.6988s
@@ -37636,3 +37645,19 @@ For example, if you buy a CD for $100 and the retailer takes 50% of the sale, th
 
 It's worth noting that the exact breakdown can vary depending on the retailer, record label, and artist. Additionally, some artists may choose to handle their own distribution directly, which means they would receive a percentage of the retail price themselves, rather than going through a record label.
 
+
+Recomputed Detection Analysis (~5% FPR, k=50) - 2025-12-18 14:07:22 UTC
+Files produced: runs/12_16_16_50_llada_8b_eli5_wm_test/gen_length_300/results_fpr_5pct.jsonl, runs/12_16_16_50_llada_8b_eli5_wm_test/gen_length_300/fp_audit_5pct.csv
+Threshold chosen: 0.002416169905249066
+Lines: 1000
+Non-watermarked samples (M): 1000
+Counts: TP=959, FN=41, FP=48, TN=952
+Rates: TPR=0.9590, FNR=0.0410, FPR=0.0480, TNR=0.9520
+
+Recomputed Detection Analysis (~1% FPR, k=10) - 2025-12-18 14:07:47 UTC
+Files produced: runs/12_16_16_50_llada_8b_eli5_wm_test/gen_length_300/results_fpr_1pct.jsonl, runs/12_16_16_50_llada_8b_eli5_wm_test/gen_length_300/fp_audit_1pct.csv
+Threshold chosen: 1.2466905864760847e-05
+Lines: 1000
+Non-watermarked samples (M): 1000
+Counts: TP=875, FN=125, FP=9, TN=991
+Rates: TPR=0.8750, FNR=0.1250, FPR=0.0090, TNR=0.9910

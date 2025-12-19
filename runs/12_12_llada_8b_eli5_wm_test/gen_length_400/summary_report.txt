@@ -13,6 +13,21 @@ False Negative Rate (FNR): 0.0080
 True Negative Rate (TNR/Specificity): 0.9470
 
 
+--- Recomputed Detection Analysis (2025-12-18 00:00:00) ---
+Recomputed on: 2025-12-18
+Total samples processed: 1000
+True Positives (TP): 962
+False Negatives (FN): 38
+True Negatives (TN): 991
+False Positives (FP): 9
+
+--- Recomputed Detection Rates ---
+True Positive Rate (TPR/Recall): 0.9620
+False Positive Rate (FPR): 0.0090
+False Negative Rate (FNR): 0.0380
+True Negative Rate (TNR/Specificity): 0.9910
+
+
 --- Performance Impact ---
 Generation Time (WM): 53.2820s
 Generation Time (No WM): 20.1803s
@@ -44842,3 +44857,38 @@ When you purchase a CD, the money you spend typically goes to several entities b
 
 12. **Artist**: The artist uses the money to cover their expenses, such as recording, production, touring, and marketing.
 
+
+ROC Analysis (sweep 101 points) - 2025-12-18 14:14:00 UTC
+AUC (trapezoid): 0.993709
+CSV: runs/12_12_llada_8b_eli5_wm_test/gen_length_400/roc_points.csv
+PNG: runs/12_12_llada_8b_eli5_wm_test/gen_length_400/roc_curve.png
+
+ROC Analysis (sweep 101 points) - 2025-12-18 14:15:10 UTC
+AUC (trapezoid): 0.993709
+CSV: runs/12_12_llada_8b_eli5_wm_test/gen_length_400/roc_points.csv
+PNG: runs/12_12_llada_8b_eli5_wm_test/gen_length_400/roc_curve.png
+
+ROC Analysis (sweep 101 points) - 2025-12-18 14:16:14 UTC
+AUC (trapezoid): 0.993709
+CSV: runs/12_12_llada_8b_eli5_wm_test/gen_length_400/roc_points.csv
+PNG: runs/12_12_llada_8b_eli5_wm_test/gen_length_400/roc_curve.png
+
+ROC Analysis (sweep 21 points) - 2025-12-18 14:17:32 UTC
+AUC (trapezoid): 0.976824
+CSV: runs/12_12_llada_8b_eli5_wm_test/gen_length_400/roc_points.csv
+PNG: runs/12_12_llada_8b_eli5_wm_test/gen_length_400/roc_curve.png
+
+ROC Analysis (sweep 101 points) - 2025-12-18 14:18:49 UTC
+AUC (trapezoid): 0.993709
+CSV: runs/12_12_llada_8b_eli5_wm_test/gen_length_400/roc_points.csv
+PNG: runs/12_12_llada_8b_eli5_wm_test/gen_length_400/roc_curve.png
+
+ROC Analysis (sweep 101 points) - 2025-12-18 14:24:51 UTC
+AUC (trapezoid): 0.993709
+CSV: runs/12_12_llada_8b_eli5_wm_test/gen_length_400/roc_points.csv
+PNG: runs/12_12_llada_8b_eli5_wm_test/gen_length_400/roc_curve.png
+
+ROC Analysis (sweep 101 points) - 2025-12-18 14:25:04 UTC
+AUC (trapezoid): 0.993709
+CSV: runs/12_12_llada_8b_eli5_wm_test/gen_length_400/roc_points.csv
+PNG: runs/12_12_llada_8b_eli5_wm_test/gen_length_400/roc_curve.png

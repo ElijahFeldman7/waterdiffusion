@@ -1,18 +1,3 @@
-#!/usr/bin/env python3
-"""
-Compute ROC points and plot for a run folder containing `results.jsonl`.
-Generates:
- - <run_dir>/roc_points.csv
- - <run_dir>/roc_curve.png
-Appends AUC to <run_dir>/summary_report.txt
-
-Usage:
-  python scripts/compute_roc.py --run_dir runs/12_12_llada_8b_eli5_wm_test/gen_length_400 --points 101
-
-Dependencies: numpy, matplotlib
-Install: pip install numpy matplotlib
-"""
-
 import argparse
 import json
 import math
@@ -80,30 +65,21 @@ def compute_roc(run_dir: str, points: int = 101):
             'fp': fp,
             'tn': tn,
         })
-
-    # Write CSV
     csv_path = os.path.join(run_dir, 'roc_points.csv')
     with open(csv_path, 'w', newline='') as csvf:
         w = csv.writer(csvf)
         w.writerow(['fpr_target', 'fpr_actual', 'tpr', 'threshold', 'tp', 'fn', 'fp', 'tn'])
         for r in rows:
             w.writerow([r['fpr_target'], r['fpr_actual'], r['tpr'], r['threshold'], r['tp'], r['fn'], r['fp'], r['tn']])
-
-    # Plot ROC
     fprs = np.array([r['fpr_actual'] for r in rows])
     tprs = np.array([r['tpr'] for r in rows])
     auc = np.trapz(tprs, fprs)
 
     plt.figure(figsize=(6, 6))
-
-    # Smooth option: interpolate to a dense grid for a smooth line; we'll plot markers only every N points
-    # Marker subsampling is handled in the CLI via --marker-step; default is to mark every point
     dense_x = None
     dense_y = None
-    # If caller set smoothing, they can pass flag; default behavior remains plotting raw points
-    # (We will patch __main__ to accept flags --smooth and --marker-step)
     try:
-        smooth_flag = smooth  # provided via closure when called from main
+        smooth_flag = smooth 
     except NameError:
         smooth_flag = False
     try:
@@ -117,10 +93,8 @@ def compute_roc(run_dir: str, points: int = 101):
 
     if smooth_flag:
         dense_x = np.linspace(0.0, 1.0, 1000)
-        # Use linear interpolation for smooth visual line
         dense_y = np.interp(dense_x, fprs, tprs)
         plt.plot(dense_x, dense_y, '-', linewidth=1.5, label=f'AUC={auc:.4f}')
-        # plot markers on the original points (subsampled) unless user requested no markers
         if not no_markers:
             if marker_step <= 1:
                 plt.plot(fprs, tprs, 'o', markersize=4)
@@ -128,7 +102,6 @@ def compute_roc(run_dir: str, points: int = 101):
                 idxs = list(range(0, len(fprs), marker_step))
                 plt.plot(fprs[idxs], tprs[idxs], 'o', markersize=4)
     else:
-        # If the user requested no markers, plot as a line; otherwise plot dots
         if no_markers:
             plt.plot(fprs, tprs, '-', label=f'AUC={auc:.4f}')
         else:
@@ -145,7 +118,6 @@ def compute_roc(run_dir: str, points: int = 101):
     plt.savefig(png_path, bbox_inches='tight')
     plt.close()
 
-    # Append to summary
     summary_path = os.path.join(run_dir, 'summary_report.txt')
     with open(summary_path, 'a') as sf:
         sf.write(f"\nROC Analysis (sweep {points} points) - {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')}\n")
@@ -163,9 +135,6 @@ if __name__ == '__main__':
     parser.add_argument('--marker-step', type=int, default=10, help='Plot markers every N points when smoothing (default: 10)')
     parser.add_argument('--no-markers', action='store_true', help='Do not plot marker dots; plot only lines')
     args = parser.parse_args()
-
-    # Pass smoothing/marker options into compute_roc via temporarily setting names used in the plotting block
-    # (simple approach without changing signature)
     globals()['smooth'] = args.smooth
     globals()['marker_step_arg'] = args.marker_step
     globals()['no_markers_flag'] = args.no_markers

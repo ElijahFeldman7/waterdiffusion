@@ -1,0 +1,37 @@
+
+ROC Analysis by Generation Length - 2025-12-21 02:43:44 UTC
+  Gen Length unknown: AUC = 0.977693
+CSV: runs/full_jsonl/roc_points.csv
+PNG: runs/full_jsonl/roc_curve.png
+
+ROC Analysis by Generation Length - 2025-12-21 02:47:16 UTC
+  Gen Length 100: AUC = 0.951732
+  Gen Length 200: AUC = 0.976698
+  Gen Length 300: AUC = 0.991003
+  Gen Length 400: AUC = 0.996577
+CSV: runs/full_jsonl/roc_points.csv
+PNG: runs/full_jsonl/roc_curve.png
+
+ROC Analysis by Generation Length - 2025-12-21 02:52:35 UTC
+  Gen Length 100: AUC = 0.951732
+  Gen Length 200: AUC = 0.976698
+  Gen Length 300: AUC = 0.991003
+  Gen Length 400: AUC = 0.996577
+CSV: runs/full_jsonl/roc_points.csv
+PNG: runs/full_jsonl/roc_curve.png
+
+ROC Analysis by Generation Length - 2025-12-21 02:53:14 UTC
+  Gen Length 100: AUC = 0.951732
+  Gen Length 200: AUC = 0.976698
+  Gen Length 300: AUC = 0.991003
+  Gen Length 400: AUC = 0.996577
+CSV: runs/full_jsonl/roc_points.csv
+PNG: runs/full_jsonl/roc_curve.png
+
+ROC Analysis by Generation Length - 2025-12-21 02:53:36 UTC
+  Gen Length 100: AUC = 0.951732
+  Gen Length 200: AUC = 0.976698
+  Gen Length 300: AUC = 0.991003
+  Gen Length 400: AUC = 0.996577
+CSV: runs/full_jsonl/roc_points.csv
+PNG: runs/full_jsonl/roc_curve.png

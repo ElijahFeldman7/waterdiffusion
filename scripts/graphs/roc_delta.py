@@ -25,8 +25,9 @@ def compute_professional_roc(run_dir: str):
                 except json.JSONDecodeError:
                     continue
 
-    plt.figure(figsize=(8, 7), dpi=200)
-    plt.gca().set_facecolor('#f0f0f0')
+    plt.figure(figsize=(8, 8), dpi=200)
+    ax = plt.gca()
+    ax.set_facecolor('#f0f0f0')
     
     sorted_deltas = sorted(delta_groups.keys(), key=lambda x: float(x))
     colors = plt.cm.viridis(np.linspace(0, 0.8, len(sorted_deltas)))
@@ -54,22 +55,26 @@ def compute_professional_roc(run_dir: str):
 
     plt.xscale('log')
     plt.xlim([1e-2, 1.0])
-    plt.ylim([0.0, 1.05])
+    plt.ylim([0.0, 1.0])
     
-    plt.plot([1e-2, 1], [1e-2, 1], color='#ff6666', lw=1.5, ls='--', label='No watermark')
+    log_range = np.logspace(-2, 0, 100)
+    plt.plot(log_range, log_range, color='#ff6666', lw=1.5, ls='--', label='No watermark')    
     
-    plt.xlabel('FPR', fontsize=12)
-    plt.ylabel(r'TPR (with $C = [-2, -1, 1, 2]$)', fontsize=12)
-    plt.title(f'ROC Curves by Delta')
+    plt.xlabel('False Positive Rate', fontsize=12)
+    plt.ylabel('True Positive Rate', fontsize=12)
+    plt.title(f'ROC Curves by Delta', fontsize=14, pad=20)
     
     plt.grid(True, which="major", color='white', linewidth=1.2)
     plt.grid(True, which="minor", color='white', linewidth=0.6, alpha=0.5)
     
-    plt.legend(frameon=False, loc='upper left', bbox_to_anchor=(1, 1))
+    plt.legend(frameon=False, loc='lower right', fontsize=10)
+    
+    ax.set_box_aspect(1) 
     
     plt.tight_layout()
     out = os.path.join(run_dir, 'roc.png')
     plt.savefig(out)
+    plt.close()
     return out
 
 if __name__ == '__main__':

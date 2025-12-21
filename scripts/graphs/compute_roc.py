@@ -84,8 +84,8 @@ def compute_roc(run_dir: str):
 
     plt.xlim([1e-3, 1.0])
     plt.ylim([0.0, 1.05])
-    plt.plot([1e-3, 1], [0, 1], color='#ff6666', lw=1.5, ls='--', label='No watermark')
-
+    log_range = np.logspace(-3, 0, 100)
+    plt.plot(log_range, log_range, color='#ff6666', lw=1.5, ls='--', label='No watermark')
     plt.xlabel('False Positive Rate', fontsize=12)
     plt.ylabel('True Positive Rate', fontsize=12)
     plt.title(f'ROC curve by Generation Length - {os.path.basename(run_dir)}', fontsize=14)

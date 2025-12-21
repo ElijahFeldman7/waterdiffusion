@@ -6,9 +6,23 @@ from collections import defaultdict
 from sklearn.metrics import roc_curve, auc
 from scipy.ndimage import gaussian_filter1d
 
+
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
+
+plt.rcParams.update({
+    'font.size': 20,
+    'axes.titlesize': 24,
+    'axes.labelsize': 22,
+    'xtick.labelsize': 18,
+    'ytick.labelsize': 18,
+    'legend.fontsize': 18,
+    'figure.titlesize': 28,
+    'font.weight': 'bold',
+    'axes.titleweight': 'bold',
+    'axes.labelweight': 'bold',
+})
 
 def compute_professional_roc(run_dir: str):
     input_file = os.path.join(run_dir, 'results.jsonl')
@@ -25,9 +39,8 @@ def compute_professional_roc(run_dir: str):
                 except json.JSONDecodeError:
                     continue
 
-    plt.figure(figsize=(8, 8), dpi=200)
+    plt.figure(figsize=(10, 10), dpi=300)
     ax = plt.gca()
-    ax.set_facecolor('#f0f0f0')
     
     sorted_deltas = sorted(delta_groups.keys(), key=lambda x: float(x))
     colors = plt.cm.viridis(np.linspace(0, 0.8, len(sorted_deltas)))
@@ -51,23 +64,22 @@ def compute_professional_roc(run_dir: str):
             tpr = np.maximum.accumulate(tpr)
             tpr[-1] = 1.0
 
-        plt.plot(fpr, tpr, label=rf'$\delta = {delta}$ (AUC={roc_auc:.4f})', color=colors[i], lw=2.5)
+        plt.plot(fpr, tpr, label=rf'$\delta = {delta}$ (AUC={roc_auc:.4f})', color=colors[i], lw=3.5) # Increased line width
 
     plt.xscale('log')
     plt.xlim([1e-2, 1.0])
     plt.ylim([0.0, 1.0])
     
     log_range = np.logspace(-2, 0, 100)
-    plt.plot(log_range, log_range, color='#ff6666', lw=1.5, ls='--', label='No watermark')    
+    plt.plot(log_range, log_range, color='#ff6666', lw=2.5, ls='--', label='No watermark')    
+    plt.xlabel('False Positive Rate') 
+    plt.ylabel('True Positive Rate') 
+    plt.title(f'ROC Curves by Delta', pad=20) 
     
-    plt.xlabel('False Positive Rate', fontsize=12)
-    plt.ylabel('True Positive Rate', fontsize=12)
-    plt.title(f'ROC Curves by Delta', fontsize=14, pad=20)
+    plt.grid(True, which="major", color='gray', linestyle=':', linewidth=0.8, alpha=0.7) 
+    plt.grid(True, which="minor", color='gray', linestyle=':', linewidth=0.4, alpha=0.4) 
     
-    plt.grid(True, which="major", color='white', linewidth=1.2)
-    plt.grid(True, which="minor", color='white', linewidth=0.6, alpha=0.5)
-    
-    plt.legend(frameon=False, loc='lower right', fontsize=10)
+    plt.legend(frameon=False, loc='lower right')
     
     ax.set_box_aspect(1) 
     

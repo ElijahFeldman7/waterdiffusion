@@ -8,10 +8,23 @@ import matplotlib
 from sklearn.metrics import roc_curve, auc
 from scipy.ndimage import gaussian_filter1d
 
+
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 
+plt.rcParams.update({
+    'font.size': 20,
+    'axes.titlesize': 24,
+    'axes.labelsize': 22,
+    'xtick.labelsize': 18,
+    'ytick.labelsize': 18,
+    'legend.fontsize': 18,
+    'figure.titlesize': 28,
+    'font.weight': 'bold',
+    'axes.titleweight': 'bold',
+    'axes.labelweight': 'bold',
+})
 
 def compute_roc(run_dir: str):
     input_file = os.path.join(run_dir, 'results.jsonl')
@@ -40,8 +53,7 @@ def compute_roc(run_dir: str):
     if not lines_by_length:
         raise ValueError("No data lines found in results file")
 
-    plt.figure(figsize=(8, 8), dpi=200)
-    plt.gca().set_facecolor('#f0f0f0')
+    plt.figure(figsize=(10, 10), dpi=300)
 
     csv_path = os.path.join(run_dir, 'roc_points.csv')
     all_aucs = {}
@@ -77,20 +89,20 @@ def compute_roc(run_dir: str):
                 tpr_smooth = gaussian_filter1d(tpr, sigma=1.5)
                 tpr_smooth = np.maximum.accumulate(tpr_smooth)
                 tpr_smooth[-1] = 1.0
-                plt.plot(fpr, tpr_smooth, label=label, color=colors[i], lw=2.5)
+                plt.plot(fpr, tpr_smooth, label=label, color=colors[i], lw=3.5)
             else:
-                plt.plot(fpr, tpr, label=label, color=colors[i], lw=2.5)
+                plt.plot(fpr, tpr, label=label, color=colors[i], lw=3.5)
     plt.xscale('log')
 
     plt.xlim([1e-3, 1.0])
     plt.ylim([0.0, 1.05])
     log_range = np.logspace(-3, 0, 100)
-    plt.plot(log_range, log_range, color='#ff6666', lw=1.5, ls='--', label='No watermark')
-    plt.xlabel('False Positive Rate', fontsize=12)
-    plt.ylabel('True Positive Rate', fontsize=12)
-    plt.title(f'ROC curve by Generation Length - {os.path.basename(run_dir)}', fontsize=14)
-    plt.grid(True, which="major", color='white', linewidth=1.2)
-    plt.grid(True, which="minor", color='white', linewidth=0.6, alpha=0.5)
+    plt.plot(log_range, log_range, color='#ff6666', lw=2.5, ls='--', label='No watermark')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title(f'ROC curve by Generation Length - {os.path.basename(run_dir)}')
+    plt.grid(True, which="major", color='gray', linestyle=':', linewidth=0.8, alpha=0.7)
+    plt.grid(True, which="minor", color='gray', linestyle=':', linewidth=0.4, alpha=0.4)
     plt.legend(frameon=False, loc='lower right')
     plt.tight_layout()
 

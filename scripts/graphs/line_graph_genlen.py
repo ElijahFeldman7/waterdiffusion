@@ -38,7 +38,7 @@ def plot(run_dir: str):
         return
     lengths, tprs = zip(*results)
 
-    plt.figure(figsize=(10,6), dpi=300)
+    plt.figure(figsize=(8,6), dpi=300)
     plt.plot(lengths, tprs, marker='o', linestyle='-', color='#007bff', linewidth=2.5, markersize=8, label=f'TPR @ 1% FPR')
     plt.xlabel('Lengths',fontweight='bold', fontsize='12')
     plt.ylabel('TPR @ 1% FPR', fontweight='bold', fontsize='12')

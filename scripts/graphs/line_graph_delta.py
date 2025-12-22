@@ -37,7 +37,7 @@ def plot(run_dir: str, target_fpr=0.01):
         print('no data to plot')
         return
     deltas, tprs = zip(*results)
-    plt.figure(figsize=(10,6), dpi=150)
+    plt.figure(figsize=(8,6), dpi=150)
     plt.plot(deltas, tprs, marker='o', linestyle='-', color='#007bff', linewidth=2.5, markersize=8, label=f'TPR @ {target_fpr*100:.0f}% FPR')
     plt.xlabel(r'Delta ($\delta$)',fontweight='bold')
     plt.ylabel('TPR @ 1% FPR', fontweight='bold')

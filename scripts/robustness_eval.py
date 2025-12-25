@@ -1,3 +1,8 @@
+import sys
+import os
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import argparse
 import pandas as pd
 import numpy as np
@@ -7,10 +12,8 @@ from transformers import BertTokenizer, BertForMaskedLM, AutoTokenizer
 import torch
 import yaml
 import importlib.util
-import sys
 from models.llada import LLaDAGenerator
 from datetime import datetime
-from pathlib import Path
 
 INPUT_FILE = "runs/12_20_04_08_llada_8b_eli5_wm_multidelta/results.jsonl"
 OUTPUT_DIR = "runs"

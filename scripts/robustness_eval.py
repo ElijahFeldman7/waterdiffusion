@@ -23,6 +23,7 @@ LLADA_CONFIG = "configs/llada_1_5.yaml"
 ATTACK_RATIOS = [0.1, 0.2, 0.3, 0.4, 0.5]
 DO_SUBSTITUTION = False
 DO_CA_SUBSTITUTION = True
+BERT_MODEL_NAME = 'bert-base-uncased'
 
 def import_from_path(path, module_name):
     spec = importlib.util.spec_from_file_location(module_name, path)
@@ -53,6 +54,8 @@ class WordSubstitution:
     def edit(self, text):
         words = nltk.word_tokenize(text)
         n_words_to_substitute = int(len(words) * self.ratio)
+        if n_words_to_substitute == 0: return text
+        
         indices_to_substitute = np.random.choice(len(words), n_words_to_substitute, replace=False)
 
         for i in indices_to_substitute:
@@ -63,10 +66,10 @@ class WordSubstitution:
         return " ".join(words)
 
 class ContextAwareWordSubstitution:
-    def __init__(self, ratio=0.1, model_name='bert-base-uncased'):
+    def __init__(self, ratio=0.1, model_name=BERT_MODEL_NAME):
         self.ratio = ratio
-        self.tokenizer = BertTokenizer.from_pretrained(model_name)
-        self.model = BertForMaskedLM.from_pretrained(model_name)
+        self.tokenizer = BertTokenizer.from_pretrained(model_name, local_files_only=True)
+        self.model = BertForMaskedLM.from_pretrained(model_name, local_files_only=True)
         self.model.eval()
 
     def edit(self, text):
@@ -86,17 +89,13 @@ class ContextAwareWordSubstitution:
             masked_text = " ".join(words)
 
             inputs = self.tokenizer(masked_text, return_tensors='pt', truncation=True, max_length=512)
-            
             masked_indices = torch.where(inputs['input_ids'][0] == self.tokenizer.mask_token_id)[0]
             
             if masked_indices.nelement() > 0:
                 with torch.no_grad():
                     outputs = self.model(**inputs)
-                
                 predictions = outputs.logits
-                
                 masked_index = masked_indices[0] 
-                
                 predicted_index = torch.argmax(predictions[0, masked_index]).item()
                 predicted_token = self.tokenizer.convert_ids_to_tokens([predicted_index])[0]
                 words[i] = predicted_token
@@ -123,7 +122,6 @@ def save_run_desc(run_dir: Path):
             f.write(f"{key}: {value}\n")
     print(f"Run config saved to {desc_path}")
 
-
 def main():
     project_root = Path(__file__).parent.parent
     base_output_dir = project_root / OUTPUT_DIR
@@ -132,8 +130,23 @@ def main():
     run_dir.mkdir(parents=True, exist_ok=True)
 
     output_path = run_dir / "results.jsonl"
-    
     save_run_desc(run_dir)
+
+    try:
+        if DO_CA_SUBSTITUTION:
+            print(f"Checking {BERT_MODEL_NAME}...")
+            BertTokenizer.from_pretrained(BERT_MODEL_NAME)
+            BertForMaskedLM.from_pretrained(BERT_MODEL_NAME)
+        
+        with open(project_root / LLADA_CONFIG, 'r') as f:
+            config_data = yaml.safe_load(f)
+            model_path = config_data.get('pretrained_model_name_or_path')
+            if model_path:
+                print(f"Checking tokenizer for LLaDA ({model_path})...")
+                AutoTokenizer.from_pretrained(model_path)
+    except Exception as e:
+        print(f"Warning during cache check: {e}")
+        print("Continuing, but script may fail if files are missing and offline.")
 
     print(f"Loading tokenizer from config: {LLADA_CONFIG}")
     generator = LLaDAGenerator(config=LLADA_CONFIG, local_files_only=True)
@@ -148,7 +161,6 @@ def main():
     df = pd.read_json(project_root / INPUT_FILE, lines=True)
     
     results = []
-
     attacks = {}
     if DO_SUBSTITUTION:
         attacks['substitution'] = WordSubstitution
@@ -183,7 +195,6 @@ def main():
                          result_row[col] = row[col]
 
                 results.append(result_row)
-
 
     results_df = pd.DataFrame(results)
     results_df.to_json(output_path, orient='records', lines=True)

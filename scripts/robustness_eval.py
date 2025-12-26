@@ -51,6 +51,10 @@ class WordSubstitution:
             nltk.data.find('tokenizers/punkt')
         except LookupError:
             nltk.download('punkt')
+        try:
+            nltk.data.find('tokenizers/punkt_tab')
+        except LookupError:
+            nltk.download('punkt_tab')
 
     def edit(self, text):
         words = nltk.word_tokenize(text)

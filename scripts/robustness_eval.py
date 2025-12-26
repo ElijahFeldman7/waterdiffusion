@@ -163,7 +163,7 @@ def main():
     tokenizer = generator.tokenizer
 
     print("Loading watermark...")
-    watermark_module = import_from_path('watermarks/11_02_init_unmasking_watermark.py', 'watermark')
+    watermark_module = import_from_path(str(project_root / 'watermarks/11_02_init_unmasking_watermark.py'), 'watermark')
     SimpleRemaskWatermark = watermark_module.SimpleRemaskWatermark
     watermark = SimpleRemaskWatermark(key=WATERMARK_KEY)
 

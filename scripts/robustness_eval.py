@@ -135,15 +135,15 @@ def main():
     try:
         if DO_CA_SUBSTITUTION:
             print(f"Checking {BERT_MODEL_NAME}...")
-            BertTokenizer.from_pretrained(BERT_MODEL_NAME)
-            BertForMaskedLM.from_pretrained(BERT_MODEL_NAME)
+            BertTokenizer.from_pretrained(BERT_MODEL_NAME, local_files_only=True)
+            BertForMaskedLM.from_pretrained(BERT_MODEL_NAME, local_files_only=True)
         
         with open(project_root / LLADA_CONFIG, 'r') as f:
             config_data = yaml.safe_load(f)
             model_path = config_data.get('pretrained_model_name_or_path')
             if model_path:
                 print(f"Checking tokenizer for LLaDA ({model_path})...")
-                AutoTokenizer.from_pretrained(model_path)
+                AutoTokenizer.from_pretrained(model_path, local_files_only=True)
     except Exception as e:
         print(f"Warning during cache check: {e}")
         print("Continuing, but script may fail if files are missing and offline.")

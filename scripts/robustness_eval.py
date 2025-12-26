@@ -66,10 +66,10 @@ class WordSubstitution:
         return " ".join(words)
 
 class ContextAwareWordSubstitution:
-    def __init__(self, ratio=0.1, model_name=BERT_MODEL_NAME):
+    def __init__(self, ratio=0.1, model_name=BERT_MODEL_NAME, local_files_only=True):
         self.ratio = ratio
-        self.tokenizer = BertTokenizer.from_pretrained(model_name, local_files_only=True)
-        self.model = BertForMaskedLM.from_pretrained(model_name, local_files_only=True)
+        self.tokenizer = BertTokenizer.from_pretrained(model_name, local_files_only=local_files_only)
+        self.model = BertForMaskedLM.from_pretrained(model_name, local_files_only=local_files_only)
         self.model.eval()
 
     def edit(self, text):
@@ -123,6 +123,11 @@ def save_run_desc(run_dir: Path):
     print(f"Run config saved to {desc_path}")
 
 def main():
+    parser = argparse.ArgumentParser(description="Run robustness evaluation on watermarked text.")
+    parser.add_argument('--online', action='store_true', help="Enable online mode to download models if not cached.")
+    args = parser.parse_args()
+    local_files_only = not args.online
+
     project_root = Path(__file__).parent.parent
     base_output_dir = project_root / OUTPUT_DIR
     date_str = datetime.utcnow().strftime("%m_%d_%H_%M")
@@ -135,21 +140,24 @@ def main():
     try:
         if DO_CA_SUBSTITUTION:
             print(f"Checking {BERT_MODEL_NAME}...")
-            BertTokenizer.from_pretrained(BERT_MODEL_NAME, local_files_only=True)
-            BertForMaskedLM.from_pretrained(BERT_MODEL_NAME, local_files_only=True)
+            BertTokenizer.from_pretrained(BERT_MODEL_NAME, local_files_only=local_files_only)
+            BertForMaskedLM.from_pretrained(BERT_MODEL_NAME, local_files_only=local_files_only)
         
         with open(project_root / LLADA_CONFIG, 'r') as f:
             config_data = yaml.safe_load(f)
             model_path = config_data.get('pretrained_model_name_or_path')
             if model_path:
                 print(f"Checking tokenizer for LLaDA ({model_path})...")
-                AutoTokenizer.from_pretrained(model_path, local_files_only=True)
+                AutoTokenizer.from_pretrained(model_path, local_files_only=local_files_only)
     except Exception as e:
         print(f"Warning during cache check: {e}")
-        print("Continuing, but script may fail if files are missing and offline.")
+        if local_files_only:
+            print("Continuing, but script may fail if files are missing and offline.")
+        else:
+            print("Attempting to download missing files...")
 
     print(f"Loading tokenizer from config: {LLADA_CONFIG}")
-    generator = LLaDAGenerator(config=LLADA_CONFIG, local_files_only=True)
+    generator = LLaDAGenerator(config=LLADA_CONFIG, local_files_only=local_files_only)
     tokenizer = generator.tokenizer
 
     print("Loading watermark...")
@@ -170,7 +178,10 @@ def main():
     for attack_name, AttackClass in attacks.items():
         for ratio in ATTACK_RATIOS:
             print(f"Running {attack_name} with ratio {ratio}...")
-            attack = AttackClass(ratio=ratio)
+            if attack_name == 'ca_substitution':
+                attack = AttackClass(ratio=ratio, local_files_only=local_files_only)
+            else:
+                attack = AttackClass(ratio=ratio)
             
             for i, row in df.iterrows():
                 generated_text_wm = row['generated_text_wm']

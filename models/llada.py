@@ -186,6 +186,8 @@ class LLaDAGenerator:
             self.device = "cpu"
         
         print(f"Loading tokenizer from {self.tokenizer_path} (local_files_only={self.local_files_only})")
+        print(f"DEBUG: self.model_path = {self.model_path}")
+        print(f"DEBUG: self.tokenizer_path = {self.tokenizer_path}")
         self.tokenizer = AutoTokenizer.from_pretrained(
             self.tokenizer_path,
             trust_remote_code=self.trust_remote_code,

@@ -19,11 +19,12 @@ INPUT_FILE = "runs/12_20_04_08_llada_8b_eli5_wm_multidelta/results.jsonl"
 OUTPUT_DIR = "runs"
 RUN_NAME = "robustness_eval"
 WATERMARK_KEY = "xooks"
-LLADA_CONFIG = "configs/llada_1_5.yaml"
+LLADA_CONFIG = "configs/llada_8b_instruct.yaml"
+P_VALUE_THRESHOLD = 0.05
 ATTACK_RATIOS = [0.1, 0.2, 0.3, 0.4, 0.5]
-DO_SUBSTITUTION = False
+DO_SUBSTITUTION = True
 DO_CA_SUBSTITUTION = True
-BERT_MODEL_NAME = 'bert-base-uncased'
+BERT_MODEL_NAME = 'google-bert/bert-base-uncased'
 
 def import_from_path(path, module_name):
     spec = importlib.util.spec_from_file_location(module_name, path)
@@ -113,7 +114,8 @@ def save_run_desc(run_dir: Path):
         "LLADA_CONFIG": LLADA_CONFIG,
         "ATTACK_RATIOS": ATTACK_RATIOS,
         "DO_SUBSTITUTION": DO_SUBSTITUTION,
-        "DO_CA_SUBSTITUTION": DO_CA_SUBSTITUTION
+        "DO_CA_SUBSTITUTION": DO_CA_SUBSTITUTION,
+        "P_VALUE_THRESHOLD": P_VALUE_THRESHOLD
     }
     desc_path = run_dir / "desc.txt"
     with open(desc_path, 'w') as f:
@@ -157,7 +159,7 @@ def main():
             print("Attempting to download missing files...")
 
     print(f"Loading tokenizer from config: {LLADA_CONFIG}")
-    generator = LLaDAGenerator(config=LLADA_CONFIG, local_files_only=local_files_only)
+    generator = LLaDAGenerator(config=str(project_root / LLADA_CONFIG), local_files_only=local_files_only)
     tokenizer = generator.tokenizer
 
     print("Loading watermark...")
@@ -210,6 +212,42 @@ def main():
     results_df = pd.DataFrame(results)
     results_df.to_json(output_path, orient='records', lines=True)
     print(f"Results saved to {output_path}")
+
+    print("\nAnalyzing results...")
+    summary_path = run_dir / "summary_report.txt"
+    analyze_robustness_results(output_path, summary_path, P_VALUE_THRESHOLD)
+
+
+def analyze_robustness_results(jsonl_path: Path, summary_path: Path, threshold: float):
+    df = pd.read_json(jsonl_path, lines=True)
+    
+    summary_data = []
+
+    for (attack, ratio), group in df.groupby(['attack', 'ratio']):
+        total = len(group)
+        successful_attacks = group[(group['original_p_value'] <= threshold) & (group['edited_p_value'] > threshold)]
+        success_rate = len(successful_attacks) / total if total > 0 else 0
+        
+        summary_data.append({
+            'attack': attack,
+            'ratio': ratio,
+            'total_samples': total,
+            'successful_attacks': len(successful_attacks),
+            'success_rate': success_rate
+        })
+    
+    summary_df = pd.DataFrame(summary_data)
+    
+    report_lines = ["--- Robustness Evaluation Summary ---"]
+    report_lines.append(f"P-value threshold for detection: {threshold}\n")
+    report_lines.append(summary_df.to_string())
+    
+    report_content = "\n".join(report_lines)
+    print(report_content)
+    with open(summary_path, 'w') as f:
+        f.write(report_content)
+    print(f"\nSummary report saved to {summary_path}")
+
 
 if __name__ == "__main__":
     main()

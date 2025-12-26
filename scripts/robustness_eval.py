@@ -45,11 +45,11 @@ class WordSubstitution:
         self.ratio = ratio
         try:
             nltk.data.find('corpora/wordnet')
-        except nltk.downloader.DownloadError:
+        except LookupError:
             nltk.download('wordnet')
         try:
             nltk.data.find('tokenizers/punkt')
-        except nltk.downloader.DownloadError:
+        except LookupError:
             nltk.download('punkt')
 
     def edit(self, text):

@@ -15,12 +15,12 @@ import importlib.util
 from models.llada import LLaDAGenerator
 from datetime import datetime
 
-INPUT_FILE = "runs/12_17_16_55_llada_8b_eli5_wm_test/gen_length_400/results.jsonl"
+INPUT_FILE = "runs/12_15_llada_8b_eli5_wm_test/gen_length_400/results.jsonl"
 OUTPUT_DIR = "runs"
 RUN_NAME = "robustness_eval"
 WATERMARK_KEY = "xooks"
 LLADA_CONFIG = "configs/llada_8b_instruct.yaml"
-P_VALUE_THRESHOLD = 0.05
+P_VALUE_THRESHOLD = 0.005
 ATTACK_RATIOS = [0.1, 0.2, 0.3, 0.4, 0.5]
 DO_SUBSTITUTION = True
 DO_CA_SUBSTITUTION = True

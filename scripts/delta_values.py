@@ -33,7 +33,7 @@ SECRET_KEY = "xooks"
 OUTPUT_DIR = "runs"
 RUN_NAME = "llada_8b_eli5_wm_multidelta"
 SEED = 42
-GEN_STEPS = 200
+GEN_STEPS = 400
 P_VALUE_THRESHOLD = 0.01
 
 

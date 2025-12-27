@@ -15,7 +15,7 @@ import importlib.util
 from models.llada import LLaDAGenerator
 from datetime import datetime
 
-INPUT_FILE = "runs/12_20_04_08_llada_8b_eli5_wm_multidelta/results.jsonl"
+INPUT_FILE = "runs/12_17_16_55_llada_8b_eli5_wm_test/gen_length_400/results.jsonl"
 OUTPUT_DIR = "runs"
 RUN_NAME = "robustness_eval"
 WATERMARK_KEY = "xooks"

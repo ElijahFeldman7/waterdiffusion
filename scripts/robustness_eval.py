@@ -134,45 +134,54 @@ def main():
     args = parser.parse_args()
     local_files_only = not args.online
 
+    print(f"DEBUG: main() started. local_files_only={local_files_only}")
+
     project_root = Path(__file__).parent.parent
     base_output_dir = project_root / OUTPUT_DIR
     date_str = datetime.utcnow().strftime("%m_%d_%H_%M")
     run_dir = base_output_dir / f"{date_str}_{RUN_NAME}"
     run_dir.mkdir(parents=True, exist_ok=True)
+    print(f"DEBUG: Created run directory: {run_dir}")
 
     output_path = run_dir / "results.jsonl"
     save_run_desc(run_dir)
 
+    print(f"DEBUG: Starting model/tokenizer checks.")
     try:
         if DO_CA_SUBSTITUTION:
-            print(f"Checking {BERT_MODEL_NAME}...")
+            print(f"DEBUG: Checking {BERT_MODEL_NAME}...")
             BertTokenizer.from_pretrained(BERT_MODEL_NAME, local_files_only=local_files_only)
             BertForMaskedLM.from_pretrained(BERT_MODEL_NAME, local_files_only=local_files_only)
-        
+            print(f"DEBUG: {BERT_MODEL_NAME} check complete.")
+
         with open(project_root / LLADA_CONFIG, 'r') as f:
             config_data = yaml.safe_load(f)
             model_path = config_data.get('pretrained_model_name_or_path')
             if model_path:
-                print(f"Checking tokenizer for LLaDA ({model_path})...")
+                print(f"DEBUG: Checking tokenizer for LLaDA ({model_path})...")
                 AutoTokenizer.from_pretrained(model_path, local_files_only=local_files_only)
+                print(f"DEBUG: LLaDA tokenizer check complete.")
     except Exception as e:
-        print(f"Warning during cache check: {e}")
+        print(f"Warning during cache check: {e}", file=sys.stderr)
         if local_files_only:
-            print("Continuing, but script may fail if files are missing and offline.")
+            print("Continuing, but script may fail if files are missing and offline.", file=sys.stderr)
         else:
-            print("Attempting to download missing files...")
+            print("Attempting to download missing files...", file=sys.stderr)
 
-    print(f"Loading tokenizer from config: {LLADA_CONFIG}")
+    print(f"DEBUG: Loading LLaDAGenerator from config: {LLADA_CONFIG}")
     generator = LLaDAGenerator(config=str(project_root / LLADA_CONFIG), local_files_only=local_files_only)
     tokenizer = generator.tokenizer
+    print("DEBUG: LLaDAGenerator and tokenizer loaded successfully.")
 
-    print("Loading watermark...")
+    print("DEBUG: Loading watermark module...")
     watermark_module = import_from_path(str(project_root / 'watermarks/11_02_init_unmasking_watermark.py'), 'watermark')
     SimpleRemaskWatermark = watermark_module.SimpleRemaskWatermark
     watermark = SimpleRemaskWatermark(key=WATERMARK_KEY)
+    print("DEBUG: Watermark loaded successfully.")
 
-    print(f"Reading input file: {INPUT_FILE}")
+    print(f"DEBUG: Reading input file: {INPUT_FILE}")
     df = pd.read_json(project_root / INPUT_FILE, lines=True)
+    print(f"DEBUG: Input file read successfully. Number of rows: {len(df)}")
     
     results = []
     attacks = {}
@@ -181,9 +190,10 @@ def main():
     if DO_CA_SUBSTITUTION:
         attacks['ca_substitution'] = ContextAwareWordSubstitution
 
+    print(f"DEBUG: Starting attack simulations...")
     for attack_name, AttackClass in attacks.items():
         for ratio in ATTACK_RATIOS:
-            print(f"Running {attack_name} with ratio {ratio}...")
+            print(f"DEBUG: Running {attack_name} with ratio {ratio}...")
             if attack_name == 'ca_substitution':
                 attack = AttackClass(ratio=ratio, local_files_only=local_files_only)
             else:
@@ -213,13 +223,15 @@ def main():
 
                 results.append(result_row)
 
+    print("DEBUG: Attack simulations completed.")
     results_df = pd.DataFrame(results)
     results_df.to_json(output_path, orient='records', lines=True)
-    print(f"Results saved to {output_path}")
+    print(f"DEBUG: Results saved to {output_path}")
 
-    print("\nAnalyzing results...")
+    print("DEBUG: Analyzing results and generating summary report...")
     summary_path = run_dir / "summary_report.txt"
     analyze_robustness_results(output_path, summary_path, P_VALUE_THRESHOLD)
+    print("DEBUG: Summary report generated.")
 
 
 def analyze_robustness_results(jsonl_path: Path, summary_path: Path, threshold: float):
@@ -254,4 +266,12 @@ def analyze_robustness_results(jsonl_path: Path, summary_path: Path, threshold: 
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception:
+        import traceback
+        print("Exception in user code:", file=sys.stderr)
+        print("-" * 60, file=sys.stderr)
+        traceback.print_exc(file=sys.stderr)
+        print("-" * 60, file=sys.stderr)
+        sys.exit(1)

@@ -1,0 +1,14 @@
+--- Robustness Evaluation Summary ---
+P-value threshold for detection: 0.005
+
+            attack  ratio  total_samples  successful_attacks  success_rate
+0  ca_substitution    0.1            100                   0          0.00
+1  ca_substitution    0.2            100                   1          0.01
+2  ca_substitution    0.3            100                   2          0.02
+3  ca_substitution    0.4            100                   7          0.07
+4  ca_substitution    0.5            100                  12          0.12
+5     substitution    0.1            100                   8          0.08
+6     substitution    0.2            100                  12          0.12
+7     substitution    0.3            100                  19          0.19
+8     substitution    0.4            100                  24          0.24
+9     substitution    0.5            100                  35          0.35

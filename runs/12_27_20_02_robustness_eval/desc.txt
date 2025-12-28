@@ -1,0 +1,10 @@
+RUN CONFIG 
+TIMESTAMP: 2025-12-27 20:02:58 UTC
+RUN_NAME: robustness_eval
+INPUT_FILE: runs/12_15_llada_8b_eli5_wm_test/gen_length_400/results.jsonl
+WATERMARK_KEY: xooks
+LLADA_CONFIG: configs/llada_8b_instruct.yaml
+ATTACK_RATIOS: [0.1, 0.2, 0.3, 0.4, 0.5]
+DO_SUBSTITUTION: True
+DO_CA_SUBSTITUTION: True
+P_VALUE_THRESHOLD: 0.005

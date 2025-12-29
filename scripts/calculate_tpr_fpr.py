@@ -6,8 +6,8 @@ from sklearn.metrics import roc_curve
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-INPUT_FILE = "runs/12_26_19_22_robustness_eval/results.jsonl"
-OUTPUT_DIR = "runs/12_26_19_22_robustness_eval"
+INPUT_FILE = "runs/12_27_20_02_robustness_eval/results.jsonl"
+OUTPUT_DIR = "runs/12_27_20_02_robustness_eval"
 
 def calculate_tpr_at_fpr(y_true, y_scores, target_fpr=0.01):
     fpr, tpr, thresholds = roc_curve(y_true, -np.array(y_scores))
@@ -34,8 +34,7 @@ def main():
             original_positives.append(row['original_p_value'])
             original_negatives.append(row['detection_no_wm']['score'])
 
-    original_positives = np.unique(original_positives)
-    original_negatives = np.unique(original_negatives)
+
 
     y_true_orig = np.concatenate([np.ones(len(original_positives)), np.zeros(len(original_negatives))])
     y_scores_orig = np.concatenate([original_positives, original_negatives])
@@ -73,13 +72,23 @@ def main():
         })
 
     df = pd.DataFrame(results)
-    
+
     plt.figure(figsize=(10, 6))
+
+    styles = {
+        'substitution': {'color': 'blue', 'marker': 's', 'linestyle': 'dotted'},
+        'ca_substitution': {'color': 'blue', 'marker': 'o', 'linestyle': 'solid'}
+    }
     
-    for attack_type in df['attack'].unique():
-        subset = df[df['attack'] == attack_type]
-        plt.scatter(subset['ratio'], subset['tpr_at_1_fpr'], label=attack_type)
+    for attack_type in sorted(df['attack'].unique()):
+        subset = df[df['attack'] == attack_type].sort_values('ratio')
         
+        ratios = np.concatenate([[0.0], subset['ratio']])
+        tprs = np.concatenate([[tpr_orig], subset['tpr_at_1_fpr']])
+        
+        style = styles.get(attack_type, {})
+        plt.plot(ratios, tprs, label=attack_type, **style)
+
     plt.xlabel("Attack Ratio")
     plt.ylabel("TPR at 1% FPR")
     plt.title("TPR at 1% FPR vs. Attack Ratio")

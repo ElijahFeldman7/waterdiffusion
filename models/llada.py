@@ -87,8 +87,8 @@ def generate(
             x0 = torch.argmax(logits_with_noise, dim=-1)
             
             if remasking == 'low_confidence':
-                p = F.softmax(logits, dim=-1)
-                x0_p = torch.squeeze(torch.gather(p, dim=-1, index=torch.unsqueeze(x0, -1)), -1)
+                # Directly use logits for confidence
+                x0_p = torch.squeeze(torch.gather(logits, dim=-1, index=torch.unsqueeze(x0, -1)), -1)
             elif remasking == 'random':
                 x0_p = torch.rand((x0.shape[0], x0.shape[1]), device=x0.device)
             else:

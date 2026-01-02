@@ -69,7 +69,7 @@ def plot(run_dir: str, target_fpr=0.01):
     
     plt.tight_layout()
 
-    out_path = os.path.join(run_dir, 'line_graph.png')
+    out_path = os.path.join(run_dir, 'line_graph.pdf')
     plt.savefig(out_path, bbox_inches='tight')
     plt.close()
 

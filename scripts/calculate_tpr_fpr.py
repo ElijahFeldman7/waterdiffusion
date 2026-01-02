@@ -89,7 +89,7 @@ def main():
     plt.xlim(-0.01, max(df['ratio']) + 0.05)
     plt.tight_layout()
     
-    output_path = Path(OUTPUT_DIR) / "robustness_tpr_plot.png"
+    output_path = Path(OUTPUT_DIR) / "robustness_tpr_plot.pdf"
     plt.savefig(output_path)
 
 if __name__ == "__main__":

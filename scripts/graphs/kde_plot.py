@@ -51,6 +51,6 @@ plt.ylim(0.45, 0.8)
 plt.legend(loc='upper right', frameon=True, fontsize=16)
 plt.tight_layout()
 
-save_path = data_dir / "binomial_signal_analysis.png"
+save_path = data_dir / "binomial_signal_analysis.pdf"
 plt.savefig(save_path)
 print(f"Graph saved to {save_path}")

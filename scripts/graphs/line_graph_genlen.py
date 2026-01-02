@@ -66,7 +66,7 @@ def plot(run_dir: str):
     
     plt.tight_layout()
 
-    out_path = os.path.join(run_dir, 'length_performance_graph.png')
+    out_path = os.path.join(run_dir, 'length_performance_graph.pdf')
     plt.savefig(out_path, bbox_inches='tight')
     plt.close()
 

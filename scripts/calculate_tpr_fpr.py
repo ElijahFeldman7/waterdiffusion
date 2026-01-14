@@ -56,11 +56,11 @@ def main():
 
     df = pd.DataFrame(results)
 
-    fig, ax = plt.subplots(figsize=(11, 7), dpi=300)
+    fig, ax = plt.subplots(figsize=(9, 9), dpi=300)
     
     styles = {
-        'substitution': {'color': '#e74c3c', 'marker': 's', 'linestyle': '--', 'linewidth': 3, 'markersize': 10},
-        'ca_substitution': {'color': '#2980b9', 'marker': 'o', 'linestyle': '-', 'linewidth': 3, 'markersize': 10}
+        'substitution': {'color': '#e74c3c', 'marker': 's', 'linestyle': '--', 'linewidth': 4, 'markersize': 10},
+        'ca_substitution': {'color': '#2980b9', 'marker': 'o', 'linestyle': '-', 'linewidth': 4, 'markersize': 10}
     }
     
     for attack_type in sorted(df['attack'].unique()):
@@ -85,11 +85,11 @@ def main():
     ax.tick_params(width=2.0, length=8)
 
     plt.legend(fontsize=16, frameon=True, loc='best', framealpha=0.9)
-    plt.ylim(-0.05, 1.05)
+    plt.ylim(0.4, 1.05)
     plt.xlim(-0.01, max(df['ratio']) + 0.05)
     plt.tight_layout()
     
-    output_path = Path(OUTPUT_DIR) / "robustness_tpr_plot.pdf"
+    output_path = Path(OUTPUT_DIR) / "robustness_tpr_plot.png"
     plt.savefig(output_path)
 
 if __name__ == "__main__":

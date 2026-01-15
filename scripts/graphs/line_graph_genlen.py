@@ -42,10 +42,10 @@ def plot(run_dir: str):
         return
     lengths, tprs = zip(*results)
 
-    fig, ax = plt.subplots(figsize=(10, 7), dpi=300)
+    fig, ax = plt.subplots(figsize=(9, 9), dpi=300)
     
     plt.plot(lengths, tprs, marker='o', linestyle='-', color='#2980b9', 
-             linewidth=3, markersize=10, label='TPR @ 1% FPR')
+             linewidth=4, markersize=10, label='TPR @ 1% FPR')
 
     sns.despine(ax=ax, top=True, right=True)
     ax.spines['left'].set_linewidth(2.0)
@@ -66,7 +66,7 @@ def plot(run_dir: str):
     
     plt.tight_layout()
 
-    out_path = os.path.join(run_dir, 'length_performance_graph.pdf')
+    out_path = os.path.join(run_dir, 'length_performance_graph.png')
     plt.savefig(out_path, bbox_inches='tight')
     plt.close()
 

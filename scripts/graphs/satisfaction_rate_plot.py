@@ -7,71 +7,45 @@ import numpy as np
 from scipy.stats import norm, gaussian_kde
 
 plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['font.sans-serif'] = ['Roboto Condensed', 'Arial']
+plt.rcParams['font.sans-serif'] = ['Roboto', 'Arial']
 
-def create_satisfaction_rate_plot():
-    data_file = Path("runs/12_12_llada_8b_eli5_wm_test/gen_length_400/results.jsonl")
-    
-    satisfaction_rates = []
-    if data_file.exists():
-        with open(data_file, 'r') as f:
-            for line in f:
-                if not line.strip(): continue
-                try:
-                    result = json.loads(line)
-                    if 'detection_wm' in result and 'satisfaction_rate' in result['detection_wm']:
-                        satisfaction_rates.append(result['detection_wm']['satisfaction_rate'])
-                except json.JSONDecodeError:
-                    continue
+wm_rates = []
+nwm_rates = []
 
-    gen_lengths = [100, 200, 300, 400]
-    plot_data = [{"gen_length": 400, "satisfaction_rate": rate} for rate in satisfaction_rates]
-    df = pd.DataFrame(plot_data)
-    
-    fig, ax = plt.subplots(figsize=(10, 7), dpi=300)
-    sns.set_style("white")
+filename = 'runs/12_17_16_55_llada_8b_eli5_wm_test/gen_length_400/results.jsonl'
 
-    x_pos = gen_lengths.index(400)
+with open(filename, 'r') as f:
+    for line in f:
+        data = json.loads(line)
+        wm_rates.append(data['detection_wm']['satisfaction_rate'])
+        nwm_rates.append(data['detection_no_wm']['satisfaction_rate'])
+df = pd.DataFrame({
+    'Watermarked': wm_rates,
+    'Non-Watermarked': nwm_rates
+})
 
-    if satisfaction_rates:
-        y_min_q = np.quantile(satisfaction_rates, 0.001)
-        y_max_q = np.quantile(satisfaction_rates, 0.999)
-        y_dist = np.linspace(y_min_q, y_max_q, 100)
-        
-        sns.stripplot(x="gen_length", y="satisfaction_rate", data=df, 
-                      jitter=0.08, size=4, alpha=0.15, color='#34495e', zorder=1)
+fig, ax = plt.subplots(figsize=(11, 6), dpi=300)
 
-        kde = gaussian_kde(satisfaction_rates)
-        p_kde = kde(y_dist)
-        p_kde_scaled = p_kde / p_kde.max() * 0.4
-        plt.plot(x_pos + p_kde_scaled, y_dist, color='#27ae60', lw=3, label='Empirical (KDE)', zorder=3)
-        
-        mu, std = norm.fit(satisfaction_rates)
-        p_norm = norm.pdf(y_dist, mu, std)
-        p_norm_scaled = p_norm / p_norm.max() * 0.4
-        plt.plot(x_pos + p_norm_scaled, y_dist, color='#e74c3c', lw=3, ls='--', label='Normal Fit', zorder=2)
-
-    sns.despine(ax=ax, top=True, right=True)
-    ax.spines['left'].set_linewidth(2.0)
-    ax.spines['bottom'].set_linewidth(2.0)
-    ax.spines['left'].set_color('#333333')
-    ax.spines['bottom'].set_color('#333333')
-    
-    plt.xlabel("Generation Length (Tokens)", fontsize=22, fontweight='bold', labelpad=15)
-    plt.ylabel("Satisfaction Rate ($\hat{p}$)", fontsize=22, fontweight='bold', labelpad=15)
-    plt.xticks(ticks=range(len(gen_lengths)), labels=gen_lengths, fontsize=16)
-    plt.yticks(fontsize=16)
-    
-    ax.tick_params(width=2.0, length=8)
-    ax.grid(axis='y', linestyle='--', alpha=0.3, zorder=0)
-    
-    plt.xlim(-0.5, len(gen_lengths) - 0.5 + 0.5) 
-    plt.legend(fontsize=14, frameon=True, loc='upper left')
-    plt.tight_layout()
-    
-    output_path = data_file.parent / "satisfaction_rate_distribution.png"
-    plt.savefig(output_path, bbox_inches='tight')
-    print(f"Poster plot saved to {output_path}")
-
-if __name__ == "__main__":
-    create_satisfaction_rate_plot()
+color_wm = '#27ae60'
+color_no_wm = '#e74c3c'
+sns.histplot(nwm_rates, bins=30, stat='density', color=color_no_wm, alpha=0.3, label='Non-Watermarked', ax=ax, edgecolor='white')
+mu, std = norm.fit(nwm_rates)
+xmin, xmax = ax.get_xlim()
+x= np.linspace(xmin, xmax, 200)
+p = norm.pdf(x, mu, std)
+ax.plot(x,p, color=color_no_wm, linewidth=4, label=f'Non-WM Normal Distribution')
+sns.histplot(wm_rates, bins=30, stat='density', color=color_wm, alpha=0.3, label='Watermarked', ax=ax, edgecolor='white')
+sns.kdeplot(wm_rates, color=color_wm, linewidth=4, label='Watermarked KDE', ax=ax)
+sns.despine(ax=ax, top=True, right=True)
+ax.spines['left'].set_linewidth(2.0)
+ax.spines['bottom'].set_linewidth(2.0)
+ax.spines['left'].set_color('#333333')
+ax.spines['bottom'].set_color('#333333')
+ax.grid(True, linestyle='--', alpha=0.3, zorder=0)
+plt.xlabel('Satisfaction Rates', fontsize=22, fontweight='bold', labelpad=15)
+plt.ylabel('Density', fontsize=22, fontweight='bold', labelpad=15)
+plt.xticks(fontsize=16)
+plt.yticks(fontsize=16)
+plt.legend(fontsize=15, frameon=True, loc='best', framealpha=0.9)
+plt.tight_layout()
+plt.savefig('runs/12_17_16_55_llada_8b_eli5_wm_test/gen_length_400/graph.png')

@@ -67,3 +67,69 @@ ROC Analysis by Generation Length - 2025-12-21 22:06:24 UTC
   Gen Length 400: AUC = 0.996577
 CSV: runs/full_jsonl/roc_points.csv
 PNG: runs/full_jsonl/roc_curve.png
+
+ROC Analysis by Generation Length - 2026-01-19 22:47:30 UTC
+  Gen Length 100: AUC = 0.951732
+  Gen Length 200: AUC = 0.976698
+  Gen Length 300: AUC = 0.991003
+  Gen Length 400: AUC = 0.996577
+CSV: runs/full_jsonl/roc_points.csv
+PNG: runs/full_jsonl/roc_curve.png
+
+ROC Analysis by Generation Length - 2026-01-19 22:49:18 UTC
+  Gen Length 100: AUC = 0.951732
+  Gen Length 200: AUC = 0.976698
+  Gen Length 300: AUC = 0.991003
+  Gen Length 400: AUC = 0.996577
+CSV: runs/full_jsonl/roc_points.csv
+PNG: runs/full_jsonl/roc_curve.png
+
+ROC Analysis - 2026-01-19 22:51:45 UTC
+  Gen Length 100: AUC = 0.951732
+  Gen Length 200: AUC = 0.976698
+  Gen Length 300: AUC = 0.991003
+  Gen Length 400: AUC = 0.996577
+CSV: runs/full_jsonl/roc_points.csv
+PNG: runs/full_jsonl/roc_curve.png
+
+ROC Analysis - 2026-01-20 00:33:08 UTC
+  Gen Length 100: AUC = 0.951732
+  Gen Length 200: AUC = 0.976698
+  Gen Length 300: AUC = 0.991003
+  Gen Length 400: AUC = 0.996577
+
+ROC Analysis - 2026-01-20 00:33:44 UTC
+  Gen Length 100: AUC = 0.951732
+  Gen Length 200: AUC = 0.976698
+  Gen Length 300: AUC = 0.991003
+  Gen Length 400: AUC = 0.996577
+
+ROC Analysis - 2026-01-20 00:34:06 UTC
+  Gen Length 100: AUC = 0.951732
+  Gen Length 200: AUC = 0.976698
+  Gen Length 300: AUC = 0.991003
+  Gen Length 400: AUC = 0.996577
+
+ROC Analysis - 2026-01-20 00:35:17 UTC
+  Gen Length 100: AUC = 0.951732
+  Gen Length 200: AUC = 0.976698
+  Gen Length 300: AUC = 0.991003
+  Gen Length 400: AUC = 0.996577
+
+ROC Analysis - 2026-01-20 00:40:50 UTC
+  Gen Length 100: AUC = 0.951732
+  Gen Length 200: AUC = 0.976698
+  Gen Length 300: AUC = 0.991003
+  Gen Length 400: AUC = 0.996577
+
+ROC Analysis - 2026-01-20 00:41:00 UTC
+  Gen Length 100: AUC = 0.951732
+  Gen Length 200: AUC = 0.976698
+  Gen Length 300: AUC = 0.991003
+  Gen Length 400: AUC = 0.996577
+
+ROC Analysis - 2026-01-20 00:41:18 UTC
+  Gen Length 100: AUC = 0.951732
+  Gen Length 200: AUC = 0.976698
+  Gen Length 300: AUC = 0.991003
+  Gen Length 400: AUC = 0.996577

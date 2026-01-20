@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 
 plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['font.sans-serif'] = ['Roboto Condensed', 'Arial']
+plt.rcParams['font.sans-serif'] = ['Roboto', 'Arial']
 
 INPUT_FILE = "runs/12_27_20_02_robustness_eval/results.jsonl"
 OUTPUT_DIR = "runs/12_27_20_02_robustness_eval"
@@ -56,7 +56,7 @@ def main():
 
     df = pd.DataFrame(results)
 
-    fig, ax = plt.subplots(figsize=(9, 9), dpi=300)
+    fig, ax = plt.subplots(figsize=(11, 6), dpi=300)
     
     styles = {
         'substitution': {'color': '#e74c3c', 'marker': 's', 'linestyle': '--', 'linewidth': 4, 'markersize': 10},
@@ -89,7 +89,7 @@ def main():
     plt.xlim(-0.01, max(df['ratio']) + 0.05)
     plt.tight_layout()
     
-    output_path = Path(OUTPUT_DIR) / "robustness_tpr_plot.png"
+    output_path = Path(OUTPUT_DIR) / "robustness_tpr_plot.pdf"
     plt.savefig(output_path)
 
 if __name__ == "__main__":

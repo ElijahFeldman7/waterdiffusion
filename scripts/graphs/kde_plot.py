@@ -40,15 +40,15 @@ critical_sat_rate = 0.529
 plt.axhline(y=critical_sat_rate, color='crimson', linestyle='--', label=f'Significance Threshold ($\hat{{p}} > {critical_sat_rate}$)')
 plt.axvline(x=0.70, color='gray', linestyle=':', label='Quality Threshold ($cos > 0.7$)')
 
-plt.xlabel("Cosine Similarity", fontsize=22, fontweight='bold')
-plt.ylabel("Satisfaction rate", fontsize=22, fontweight='bold')
-plt.xticks(fontsize=16)
-plt.yticks(fontsize=16)
+plt.xlabel("Cosine Similarity", fontsize=14)
+plt.ylabel("Satisfaction rate", fontsize=14)
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
 plt.fill_between([0.7, 1.0], critical_sat_rate, 1.0, color='green', alpha=0.05, label="Reliable Detection Zone")
 
 plt.xlim(0.4, 1.0)
 plt.ylim(0.45, 0.8)
-plt.legend(loc='upper right', frameon=True, fontsize=16)
+plt.legend(loc='upper right', frameon=True, fontsize=12)
 plt.tight_layout()
 
 save_path = data_dir / "binomial_signal_analysis.pdf"

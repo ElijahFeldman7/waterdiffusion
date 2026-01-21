@@ -22,11 +22,10 @@ sns.set_style("white")
 sns.scatterplot(data=df, x='cosine_similarity', y='neg_log_p', 
                 alpha=0.4, color='#2980b9', s=30, label='Samples')
 
-plt.axhline(y=1.3, color='#e74c3c', linestyle='--', linewidth=2, label='Detection Limit (α=0.05)')
+plt.axhline(y=1.3, color='#e74c3c', linestyle='--', linewidth=2, label='Detection Limit (o=0.05)')
 
 plt.axvspan(0.8, 1.0, color='#2ecc71', alpha=0.1, label='Target Quality Zone')
 
-plt.title("Robustness vs Integrity", fontsize=16)
 plt.xlabel("Cosine Similarity", fontsize=12)
 plt.ylabel("($-\log(p)$)", fontsize=12)
 

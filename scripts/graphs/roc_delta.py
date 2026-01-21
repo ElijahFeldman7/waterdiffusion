@@ -13,15 +13,12 @@ import numpy as np
 
 plt.rcParams.update({
     'font.size': 20,
-    'axes.titlesize': 24,
-    'axes.labelsize': 22,
-    'xtick.labelsize': 18,
-    'ytick.labelsize': 18,
-    'legend.fontsize': 18,
+    'axes.titlesize': 14,
+    'axes.labelsize': 12,
+    'xtick.labelsize': 12,
+    'ytick.labelsize': 12,
+    'legend.fontsize': 12,
     'figure.titlesize': 28,
-    'font.weight': 'bold',
-    'axes.titleweight': 'bold',
-    'axes.labelweight': 'bold',
 })
 
 def compute_professional_roc(run_dir: str):
@@ -74,7 +71,6 @@ def compute_professional_roc(run_dir: str):
     plt.plot(log_range, log_range, color='#ff6666', lw=2.5, ls='--', label='No watermark')    
     plt.xlabel('False Positive Rate') 
     plt.ylabel('True Positive Rate') 
-    plt.title(f'ROC Curves by Delta', pad=20) 
     
     plt.grid(True, which="major", color='gray', linestyle=':', linewidth=0.8, alpha=0.7) 
     plt.grid(True, which="minor", color='gray', linestyle=':', linewidth=0.4, alpha=0.4) 

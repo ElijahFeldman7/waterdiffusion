@@ -23,7 +23,7 @@ import importlib.util
 project_root = Path(__file__).parent.parent
 spec = importlib.util.spec_from_file_location(
     "init_unmasking_watermark",
-    str(project_root / "watermarks" / "11_02_init_unmasking_watermark.py")
+    str(project_root / "watermarks" / "1_28_unmasking_algo.py")
 )
 init_unmasking_watermark = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(init_unmasking_watermark)
@@ -32,7 +32,7 @@ SimpleRemaskWatermark = init_unmasking_watermark.SimpleRemaskWatermark
 
 SECRET_KEY = "xooks"
 WATERMARK_DELTA = 2.0
-NUM_SAMPLES = 1000
+NUM_SAMPLES = 10
 OUTPUT_DIR = "runs"
 RUN_NAME = "llada_8b_eli5_wm_test"
 SEED = 42

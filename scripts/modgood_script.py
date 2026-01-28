@@ -32,14 +32,14 @@ SimpleRemaskWatermark = init_unmasking_watermark.SimpleRemaskWatermark
 
 SECRET_KEY = "xooks"
 WATERMARK_DELTA = 2.0
-NUM_SAMPLES = 10
+NUM_SAMPLES = 100
 OUTPUT_DIR = "runs"
 RUN_NAME = "llada_8b_eli5_wm_test"
 SEED = 42
-GEN_STEPS = 100
-GEN_LENGTH = 100
+GEN_STEPS = 400
+GEN_LENGTH = 400
 P_VALUE_THRESHOLD = 0.01
-BLOCK_LENGTH = 10
+BLOCK_LENGTH = 40
 
 
 # calculate ppl and cosine sim

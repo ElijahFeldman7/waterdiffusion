@@ -53,9 +53,11 @@ class SimpleRemaskWatermark:
     ) -> torch.Tensor:
         batch_size, seq_len = confidence.shape
         device = confidence.device
-        confidence_clamped = torch.clamp(confidence, 0.0001, 0.9999)
-        logits_conf = torch.log(confidence_clamped / (1 - confidence_clamped))
         
+        confidence_clamped = confidence.clone()
+        confidence_clamped = torch.clamp(confidence_clamped, 0.0001, 0.9999)
+        
+        logits_conf = torch.log(confidence_clamped / (1 - confidence_clamped))
         watermark_bias = torch.zeros_like(confidence)
         
         weights = torch.where(mask_index, confidence, torch.ones_like(confidence))
@@ -74,7 +76,8 @@ class SimpleRemaskWatermark:
                         if mask_index[b, neighbor_index]:
                             other_token = int(x0[b, neighbor_index].item())
                         else:
-                            other_token = int(current_text[b, neighbor_index].item())    
+                            other_token = int(current_text[b, neighbor_index].item())
+                        
                         if j < 0:
                             is_green = SimpleRemaskWatermark.pair_rule_follows(
                                 self.key, other_token, proposed_token
@@ -83,18 +86,24 @@ class SimpleRemaskWatermark:
                             is_green = SimpleRemaskWatermark.pair_rule_follows(
                                 self.key, proposed_token, other_token
                             )
+                        
                         if is_green:
                             count += weights[b, neighbor_index].item()
+                
                 watermark_bias[b, i] = count * self.delta
         
-        modified_logits = logits_conf + watermark_bias
+        modified_logits = torch.where(
+            mask_index,
+            logits_conf + watermark_bias,
+            logits_conf  
+        )
         
         modified_confidence = torch.sigmoid(modified_logits)
         
         modified_confidence = torch.where(
             mask_index,
             modified_confidence,
-            torch.tensor(-float('inf'), device=device, dtype=modified_confidence.dtype)
+            torch.full_like(modified_confidence, -float('inf'))
         )
         
         return modified_confidence
@@ -120,12 +129,14 @@ class SimpleRemaskWatermark:
             for j in self.context_window:
                 neighbor_index = i + j
                 if 0 <= neighbor_index < seq_len:
-                    if j > 0:
-                        total_pairs_checked += 1
-                        if SimpleRemaskWatermark.pair_rule_follows(
-                            self.key, tokens[i], tokens[neighbor_index]
-                        ):
+                    total_pairs_checked += 1
+                    if j < 0:
+                        if SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[neighbor_index], tokens[i]): 
                             satisfied_pairs += 1
+                    elif j > 0:
+                        if SimpleRemaskWatermark.pair_rule_follows(self.key, tokens[i], tokens[neighbor_index]): 
+                            satisfied_pairs += 1
+
         satisfaction_rate = satisfied_pairs / total_pairs_checked if total_pairs_checked > 0 else 0.0
 
         null_satis_rate = 0.5

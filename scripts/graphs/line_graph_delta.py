@@ -7,9 +7,26 @@ import seaborn as sns
 from collections import defaultdict
 from sklearn.metrics import roc_curve
 
-plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['font.sans-serif'] = ['Roboto Condensed', 'Arial']
-
+plt.rcParams.update({
+    "text.usetex": False,
+    "font.family": "serif",
+    "font.serif": ["Times New Roman", "DejaVu Serif", "Times"],
+    "mathtext.fontset": "stix",
+    "font.size": 10,
+    "axes.labelsize": 10,
+    "axes.titlesize": 10,
+    "xtick.labelsize": 8,
+    "ytick.labelsize": 8,
+    "legend.fontsize": 8,
+    "figure.titlesize": 10,
+    "axes.edgecolor": "black",
+    "axes.labelcolor": "black",
+    "xtick.color": "black",
+    "ytick.color": "black",
+    "text.color": "black",
+    "pdf.fonttype": 42,
+    "ps.fonttype": 42
+})
 def plot(run_dir: str, target_fpr=0.01):
     input_file = os.path.join(run_dir, 'results.jsonl')
     delta_groups = defaultdict(list)
@@ -45,25 +62,25 @@ def plot(run_dir: str, target_fpr=0.01):
 
     deltas, tprs = zip(*results)
     
-    fig, ax = plt.subplots(figsize=(10, 7), dpi=300)
+    fig, ax = plt.subplots(figsize=(4.875, 3.75), dpi=300)
     
     plt.plot(deltas, tprs, marker='o', linestyle='-', color='#2980b9', 
-             linewidth=3, markersize=10, label=f'TPR @ {target_fpr*100:.0f}% FPR')
+             linewidth=1.5, markersize=5, label=f'TPR @ {target_fpr*100:.0f}% FPR')
 
     sns.despine(ax=ax, top=True, right=True)
-    ax.spines['left'].set_linewidth(2.0)
-    ax.spines['bottom'].set_linewidth(2.0)
-    ax.spines['left'].set_color('#333333')
-    ax.spines['bottom'].set_color('#333333')
+    ax.spines['left'].set_color('black')
+    ax.spines['bottom'].set_color('black')
+    ax.spines['left'].set_linewidth(0.8)
+    ax.spines['bottom'].set_linewidth(0.8)
     
-    ax.grid(True, linestyle='--', alpha=0.3, zorder=0)
+    ax.grid(True, linestyle='--', alpha=0.3, zorder=0, linewidth = 0.5)
 
-    plt.xlabel(r'Delta ($\delta$)', fontsize=22, fontweight='bold', labelpad=15)
-    plt.ylabel(f'Detection Rate (TPR @ {target_fpr*100:.0f}% FPR)', fontsize=22, fontweight='bold', labelpad=15)
+    plt.xlabel(r'Delta ($\delta$)', labelpad=15)
+    plt.ylabel(f'Detection Rate (TPR @ {target_fpr*100:.0f}% FPR)', labelpad=15)
     
-    plt.xticks(deltas, fontsize=16)
-    plt.yticks(np.arange(0.6, 1.1, 0.1), fontsize=16)
-    ax.tick_params(width=2.0, length=8)
+    plt.xticks(deltas)
+    plt.yticks(np.arange(0.6, 1.1, 0.1))
+    ax.tick_params(axis='both', colors='black', width=0.8, length=4)
 
     plt.ylim(0.6, 1.05)
     

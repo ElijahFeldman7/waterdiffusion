@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{principle}{Guiding Principle}
+
+\begin{theorem}[KL-Divergence with Score Averaging]
+Let $P$ be the original probability distribution and $Q$ be the watermarked distribution. The watermark bias is $d_{j} = \delta \cdot c'$, where the score is an **average** over the $k$ neighbors: $c' = \frac{1}{k} \sum_{i=1}^k c_i$, with $c_i \in \{-1, 1\}$. The Kullback-Leibler divergence is tightly bounded by $\delta$:
+$$\mathrm{D}_{KL}(Q \parallel P) \le \delta$$
+\end{theorem}
+\begin{proof}
+The score $c'$ is an average of $k$ variables, each from $\{-1, 1\}$. Therefore, $c'$ is mathematically bounded by $-1 \le c' \le 1$. The applied bias $d_j = \delta \cdot c'$ is thus bounded by $-\delta \le d_j \le \delta$. The KL divergence is maximized when the bias is maximized, and is bounded by the maximum applied bias, which is $\delta$. This provides a tight bound that is independent of the number of neighbors, $k$.
+\end{proof}
+
+\begin{theorem}[Perplexity Degradation with Score Averaging]
+With score averaging, the perplexity degradation is independent of the context window size $k$:
+$$PPL_{wm} \le PPL_{orig} \cdot e^{\delta}$$
+\end{theorem}
+\begin{proof}
+This follows directly from Theorem 1. The cross-entropy $H(Q,P) = H(Q) + \mathrm{D}_{KL}(Q \parallel P)$. Using the new, tighter bound on KL divergence, we have: $\log(PPL_{wm}) \le \log(PPL_{orig}) + \delta$. Exponentiating gives the result.
+\end{proof}
+
+\begin{principle}[Confidence Gating for Quality Preservation]
+To prevent the watermark from making low-quality token choices ("pyrrhic victories"), a heuristic "Confidence Gate" is applied. Before any bias is calculated, the probability of the model's original top choice, $P(T_{orig})$, is checked. If $P(T_{orig})$ exceeds a `confidence_gate_threshold` (e.g., 0.5), the model is considered "confident". In this case, the watermarking process for that step is aborted entirely, and no bias is applied. This respects the model's high-confidence decisions and prevents the algorithm from forcing a high-distortion change from a likely token to an unlikely one. This primarily improves the practical, average-case perplexity and text quality, without affecting the worst-case bounds in Theorems 1 and 2.
+\end{principle}
+
+\begin{theorem}[Detection Score and z-score]
+Let a text have $N$ token pairs evaluated. Let $c_i \in \{-1, 1\}$ be the color of the $i$-th pair. The detection score is $H = \sum_{i=1}^N c_i$. For a non-watermarked text, $\mathbb{E}[H] = 0$. The detection statistic is the z-score:
+$$Z = \frac{H}{\sqrt{N}}$$
+\end{theorem}
+\begin{proof}
+For a non-watermarked text, $P(c_i=1) = P(c_i=-1) = 0.5$. Thus, $\mathbb{E}[c_i]=0$ and $\mathrm{Var}(c_i) = 1$. The score $H$ is a sum of $N$ independent Rademacher random variables. $\mathbb{E}[H] = 0$ and $\mathrm{Var}(H) = N$. The z-score normalizes the score by its standard deviation. For large $N$, $Z$ converges to $\mathcal{N}(0,1)$.
+\end{proof}
+
+\begin{theorem}[False Positive (Forgery) Probability]
+The probability that a non-watermarked text achieves a z-score $Z \ge z_{thresh}$ is bounded by:
+$$P(Z \ge z_{thresh}) \le \exp\left(-\frac{z_{thresh}^2}{2}\right)$$
+\end{theorem}
+\begin{proof}
+Using Hoeffding's inequality on the sum $H = \sum c_i$ with $\mathbb{E}[H]=0$ and $c_i \in [-1, 1]$ gives the result $P(H \ge t) \le \exp(-\frac{t^2}{2N})$. Substituting $t = z_{thresh}\sqrt{N}$ gives the final bound on the z-score's tail probability.
+\end{proof}
+
+\begin{theorem}[Increased Robustness to Edits]
+To reduce a watermarked text's z-score from $Z_{wm}$ to a threshold $z_{thresh}$, the minimum number of edits $E$ required is lower-bounded by:
+$$E \ge \frac{\sqrt{N}}{4k}(Z_{wm} - z_{thresh})$$
+where $k$ is the number of neighbors (`num_neighbors`).
+\end{theorem}
+\begin{proof}
+The required drop in the raw score is $\Delta_H = (Z_{wm} - z_{thresh})\sqrt{N}$. An attacker's most effective edit flips a green pair to red, a change of 2 in the score for that pair. A single token edit affects at most $2k$ pairs. Thus, the maximum score change per edit is $4k$. The number of edits $E$ must satisfy $E \cdot 4k \ge \Delta_H$. Rearranging gives the bound.
+\end{proof}

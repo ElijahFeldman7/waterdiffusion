@@ -83,6 +83,9 @@ def generate(
             else:
                 logits = model(x).logits
             
+            if watermark is not None:
+                logits = watermark.bias_logits(logits=logits)
+
             logits_with_noise = add_gumbel_noise(logits, temperature=temperature)
             x0 = torch.argmax(logits_with_noise, dim=-1)
             
@@ -97,17 +100,6 @@ def generate(
             x0_p[:, block_end:] = -np.inf
             x0 = torch.where(mask_index, x0, x)
             confidence = torch.where(mask_index, x0_p, -np.inf)
-            
-            if watermark is not None:
-                confidence = watermark.apply_watermark(
-                    logits=logits,
-                    current_text=x,
-                    mask_index=mask_index,
-                    step=num_block * steps_per_block + i,
-                    confidence=confidence,
-                    x0=x0,
-                    key=getattr(watermark, 'key', '')
-                )
             
             transfer_index = torch.zeros_like(x0, dtype=torch.bool, device=x0.device)
             for j in range(confidence.shape[0]):
@@ -186,8 +178,6 @@ class LLaDAGenerator:
             self.device = "cpu"
         
         print(f"Loading tokenizer from {self.tokenizer_path} (local_files_only={self.local_files_only})")
-        print(f"DEBUG: self.model_path = {self.model_path}")
-        print(f"DEBUG: self.tokenizer_path = {self.tokenizer_path}")
         self.tokenizer = AutoTokenizer.from_pretrained(
             self.tokenizer_path,
             trust_remote_code=self.trust_remote_code,
@@ -227,11 +217,8 @@ class LLaDAGenerator:
         use_chat_template: Optional[bool] = None,
         return_full_sequence: bool = False
     ) -> Union[str, Tuple[str, torch.Tensor]]:
-        steps = steps if steps is not None else self.default_steps
-        gen_length = gen_length if gen_length is not None else self.default_gen_length
-        temperature = temperature if temperature is not None else self.default_temperature
-        use_chat_template = use_chat_template if use_chat_template is not None else self.use_chat_template
         
+        use_chat_template = use_chat_template if use_chat_template is not None else self.use_chat_template
         if use_chat_template:
             messages = [{"role": "user", "content": prompt}]
             chat_input = self.tokenizer.apply_chat_template(
@@ -245,17 +232,9 @@ class LLaDAGenerator:
         
         prompt_len = input_ids.shape[1]
         
-        generated_tensor = generate(
-            self.model,
-            input_ids,
-            steps=steps,
-            gen_length=gen_length,
-            block_length=block_length,
-            temperature=temperature,
-            cfg_scale=cfg_scale,
-            remasking=remasking,
-            mask_id=self.mask_token_id,
-            watermark=self.watermark
+        generated_tensor = self.generate_tokens(
+            input_ids, steps=steps, gen_length=gen_length, block_length=block_length,
+            temperature=temperature, cfg_scale=cfg_scale, remasking=remasking
         )
         
         response_tokens = generated_tensor[0, prompt_len:]
@@ -292,9 +271,20 @@ class LLaDAGenerator:
             watermark=self.watermark
         )
 
+    def detect_watermark(self, text: str, **kwargs):
+        if not self.watermark:
+            raise ValueError("Watermark object not initialized on this generator.")
+        
+        return self.watermark.detect(
+            text=text,
+            tokenizer=self.tokenizer,
+            **kwargs
+        )
 
 if __name__ == "__main__":
     # Minimal smoke test
-    gen = LLaDAGenerator(model_path="GSAI-ML/LLaDA-8B-Instruct", device="cuda")
-    print(gen.generate_text("What is the capital of France?", steps=8, gen_length=16))
+    # Note: This requires a model to be available.
+    # gen = LLaDAGenerator(model_path="GSAI-ML/LLaDA-8B-Instruct", device="cuda")
+    # print(gen.generate_text("What is the capital of France?", steps=8, gen_length=16))
+    print("LLaDAGenerator class defined.")
 

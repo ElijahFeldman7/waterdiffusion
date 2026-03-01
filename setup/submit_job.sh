@@ -29,9 +29,10 @@ echo "Loaded modules:"
 module list
 echo ""
 
+# IMPORTANT: Please update this path to your virtual environment
 source /path/to/venv/bin/activate
 echo "Venv activated: $VIRTUAL_ENV"
 echo ""
 
-echo "Starting Python training"
-python /scratch/path/to/file
+echo "Starting Python experiment script..."
+python scripts/tempmodgood_script.py

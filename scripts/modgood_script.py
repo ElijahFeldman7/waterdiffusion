@@ -19,8 +19,10 @@ import matplotlib.pyplot as plt
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from models.llada import LLaDAGenerator
+
 import importlib.util
 project_root = Path(__file__).parent.parent
+
 spec = importlib.util.spec_from_file_location(
     "init_unmasking_watermark",
     str(project_root / "watermarks" / "1_28_nonvectorized.py")
@@ -28,6 +30,11 @@ spec = importlib.util.spec_from_file_location(
 init_unmasking_watermark = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(init_unmasking_watermark)
 SimpleRemaskWatermark = init_unmasking_watermark.SimpleRemaskWatermark
+
+sys.path.insert(0, str(project_root / "zurich" / "src"))
+from dlm_watermark.configs import MainConfiguration
+from dlm_watermark.watermarks.watermark_factory import load_watermark_from_config
+import yaml
 
 
 SECRET_KEY = "xooks"
@@ -128,60 +135,74 @@ def main():
 
     print(f"Results will be saved in: {length_specific_dir}")
 
+
     try:
         set_global_seed(SEED)
         print(f"Seed set to {SEED}")
 
         save_run_desc(run_dir, GEN_LENGTH, P_VALUE_THRESHOLD)
 
-        print("Initializing watermark...")
-        watermark = SimpleRemaskWatermark(
+        print("Initializing our watermark...")
+        our_watermark = SimpleRemaskWatermark(
             key=SECRET_KEY,
             delta=WATERMARK_DELTA
         )
 
+        print("Initializing zurich watermark...")
+        config_path = project_root / "zurich" / "configs" / "main" / "Llada" / "eli5_test.yaml"
+        config = MainConfiguration(**yaml.safe_load(open(config_path, "r")))
+        zurich_watermark = load_watermark_from_config(config=config.watermark_config, tokenizer=None, watermark_type=config.watermark_type)
+
         print("Loading LLaDA model...")
         generator = LLaDAGenerator(
             config=str(project_root / "configs" / "llada_8b_instruct.yaml"),
-            watermark=watermark,
+            watermark=our_watermark,
             device_map="auto"
         )
         print(f"Model {generator.model_path} loaded on device: {generator.device}")
 
-        print("Loading eli5 dataset stream...")
-        ds = load_dataset(
-            "sentence-transformers/eli5",
-            split="train",
-            streaming=True
-        )
+        if hasattr(zurich_watermark, 'tokenizer') and zurich_watermark.tokenizer is None:
+            zurich_watermark.tokenizer = generator.tokenizer
 
-        print(f"Running generation and detection for {NUM_SAMPLES} samples...")
 
+        waterbench_path = project_root / "zurich" / "data" / "WaterBench" / "2-1_longform_qa.jsonl"
+        print(f"Loading WaterBench data from {waterbench_path}")
+        with open(waterbench_path, "r") as datafile:
+            lines = datafile.readlines()
+
+        print(f"Running generation and detection for {NUM_SAMPLES} WaterBench samples...")
         count = 0
-
         with open(results_file_path, 'w') as f:
-            for ex in ds:
+            for line in lines:
                 if count >= NUM_SAMPLES:
                     break
-
-                text = ex.get("question")
-                if text is None:
-                    continue
-
-                prompt = text.strip()
-
+                ex = json.loads(line)
+                context = ex.get("context", "")
+                input_text = ex.get("input", "")
+                prompt = f"You are a helpful assistant, please answer the following question within 300 words:\n{context}\n{input_text}"
                 if not (50 <= len(prompt) <= 1024):
                     continue
-
                 try:
-                    start_time_wm = time.time()
-                    generated_text_wm = generator.generate_text(
+                    generator.watermark = our_watermark
+                    start_time_our_wm = time.time()
+                    generated_text_our_wm = generator.generate_text(
                         prompt=prompt,
                         gen_length=GEN_LENGTH,
                         steps=GEN_STEPS,
                         block_length=BLOCK_LENGTH
                     )
-                    gen_time_wm = time.time() - start_time_wm
+                    gen_time_our_wm = time.time() - start_time_our_wm
+
+                    generator.watermark = zurich_watermark
+                    start_time_zurich_wm = time.time()
+                    generated_text_zurich_wm = generator.generate_text(
+                        prompt=prompt,
+                        gen_length=GEN_LENGTH,
+                        steps=GEN_STEPS,
+                        block_length=BLOCK_LENGTH
+                    )
+                    gen_time_zurich_wm = time.time() - start_time_zurich_wm
+
                     generator.watermark = None
                     start_time_no_wm = time.time()
                     generated_text_no_wm = generator.generate_text(
@@ -191,19 +212,28 @@ def main():
                         block_length=BLOCK_LENGTH
                     )
                     gen_time_no_wm = time.time() - start_time_no_wm
-                    generator.watermark = watermark
-                    perplexity_wm = calculate_perplexity(generated_text_wm, perplexity_model, perplexity_tokenizer)
+
+                    perplexity_our_wm = calculate_perplexity(generated_text_our_wm, perplexity_model, perplexity_tokenizer)
+                    perplexity_zurich_wm = calculate_perplexity(generated_text_zurich_wm, perplexity_model, perplexity_tokenizer)
                     perplexity_no_wm = calculate_perplexity(generated_text_no_wm, perplexity_model, perplexity_tokenizer)
-                    embedding_wm, embedding_no_wm = similarity_model.encode([generated_text_wm, generated_text_no_wm])
-                    cos_sim = F.cosine_similarity(torch.tensor(embedding_wm), torch.tensor(embedding_no_wm), dim=0).item()
-                    detection_wm_result = watermark.detect(
-                        text=generated_text_wm,
+
+                    embeddings = similarity_model.encode([generated_text_our_wm, generated_text_zurich_wm, generated_text_no_wm])
+                    cos_sim_our_vs_no = F.cosine_similarity(torch.tensor(embeddings[0]), torch.tensor(embeddings[2]), dim=0).item()
+                    cos_sim_zurich_vs_no = F.cosine_similarity(torch.tensor(embeddings[1]), torch.tensor(embeddings[2]), dim=0).item()
+
+                    detection_our_wm_result = our_watermark.detect(
+                        text=generated_text_our_wm,
                         tokenizer=generator.tokenizer,
                         num_timestamps=GEN_STEPS,
                         unmasked_tokens_per_timestamp=GEN_LENGTH / GEN_STEPS,
                         p_value_threshold=P_VALUE_THRESHOLD
                     )
-                    detection_no_wm_result = watermark.detect(
+                    tokenized_text_zurich = generator.tokenizer(generated_text_zurich_wm, return_tensors="pt")
+                    detection_zurich_wm_result = zurich_watermark.detect(
+                        input_ids=tokenized_text_zurich['input_ids'].to(generator.device),
+                        attention_mask=tokenized_text_zurich['attention_mask'].to(generator.device)
+                    )
+                    detection_no_wm_result = our_watermark.detect(
                         text=generated_text_no_wm,
                         tokenizer=generator.tokenizer,
                         num_timestamps=GEN_STEPS,
@@ -213,14 +243,19 @@ def main():
 
                     result_entry = {
                         "prompt": prompt,
-                        "generated_text_wm": generated_text_wm,
+                        "generated_text_our_wm": generated_text_our_wm,
+                        "generated_text_zurich_wm": generated_text_zurich_wm,
                         "generated_text_no_wm": generated_text_no_wm,
-                        "gen_time_wm": gen_time_wm,
+                        "gen_time_our_wm": gen_time_our_wm,
+                        "gen_time_zurich_wm": gen_time_zurich_wm,
                         "gen_time_no_wm": gen_time_no_wm,
-                        "perplexity_wm": perplexity_wm,
+                        "perplexity_our_wm": perplexity_our_wm,
+                        "perplexity_zurich_wm": perplexity_zurich_wm,
                         "perplexity_no_wm": perplexity_no_wm,
-                        "cosine_similarity": cos_sim,
-                        "detection_wm": detection_wm_result,
+                        "cosine_similarity_our_vs_no": cos_sim_our_vs_no,
+                        "cosine_similarity_zurich_vs_no": cos_sim_zurich_vs_no,
+                        "detection_our_wm": detection_our_wm_result,
+                        "detection_zurich_wm": detection_zurich_wm_result,
                         "detection_no_wm": detection_no_wm_result,
                     }
 
@@ -261,9 +296,9 @@ def main():
             print(f"Saved detection performance plot to: {perf_plot_path}")
 
             fig2, ax2 = plt.subplots()
-            labels_quality = ['Perplexity (WM)', 'Perplexity (No WM)']
-            values_quality = [metrics['perplexity_wm'], metrics['perplexity_no_wm']]
-            ax2.bar(labels_quality, values_quality, color=['blue', 'orange'])
+            labels_quality = ['Perplexity (Ours)', 'Perplexity (Zurich)', 'Perplexity (No WM)']
+            values_quality = [metrics['perplexity_our_wm'], metrics['perplexity_zurich_wm'], metrics['perplexity_no_wm']]
+            ax2.bar(labels_quality, values_quality, color=['blue', 'purple', 'orange'])
             ax2.set_ylabel("Perplexity")
             ax2.set_title(f"Text Quality (Perplexity) (Length: {GEN_LENGTH})")
             for i, v in enumerate(values_quality):
@@ -274,7 +309,6 @@ def main():
             print(f"Saved text quality plot to: {quality_plot_path}")
         else:
             print("Could not find any valid results to plot.")
-
 
     except FileNotFoundError as e:
         print(f"Error: A required file was not found.")

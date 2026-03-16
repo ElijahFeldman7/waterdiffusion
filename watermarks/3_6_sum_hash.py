@@ -2,16 +2,30 @@ from typing import Any, Dict, List, Optional, Union
 
 import torch
 import numpy as np
-import hashlib
 from scipy.stats import norm, binom
 
 class SimpleRemaskWatermark:
-
+    def fast_pair_hash(self, i: int, j: int, vocab_size: int) -> int:
+        pair_key = (min(i, j) * vocab_size + max(i, j)) & 0xFFFFFFFF
+        h = pair_key ^ 0x811c9dc5
+        h = (h * 0x01000193) & 0xFFFFFFFF
+        h ^= h >> 16
+        h = (h * 0x85ebca6b) & 0xFFFFFFFF
+        h ^= h >> 13
+        h = (h * 0xc2b2ae35) & 0xFFFFFFFF
+        h ^= h >> 16
+        return h % vocab_size
+    def _fast_key_hash(self, key: str, vocab_size: int) -> int:
+        h = 0x811c9dc5
+        for c in key.encode():
+            h ^= c
+            h = (h * 0x01000193) & 0xFFFFFFFF
+        return h % vocab_size
     @staticmethod
-    def pair_rule_follows(key_int: int, token_a: int, token_b: int, vocab_size: int) -> bool:
-        hash_val = (int(token_a) + int(token_b) + key_int) % vocab_size
+    def pair_rule_follows(i: int, j: int, token_a: int, token_b: int, vocab_size: int, key_int: int) -> bool:
+        pair_hash = self.fast_pair_hash(i, j, vocab_size)
+        hash_val = (token_a + token_b + pair_hash + key_int) % vocab_size
         return (hash_val % 2) == 0
-
     def __init__(
         self,
         key: str = "",
@@ -23,69 +37,63 @@ class SimpleRemaskWatermark:
         self.delta = delta
         self.context_window = context_window or[-2, -1, 1, 2]
         self.vocab_size = vocab_size
-        
-        self.key_int = int(hashlib.sha256(key.encode('utf-8')).hexdigest(), 16) % self.vocab_size
+        self.key_int = self._fast_key_hash(key, vocab_size)
 
     @torch.no_grad()
-    def apply_watermark(
-        self,
-        logits: torch.Tensor, 
-        current_text: torch.Tensor,
-        mask_index: torch.Tensor,
-        step: int,
-        confidence: torch.Tensor,
-        x0: torch.Tensor,  
-        key: str,
-        **kwargs
-    ) -> torch.Tensor:
-        
+    def apply_watermark(self, logits: torch.Tensor, current_text: torch.Tensor,
+                   mask_index: torch.Tensor, step: int, confidence: torch.Tensor,
+                   x0: torch.Tensor, **kwargs) -> torch.Tensor:
+    
         modified_confidence = confidence.clone()
         batch_size, seq_len = confidence.shape
-        
         x0_probs = torch.softmax(logits, dim=-1)
-        
-        v_indices = torch.arange(self.vocab_size, device=confidence.device)
-        green_mask = ((v_indices + self.key_int) % 2) == 0
-        
+    
         for b in range(batch_size):
             for i in range(seq_len):
                 if not mask_index[b, i]:
                     modified_confidence[b, i] = -np.inf
                     continue
-                
+            
                 prob_dist_i = x0_probs[b, i] 
                 count = 0.0
-                
-                for j in self.context_window:
-                    neighbor_index = i + j
-                    if 0 <= neighbor_index < seq_len:
-                        
-                        if mask_index[b, neighbor_index]:
-                            prob_dist_neighbor = x0_probs[b, neighbor_index]
-                            weight = confidence[b, neighbor_index].item()
+            
+                for j_offset in self.context_window:
+                    j = i + j_offset
+                    if 0 <= j < seq_len:
+                        if mask_index[b, j]:
+                            neighbor_probs = x0_probs[b, j]
+                            weight = confidence[b, j].item()
                         else:
-                            known_token = int(current_text[b, neighbor_index].item())
-                            prob_dist_neighbor = torch.zeros(self.vocab_size, device=confidence.device)
-                            prob_dist_neighbor[known_token] = 1.0
+                            known_token = int(current_text[b, j].item())
+                            neighbor_probs = torch.zeros(self.vocab_size, device=confidence.device)
+                            neighbor_probs[known_token] = 1.0
                             weight = 1.0
+                    
+                        v_indices = torch.arange(self.vocab_size, device=confidence.device)
+                        green_mask = torch.zeros(self.vocab_size, device=confidence.device)
+                    
+                        for v_idx in v_indices:
+                            pair_hash = self.fast_pair_hash(i, j, self.vocab_size)
+                            hash_val_base = (v_idx.item() + pair_hash + self.key_int) % self.vocab_size
+                        
+                            neighbor_tokens = torch.arange(self.vocab_size, device=confidence.device)
+                            neighbor_hash_vals = (v_idx.item() + neighbor_tokens + pair_hash + self.key_int) % self.vocab_size
+                            is_green = (neighbor_hash_vals % 2) == 0
+                        
+                            green_mask[v_idx] = torch.sum(neighbor_probs[is_green]).item()
+                    
                         fft_i = torch.fft.fft(prob_dist_i)
-                        fft_neighbor = torch.fft.fft(prob_dist_neighbor)
-                        
-                        sum_distribution = torch.fft.ifft(fft_i * fft_neighbor).real
-                        
-                        prob_is_green = torch.sum(sum_distribution[green_mask]).item()
-                        
-                        count += (prob_is_green * weight)
-                
+                        fft_green = torch.fft.fft(green_mask)
+                        prob_is_green = torch.real(torch.fft.ifft(fft_i * fft_green)).sum().item()
+                    
+                        count += (prob_is_green * weight)       
                 prob = confidence[b, i].item()
                 prob = max(min(prob, 0.9999), 0.0001)
                 logit = np.log(prob / (1 - prob))
-                
                 watermark_bias = count * self.delta
                 modified_logit = logit + watermark_bias
                 modified_prob = 1 / (1 + np.exp(-modified_logit))
                 modified_confidence[b, i] = modified_prob
-        
         return modified_confidence
     
     def detect(

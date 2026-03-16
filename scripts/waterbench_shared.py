@@ -443,7 +443,7 @@ if __name__ == "__main__":
         p_value_threshold=0.01,
         skip_if_exists=True,
         shard=args.shard,
-        num_shards=args.num_shards,
+        num_shards=args.num_shards,  # 3 for A100 array job
         run_dir=run_dir,
     )
 

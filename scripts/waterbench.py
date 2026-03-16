@@ -1,29 +1,29 @@
+import importlib.util
 import json
 import os
+import random
 import sys
 import time
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Set
 
 import numpy as np
 import pandas as pd
 import torch
 import torch.nn.functional as F
-from scipy.stats import binom
 from sentence_transformers import SentenceTransformer
 from tqdm.auto import tqdm
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
-PROJECT_ROOT = Path("/scratch/efeldma5/waterdiffusion/waterdiffusion")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 WATERMARK_PATH = PROJECT_ROOT / "watermarks" / "1_28_unmasking_algo.py"
-WATERBENCH_PATH = PROJECT_ROOT / "zurich" / "data" / "WaterBench" / "2-1_longform_qa.jsonl"
+WATERBENCH_DIR = PROJECT_ROOT / "zurich" / "data" / "WaterBench"
 LLADA_CONFIG_PATH = PROJECT_ROOT / "configs" / "llada_8b_instruct.yaml"
 
 sys.path.insert(0, str(PROJECT_ROOT))
 
-import importlib.util
 _spec = importlib.util.spec_from_file_location("remask_watermark", str(WATERMARK_PATH))
 _mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_mod)
@@ -32,34 +32,29 @@ SimpleRemaskWatermark = _mod.SimpleRemaskWatermark
 from models.llada import LLaDAGenerator
 
 
-
 @dataclass
 class RemaskEvalConfig:
-    gen_length: int = 400
-    gen_steps: int = 400
-    block_length: int = 40
+    gen_length: int = 256
+    gen_steps: int = 128
+    block_length: int = 32
 
     secret_key: str = "xooks"
     delta: float = 2.0
     context_window: List[int] = field(default_factory=lambda: [-2, -1, 1, 2])
-    vocab_size: int = 32000        
 
-    num_samples: int = 100
+    num_samples: int = 600
     p_value_threshold: float = 0.01
-    batch_size: int = 1              
     skip_if_exists: bool = True
     tqdm: bool = True
 
-    waterbench_path: str = str(WATERBENCH_PATH)
+    waterbench_dir: str = str(WATERBENCH_DIR)
     save_path: str = str(
         PROJECT_ROOT / "runs" / f"remask_eval_{datetime.utcnow().strftime('%m_%d_%H_%M')}.jsonl"
     )
     ppl_model_name: str = "gpt2"
-
     system_prompt: str = (
         "You are a helpful assistant, please answer the following question within 300 words:"
     )
-
 
 
 def compute_ppl(
@@ -68,13 +63,7 @@ def compute_ppl(
     text: str,
     max_length: int = 1024,
 ) -> float:
-    """GPT-2 perplexity for a single string."""
-    encodings = tokenizer(
-        text,
-        return_tensors="pt",
-        truncation=True,
-        max_length=max_length,
-    )
+    encodings = tokenizer(text, return_tensors="pt", truncation=True, max_length=max_length)
     input_ids = encodings.input_ids
     if input_ids.shape[1] < 2:
         return float("inf")
@@ -84,7 +73,6 @@ def compute_ppl(
 
 
 def compute_seq_rep_n(text: str, tokenizer: Any, n: int = 2) -> float:
-    """Fraction of repeated n-grams — high value → repetitive output."""
     ids = tokenizer.encode(text, add_special_tokens=False)
     if len(ids) < n:
         return 0.0
@@ -101,16 +89,42 @@ def cosine_similarity(a: np.ndarray, b: np.ndarray) -> float:
     )
 
 
+def load_waterbench_all(waterbench_dir: str, max_scan_per_file: int = 5000) -> List[Dict]:
+    """
+    Load and interleave examples from all .jsonl files in the WaterBench directory.
+    Each record is tagged with its source filename so results can be grouped later.
+    """
+    jsonl_files = sorted(Path(waterbench_dir).glob("*.jsonl"))
+    if not jsonl_files:
+        raise FileNotFoundError(f"No .jsonl files found in {waterbench_dir}")
 
-def load_waterbench(path: str, num_samples: int) -> List[Dict]:
-    records = []
-    with open(path, "r") as f:
-        for line in f:
-            if len(records) >= num_samples:
-                break
-            ex = json.loads(line)
-            records.append(ex)
-    return records
+    print(f"Found {len(jsonl_files)} WaterBench files:")
+    for f in jsonl_files:
+        print(f"  {f.name}")
+
+    per_file: List[List[Dict]] = []
+    for fpath in jsonl_files:
+        records = []
+        with open(fpath, "r") as f:
+            for i, line in enumerate(f):
+                if i >= max_scan_per_file:
+                    break
+                ex = json.loads(line)
+                ex["_source_file"] = fpath.name
+                records.append(ex)
+        per_file.append(records)
+        print(f"  Loaded {len(records)} records from {fpath.name}")
+
+    # Interleave so samples are drawn evenly across all splits
+    interleaved = []
+    max_len = max(len(records) for records in per_file)
+    for i in range(max_len):
+        for records in per_file:
+            if i < len(records):
+                interleaved.append(records[i])
+
+    print(f"  Total records after interleaving: {len(interleaved)}")
+    return interleaved
 
 
 def build_prompt(example: Dict, system_prompt: str) -> Optional[str]:
@@ -122,15 +136,33 @@ def build_prompt(example: Dict, system_prompt: str) -> Optional[str]:
     return prompt
 
 
+def load_existing_prompts(save_path: str) -> Set[str]:
+    if not os.path.exists(save_path):
+        return set()
+    seen = set()
+    with open(save_path, "r") as f:
+        for line in f:
+            try:
+                row = json.loads(line)
+                if "prompt" in row:
+                    seen.add(row["prompt"])
+            except json.JSONDecodeError:
+                continue
+    return seen
+
 
 class RemaskEvaluator:
     def __init__(self, config: RemaskEvalConfig):
         self.config = config
+
+        save_dir = os.path.dirname(config.save_path)
+        if save_dir:
+            os.makedirs(save_dir, exist_ok=True)
+
         self.watermark = SimpleRemaskWatermark(
             key=config.secret_key,
             delta=config.delta,
             context_window=config.context_window,
-            vocab_size=config.vocab_size,
         )
 
         print("Loading LLaDA generator...")
@@ -149,31 +181,16 @@ class RemaskEvaluator:
         print("Loading similarity model...")
         self.sim_model = SentenceTransformer("all-MiniLM-L6-v2")
 
-        os.makedirs(os.path.dirname(config.save_path), exist_ok=True)
-
-
-    def _count_existing(self, prompt: str) -> int:
-        """Return 1 if this prompt already has a result row, else 0."""
-        if not self.config.skip_if_exists:
-            return 0
-        df = self._load_results()
-        if df.empty or "prompt" not in df.columns:
-            return 0
-        return int((df["prompt"] == prompt).sum())
-
     def _load_results(self) -> pd.DataFrame:
         if not os.path.exists(self.config.save_path):
             return pd.DataFrame()
         return pd.read_json(self.config.save_path, lines=True)
 
-
-    def _generate_valid(self, prompt: str, watermark_mode: Optional[str]) -> str:
+    def _generate_valid(self, prompt: str, use_watermark: bool) -> str:
         cfg = self.config
-        if watermark_mode == "wm":
-            self.generator.watermark = self.watermark
-        else:
-            self.generator.watermark = None
+        self.generator.watermark = self.watermark if use_watermark else None
 
+        text = ""
         for attempt in range(10):
             text = self.generator.generate_text(
                 prompt=prompt,
@@ -186,9 +203,7 @@ class RemaskEvaluator:
             if not too_short and rep <= 0.5:
                 return text
             print(f"  Re-generating (attempt {attempt + 1}): too_short={too_short}, rep={rep:.3f}")
-
         return text
-
 
     def _detect(self, text: str) -> Dict:
         return self.watermark.detect(
@@ -197,16 +212,15 @@ class RemaskEvaluator:
             p_value_threshold=self.config.p_value_threshold,
         )
 
-
-    def _evaluate_sample(self, prompt: str) -> Dict:
+    def _evaluate_sample(self, prompt: str, source_file: str) -> Dict:
         cfg = self.config
 
         t0 = time.time()
-        text_wm = self._generate_valid(prompt, watermark_mode="wm")
+        text_wm = self._generate_valid(prompt, use_watermark=True)
         time_wm = time.time() - t0
 
         t0 = time.time()
-        text_no_wm = self._generate_valid(prompt, watermark_mode=None)
+        text_no_wm = self._generate_valid(prompt, use_watermark=False)
         time_no_wm = time.time() - t0
 
         ppl_wm = compute_ppl(self.ppl_model, self.ppl_tokenizer, text_wm)
@@ -223,6 +237,7 @@ class RemaskEvaluator:
 
         return {
             "prompt": prompt,
+            "source_file": source_file,
             "completion_wm": text_wm,
             "completion_no_wm": text_no_wm,
             "gen_time_wm": time_wm,
@@ -251,43 +266,44 @@ class RemaskEvaluator:
             "p_value_threshold": cfg.p_value_threshold,
         }
 
-
     def evaluate(self):
         cfg = self.config
-        examples = load_waterbench(cfg.waterbench_path, cfg.num_samples * 3)
+        all_examples = load_waterbench_all(cfg.waterbench_dir)
+
+        existing_prompts: Set[str] = set()
+        if cfg.skip_if_exists:
+            existing_prompts = load_existing_prompts(cfg.save_path)
+            print(f"Found {len(existing_prompts)} already-completed samples.")
+
+        valid_pairs: List[tuple] = []
+        for ex in all_examples:
+            prompt = build_prompt(ex, cfg.system_prompt)
+            if prompt is not None:
+                valid_pairs.append((prompt, ex.get("_source_file", "unknown")))
+
+        needed = cfg.num_samples - len(existing_prompts)
+        if needed <= 0:
+            print(f"All {cfg.num_samples} samples already completed. Nothing to do.")
+            return
+
+        todo = [(p, s) for p, s in valid_pairs if p not in existing_prompts][:needed]
+        print(f"Running {len(todo)} new samples across all WaterBench splits (target: {cfg.num_samples}).")
 
         processed = 0
-        skipped = 0
-
         with open(cfg.save_path, "a") as out_f:
-            for ex in tqdm(examples, desc="WaterBench samples", disable=not cfg.tqdm):
-                if processed >= cfg.num_samples:
-                    break
-
-                prompt = build_prompt(ex, cfg.system_prompt)
-                if prompt is None:
-                    continue
-
-                if self._count_existing(prompt) > 0:
-                    skipped += 1
-                    processed += 1
-                    continue
-
+            for prompt, source_file in tqdm(todo, desc="WaterBench eval", disable=not cfg.tqdm):
                 try:
-                    result = self._evaluate_sample(prompt)
+                    result = self._evaluate_sample(prompt, source_file)
                     out_f.write(json.dumps(result) + "\n")
                     out_f.flush()
                     processed += 1
-
                     if processed % 10 == 0:
-                        print(f"  ... {processed}/{cfg.num_samples} samples done")
-
+                        print(f"  ... {processed}/{len(todo)} new samples done")
                 except Exception as e:
-                    print(f"  Error on sample {processed}: {e}")
+                    print(f"  Error on sample (prompt[:80]={prompt[:80]!r}): {e}")
                     continue
 
-        print(f"\nDone. {processed} samples processed ({skipped} skipped). Results: {cfg.save_path}")
-
+        print(f"\nDone. {processed} new samples written. Results: {cfg.save_path}")
 
     def summarize(self):
         df = self._load_results()
@@ -299,7 +315,7 @@ class RemaskEvaluator:
         tpr = df["det_wm_is_watermarked"].mean()
         fpr = df["det_no_wm_is_watermarked"].mean()
 
-        report_lines = [
+        lines = [
             "=" * 60,
             "REMASK WATERMARK EVALUATION SUMMARY",
             f"Samples evaluated       : {n}",
@@ -329,7 +345,16 @@ class RemaskEvaluator:
             "=" * 60,
         ]
 
-        report = "\n".join(report_lines)
+        # Per-split breakdown if multiple source files present
+        if "source_file" in df.columns and df["source_file"].nunique() > 1:
+            lines.append("\nPer-split TPR / FPR")
+            lines.append("-" * 60)
+            for src, grp in df.groupby("source_file"):
+                split_tpr = grp["det_wm_is_watermarked"].mean()
+                split_fpr = grp["det_no_wm_is_watermarked"].mean()
+                lines.append(f"  {src:<40} TPR={split_tpr:.4f}  FPR={split_fpr:.4f}  n={len(grp)}")
+
+        report = "\n".join(lines)
         print(report)
 
         report_path = Path(self.config.save_path).with_suffix(".summary.txt")
@@ -346,8 +371,6 @@ class RemaskEvaluator:
 
 
 if __name__ == "__main__":
-    import random
-
     SEED = 42
     random.seed(SEED)
     np.random.seed(SEED)
@@ -356,10 +379,10 @@ if __name__ == "__main__":
         torch.cuda.manual_seed_all(SEED)
 
     config = RemaskEvalConfig(
-        num_samples=100,
-        gen_length=400,
-        gen_steps=400,
-        block_length=40,
+        num_samples=600,
+        gen_length=256,
+        gen_steps=128,
+        block_length=32,
         delta=2.0,
         secret_key="xooks",
         p_value_threshold=0.01,

@@ -65,7 +65,7 @@ class SimpleRemaskWatermark:
     def __init__(
         self,
         key: str = "",
-        delta: float = 2.0,
+        delta: float = 4.0,
         context_window: List[int] = None,
         vocab_size: int = 32000,
     ):
@@ -91,8 +91,6 @@ class SimpleRemaskWatermark:
         confidence_clamped = torch.clamp(confidence.clone(), 0.0001, 0.9999)
         logits_conf = torch.log(confidence_clamped / (1 - confidence_clamped))
         watermark_bias = torch.zeros_like(confidence)
-
-        weights = torch.where(mask_index, confidence, torch.ones_like(confidence))
 
         for b in range(batch_size):
             token_list = [
@@ -128,7 +126,12 @@ class SimpleRemaskWatermark:
                             )
 
                         if is_green:
-                            count += weights[b, neighbor_index].item()
+                            w = (
+                                float(confidence[b, neighbor_index].item())
+                                if mask_index[b, neighbor_index]
+                                else 1.0
+                            )
+                            count += w
 
                 watermark_bias[b, i] = count * self.delta
 

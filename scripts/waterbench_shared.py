@@ -19,7 +19,7 @@ from tqdm.auto import tqdm
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-WATERMARK_PATH = PROJECT_ROOT / "watermarks" / "3_16_hash.py"
+WATERMARK_PATH = PROJECT_ROOT / "watermarks" / "1_28_unmasking_algo.py"
 WATERBENCH_DIR = PROJECT_ROOT / "zurich" / "data" / "WaterBench"
 LLADA_CONFIG_PATH = PROJECT_ROOT / "configs" / "llada_8b_instruct.yaml"
 
@@ -35,12 +35,12 @@ from models.llada import LLaDAGenerator
 
 @dataclass
 class RemaskEvalConfig:
-    gen_length: int = 256
-    gen_steps: int = 128
-    block_length: int = 32
+    gen_length: int = 300
+    gen_steps: int = 100
+    block_length: int = 25
 
     secret_key: str = "xooks"
-    delta: float = 2.0
+    delta: float = 4.0
     context_window: List[int] = field(default_factory=lambda: [-2, -1, 1, 2])
 
     num_samples: int = 600
@@ -203,7 +203,6 @@ class RemaskEvaluator:
             context_window=config.context_window,
         )
 
-        # Pin to the GPU that CUDA_VISIBLE_DEVICES exposes as device 0
         device_str = "cuda:0" if torch.cuda.is_available() else "cpu"
         print(f"[Shard {config.shard}/{config.num_shards}] Loading LLaDA on {device_str}...")
         self.generator = LLaDAGenerator(
@@ -220,6 +219,56 @@ class RemaskEvaluator:
 
         print("  Loading similarity model...")
         self.sim_model = SentenceTransformer("all-MiniLM-L6-v2")
+
+        self._save_run_desc()
+
+    def _save_run_desc(self):
+        desc_path = Path(self.config.run_dir) / "run_desc.json"
+        if desc_path.exists():
+            return  # only write once, shard 0 wins
+
+        cfg = self.config
+        desc = {
+            "timestamp_utc": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
+            "run_dir": cfg.run_dir,
+            "watermark": {
+                "class": type(self.watermark).__name__,
+                "file": str(WATERMARK_PATH),
+                "key": cfg.secret_key,
+                "delta": cfg.delta,
+                "context_window": cfg.context_window,
+            },
+            "model": {
+                "config": str(LLADA_CONFIG_PATH),
+                "path": getattr(self.generator, "model_path", "unknown"),
+                "device": str(self.generator.device),
+            },
+            "generation": {
+                "gen_length": cfg.gen_length,
+                "gen_steps": cfg.gen_steps,
+                "block_length": cfg.block_length,
+                "system_prompt": cfg.system_prompt,
+            },
+            "evaluation": {
+                "num_samples": cfg.num_samples,
+                "num_shards": cfg.num_shards,
+                "p_value_threshold": cfg.p_value_threshold,
+                "ppl_model": cfg.ppl_model_name,
+                "similarity_model": "all-MiniLM-L6-v2",
+                "waterbench_dir": cfg.waterbench_dir,
+            },
+            "environment": {
+                "slurm_job_id": os.environ.get("SLURM_JOB_ID", "local"),
+                "slurm_array_job_id": os.environ.get("SLURM_ARRAY_JOB_ID", "local"),
+                "hostname": os.uname().nodename,
+                "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES", "not set"),
+                "python": sys.version,
+            },
+        }
+
+        with open(desc_path, "w") as f:
+            json.dump(desc, f, indent=2)
+        print(f"  Run desc saved to: {desc_path}")
 
     def _load_results(self, path: Optional[str] = None) -> pd.DataFrame:
         p = path or self.config.shard_save_path
@@ -409,14 +458,22 @@ class RemaskEvaluator:
 
 
 def parse_args() -> argparse.Namespace:
+    default_shard = int(os.environ.get("SLURM_ARRAY_TASK_ID", 0))
+    default_num_shards = int(os.environ.get("SLURM_ARRAY_TASK_COUNT", 1))
+
     parser = argparse.ArgumentParser()
-    parser.add_argument("--shard", type=int, default=0)
-    parser.add_argument("--num_shards", type=int, default=1)
+    parser.add_argument("--shard", type=int, default=default_shard)
+    parser.add_argument("--num_shards", type=int, default=default_num_shards)
     parser.add_argument("--run_dir", type=str, default=None,
                         help="Shared run directory. Required for --merge_only.")
     parser.add_argument("--merge_only", action="store_true",
                         help="Skip generation; just merge existing shard files and summarize.")
-    return parser.parse_args()
+
+    args = parser.parse_args()
+    print(f"Shard config: shard={args.shard}, num_shards={args.num_shards} "
+          f"(SLURM_ARRAY_TASK_ID={os.environ.get('SLURM_ARRAY_TASK_ID', 'not set')}, "
+          f"SLURM_ARRAY_TASK_COUNT={os.environ.get('SLURM_ARRAY_TASK_COUNT', 'not set')})")
+    return args
 
 
 if __name__ == "__main__":
@@ -435,15 +492,15 @@ if __name__ == "__main__":
 
     config = RemaskEvalConfig(
         num_samples=600,
-        gen_length=256,
-        gen_steps=128,
-        block_length=32,
-        delta=2.0,
+        gen_length=300,
+        gen_steps=100,
+        block_length=25,
+        delta=4.0,
         secret_key="xooks",
         p_value_threshold=0.01,
         skip_if_exists=True,
         shard=args.shard,
-        num_shards=args.num_shards,  # 3 for A100 array job
+        num_shards=args.num_shards,
         run_dir=run_dir,
     )
 

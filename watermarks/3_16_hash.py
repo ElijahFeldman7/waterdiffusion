@@ -1,6 +1,6 @@
 from functools import lru_cache
 from typing import Any, Dict, List, Optional, Union
-
+import struct
 import torch
 import numpy as np
 from scipy.stats import binom
@@ -31,16 +31,10 @@ class SimpleRemaskWatermark:
         lo, hi = (a, b) if a < b else (b, a)
 
         sep = b'\xff'
-        data = (
-            key.encode('utf-8') + sep +
-            str(context_sum).encode('utf-8') + sep +
-            str(lo).encode('utf-8') + sep +
-            str(hi).encode('utf-8')
-        )
+        data = key.encode('utf_8') + struct.pack("<QQQ", context_sum, lo, hi)
         seed = SimpleRemaskWatermark._fnv1a(data)
 
-        rng = np.random.default_rng(seed)
-        bit = int(rng.integers(0, 2))
+        bit = ( seed >> 8) / & 1
 
         if a == b:
             return bool(bit)
@@ -93,12 +87,8 @@ class SimpleRemaskWatermark:
         watermark_bias = torch.zeros_like(confidence)
 
         for b in range(batch_size):
-            token_list = [
-                int(x0[b, k].item()) if mask_index[b, k]
-                else int(current_text[b, k].item())
-                for k in range(seq_len)
-            ]
-
+            token_tensor = torch.where(mask_index, x0, current_text).cpu()
+            token_list = token_tensor.tolist()
             for i in range(seq_len):
                 if not mask_index[b, i]:
                     continue

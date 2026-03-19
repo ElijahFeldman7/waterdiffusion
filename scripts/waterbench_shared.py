@@ -66,6 +66,10 @@ class RemaskEvalConfig:
     def merged_save_path(self) -> str:
         return str(Path(self.run_dir) / "results_merged.jsonl")
 
+    @property
+    def summary_save_path(self) -> str:
+        return str(Path(self.run_dir) / "summary.txt")
+
 
 def compute_ppl(
     model: GPT2LMHeadModel,
@@ -171,7 +175,7 @@ def get_shard_pairs(
     return pool[start:end]
 
 
-def merge_shards(config: RemaskEvalConfig) -> str:
+def merge_shards(config: "RemaskEvalConfig") -> str:
     run_dir = Path(config.run_dir)
     shard_files = sorted(run_dir.glob("shard_*_of_*.jsonl"))
     if not shard_files:
@@ -196,6 +200,7 @@ class RemaskEvaluator:
         self.config = config
 
         Path(config.run_dir).mkdir(parents=True, exist_ok=True)
+        print(f"  Run directory: {config.run_dir}")
 
         self.watermark = SimpleRemaskWatermark(
             key=config.secret_key,
@@ -225,7 +230,7 @@ class RemaskEvaluator:
     def _save_run_desc(self):
         desc_path = Path(self.config.run_dir) / "run_desc.json"
         if desc_path.exists():
-            return  # only write once, shard 0 wins
+            return 
 
         cfg = self.config
         desc = {
@@ -448,8 +453,7 @@ class RemaskEvaluator:
         report = "\n".join(lines)
         print(report)
 
-        save_base = results_path or self.config.shard_save_path
-        report_path = Path(save_base).with_suffix(".summary.txt")
+        report_path = self.config.summary_save_path
         with open(report_path, "w") as f:
             f.write(report + "\n")
         print(f"Summary saved to: {report_path}")

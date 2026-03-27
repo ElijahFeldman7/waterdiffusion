@@ -230,18 +230,26 @@ class RemaskEvaluator:
             raise AttributeError(f"Could not find a Watermark class in {config.watermark_path}")
             
         print(f"  Instantiating {watermark_class.__name__}")
-        self.watermark = watermark_class(
-            key=config.secret_key,
-            delta=config.delta,
-        )
-
+        
         device_str = "cuda:0" if torch.cuda.is_available() else "cpu"
         print(f"[Shard {config.shard}/{config.num_shards}] Loading LLaDA on {device_str}...")
         self.generator = LLaDAGenerator(
             config=str(LLADA_CONFIG_PATH),
-            watermark=self.watermark,
+            watermark=None,
             device_map=device_str,
         )
+        
+        vocab_size = len(self.generator.tokenizer)
+        print(f"  Detected vocab size: {vocab_size}")
+
+        self.watermark = watermark_class(
+            key=config.secret_key,
+            delta=config.delta,
+            vocab_size=vocab_size,
+            device=device_str,
+        )
+        
+        self.generator.watermark = self.watermark
         print(f"  Model loaded on: {self.generator.device}")
 
         print("  Loading PPL model (GPT-2)...")

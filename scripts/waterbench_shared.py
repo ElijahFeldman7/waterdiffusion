@@ -19,16 +19,11 @@ from tqdm.auto import tqdm
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-WATERMARK_PATH = PROJECT_ROOT / "watermarks" / "3_19_watermark.py"
+DEFAULT_WATERMARK_PATH = PROJECT_ROOT / "watermarks" / "3_19_watermark.py"
 WATERBENCH_DIR = PROJECT_ROOT / "zurich" / "data" / "WaterBench"
 LLADA_CONFIG_PATH = PROJECT_ROOT / "configs" / "llada_8b_instruct.yaml"
 
 sys.path.insert(0, str(PROJECT_ROOT))
-
-_spec = importlib.util.spec_from_file_location("remask_watermark", str(WATERMARK_PATH))
-_mod = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(_mod)
-SimpleRemaskWatermark = _mod.SimpleRemaskWatermark
 
 from models.llada import LLaDAGenerator
 
@@ -52,6 +47,7 @@ class RemaskEvalConfig:
     num_shards: int = 1
 
     run_dir: str = str(PROJECT_ROOT / "runs" / f"remask_eval_{datetime.utcnow().strftime('%m_%d_%H_%M')}")
+    watermark_path: str = str(DEFAULT_WATERMARK_PATH)
     waterbench_dir: str = str(WATERBENCH_DIR)
     ppl_model_name: str = "gpt2"
     system_prompt: str = (
@@ -68,7 +64,7 @@ class RemaskEvalConfig:
 
     @property
     def summary_save_path(self) -> str:
-        return str(Path(self.run_dir) / "summary.txt")
+        return str(Path(self.run_dir) / "summary_report.txt")
 
 
 def compute_ppl(
@@ -165,10 +161,9 @@ def get_shard_pairs(
 ) -> List[Tuple[str, str]]:
     pool = all_pairs[:num_samples]
     if len(pool) < num_samples:
-        raise ValueError(
-            f"Only {len(pool)} valid prompts found, need {num_samples}. "
-            "Increase max_scan_per_file in load_waterbench_all."
-        )
+        print(f"Warning: Only {len(pool)} valid prompts found, target was {num_samples}.")
+        num_samples = len(pool)
+        
     chunk_size = num_samples // num_shards
     start = shard * chunk_size
     end = start + chunk_size if shard < num_shards - 1 else num_samples
@@ -201,6 +196,13 @@ class RemaskEvaluator:
 
         Path(config.run_dir).mkdir(parents=True, exist_ok=True)
         print(f"  Run directory: {config.run_dir}")
+
+        # Dynamic Watermark Loading
+        print(f"  Loading watermark from: {config.watermark_path}")
+        spec = importlib.util.spec_from_file_location("remask_watermark", config.watermark_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        SimpleRemaskWatermark = mod.SimpleRemaskWatermark
 
         self.watermark = SimpleRemaskWatermark(
             key=config.secret_key,
@@ -238,7 +240,7 @@ class RemaskEvaluator:
             "run_dir": cfg.run_dir,
             "watermark": {
                 "class": type(self.watermark).__name__,
-                "file": str(WATERMARK_PATH),
+                "file": str(cfg.watermark_path),
                 "key": cfg.secret_key,
                 "delta": cfg.delta,
                 "context_window": cfg.context_window,
@@ -411,52 +413,71 @@ class RemaskEvaluator:
         n = len(df)
         tpr = df["det_wm_is_watermarked"].mean()
         fpr = df["det_no_wm_is_watermarked"].mean()
+        
+        tp = (df["det_wm_is_watermarked"]).sum()
+        fn = n - tp
+        fp = (df["det_no_wm_is_watermarked"]).sum()
+        tn = n - fp
 
         lines = [
+            "--- Watermark Detection Analysis ---",
+            f"Total samples processed: {n}",
+            f"True Positives (TP): {int(tp)}",
+            f"False Negatives (FN): {int(fn)}",
+            f"True Negatives (TN): {int(tn)}",
+            f"False Positives (FP): {int(fp)}",
+            "",
+            "--- Detection Rates ---",
+            f"True Positive Rate (TPR/Recall): {tpr:.4f}",
+            f"False Positive Rate (FPR): {fpr:.4f}",
+            f"False Negative Rate (FNR): {1-tpr:.4f}",
+            f"True Negative Rate (TNR/Specificity): {1-fpr:.4f}",
+            "",
+            "--- Performance Impact ---",
+            f"Generation Time (WM): {df['gen_time_wm'].mean():.4f}s",
+            f"Generation Time (No WM): {df['gen_time_no_wm'].mean():.4f}s",
+            f"Mean Time Overhead: {df['gen_time_wm'].mean() - df['gen_time_no_wm'].mean():.4f}s",
+            "",
+            "--- Quality Impact ---",
+            f"Perplexity (WM): {df['ppl_wm'].mean():.4f}",
+            f"Perplexity (No WM): {df['ppl_no_wm'].mean():.4f}",
+            f"Cosine Similarity (WM vs No WM): {df['cosine_similarity_wm_vs_no_wm'].mean():.4f}",
+            "",
             "=" * 60,
-            "REMASK WATERMARK EVALUATION SUMMARY",
-            f"Samples evaluated       : {n}",
+            "DETAILED CONFIGURATION",
             f"Generation length       : {self.config.gen_length}",
             f"Delta                   : {self.config.delta}",
             f"Context window          : {self.config.context_window}",
             f"P-value threshold       : {self.config.p_value_threshold}",
-            "-" * 60,
-            "Detection",
-            f"  True Positive Rate (TPR/Recall) : {tpr:.4f}",
-            f"  False Positive Rate (FPR)       : {fpr:.4f}",
-            f"  Avg score (WM)                  : {df['det_wm_score'].mean():.4f}",
-            f"  Avg score (No WM)               : {df['det_no_wm_score'].mean():.4f}",
-            f"  Avg satisfaction rate (WM)      : {df['det_wm_satisfaction_rate'].mean():.4f}",
-            f"  Avg satisfaction rate (No WM)   : {df['det_no_wm_satisfaction_rate'].mean():.4f}",
-            "-" * 60,
-            "Text Quality",
-            f"  Perplexity (WM)   : {df['ppl_wm'].mean():.2f}",
-            f"  Perplexity (No WM): {df['ppl_no_wm'].mean():.2f}",
-            f"  Seq-Rep-2 (WM)    : {df['seq_rep_2_wm'].mean():.4f}",
-            f"  Seq-Rep-2 (No WM) : {df['seq_rep_2_no_wm'].mean():.4f}",
-            f"  Cosine sim WM vs No-WM: {df['cosine_similarity_wm_vs_no_wm'].mean():.4f}",
-            "-" * 60,
-            "Timing",
-            f"  Avg gen time (WM)   : {df['gen_time_wm'].mean():.1f}s",
-            f"  Avg gen time (No WM): {df['gen_time_no_wm'].mean():.1f}s",
+            f"Watermark file          : {self.config.watermark_path}",
             "=" * 60,
+            "",
+            "--- Generation Samples ---",
         ]
 
-        if "source_file" in df.columns and df["source_file"].nunique() > 1:
-            lines.append("\nPer-split TPR / FPR")
-            lines.append("-" * 60)
-            for src, grp in df.groupby("source_file"):
-                split_tpr = grp["det_wm_is_watermarked"].mean()
-                split_fpr = grp["det_no_wm_is_watermarked"].mean()
-                lines.append(f"  {src:<40} TPR={split_tpr:.4f}  FPR={split_fpr:.4f}  n={len(grp)}")
+        for i, row in df.iterrows():
+            lines.append(f"--- Sample {i+1} ---")
+            lines.append(f"Prompt: {row['prompt']}")
+            lines.append(f"Perplexity (WM): {row['ppl_wm']:.4f} | Perplexity (No WM): {row['ppl_no_wm']:.4f}")
+            lines.append(f"Watermarked Text Detection: {'True Positive' if row['det_wm_is_watermarked'] else 'False Negative'}")
+            lines.append(f"Non-Watermarked Text Detection: {'True Negative' if not row['det_no_wm_is_watermarked'] else 'False Positive'}")
+            lines.append("")
+            lines.append("[Watermarked Text]")
+            lines.append(row["completion_wm"])
+            lines.append("")
+            lines.append("[Original Text]")
+            lines.append(row["completion_no_wm"])
+            lines.append("")
+            lines.append("-" * 40)
+            lines.append("")
 
         report = "\n".join(lines)
-        print(report)
+        print(f"Summary generated ({n} samples).")
 
         report_path = self.config.summary_save_path
         with open(report_path, "w") as f:
             f.write(report + "\n")
-        print(f"Summary saved to: {report_path}")
+        print(f"Summary report saved to: {report_path}")
 
         return {"tpr": tpr, "fpr": fpr, "ppl_wm": df["ppl_wm"].mean(), "ppl_no_wm": df["ppl_no_wm"].mean()}
 
@@ -469,14 +490,18 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--shard", type=int, default=default_shard)
     parser.add_argument("--num_shards", type=int, default=default_num_shards)
     parser.add_argument("--run_dir", type=str, default=None,
-                        help="Shared run directory. Required for --merge_only.")
+                        help="Shared run directory.")
     parser.add_argument("--merge_only", action="store_true",
                         help="Skip generation; just merge existing shard files and summarize.")
+    
+    parser.add_argument("--watermark_path", type=str, default=str(DEFAULT_WATERMARK_PATH))
+    parser.add_argument("--delta", type=float, default=4.0)
+    parser.add_argument("--gen_length", type=int, default=300)
+    parser.add_argument("--gen_steps", type=int, default=100)
+    parser.add_argument("--block_length", type=int, default=25)
+    parser.add_argument("--num_samples", type=int, default=600)
 
     args = parser.parse_args()
-    print(f"Shard config: shard={args.shard}, num_shards={args.num_shards} "
-          f"(SLURM_ARRAY_TASK_ID={os.environ.get('SLURM_ARRAY_TASK_ID', 'not set')}, "
-          f"SLURM_ARRAY_TASK_COUNT={os.environ.get('SLURM_ARRAY_TASK_COUNT', 'not set')})")
     return args
 
 
@@ -495,23 +520,27 @@ if __name__ == "__main__":
     )
 
     config = RemaskEvalConfig(
-        num_samples=600,
-        gen_length=300,
-        gen_steps=100,
-        block_length=25,
-        delta=4.0,
+        num_samples=args.num_samples,
+        gen_length=args.gen_length,
+        gen_steps=args.gen_steps,
+        block_length=args.block_length,
+        delta=args.delta,
         secret_key="xooks",
         p_value_threshold=0.01,
         skip_if_exists=True,
         shard=args.shard,
         num_shards=args.num_shards,
         run_dir=run_dir,
+        watermark_path=args.watermark_path,
     )
 
     if args.merge_only:
         merged_path = merge_shards(config)
-        evaluator = RemaskEvaluator.__new__(RemaskEvaluator)
-        evaluator.config = config
+        class Summarizer(RemaskEvaluator):
+            def __init__(self, config):
+                self.config = config
+        
+        evaluator = Summarizer(config)
         evaluator.summarize(results_path=merged_path)
     else:
         evaluator = RemaskEvaluator(config)

@@ -12,6 +12,10 @@
 #SBATCH --time=72:00:00
 #SBATCH --array=0-2
 
+BASE_DIR="/scratch/efeldma5/waterdiffusion"
+PROJECT_DIR="${BASE_DIR}/waterdiffusion"
+SCRIPT_PATH="${PROJECT_DIR}/scripts/waterbench_shared.py"
+
 WATERMARK_FILE="watermarks/3_19_watermark.py"
 DELTA=4.0
 GEN_LENGTH=300
@@ -19,34 +23,37 @@ NUM_SAMPLES=300
 NUM_SHARDS=3
 
 RUN_NAME="remask_eval_$(date +'%m_%d_%H_%M')"
-RUN_DIR="/scratch/efeldma5/waterdiffusion/runs/${RUN_NAME}"
+RUN_DIR="${BASE_DIR}/runs/${RUN_NAME}"
 
 if [ -n "$SLURM_ARRAY_JOB_ID" ]; then
-    RUN_DIR="/scratch/efeldma5/waterdiffusion/runs/remask_eval_${SLURM_ARRAY_JOB_ID}"
+    RUN_DIR="${BASE_DIR}/runs/remask_eval_${SLURM_ARRAY_JOB_ID}"
 fi
 
 mkdir -p "$RUN_DIR"
 mkdir -p slurm_logs
 
 echo "Job started on $(date)"
-source /scratch/efeldma5/waterdiffusion/watervenv/bin/activate
+source "${BASE_DIR}/watervenv/bin/activate"
 
-python scripts/waterbench_shared.py \
+export PYTHONPATH="${PROJECT_DIR}:${PYTHONPATH}"
+
+echo "Running Shard $SLURM_ARRAY_TASK_ID of $NUM_SHARDS"
+python "$SCRIPT_PATH" \
     --shard "$SLURM_ARRAY_TASK_ID" \
     --num_shards "$NUM_SHARDS" \
     --run_dir "$RUN_DIR" \
-    --watermark_path "$WATERMARK_FILE" \
+    --watermark_path "${PROJECT_DIR}/${WATERMARK_FILE}" \
     --delta "$DELTA" \
     --gen_length "$GEN_LENGTH" \
     --num_samples "$NUM_SAMPLES"
 
 if [ "$SLURM_ARRAY_TASK_ID" -eq $((NUM_SHARDS - 1)) ]; then
     echo "Waiting for other shards to finish before merging..."
-    sleep 30 
-    python scripts/waterbench_shared.py \
+    sleep 60 
+    python "$SCRIPT_PATH" \
         --run_dir "$RUN_DIR" \
         --merge_only \
-        --watermark_path "$WATERMARK_FILE"
+        --watermark_path "${PROJECT_DIR}/${WATERMARK_FILE}"
 fi
 
 echo "Job finished on $(date)"

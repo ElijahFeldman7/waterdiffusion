@@ -5,6 +5,7 @@ import os
 import random
 import sys
 import time
+import traceback
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -400,6 +401,7 @@ class RemaskEvaluator:
                         print(f"  [Shard {cfg.shard}] {processed}/{len(todo)} done")
                 except Exception as e:
                     print(f"  [Shard {cfg.shard}] Error (prompt[:60]={prompt[:60]!r}): {e}")
+                    traceback.print_exc()
                     continue
 
         print(f"[Shard {cfg.shard}] Done. {processed} samples written to {cfg.shard_save_path}")

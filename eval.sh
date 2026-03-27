@@ -16,17 +16,17 @@ BASE_DIR="/scratch/efeldma5/waterdiffusion"
 PROJECT_DIR="${BASE_DIR}/waterdiffusion"
 SCRIPT_PATH="${PROJECT_DIR}/scripts/waterbench_shared.py"
 
-WATERMARK_FILE="watermarks/3_19_watermark.py"
+WATERMARK_FILE="watermarks/3_26_spectral_watermark.py"
 DELTA=4.0
 GEN_LENGTH=300
 NUM_SAMPLES=300
 NUM_SHARDS=3
 
 RUN_NAME="remask_eval_$(date +'%m_%d_%H_%M')"
-RUN_DIR="${BASE_DIR}/runs/${RUN_NAME}"
+RUN_DIR="${PROJECT_DIR}/runs/${RUN_NAME}"
 
 if [ -n "$SLURM_ARRAY_JOB_ID" ]; then
-    RUN_DIR="${BASE_DIR}/runs/remask_eval_${SLURM_ARRAY_JOB_ID}"
+    RUN_DIR="${PROJECT_DIR}/runs/remask_eval_${SLURM_ARRAY_JOB_ID}"
 fi
 
 mkdir -p "$RUN_DIR"

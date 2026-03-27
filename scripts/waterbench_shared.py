@@ -219,12 +219,20 @@ class RemaskEvaluator:
         spec = importlib.util.spec_from_file_location("remask_watermark", config.watermark_path)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
-        SimpleRemaskWatermark = mod.SimpleRemaskWatermark
-
-        self.watermark = SimpleRemaskWatermark(
+        
+        watermark_class = None
+        for name, obj in vars(mod).items():
+            if isinstance(obj, type) and name.endswith("Watermark"):
+                watermark_class = obj
+                break
+        
+        if watermark_class is None:
+            raise AttributeError(f"Could not find a Watermark class in {config.watermark_path}")
+            
+        print(f"  Instantiating {watermark_class.__name__}")
+        self.watermark = watermark_class(
             key=config.secret_key,
             delta=config.delta,
-            context_window=config.context_window,
         )
 
         device_str = "cuda:0" if torch.cuda.is_available() else "cpu"

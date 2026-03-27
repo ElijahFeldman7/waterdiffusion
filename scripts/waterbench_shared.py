@@ -33,7 +33,7 @@ from models.llada import LLaDAGenerator
 class RemaskEvalConfig:
     gen_length: int = 300
     gen_steps: int = 100
-    block_length: int = 25
+    block_length: int = 30
 
     secret_key: str = "xooks"
     delta: float = 4.0
@@ -54,6 +54,22 @@ class RemaskEvalConfig:
     system_prompt: str = (
         "You are a helpful assistant, please answer the following question within 300 words:"
     )
+
+    def validate(self):
+        if self.gen_length % self.block_length != 0:
+            for b in range(self.block_length, 0, -1):
+                if self.gen_length % b == 0:
+                    print(f"Adjusting block_length from {self.block_length} to {b} to divide gen_length {self.gen_length}")
+                    self.block_length = b
+                    break
+        
+        num_blocks = self.gen_length // self.block_length
+        if self.gen_steps % num_blocks != 0:
+            new_steps = (self.gen_steps // num_blocks) * num_blocks
+            if new_steps == 0:
+                new_steps = num_blocks
+            print(f"Adjusting gen_steps from {self.gen_steps} to {new_steps} to be divisible by num_blocks {num_blocks}")
+            self.gen_steps = new_steps
 
     @property
     def shard_save_path(self) -> str:
@@ -535,6 +551,7 @@ if __name__ == "__main__":
         run_dir=run_dir,
         watermark_path=args.watermark_path,
     )
+    config.validate()
 
     if args.merge_only:
         merged_path = merge_shards(config)

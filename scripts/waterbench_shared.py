@@ -365,7 +365,7 @@ class RemaskEvaluator:
         detection_wm = self._detect(text_wm)
         detection_no_wm = self._detect(text_no_wm)
 
-        return {
+        result = {
             "prompt": prompt,
             "source_file": source_file,
             "shard": cfg.shard,
@@ -378,16 +378,6 @@ class RemaskEvaluator:
             "seq_rep_2_wm": rep_wm,
             "seq_rep_2_no_wm": rep_no_wm,
             "cosine_similarity_wm_vs_no_wm": cos_sim,
-            "det_wm_is_watermarked": detection_wm["is_watermarked"],
-            "det_wm_score": detection_wm["score"],
-            "det_wm_satisfied_pairs": detection_wm["satisfied_pairs"],
-            "det_wm_total_pairs": detection_wm["total_pairs_checked"],
-            "det_wm_satisfaction_rate": detection_wm["satisfaction_rate"],
-            "det_no_wm_is_watermarked": detection_no_wm["is_watermarked"],
-            "det_no_wm_score": detection_no_wm["score"],
-            "det_no_wm_satisfied_pairs": detection_no_wm["satisfied_pairs"],
-            "det_no_wm_total_pairs": detection_no_wm["total_pairs_checked"],
-            "det_no_wm_satisfaction_rate": detection_no_wm["satisfaction_rate"],
             "watermark_key": cfg.secret_key,
             "delta": cfg.delta,
             "context_window": cfg.context_window,
@@ -396,6 +386,18 @@ class RemaskEvaluator:
             "block_length": cfg.block_length,
             "p_value_threshold": cfg.p_value_threshold,
         }
+
+        for k, v in detection_wm.items():
+            result[f"det_wm_{k}"] = v
+        for k, v in detection_no_wm.items():
+            result[f"det_no_wm_{k}"] = v
+
+        if "total_pairs_checked" in detection_wm:
+             result["det_wm_total_pairs"] = detection_wm["total_pairs_checked"]
+        if "total_pairs_checked" in detection_no_wm:
+             result["det_no_wm_total_pairs"] = detection_no_wm["total_pairs_checked"]
+
+        return result
 
     def evaluate(self):
         cfg = self.config
@@ -445,6 +447,12 @@ class RemaskEvaluator:
             return
 
         n = len(df)
+        
+        for col in ["det_wm_is_watermarked", "det_no_wm_is_watermarked"]:
+            if col not in df.columns:
+                print(f"Warning: Column {col} missing from results. Filling with False.")
+                df[col] = False
+
         tpr = df["det_wm_is_watermarked"].mean()
         fpr = df["det_no_wm_is_watermarked"].mean()
         

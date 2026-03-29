@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import torch
-from scipy.stats import norm
+from scipy.stats import gumbel_l 
 from dtaidistance import dtw
 
 class DWTWatermark:
@@ -98,11 +98,9 @@ class DWTWatermark:
             v_norm = np.ascontiguousarray(((v - v.mean()) / (v.std() + 1e-8)).numpy().astype(np.double))
             distances.append(dtw.distance(v_norm, c_norm, window=window))
             
-        mu = np.mean(distances)
-        sigma = np.std(distances)
-        
-        self.null_stats_cache[cache_key] = (mu, sigma)
-        return mu, sigma
+        loc, scale = gumbel_l.fit(distances)
+        self.null_stats_cache[cache_key] = (loc, scale)
+        return loc, scale
 
     def detect(
         self,
@@ -118,7 +116,6 @@ class DWTWatermark:
 
         safe_tokens = torch.clamp(tokens_tensor, 0, self.vocab_size - 1)
         v = self.token_values[safe_tokens] 
-
         v_norm = np.ascontiguousarray(((v - v.mean()) / (v.std() + 1e-8)).numpy().astype(np.double))
         
         positions = torch.arange(seq_len, device=self.device).float()
@@ -127,16 +124,13 @@ class DWTWatermark:
         
         window = 10
         distance = dtw.distance(v_norm, c_norm, window=window)
-        
-        mu, sigma = self._get_null_stats(seq_len, window)
-        z_score = (distance - mu) / sigma
-        p_value = norm.cdf(z_score)
-        
+        loc, scale = self._get_null_stats(seq_len, window)
+        p_value = gumbel_l.cdf(distance, loc=loc, scale=scale)
         is_watermarked = bool(p_value < p_value_threshold)
-        
         return {
             "is_watermarked": is_watermarked,
             "score": distance,       
-            "z_score": z_score,      
+            "gumbel_loc": loc,       
+            "gumbel_scale": scale,
             "p_value": p_value, 
         }

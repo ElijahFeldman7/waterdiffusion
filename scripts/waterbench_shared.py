@@ -20,7 +20,7 @@ from tqdm.auto import tqdm
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_WATERMARK_PATH = PROJECT_ROOT / "watermarks" / "3_19_watermark.py"
+DEFAULT_WATERMARK_PATH = PROJECT_ROOT / "watermarks" / "3_29_DWT_watermark.py"
 WATERBENCH_DIR = PROJECT_ROOT / "zurich" / "data" / "WaterBench"
 LLADA_CONFIG_PATH = PROJECT_ROOT / "configs" / "llada_8b_instruct.yaml"
 

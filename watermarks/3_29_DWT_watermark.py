@@ -90,12 +90,12 @@ class DWTWatermark:
         positions = torch.arange(seq_len).float()
         carrier = torch.sin(2 * math.pi * self.frequency * positions)
 
-        c_norm = np.ascontiguousarray(((carrier - carrier.mean()) / (carrier.std() + 1e-8)).numpy().astype(np.double))
+        c_norm = np.ascontiguousarray(((carrier - carrier.mean()) / (carrier.std() + 1e-8)).cpu().numpy().astype(np.double))
         
         distances = []
         for i in range(1000):
             v = null_v[i]
-            v_norm = np.ascontiguousarray(((v - v.mean()) / (v.std() + 1e-8)).numpy().astype(np.double))
+            v_norm = np.ascontiguousarray(((v - v.mean()) / (v.std() + 1e-8)).cpu().numpy().astype(np.double))
             distances.append(dtw.distance(v_norm, c_norm, window=window))
             
         loc, scale = gumbel_l.fit(distances)
@@ -116,11 +116,11 @@ class DWTWatermark:
 
         safe_tokens = torch.clamp(tokens_tensor, 0, self.vocab_size - 1)
         v = self.token_values[safe_tokens] 
-        v_norm = np.ascontiguousarray(((v - v.mean()) / (v.std() + 1e-8)).numpy().astype(np.double))
+        v_norm = np.ascontiguousarray(((v - v.mean()) / (v.std() + 1e-8)).cpu().numpy().astype(np.double))
         
         positions = torch.arange(seq_len, device=self.device).float()
         carrier = torch.sin(2 * math.pi * self.frequency * positions)
-        c_norm = np.ascontiguousarray(((carrier - carrier.mean()) / (carrier.std() + 1e-8)).numpy().astype(np.double))
+        c_norm = np.ascontiguousarray(((carrier - carrier.mean()) / (carrier.std() + 1e-8)).cpu().numpy().astype(np.double))
         
         window = 10
         distance = dtw.distance(v_norm, c_norm, window=window)

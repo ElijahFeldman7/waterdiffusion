@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import torch
-from scipy.stats import gumbel_l 
+from scipy.stats import norm
 from dtaidistance import dtw
 
 class DWTWatermark:
@@ -12,7 +12,7 @@ class DWTWatermark:
         self,
         key: str = "xooks",
         delta: float = 4.0,
-        frequency: float = 0.1,  
+        frequency: float = 0.045,  
         vocab_size: int = 50257, 
         device: str = "cuda" if torch.cuda.is_available() else "cpu",
     ):
@@ -90,17 +90,19 @@ class DWTWatermark:
         positions = torch.arange(seq_len).float()
         carrier = torch.sin(2 * math.pi * self.frequency * positions)
 
-        c_norm = np.ascontiguousarray(((carrier - carrier.mean()) / (carrier.std() + 1e-8)).cpu().numpy().astype(np.double))
+        c_norm = np.ascontiguousarray(((carrier - carrier.mean()) / (carrier.std() + 1e-8)).numpy().astype(np.double))
         
         distances = []
         for i in range(1000):
             v = null_v[i]
-            v_norm = np.ascontiguousarray(((v - v.mean()) / (v.std() + 1e-8)).cpu().numpy().astype(np.double))
+            v_norm = np.ascontiguousarray(((v - v.mean()) / (v.std() + 1e-8)).numpy().astype(np.double))
             distances.append(dtw.distance(v_norm, c_norm, window=window))
             
-        loc, scale = gumbel_l.fit(distances)
-        self.null_stats_cache[cache_key] = (loc, scale)
-        return loc, scale
+        mu = np.mean(distances)
+        sigma = np.std(distances)
+        
+        self.null_stats_cache[cache_key] = (mu, sigma)
+        return mu, sigma
 
     def detect(
         self,
@@ -124,13 +126,15 @@ class DWTWatermark:
         
         window = 10
         distance = dtw.distance(v_norm, c_norm, window=window)
-        loc, scale = self._get_null_stats(seq_len, window)
-        p_value = gumbel_l.cdf(distance, loc=loc, scale=scale)
+        
+        mu, sigma = self._get_null_stats(seq_len, window)
+        z_score = (distance - mu) / sigma
+        p_value = norm.cdf(z_score)
         is_watermarked = bool(p_value < p_value_threshold)
+        
         return {
             "is_watermarked": is_watermarked,
             "score": distance,       
-            "gumbel_loc": loc,       
-            "gumbel_scale": scale,
+            "z_score": z_score,       
             "p_value": p_value, 
         }

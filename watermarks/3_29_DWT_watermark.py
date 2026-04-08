@@ -12,7 +12,7 @@ class DWTWatermark:
         self,
         key: str = "xooks",
         delta: float = 4.0,
-        frequency: float = 0.045,  
+        frequency: float = 0.1,  
         vocab_size: int = 50257, 
         device: str = "cuda" if torch.cuda.is_available() else "cpu",
     ):
@@ -124,7 +124,7 @@ class DWTWatermark:
         carrier = torch.sin(2 * math.pi * self.frequency * positions)
         c_norm = np.ascontiguousarray(((carrier - carrier.mean()) / (carrier.std() + 1e-8)).cpu().numpy().astype(np.double))
         
-        window = 10
+        window = 4
         distance = dtw.distance(v_norm, c_norm, window=window)
         
         mu, sigma = self._get_null_stats(seq_len, window)

@@ -32,7 +32,7 @@ from models.llada import LLaDAGenerator
 @dataclass
 class RemaskEvalConfig:
     gen_length: int = 300
-    gen_steps: int = 100
+    gen_steps: int = 300
     block_length: int = 30
 
     secret_key: str = "xooks"

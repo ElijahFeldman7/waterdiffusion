@@ -539,7 +539,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--watermark_path", type=str, default=str(DEFAULT_WATERMARK_PATH))
     parser.add_argument("--delta", type=float, default=4.0)
     parser.add_argument("--gen_length", type=int, default=300)
-    parser.add_argument("--gen_steps", type=int, default=100)
+    parser.add_argument("--gen_steps", type=int, default=300)
     parser.add_argument("--block_length", type=int, default=25)
     parser.add_argument("--num_samples", type=int, default=600)
 

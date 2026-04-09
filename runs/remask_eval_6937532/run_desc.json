@@ -1,0 +1,42 @@
+{
+  "timestamp_utc": "2026-04-09 19:46:31 UTC",
+  "run_dir": "/scratch/efeldma5/waterdiffusion/waterdiffusion/runs/remask_eval_6937532",
+  "watermark": {
+    "class": "DWTWatermark",
+    "file": "/scratch/efeldma5/waterdiffusion/waterdiffusion/watermarks/4_9_segmented_DWT_watermark.py",
+    "key": "xooks",
+    "delta": 16.0,
+    "context_window": [
+      -2,
+      -1,
+      1,
+      2
+    ]
+  },
+  "model": {
+    "config": "/scratch/efeldma5/waterdiffusion/waterdiffusion/configs/llada_8b_instruct.yaml",
+    "path": "GSAI-ML/LLaDA-8B-Instruct",
+    "device": "cuda"
+  },
+  "generation": {
+    "gen_length": 300,
+    "gen_steps": 300,
+    "block_length": 25,
+    "system_prompt": "You are a helpful assistant, please answer the following question within 300 words:"
+  },
+  "evaluation": {
+    "num_samples": 300,
+    "num_shards": 3,
+    "p_value_threshold": 0.01,
+    "ppl_model": "gpt2",
+    "similarity_model": "all-MiniLM-L6-v2",
+    "waterbench_dir": "/scratch/efeldma5/waterdiffusion/waterdiffusion/zurich/data/WaterBench"
+  },
+  "environment": {
+    "slurm_job_id": "6937538",
+    "slurm_array_job_id": "6937532",
+    "hostname": "gpu009.orc.gmu.edu",
+    "cuda_visible_devices": "0",
+    "python": "3.9.9 (main, Mar 25 2022, 16:08:31) \n[GCC 10.3.0]"
+  }
+}

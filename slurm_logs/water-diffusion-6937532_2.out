@@ -1,0 +1,24 @@
+Job started on Thu Apr  9 16:57:10 EDT 2026
+Running Shard 2 of 3
+  Run directory: /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/remask_eval_6937532
+  Loading watermark from: /scratch/efeldma5/waterdiffusion/waterdiffusion/watermarks/4_9_segmented_DWT_watermark.py
+  Instantiating DWTWatermark
+[Shard 2/3] Loading LLaDA on cuda:0...
+Loading config file: /scratch/efeldma5/waterdiffusion/waterdiffusion/configs/llada_8b_instruct.yaml
+Loading tokenizer from GSAI-ML/LLaDA-8B-Instruct (local_files_only=False)
+DEBUG: self.model_path = GSAI-ML/LLaDA-8B-Instruct
+DEBUG: self.tokenizer_path = GSAI-ML/LLaDA-8B-Instruct
+Loading model from GSAI-ML/LLaDA-8B-Instruct (local_files_only=False)
+  Detected vocab size: 126349
+  Model loaded on: cuda
+  Loading PPL model (GPT-2)...
+  Loading similarity model...
+Found 5 WaterBench files:
+  2-1_longform_qa.jsonl: 200 records
+  2-2_finance_qa.jsonl: 200 records
+  4-1_multi_news.jsonl: 200 records
+  4-2_qmsum.jsonl: 200 records
+  5-1_alpacafarm.jsonl: 805 records
+  Total after interleaving: 1605
+[Shard 2] 0 already done.
+[Shard 2] Running 100 samples (assigned: 100).

@@ -16,8 +16,8 @@ BASE_DIR="/scratch/efeldma5/waterdiffusion"
 PROJECT_DIR="${BASE_DIR}/waterdiffusion"
 SCRIPT_PATH="${PROJECT_DIR}/scripts/waterbench_shared.py"
 
-WATERMARK_FILE="watermarks/3_29_DWT_watermark.py"
-DELTA=12.0
+WATERMARK_FILE="watermarks/4_9_segmented_DWT_watermark.py"
+DELTA=16.0
 GEN_LENGTH=300
 NUM_SAMPLES=300
 NUM_SHARDS=3

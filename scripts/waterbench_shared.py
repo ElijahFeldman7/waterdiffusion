@@ -36,7 +36,7 @@ class RemaskEvalConfig:
     block_length: int = 30
 
     secret_key: str = "xooks"
-    delta: float = 4.0
+    delta: float = 8.0
     context_window: List[int] = field(default_factory=lambda: [-2, -1, 1, 2])
 
     num_samples: int = 600

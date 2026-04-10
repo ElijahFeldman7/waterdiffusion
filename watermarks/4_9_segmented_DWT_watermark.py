@@ -29,6 +29,14 @@ class DWTWatermark:
         
         self.null_stats_cache = {}
 
+    def _safe_torch_normalize(self, x: torch.Tensor) -> torch.Tensor:
+        x = x.float()
+        mean = x.mean()
+        std = x.std(unbiased=False)
+        if not torch.isfinite(std) or std.item() < 1e-8:
+            return torch.zeros_like(x)
+        return (x - mean) / std
+
     def _hash_string(self, s: str) -> int:
         import hashlib
         return int(hashlib.sha256(s.encode()).hexdigest(), 16) % (2**32)
@@ -85,7 +93,8 @@ class DWTWatermark:
         - window=0 strictly prevents random noise from stretching to lower its score.
         """
         block_size = 50
-        period = int(1 / self.frequency) 
+        safe_frequency = max(float(self.frequency), 1e-8)
+        period = max(1, int(round(1 / safe_frequency))) 
         
         num_blocks = math.ceil(seq_len / block_size)
         if num_blocks == 0:
@@ -97,6 +106,8 @@ class DWTWatermark:
             start = b * block_size
             end = min(start + block_size, seq_len)
             v_block = np.ascontiguousarray(v_norm[start:end])
+            if not np.isfinite(v_block).all():
+                v_block = np.nan_to_num(v_block, nan=0.0, posinf=0.0, neginf=0.0)
             
             best_block_dist = float('inf')
             
@@ -104,12 +115,16 @@ class DWTWatermark:
                 positions = torch.arange(end - start).float() + phase_shift
                 carrier = torch.sin(2 * math.pi * self.frequency * positions)
                 
-                c_block = np.ascontiguousarray(((carrier - carrier.mean()) / (carrier.std() + 1e-8)).cpu().numpy().astype(np.double))
+                c_norm = self._safe_torch_normalize(carrier)
+                c_block = np.ascontiguousarray(c_norm.cpu().numpy().astype(np.double))
                 
                 dist = dtw.distance(v_block, c_block, window=0)
                 
-                if dist < best_block_dist:
+                if np.isfinite(dist) and dist < best_block_dist:
                     best_block_dist = dist
+
+            if not np.isfinite(best_block_dist):
+                best_block_dist = float(np.linalg.norm(v_block))
                     
             total_distance += best_block_dist
             
@@ -127,13 +142,24 @@ class DWTWatermark:
         distances = []
         for i in range(1000):
             v = null_v[i]
-            v_norm = np.ascontiguousarray(((v - v.mean()) / (v.std() + 1e-8)).cpu().numpy().astype(np.double))
+            v_norm = np.ascontiguousarray(self._safe_torch_normalize(v).cpu().numpy().astype(np.double))
             
             dist = self._compute_segmented_distance(v_norm, seq_len)
-            distances.append(dist)
+            if np.isfinite(dist):
+                distances.append(dist)
+
+        if len(distances) == 0:
+            mu, sigma = 0.0, 1.0
+            self.null_stats_cache[cache_key] = (mu, sigma)
+            return mu, sigma
             
-        mu = np.mean(distances)
-        sigma = np.std(distances)
+        dist_arr = np.asarray(distances, dtype=np.double)
+        mu = float(np.mean(dist_arr))
+        sigma = float(np.std(dist_arr))
+        if (not np.isfinite(sigma)) or sigma < 1e-8:
+            sigma = 1.0
+        if not np.isfinite(mu):
+            mu = 0.0
         
         self.null_stats_cache[cache_key] = (mu, sigma)
         return mu, sigma
@@ -152,13 +178,23 @@ class DWTWatermark:
         safe_tokens = torch.clamp(tokens_tensor, 0, self.vocab_size - 1)
         v = self.token_values[safe_tokens] 
         
-        v_norm = np.ascontiguousarray(((v - v.mean()) / (v.std() + 1e-8)).cpu().numpy().astype(np.double))
+        v_norm = np.ascontiguousarray(self._safe_torch_normalize(v).cpu().numpy().astype(np.double))
         
         distance = self._compute_segmented_distance(v_norm, seq_len)
         mu, sigma = self._get_null_stats(seq_len)
+
+        if not np.isfinite(distance):
+            return {
+                "is_watermarked": False,
+                "score": float("inf"),
+                "z_score": 0.0,
+                "p_value": 1.0,
+            }
         
-        z_score = (distance - mu) / sigma
-        p_value = norm.cdf(z_score)
+        z_score = (distance - mu) / max(sigma, 1e-8)
+        p_value = float(norm.cdf(z_score))
+        if not np.isfinite(p_value):
+            p_value = 1.0
         
         is_watermarked = bool(p_value < p_value_threshold)
         

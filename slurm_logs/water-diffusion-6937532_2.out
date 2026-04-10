@@ -22,3 +22,95 @@ Found 5 WaterBench files:
   Total after interleaving: 1605
 [Shard 2] 0 already done.
 [Shard 2] Running 100 samples (assigned: 100).
+  Re-generating (attempt 1): too_short=False, rep=0.541
+  Re-generating (attempt 2): too_short=False, rep=0.734
+  Re-generating (attempt 3): too_short=False, rep=0.699
+  Re-generating (attempt 1): too_short=False, rep=0.512
+  [Shard 2] 10/100 done
+  Re-generating (attempt 1): too_short=True, rep=0.017
+  Re-generating (attempt 2): too_short=True, rep=0.016
+  Re-generating (attempt 3): too_short=True, rep=0.015
+  Re-generating (attempt 4): too_short=True, rep=0.018
+  Re-generating (attempt 1): too_short=False, rep=0.680
+  Re-generating (attempt 1): too_short=True, rep=0.000
+  [Shard 2] 20/100 done
+  Re-generating (attempt 1): too_short=False, rep=0.679
+  Re-generating (attempt 1): too_short=False, rep=0.726
+  Re-generating (attempt 2): too_short=False, rep=0.692
+  Re-generating (attempt 3): too_short=False, rep=0.787
+  Re-generating (attempt 4): too_short=False, rep=0.746
+  Re-generating (attempt 5): too_short=False, rep=0.701
+  Re-generating (attempt 1): too_short=False, rep=0.536
+  Re-generating (attempt 2): too_short=False, rep=0.593
+  Re-generating (attempt 3): too_short=False, rep=0.521
+  Re-generating (attempt 1): too_short=False, rep=0.612
+  [Shard 2] 30/100 done
+  Re-generating (attempt 1): too_short=False, rep=0.715
+  Re-generating (attempt 1): too_short=False, rep=0.633
+  [Shard 2] 40/100 done
+  Re-generating (attempt 1): too_short=False, rep=0.806
+  [Shard 2] 50/100 done
+  Re-generating (attempt 1): too_short=False, rep=0.582
+  Re-generating (attempt 2): too_short=False, rep=0.745
+  Re-generating (attempt 3): too_short=False, rep=0.688
+  Re-generating (attempt 1): too_short=False, rep=0.519
+  Re-generating (attempt 1): too_short=False, rep=0.551
+  Re-generating (attempt 1): too_short=False, rep=0.520
+  Re-generating (attempt 1): too_short=False, rep=0.737
+  [Shard 2] 60/100 done
+  Re-generating (attempt 1): too_short=False, rep=0.668
+  Re-generating (attempt 2): too_short=False, rep=0.588
+  Re-generating (attempt 3): too_short=False, rep=0.702
+  Re-generating (attempt 4): too_short=False, rep=0.680
+  Re-generating (attempt 5): too_short=False, rep=0.760
+  Re-generating (attempt 6): too_short=False, rep=0.712
+  Re-generating (attempt 7): too_short=False, rep=0.674
+  Re-generating (attempt 1): too_short=False, rep=0.679
+  Re-generating (attempt 2): too_short=False, rep=0.856
+  Re-generating (attempt 3): too_short=False, rep=0.588
+  Re-generating (attempt 1): too_short=False, rep=0.686
+  Re-generating (attempt 2): too_short=False, rep=0.877
+  Re-generating (attempt 1): too_short=False, rep=0.572
+  Re-generating (attempt 2): too_short=False, rep=0.579
+  Re-generating (attempt 1): too_short=False, rep=0.746
+  Re-generating (attempt 2): too_short=False, rep=0.823
+  Re-generating (attempt 3): too_short=False, rep=0.627
+  [Shard 2] 70/100 done
+  Re-generating (attempt 1): too_short=False, rep=0.816
+  Re-generating (attempt 1): too_short=False, rep=0.542
+  Re-generating (attempt 2): too_short=False, rep=0.522
+  Re-generating (attempt 3): too_short=False, rep=0.624
+  Re-generating (attempt 1): too_short=False, rep=0.502
+  Re-generating (attempt 2): too_short=False, rep=0.540
+  Re-generating (attempt 3): too_short=False, rep=0.646
+  Re-generating (attempt 4): too_short=False, rep=0.735
+  Re-generating (attempt 5): too_short=False, rep=0.712
+  Re-generating (attempt 1): too_short=False, rep=0.587
+  Re-generating (attempt 2): too_short=False, rep=0.777
+  Re-generating (attempt 3): too_short=False, rep=0.692
+  Re-generating (attempt 4): too_short=False, rep=0.829
+  Re-generating (attempt 1): too_short=False, rep=0.628
+  [Shard 2] 80/100 done
+  Re-generating (attempt 1): too_short=False, rep=0.740
+  Re-generating (attempt 2): too_short=False, rep=0.569
+  Re-generating (attempt 1): too_short=False, rep=0.656
+  Re-generating (attempt 2): too_short=False, rep=0.787
+  Re-generating (attempt 3): too_short=False, rep=0.669
+  Re-generating (attempt 1): too_short=False, rep=0.562
+  Re-generating (attempt 1): too_short=False, rep=0.513
+  [Shard 2] 90/100 done
+  Re-generating (attempt 1): too_short=False, rep=0.638
+  Re-generating (attempt 1): too_short=False, rep=0.519
+  Re-generating (attempt 1): too_short=False, rep=0.840
+  Re-generating (attempt 2): too_short=False, rep=0.614
+  Re-generating (attempt 3): too_short=False, rep=0.700
+  [Shard 2] 100/100 done
+[Shard 2] Done. 100 samples written to /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/remask_eval_6937532/shard_2_of_3.jsonl
+Waiting for other shards to finish before merging...
+  Merged shard_0_of_3.jsonl
+  Merged shard_1_of_3.jsonl
+  Merged shard_2_of_3.jsonl
+Merged 300 total rows → /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/remask_eval_6937532/results_merged.jsonl
+Summary generated (300 samples).
+Summary report saved to: /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/remask_eval_6937532/summary_report.txt
+Job finished on Thu Apr  9 18:06:08 EDT 2026

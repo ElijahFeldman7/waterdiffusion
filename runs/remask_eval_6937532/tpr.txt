@@ -1,0 +1,22 @@
+source: /Users/eli/research/waterdiffusion/runs/remask_eval_6937532/results_merged.jsonl
+============================================================
+
+delta:              16.0
+n:                  300
+
+mean PPL (WM):      17.9424
+mean PPL (no WM):   8.6013
+
+log PPL (WM):       2.7892
+log PPL (no WM):    2.0890
+delta log PPL:      0.7003
+
+threshold:          nan
+global TPR:         0.0000
+FPR check:          0.0000
+
+per-delta thresh:   nan
+per-delta TPR:      0.0000
+per-delta FPR:      0.0000
+------------------------------------------------------------
+

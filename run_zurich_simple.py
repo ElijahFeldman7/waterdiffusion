@@ -189,7 +189,8 @@ def main():
     print("\nLoading model...")
     model_config = ModelConfiguration(
         model_name="GSAI-ML/LLaDA-8B-Instruct",
-        tokenizer_name="GSAI-ML/LLaDA-8B-Instruct"
+        tokenizer_name="GSAI-ML/LLaDA-8B-Instruct",
+        gen_length=300
     )
     model, tokenizer = load_model(model_config)
     device = model.device
@@ -203,8 +204,8 @@ def main():
     
     for delta in args.delta_values:
         print(f"\n{'='*70}")
-    print(f"Evaluating with delta = {delta}")
-    print(f"{'='*70}")
+        print(f"Evaluating with delta = {delta}")
+        print(f"{'='*70}")
         
         # Create watermark
         watermark_config = OurWatermarkConfiguration(

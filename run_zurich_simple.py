@@ -42,18 +42,30 @@ from dlm_watermark.configs import (
 )
 
 
-def load_prompts(jsonl_path: str, num_samples: int = None) -> List[Dict]:
-    """Load prompts from WaterBench JSONL format."""
+def load_prompts(jsonl_paths, num_samples: int = None) -> List[Dict]:
+    """Load prompts from multiple WaterBench JSONL files."""
     prompts = []
-    with open(jsonl_path, 'r') as f:
-        for i, line in enumerate(f):
-            if num_samples and i >= num_samples:
-                break
-            data = json.loads(line)
-            prompts.append({
-                "input": data.get("input", ""),
-                "source_file": Path(jsonl_path).name
-            })
+    
+    # Handle both single string and list of strings
+    if isinstance(jsonl_paths, str):
+        jsonl_paths = [jsonl_paths]
+    
+    samples_per_dataset = num_samples // len(jsonl_paths) if num_samples and len(jsonl_paths) > 0 else None
+    
+    for jsonl_path in jsonl_paths:
+        with open(jsonl_path, 'r') as f:
+            dataset_name = Path(jsonl_path).stem  # Get filename without extension
+            count = 0
+            for line in f:
+                if samples_per_dataset and count >= samples_per_dataset:
+                    break
+                data = json.loads(line)
+                prompts.append({
+                    "input": data.get("input", ""),
+                    "source_file": dataset_name
+                })
+                count += 1
+    
     return prompts
 
 
@@ -149,37 +161,52 @@ def calculate_tpr_at_fpr(z_scores_wm: np.ndarray, z_scores_no_wm: np.ndarray, fp
 def main():
     import argparse
     
+    # Default to all WaterBench datasets
+    default_datasets = [
+        "/scratch/efeldma5/waterdiffusion/waterdiffusion/zurich/data/WaterBench/2-1_longform_qa.jsonl",
+        "/scratch/efeldma5/waterdiffusion/waterdiffusion/zurich/data/WaterBench/2-2_finance_qa.jsonl",
+        "/scratch/efeldma5/waterdiffusion/waterdiffusion/zurich/data/WaterBench/5-1_alpacafarm.jsonl",
+        "/scratch/efeldma5/waterdiffusion/waterdiffusion/zurich/data/WaterBench/4-1_multi_news.jsonl",
+        "/scratch/efeldma5/waterdiffusion/waterdiffusion/zurich/data/WaterBench/4-2_qmsum.jsonl",
+    ]
+    
     parser = argparse.ArgumentParser(description="Run Zurich watermark on LLADA")
-    parser.add_argument("--dataset", type=str, 
-                        default="/scratch/efeldma5/waterdiffusion/waterdiffusion/zurich/data/WaterBench/2-1_longform_qa.jsonl",
-                        help="Path to dataset")
+    parser.add_argument("--datasets", type=str, nargs="+", default=default_datasets,
+                        help="Paths to dataset JSONL files (mix from WaterBench)")
     parser.add_argument("--output", type=str, default="watermark_results_zurich.jsonl",
                         help="Output JSONL path")
     parser.add_argument("--num_samples", type=int, default=300,
-                        help="Number of samples to evaluate")
+                        help="Number of samples to evaluate (total across all datasets)")
     parser.add_argument("--delta_values", type=float, nargs="+", default=[0.5, 1.0, 2.0, 4.0],
                         help="Delta values to evaluate")
     
     args = parser.parse_args()
     
-    print(f"Loading dataset from {args.dataset}")
+    print(f"Loading datasets from WaterBench...")
     
-    # Check if dataset exists, try alternative paths
-    if not os.path.exists(args.dataset):
-        print(f"Warning: Dataset not found at {args.dataset}")
-        # Try local path
-        local_dataset = args.dataset.replace(
-            "/scratch/efeldma5/waterdiffusion/waterdiffusion/zurich",
-            "/Users/eli/research/waterdiffusion/zurich"
-        )
-        if os.path.exists(local_dataset):
-            print(f"Using local dataset instead: {local_dataset}")
-            args.dataset = local_dataset
+    # Check if datasets exist, try alternative paths
+    checked_datasets = []
+    for dataset in args.datasets:
+        if not os.path.exists(dataset):
+            # Try local path
+            local_dataset = dataset.replace(
+                "/scratch/efeldma5/waterdiffusion/waterdiffusion/zurich",
+                "/Users/eli/research/waterdiffusion/zurich"
+            )
+            if os.path.exists(local_dataset):
+                print(f"  Using local: {Path(local_dataset).name}")
+                checked_datasets.append(local_dataset)
+            else:
+                print(f"  Warning: Dataset not found: {Path(dataset).name}")
         else:
-            print(f"Error: Dataset not found at either location")
-            sys.exit(1)
+            print(f"  Found: {Path(dataset).name}")
+            checked_datasets.append(dataset)
     
-    prompts = load_prompts(args.dataset, num_samples=args.num_samples)
+    if not checked_datasets:
+        print("Error: No datasets found!")
+        sys.exit(1)
+    
+    prompts = load_prompts(checked_datasets, num_samples=args.num_samples)
     print(f"Loaded {len(prompts)} prompts")
     
     if len(prompts) == 0:
@@ -197,6 +224,7 @@ def main():
     
     print(f"✓ Model loaded on device: {device}")
     print(f"✓ Total prompts: {len(prompts)}")
+    print(f"✓ Datasets mixed: {len(checked_datasets)}")
     print(f"✓ Delta values: {args.delta_values}")
     print(f"✓ Total deltas to evaluate: {len(args.delta_values)}")
     

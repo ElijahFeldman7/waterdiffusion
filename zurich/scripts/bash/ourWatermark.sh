@@ -24,7 +24,7 @@ for ((i=0; i<${#CONFIG[@]}; i++)); do
             for topk in "${TOPK[@]}"; do
                 for seeding in "${SEEDING_SCHEME[@]}"; do
                     echo "Running with delta=$delta, kernel=$kernel, topk=$topk, seeding=$seeding"
-                    python scripts/ablate_watermark.py --delta $delta --kernel $kernel --topk $topk --config $config --name $name --seeding_scheme $seeding --num_samples 250
+                    python scripts/ablate_watermark.py --delta $delta --kernel $kernel --topk $topk --config $config --name $name --seeding_scheme $seeding --num_samples 300
                 done
             done
         done

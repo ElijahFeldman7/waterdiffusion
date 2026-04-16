@@ -14,7 +14,6 @@ import os
 from typing import List, Dict
 from tqdm import tqdm
 
-# Add zurich to path - support both local and cluster paths
 zurich_paths = [
     "/scratch/efeldma5/waterdiffusion/waterdiffusion/zurich",  # Cluster path
     "/Users/eli/research/waterdiffusion/zurich",  # Local path
@@ -31,6 +30,7 @@ if zurich_path is None:
         print(f"  - {p}")
     sys.exit(1)
 
+sys.path.insert(0, os.path.join(zurich_path, "src"))
 sys.path.insert(0, zurich_path)
 
 from dlm_watermark.models.model_factory import load_model

@@ -16,7 +16,6 @@ set -e
 WORK_DIR="/scratch/efeldma5/waterdiffusion/waterdiffusion"
 cd "$WORK_DIR"
 
-# Configuration - Mix of WaterBench datasets
 DATASETS=(
   "${WORK_DIR}/zurich/data/WaterBench/2-1_longform_qa.jsonl"
   "${WORK_DIR}/zurich/data/WaterBench/2-2_finance_qa.jsonl"
@@ -29,7 +28,6 @@ OUTPUT_FILE="${OUTPUT_DIR}/watermark_results_waterbench_mixed_300samples.jsonl"
 NUM_SAMPLES=300
 DELTA_VALUES="0.5 1.0 2.0 4.0"
 
-# Create output directory
 mkdir -p "$OUTPUT_DIR"
 
 echo "=========================================="
@@ -42,7 +40,6 @@ echo "Number of samples (mixed): $NUM_SAMPLES"
 echo "Delta values: $DELTA_VALUES"
 echo "=========================================="
 
-# Run the evaluation with mixed datasets
 python3 run_zurich_simple.py \
   --datasets "${DATASETS[@]}" \
   --output "$OUTPUT_FILE" \
@@ -55,7 +52,6 @@ echo "✓ Evaluation complete!"
 echo "Results saved to: $OUTPUT_FILE"
 echo "=========================================="
 
-# Summary statistics
 echo ""
 echo "Results Summary:"
 python3 << EOF

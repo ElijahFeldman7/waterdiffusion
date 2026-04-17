@@ -11,12 +11,12 @@ import pandas as pd
 from pathlib import Path
 import sys
 import os
-from typing import List, Dict
+from typing import List, Dict, Optional, Tuple
 from tqdm import tqdm
 
 zurich_paths = [
     "/scratch/efeldma5/waterdiffusion/waterdiffusion/zurich",  # Cluster path
-    "/Users/eli/research/waterdiffusion/zurich",  # Local path
+    "/Users/eli/research/waterdifh",  # Local path
 ]
 zurich_path = None
 for path in zurich_paths:
@@ -69,8 +69,14 @@ def load_prompts(jsonl_paths, num_samples: int = None) -> List[Dict]:
     return prompts
 
 
-def generate_completion(model, tokenizer, prompt: str, watermark=None) -> str:
-    """Generate a single completion."""
+def generate_completion(
+    model,
+    tokenizer,
+    prompt: str,
+    watermark=None,
+    max_retries: int = 2,
+) -> Tuple[Optional[str], Optional[str]]:
+    """Generate a single completion with retry on transient failures."""
     device = model.device
     
     # Format the prompt as expected by the model
@@ -82,19 +88,23 @@ def generate_completion(model, tokenizer, prompt: str, watermark=None) -> str:
     if attention_mask is not None:
         attention_mask = attention_mask.to(device)
     
-    try:
-        torch.cuda.empty_cache()
-        generation_output = model.generate_diffusion(
-            input_ids=input_ids,
-            attention_mask=attention_mask,
-            watermark=watermark
-        )
-        sequences = generation_output.output_sequences
-        completion = tokenizer.batch_decode(sequences, skip_special_tokens=True)[0]
-        return completion
-    except Exception as e:
-        print(f"Error in generation: {e}")
-        return ""
+    last_error = None
+    for attempt in range(1, max_retries + 1):
+        try:
+            torch.cuda.empty_cache()
+            generation_output = model.generate_diffusion(
+                input_ids=input_ids,
+                attention_mask=attention_mask,
+                watermark=watermark,
+            )
+            sequences = generation_output.output_sequences
+            completion = tokenizer.batch_decode(sequences, skip_special_tokens=True)[0]
+            return completion, None
+        except Exception as e:
+            last_error = f"{type(e).__name__}: {e}"
+            print(f"Error in generation (attempt {attempt}/{max_retries}): {last_error}")
+
+    return None, last_error
 
 
 def detect_watermark(watermark, tokenizer, completion: str, device: str) -> Dict:
@@ -256,6 +266,7 @@ def main():
         z_scores_wm = []
         z_scores_no_wm = []
         delta_results = []
+        skipped_generation_errors = 0
         
         for i, prompt_data in enumerate(tqdm(prompts, desc=f"Delta {delta}")):
             prompt = prompt_data["input"]
@@ -265,10 +276,19 @@ def main():
                 continue
             
             # Generate watermarked completion
-            completion_wm = generate_completion(model, tokenizer, prompt, watermark=watermark)
-            
+            completion_wm, wm_error = generate_completion(model, tokenizer, prompt, watermark=watermark)
+
             # Generate non-watermarked completion
-            completion_no_wm = generate_completion(model, tokenizer, prompt, watermark=None)
+            completion_no_wm, no_wm_error = generate_completion(model, tokenizer, prompt, watermark=None)
+
+            if completion_wm is None or completion_no_wm is None:
+                skipped_generation_errors += 1
+                prompt_preview = prompt.replace("\n", " ")[:120]
+                print(
+                    f"Skipping sample {i} from {source_file} due to generation failure. "
+                    f"wm_error={wm_error}, no_wm_error={no_wm_error}, prompt='{prompt_preview}'"
+                )
+                continue
             
             # Detect on watermarked
             detect_wm = detect_watermark(watermark, tokenizer, completion_wm, device)
@@ -304,12 +324,16 @@ def main():
             tpr_at_1pct = calculate_tpr_at_fpr(z_scores_wm_arr, z_scores_no_wm_arr, fpr_threshold=0.01)
             print(f"\nTPR@1% FPR: {tpr_at_1pct:.4f}")
             print(f"Samples processed: {len(z_scores_wm)}")
+            if skipped_generation_errors > 0:
+                print(f"Samples skipped due to generation errors: {skipped_generation_errors}")
             
             # Add TPR to results for this delta
             for result in delta_results:
                 result["tpr_at_1pct"] = tpr_at_1pct
         else:
             print("Warning: No valid scores for TPR calculation")
+            if skipped_generation_errors > 0:
+                print(f"Samples skipped due to generation errors: {skipped_generation_errors}")
     
     # Save results
     os.makedirs(os.path.dirname(args.output) or ".", exist_ok=True)

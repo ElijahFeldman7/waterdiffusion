@@ -188,6 +188,11 @@ class LLaDA(DiffusionLM):
 
         assert input_ids.shape[0] == 1, "LLaDA only supports batch size of 1."
 
+        gen_length = self.config.gen_length
+        block_length = self.block_length
+        if gen_length % block_length != 0 or self.config.steps % (gen_length // block_length) != 0:
+            block_length = gen_length
+
         super().generate_diffusion(input_ids, watermark=watermark, **kwargs)
 
         output = generate(
@@ -195,8 +200,8 @@ class LLaDA(DiffusionLM):
             prompt=input_ids,
             watermarker=watermark,
             steps=self.config.steps,
-            gen_length=self.config.gen_length,
-            block_length=self.block_length,
+            gen_length=gen_length,
+            block_length=block_length,
             temperature=self.config.temperature,
             cfg_scale=self.cfg_scale,
             remasking=self.config.remasking,

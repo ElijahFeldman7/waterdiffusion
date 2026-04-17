@@ -16,7 +16,7 @@ from tqdm import tqdm
 
 zurich_paths = [
     "/scratch/efeldma5/waterdiffusion/waterdiffusion/zurich",  # Cluster path
-    "/Users/eli/research/waterdifh",  # Local path
+    "/Users/eli/research/waterdiffusion/zurich",  # Local path
 ]
 zurich_path = None
 for path in zurich_paths:

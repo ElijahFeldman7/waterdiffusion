@@ -23,7 +23,8 @@ DATASETS=(
   "${WORK_DIR}/zurich/data/WaterBench/4-1_multi_news.jsonl"
   "${WORK_DIR}/zurich/data/WaterBench/4-2_qmsum.jsonl"
 )
-OUTPUT_DIR="${WORK_DIR}/results"
+RUN_NAME="zurich_eval_${SLURM_JOB_ID:-local_$(date +%Y%m%d_%H%M%S)}"
+OUTPUT_DIR="${WORK_DIR}/runs/${RUN_NAME}"
 OUTPUT_FILE="${OUTPUT_DIR}/watermark_results_waterbench_mixed_300samples.jsonl"
 NUM_SAMPLES=300
 DELTA_VALUES="0.5 1.0 2.0 4.0"

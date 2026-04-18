@@ -79,9 +79,17 @@ def generate_completion(
     """Generate a single completion with retry on transient failures."""
     device = model.device
     
-    # Format the prompt as expected by the model
-    formatted_prompt = f"You are a helpful assistant, please answer the following question within 300 words:\n\n{prompt}"
-    
+    # Match the working LLaDA-Instruct path by using chat templating when available.
+    if hasattr(tokenizer, "apply_chat_template"):
+        messages = [{"role": "user", "content": prompt}]
+        formatted_prompt = tokenizer.apply_chat_template(
+            messages,
+            add_generation_prompt=True,
+            tokenize=False,
+        )
+    else:
+        formatted_prompt = f"You are a helpful assistant, please answer the following question within 300 words:\n\n{prompt}"
+
     inputs = tokenizer(formatted_prompt, return_tensors="pt", padding=True)
     input_ids = inputs["input_ids"].to(device)
     attention_mask = inputs.get("attention_mask", None)
@@ -99,6 +107,9 @@ def generate_completion(
             )
             sequences = generation_output.output_sequences
             completion = tokenizer.batch_decode(sequences, skip_special_tokens=True)[0]
+            if not completion or not completion.strip():
+                token_count = int(sequences.shape[-1]) if hasattr(sequences, "shape") else -1
+                raise ValueError(f"Empty completion after decoding ({token_count} generated tokens)")
             return completion, None
         except Exception as e:
             last_error = f"{type(e).__name__}: {e}"
@@ -227,7 +238,13 @@ def main():
     model_config = ModelConfiguration(
         model_name="GSAI-ML/LLaDA-8B-Instruct",
         tokenizer_name="GSAI-ML/LLaDA-8B-Instruct",
-        gen_length=300
+        gen_length=300,
+        steps=300,
+        model_specific_arguments={
+            "cfg_scale": 0.0,
+            "block_length": 25,
+            "mask_id": 126336,
+        },
     )
     model, tokenizer = load_model(model_config)
     device = model.device

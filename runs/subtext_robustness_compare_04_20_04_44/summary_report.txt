@@ -1,0 +1,29 @@
+--- Subtext Robustness P-Value Summary ---
+project_root: /scratch/efeldma5/waterdiffusion/waterdiffusion
+theirs_jsonl: /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/remask_eval_6946085/results_merged.jsonl
+ours_jsonl: /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/zurich_eval_same_prompts_7006629/delta_4.0/results_with_ppl.jsonl
+text_column: completion_wm
+theirs_detector_path: /scratch/efeldma5/waterdiffusion/waterdiffusion/zurich/src/dlm_watermark/watermarks/diffusion_watermark.py
+ours_detector_path: /scratch/efeldma5/waterdiffusion/waterdiffusion/watermarks/3_29_DWT_watermark.py
+tokenizer_name: GSAI-ML/LLaDA-8B-Instruct
+key: xooks
+theirs_delta: 4.0
+ours_delta: 16.0
+ratios: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
+stride: 1
+max_texts: 0
+p_value_threshold: 0.01
+
+dataset                   detector  attack_ratio  num_subtexts  mean_p_value  median_p_value  mean_z_score  frac_p_below_threshold
+   ours         DWTWatermark(3_29)           0.0           300      0.546188        0.561124      0.183767                0.020000
+   ours         DWTWatermark(3_29)           0.1          7430      0.529640        0.556846      0.129474                0.037954
+   ours         DWTWatermark(3_29)           0.2         14555      0.534770        0.560411      0.161105                0.030986
+   ours         DWTWatermark(3_29)           0.3         21510      0.537243        0.564101      0.154752                0.026546
+   ours         DWTWatermark(3_29)           0.4         28639      0.526099        0.550901      0.104290                0.033905
+   ours         DWTWatermark(3_29)           0.5         35771      0.533057        0.555898      0.119069                0.023622
+ theirs ZurichOurWatermark(direct)           0.0           285      0.633019        0.697350      0.237368                0.000000
+ theirs ZurichOurWatermark(direct)           0.1          7703      0.633778        0.689745      0.237054                0.000000
+ theirs ZurichOurWatermark(direct)           0.2         15108      0.634565        0.687524      0.236544                0.000000
+ theirs ZurichOurWatermark(direct)           0.3         22542      0.634470        0.682678      0.235959                0.000621
+ theirs ZurichOurWatermark(direct)           0.4         29956      0.636116        0.685111      0.235131                0.001869
+ theirs ZurichOurWatermark(direct)           0.5         37380      0.637114        0.687202      0.234309                0.002140

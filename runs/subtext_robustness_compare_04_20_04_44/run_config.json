@@ -1,0 +1,27 @@
+{
+  "timestamp_utc": "2026-04-20 05:10:56 UTC",
+  "project_root": "/scratch/efeldma5/waterdiffusion/waterdiffusion",
+  "theirs_jsonl": "/scratch/efeldma5/waterdiffusion/waterdiffusion/runs/remask_eval_6946085/results_merged.jsonl",
+  "ours_jsonl": "/scratch/efeldma5/waterdiffusion/waterdiffusion/runs/zurich_eval_same_prompts_7006629/delta_4.0/results_with_ppl.jsonl",
+  "text_column": "completion_wm",
+  "theirs_detector_path": "/scratch/efeldma5/waterdiffusion/waterdiffusion/zurich/src/dlm_watermark/watermarks/diffusion_watermark.py",
+  "ours_detector_path": "/scratch/efeldma5/waterdiffusion/waterdiffusion/watermarks/3_29_DWT_watermark.py",
+  "tokenizer_name": "GSAI-ML/LLaDA-8B-Instruct",
+  "key": "xooks",
+  "theirs_delta": 4.0,
+  "ours_delta": 16.0,
+  "ratios": [
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5
+  ],
+  "stride": 1,
+  "max_texts": 0,
+  "p_value_threshold": 0.01,
+  "details_jsonl": "/scratch/efeldma5/waterdiffusion/waterdiffusion/runs/subtext_robustness_compare_04_20_04_44/subtext_pvalues_details.jsonl",
+  "summary_csv": "/scratch/efeldma5/waterdiffusion/waterdiffusion/runs/subtext_robustness_compare_04_20_04_44/subtext_pvalues_summary.csv",
+  "summary_report": "/scratch/efeldma5/waterdiffusion/waterdiffusion/runs/subtext_robustness_compare_04_20_04_44/summary_report.txt"
+}

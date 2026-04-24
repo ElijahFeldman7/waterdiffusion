@@ -194,13 +194,13 @@ def main():
     parser.add_argument(
         "--theirs_jsonl",
         type=Path,
-        default=Path("runs/remask_eval_6946085/results_merged.jsonl"),
+        default=Path("runs/zurich_eval_same_prompts_7006629/delta_4.0/results_with_ppl.jsonl"),
         help="Path to 'theirs' results (relative to project_root unless absolute)",
     )
     parser.add_argument(
         "--ours_jsonl",
         type=Path,
-        default=Path("runs/zurich_eval_same_prompts_7006629/delta_4.0/results_with_ppl.jsonl"),
+        default=Path("runs/remask_eval_6946085/results_merged.jsonl"),
         help="Path to 'ours' results (relative to project_root unless absolute)",
     )
     parser.add_argument(

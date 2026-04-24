@@ -1,0 +1,13 @@
+dataset,detector,attack_ratio,n_subtexts,n_detected_p_le_0.01,tpr_at_1pct_fpr
+ours,DWTWatermark(3_29),0.0,300,6,0.02
+ours,DWTWatermark(3_29),0.1,7430,282,0.0379542395693136
+ours,DWTWatermark(3_29),0.2,14555,451,0.030985915492957747
+ours,DWTWatermark(3_29),0.3,21510,571,0.026545792654579264
+ours,DWTWatermark(3_29),0.4,28639,971,0.033904815112259505
+ours,DWTWatermark(3_29),0.5,35771,845,0.023622487489866093
+theirs,ZurichOurWatermark(direct),0.0,285,0,0.0
+theirs,ZurichOurWatermark(direct),0.1,7703,0,0.0
+theirs,ZurichOurWatermark(direct),0.2,15108,0,0.0
+theirs,ZurichOurWatermark(direct),0.3,22542,14,0.000621062904799929
+theirs,ZurichOurWatermark(direct),0.4,29956,56,0.0018694084657497664
+theirs,ZurichOurWatermark(direct),0.5,37380,80,0.002140181915462814

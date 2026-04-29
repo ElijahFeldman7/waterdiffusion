@@ -1,0 +1,76 @@
+TPR-vs-log(PPL) delta relationship notes
+
+Data compared
+- Zurich side (delta_* folders): 0.5, 2.0, 4.0, 6.0, 8.0, 10.0
+- Baseline/our watermark side (run_desc + tpr filters): 4.0, 8.0, 12.0, 14.0, 16.0
+
+Variable definitions
+- x = log_ppl
+- db = baseline delta
+- dz = zurich delta
+
+Exponential fits (delta = A * exp(B * x))
+- Baseline: db = 0.04987527 * exp(2.14154579 * x), RMSE = 1.7320
+- Zurich: dz = 0.00006503 * exp(4.41622592 * x), RMSE = 1.6376
+
+Log fits (delta = a + b * ln(x))
+- Baseline: db = -34.09177207 + 50.13677699 * ln(x), RMSE = 0.8499
+- Zurich: dz = -32.31288640 + 41.52914691 * ln(x), RMSE = 0.6371
+
+Observed model quality on this sample
+- Log model fits both families better than exponential (lower RMSE for both).
+
+Delta conversion at matched perplexity
+- From exponential fits:
+	dz = 0.00006503 * (db / 0.04987527)^(2.06216740)
+- From log fits:
+	dz = -4.07409054 + 0.82831704 * db
+
+Example mapping db -> dz
+- db=4.0  -> dz_exp=0.5494, dz_log=-0.7608
+- db=8.0  -> dz_exp=2.2942, dz_log=2.5524
+- db=12.0 -> dz_exp=5.2938, dz_log=5.8657
+- db=14.0 -> dz_exp=7.2748, dz_log=7.5223
+- db=16.0 -> dz_exp=9.5810, dz_log=9.1790
+
+Practical note
+- The log-based mapping at db=4 gives a negative dz, so clip to the valid Zurich search range in practice.
+
+Model selection update (using LOOCV RMSE)
+
+Baseline models
+- cubic: train RMSE = 0.1278, LOOCV RMSE = 0.6521 (best)
+- quadratic: train RMSE = 0.3921, LOOCV RMSE = 0.9418
+- log: train RMSE = 0.8499, LOOCV RMSE = 1.4663
+- linear: train RMSE = 0.9637, LOOCV RMSE = 1.6246
+- exponential: train RMSE = 1.7320, LOOCV RMSE = 2.7597
+
+Zurich models
+- cubic: train RMSE = 0.1315, LOOCV RMSE = 0.6593 (best)
+- log: train RMSE = 0.6371, LOOCV RMSE = 0.9410
+- linear: train RMSE = 0.6696, LOOCV RMSE = 0.9769
+- quadratic: train RMSE = 0.5967, LOOCV RMSE = 1.3229
+- exponential: train RMSE = 1.6376, LOOCV RMSE = 3.1097
+
+Selected best predictive models (per family)
+- Baseline cubic:
+	db = -1727.15038295 + 2005.89242417*x - 774.56612296*x^2 + 100.24393380*x^3
+- Zurich cubic:
+	dz = -3368.90904616 + 3996.93846489*x - 1579.84173993*x^2 + 208.43097709*x^3
+
+where x = log_ppl.
+
+Best-model conversion note
+- To map db -> dz at matched perplexity using the selected models:
+	1) solve the baseline cubic for x given db,
+	2) evaluate dz from the Zurich cubic at that x.
+
+Example cubic-based mapping db -> dz
+- db=4.0  -> dz=-3.1263
+- db=8.0  -> dz=1.9677
+- db=12.0 -> dz=5.7115
+- db=14.0 -> dz=6.7913
+- db=16.0 -> dz=9.5462
+
+Stability caution
+- Only 6 points per family were available; cubic wins on current LOOCV but may be sensitive outside the observed delta range.

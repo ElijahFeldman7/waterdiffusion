@@ -13,7 +13,7 @@
 #SBATCH --array=0-6
 
 module load hosts/hopper gnu/12.3.0
-module load cuda/12.6.3
+module load cuda/12.4.0
 module load ollama/0.20.3
 module load python/3.12.1-33
 

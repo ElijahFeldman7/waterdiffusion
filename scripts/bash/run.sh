@@ -20,7 +20,7 @@ module load python/3.12.1-33
 BASE_DIR="/scratch/efeldma5/waterdiffusion"
 PROJECT_DIR="${BASE_DIR}/waterdiffusion"
 SCRIPT_PATH="${PROJECT_DIR}/scripts/waterbench_shared.py"
-WATERMARK_FILE="watermarks/4_9_segmented_DWT_watermark.py"
+WATERMARK_FILE="watermarks/proposal_1_ckas.py"
 
 DELTAS=(0.5 1.0 2.0 4.0 6.0 8.0 10.0)
 DELTA=${DELTAS[$SLURM_ARRAY_TASK_ID]}

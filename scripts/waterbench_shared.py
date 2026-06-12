@@ -20,7 +20,7 @@ from tqdm.auto import tqdm
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_WATERMARK_PATH = PROJECT_ROOT / "watermarks" / "3_29_DWT_watermark.py"
+DEFAULT_WATERMARK_PATH = PROJECT_ROOT / "watermarks" / "proposal_1_ckas.py"
 WATERBENCH_DIR = PROJECT_ROOT / "zurich" / "data" / "WaterBench"
 LLADA_CONFIG_PATH = PROJECT_ROOT / "configs" / "llada_8b_instruct.yaml"
 
@@ -37,7 +37,7 @@ class RemaskEvalConfig:
 
     secret_key: str = "xooks"
     delta: float = 8.0
-    context_window: List[int] = field(default_factory=lambda: [-2, -1, 1, 2])
+    context_window: int = 2
 
     num_samples: int = 600
     p_value_threshold: float = 0.01
@@ -213,8 +213,6 @@ class RemaskEvaluator:
 
         Path(config.run_dir).mkdir(parents=True, exist_ok=True)
         print(f"  Run directory: {config.run_dir}")
-
-        # Dynamic Watermark Loading
         print(f"  Loading watermark from: {config.watermark_path}")
         spec = importlib.util.spec_from_file_location("remask_watermark", config.watermark_path)
         mod = importlib.util.module_from_spec(spec)
@@ -245,6 +243,7 @@ class RemaskEvaluator:
         self.watermark = watermark_class(
             key=config.secret_key,
             delta=config.delta,
+            context_window=config.context_window,
             vocab_size=vocab_size,
             device=device_str,
         )
@@ -391,12 +390,6 @@ class RemaskEvaluator:
             result[f"det_wm_{k}"] = v
         for k, v in detection_no_wm.items():
             result[f"det_no_wm_{k}"] = v
-
-        if "total_pairs_checked" in detection_wm:
-             result["det_wm_total_pairs"] = detection_wm["total_pairs_checked"]
-        if "total_pairs_checked" in detection_no_wm:
-             result["det_no_wm_total_pairs"] = detection_no_wm["total_pairs_checked"]
-
         return result
 
     def evaluate(self):

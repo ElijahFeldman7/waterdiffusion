@@ -70,6 +70,8 @@ def generate(
         block_mask_index = (x[:, block_start:block_end] == mask_id)
         num_transfer_tokens = get_num_transfer_tokens(block_mask_index, steps_per_block)
 
+        x0 = None
+
         for i in range(steps_per_block):
             mask_index = (x == mask_id)
             
@@ -82,6 +84,17 @@ def generate(
                 logits = un_logits + (cfg_scale + 1) * (logits - un_logits)
             else:
                 logits = model(x).logits
+            
+            if watermark is not None:
+                logits = watermark.apply_watermark(
+                    logits=logits,
+                    current_text=x,
+                    mask_index=mask_index,
+                    step=num_block * steps_per_block + i,
+                    confidence=None, 
+                    x0=x0,           
+                    key=getattr(watermark, 'key', '')
+                )
             
             logits_with_noise = add_gumbel_noise(logits, temperature=temperature)
             x0 = torch.argmax(logits_with_noise, dim=-1)
@@ -97,18 +110,7 @@ def generate(
             x0_p[:, block_end:] = -np.inf
             x0 = torch.where(mask_index, x0, x)
             confidence = torch.where(mask_index, x0_p, -np.inf)
-            
-            if watermark is not None:
-                confidence = watermark.apply_watermark(
-                    logits=logits,
-                    current_text=x,
-                    mask_index=mask_index,
-                    step=num_block * steps_per_block + i,
-                    confidence=confidence,
-                    x0=x0,
-                    key=getattr(watermark, 'key', '')
-                )
-            
+                        
             transfer_index = torch.zeros_like(x0, dtype=torch.bool, device=x0.device)
             for j in range(confidence.shape[0]):
                 _, select_index = torch.topk(confidence[j], k=num_transfer_tokens[j, i])
@@ -117,7 +119,6 @@ def generate(
             x[transfer_index] = x0[transfer_index]
             
     return x
-
 
 class LLaDAGenerator:
     def __init__(

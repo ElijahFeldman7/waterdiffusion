@@ -7,7 +7,7 @@ import sys
 import time
 import traceback
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
 
@@ -47,7 +47,7 @@ class RemaskEvalConfig:
     shard: int = 0
     num_shards: int = 1
 
-    run_dir: str = str(PROJECT_ROOT / "runs" / f"remask_eval_{datetime.utcnow().strftime('%m_%d_%H_%M')}")
+    run_dir: str = str(PROJECT_ROOT / "runs" / f"remask_eval_{datetime.now(timezone.utc).strftime('%m_%d_%H_%M')}")
     watermark_path: str = str(DEFAULT_WATERMARK_PATH)
     waterbench_dir: str = str(WATERBENCH_DIR)
     ppl_model_name: str = "gpt2"
@@ -227,6 +227,17 @@ class RemaskEvaluator:
         if watermark_class is None:
             raise AttributeError(f"Could not find a Watermark class in {config.watermark_path}")
             
+        device_str = "cuda:0" if torch.cuda.is_available() else "cpu"
+        print(f"[Shard {config.shard}/{config.num_shards}] Loading LLaDA on {device_str}...")
+        self.generator = LLaDAGenerator(
+            config=str(LLADA_CONFIG_PATH),
+            watermark=None,
+            device_map=device_str,
+        )
+        
+        vocab_size = len(self.generator.tokenizer)
+        print(f"  Detected vocab size: {vocab_size}")
+
         import inspect
         sig = inspect.signature(watermark_class.__init__)
         
@@ -236,20 +247,15 @@ class RemaskEvaluator:
             "device": device_str,
         }
 
-        # Delta mapping:
-        # For KLB (Proposal 3), 'delta' from CLI is used as 'kl_budget'.
-        # For others, 'delta' is 'delta'.
         if "kl_budget" in sig.parameters:
             kwargs["kl_budget"] = config.delta
             print(f"  Mapping CLI delta {config.delta} -> kl_budget")
         elif "delta" in sig.parameters:
             kwargs["delta"] = config.delta
 
-        # Context window mapping:
         if "context_window" in sig.parameters:
             kwargs["context_window"] = config.context_window
         
-        # Windows mapping for MWE (Proposal 4):
         if "windows" in sig.parameters:
             kwargs["windows"] = [1, 2, 3, 4]
             print(f"  Setting MWE windows to {kwargs['windows']}")
@@ -278,7 +284,7 @@ class RemaskEvaluator:
 
         cfg = self.config
         desc = {
-            "timestamp_utc": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
+            "timestamp_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
             "run_dir": cfg.run_dir,
             "watermark": {
                 "class": type(self.watermark).__name__,
@@ -561,7 +567,7 @@ if __name__ == "__main__":
         torch.cuda.manual_seed_all(SEED)
 
     run_dir = args.run_dir or str(
-        PROJECT_ROOT / "runs" / f"remask_eval_{datetime.utcnow().strftime('%m_%d_%H_%M')}"
+        PROJECT_ROOT / "runs" / f"remask_eval_{datetime.now(timezone.utc).strftime('%m_%d_%H_%M')}"
     )
 
     config = RemaskEvalConfig(
@@ -581,13 +587,16 @@ if __name__ == "__main__":
     config.validate()
 
     if args.merge_only:
-        merged_path = merge_shards(config)
-        class Summarizer(RemaskEvaluator):
-            def __init__(self, config):
-                self.config = config
-        
-        evaluator = Summarizer(config)
-        evaluator.summarize(results_path=merged_path)
+        try:
+            merged_path = merge_shards(config)
+            class Summarizer(RemaskEvaluator):
+                def __init__(self, config):
+                    self.config = config
+            
+            evaluator = Summarizer(config)
+            evaluator.summarize(results_path=merged_path)
+        except FileNotFoundError as e:
+            print(f"Merge skipped: {e}")
     else:
         evaluator = RemaskEvaluator(config)
         evaluator.evaluate()

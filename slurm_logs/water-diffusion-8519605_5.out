@@ -1,0 +1,125 @@
+Job started on Sun Jun 14 11:17:14 EDT 2026
+Array task 5 | Delta: 8.0 | Dir: /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/prompt1_8519605/delta_8.0
+  Run directory: /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/prompt1_8519605/delta_8.0
+  Loading watermark from: /scratch/efeldma5/waterdiffusion/waterdiffusion/watermarks/proposal_1_ckas.py
+  Instantiating DWTWatermark
+[Shard 0/1] Loading LLaDA on cuda:0...
+Loading config file: /scratch/efeldma5/waterdiffusion/waterdiffusion/configs/llada_8b_instruct.yaml
+Loading tokenizer from GSAI-ML/LLaDA-8B-Instruct (local_files_only=False)
+DEBUG: self.model_path = GSAI-ML/LLaDA-8B-Instruct
+DEBUG: self.tokenizer_path = GSAI-ML/LLaDA-8B-Instruct
+Loading model from GSAI-ML/LLaDA-8B-Instruct (local_files_only=False)
+  Detected vocab size: 126349
+  Model loaded on: cuda
+  Loading PPL model (GPT-2)...
+  Loading similarity model...
+  Run desc saved to: /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/prompt1_8519605/delta_8.0/run_desc.json
+Found 5 WaterBench files:
+  2-1_longform_qa.jsonl: 200 records
+  2-2_finance_qa.jsonl: 200 records
+  4-1_multi_news.jsonl: 200 records
+  4-2_qmsum.jsonl: 200 records
+  5-1_alpacafarm.jsonl: 805 records
+  Total after interleaving: 1605
+[Shard 0] 0 already done.
+[Shard 0] Running 300 samples (assigned: 300).
+  Re-generating (attempt 1): too_short=False, rep=0.688
+  Re-generating (attempt 2): too_short=True, rep=0.176
+  Re-generating (attempt 3): too_short=False, rep=0.730
+  Re-generating (attempt 4): too_short=False, rep=0.765
+  Re-generating (attempt 5): too_short=False, rep=0.544
+  Re-generating (attempt 1): too_short=False, rep=0.653
+  Re-generating (attempt 2): too_short=False, rep=0.579
+  Re-generating (attempt 3): too_short=False, rep=0.556
+  Re-generating (attempt 4): too_short=False, rep=0.741
+  Re-generating (attempt 5): too_short=False, rep=0.569
+  Re-generating (attempt 6): too_short=False, rep=0.566
+  Re-generating (attempt 7): too_short=False, rep=0.596
+  Re-generating (attempt 8): too_short=False, rep=0.597
+  Re-generating (attempt 9): too_short=False, rep=0.657
+  Re-generating (attempt 10): too_short=False, rep=0.593
+  [Shard 0] 10/300 done
+  Re-generating (attempt 1): too_short=True, rep=0.070
+  [Shard 0] 20/300 done
+  [Shard 0] 30/300 done
+  [Shard 0] 40/300 done
+  Re-generating (attempt 1): too_short=True, rep=0.025
+  [Shard 0] 50/300 done
+  Re-generating (attempt 1): too_short=False, rep=0.604
+  Re-generating (attempt 2): too_short=False, rep=0.535
+  [Shard 0] 60/300 done
+  Re-generating (attempt 1): too_short=False, rep=0.502
+  Re-generating (attempt 1): too_short=False, rep=0.616
+  Re-generating (attempt 1): too_short=False, rep=0.670
+  [Shard 0] 70/300 done
+  [Shard 0] 80/300 done
+  [Shard 0] 90/300 done
+  Re-generating (attempt 1): too_short=False, rep=0.596
+  Re-generating (attempt 1): too_short=False, rep=0.550
+  [Shard 0] 100/300 done
+  Re-generating (attempt 1): too_short=False, rep=0.563
+  Re-generating (attempt 1): too_short=False, rep=0.519
+  [Shard 0] 110/300 done
+  [Shard 0] 120/300 done
+  Re-generating (attempt 1): too_short=False, rep=0.508
+  [Shard 0] 130/300 done
+  [Shard 0] 140/300 done
+  [Shard 0] 150/300 done
+  Re-generating (attempt 1): too_short=True, rep=0.058
+  [Shard 0] 160/300 done
+  Re-generating (attempt 1): too_short=False, rep=0.847
+  Re-generating (attempt 2): too_short=False, rep=0.688
+  Re-generating (attempt 1): too_short=False, rep=0.805
+  Re-generating (attempt 2): too_short=False, rep=0.791
+  Re-generating (attempt 3): too_short=False, rep=0.747
+  Re-generating (attempt 4): too_short=False, rep=0.737
+  Re-generating (attempt 5): too_short=False, rep=0.717
+  Re-generating (attempt 6): too_short=False, rep=0.758
+  Re-generating (attempt 7): too_short=False, rep=0.768
+  Re-generating (attempt 8): too_short=False, rep=0.724
+  Re-generating (attempt 9): too_short=False, rep=0.758
+  Re-generating (attempt 10): too_short=False, rep=0.724
+  Re-generating (attempt 1): too_short=False, rep=0.653
+  Re-generating (attempt 1): too_short=False, rep=0.758
+  Re-generating (attempt 2): too_short=False, rep=0.675
+  Re-generating (attempt 3): too_short=False, rep=0.899
+  [Shard 0] 170/300 done
+  Re-generating (attempt 1): too_short=False, rep=0.566
+  [Shard 0] 180/300 done
+  [Shard 0] 190/300 done
+  Re-generating (attempt 1): too_short=False, rep=0.582
+  Re-generating (attempt 2): too_short=False, rep=0.707
+  [Shard 0] 200/300 done
+  [Shard 0] 210/300 done
+  Re-generating (attempt 1): too_short=True, rep=0.017
+  Re-generating (attempt 1): too_short=True, rep=0.043
+  Re-generating (attempt 2): too_short=True, rep=0.000
+  [Shard 0] 220/300 done
+  [Shard 0] 230/300 done
+  Re-generating (attempt 1): too_short=False, rep=0.529
+  Re-generating (attempt 1): too_short=False, rep=0.771
+  Re-generating (attempt 2): too_short=False, rep=0.580
+  [Shard 0] 240/300 done
+  Re-generating (attempt 1): too_short=False, rep=0.757
+  Re-generating (attempt 1): too_short=False, rep=0.542
+  [Shard 0] 250/300 done
+  Re-generating (attempt 1): too_short=False, rep=0.603
+  Re-generating (attempt 1): too_short=False, rep=0.634
+  Re-generating (attempt 1): too_short=False, rep=0.532
+  [Shard 0] 260/300 done
+  Re-generating (attempt 1): too_short=False, rep=0.641
+  [Shard 0] 270/300 done
+  Re-generating (attempt 1): too_short=False, rep=0.539
+  Re-generating (attempt 2): too_short=False, rep=0.522
+  [Shard 0] 280/300 done
+  Re-generating (attempt 1): too_short=True, rep=0.031
+  [Shard 0] 290/300 done
+  [Shard 0] 300/300 done
+[Shard 0] Done. 300 samples written to /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/prompt1_8519605/delta_8.0/shard_0_of_1.jsonl
+Summary generated (300 samples).
+Summary report saved to: /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/prompt1_8519605/delta_8.0/summary_report.txt
+  Merged shard_0_of_1.jsonl
+Merged 300 total rows → /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/prompt1_8519605/delta_8.0/results_merged.jsonl
+Summary generated (300 samples).
+Summary report saved to: /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/prompt1_8519605/delta_8.0/summary_report.txt
+Job finished on Sun Jun 14 13:39:34 EDT 2026

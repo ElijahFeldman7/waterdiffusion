@@ -1,0 +1,13 @@
+Job started on Sun Jun 14 10:15:07 EDT 2026
+Array task 0 | Delta: 0.5 | Dir: /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/prompt1_8518962/delta_0.5
+  Run directory: /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/prompt1_8518962/delta_0.5
+  Loading watermark from: /scratch/efeldma5/waterdiffusion/waterdiffusion/watermarks/proposal_1_ckas.py
+  Instantiating DWTWatermark
+[Shard 0/1] Loading LLaDA on cpu...
+Loading config file: /scratch/efeldma5/waterdiffusion/waterdiffusion/configs/llada_8b_instruct.yaml
+Warning: CUDA not available, falling back to CPU
+Loading tokenizer from GSAI-ML/LLaDA-8B-Instruct (local_files_only=False)
+DEBUG: self.model_path = GSAI-ML/LLaDA-8B-Instruct
+DEBUG: self.tokenizer_path = GSAI-ML/LLaDA-8B-Instruct
+Loading model from GSAI-ML/LLaDA-8B-Instruct (local_files_only=False)
+Job finished on Sun Jun 14 10:15:33 EDT 2026

@@ -1,0 +1,45 @@
+
+Lmod is automatically replacing "gnu9/9.3.0" with "gnu/12.3.0".
+
+
+Inactive Modules:
+  1) hwloc/2.1.0     2) libfabric     3) ucx
+
+The following have been reloaded with a version change:
+  1) openmpi4/4.0.4 => openmpi4/4.1.6-a2
+
+/scratch/efeldma5/waterdiffusion/waterdiffusion/scripts/waterbench_shared.py:50: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  run_dir: str = str(PROJECT_ROOT / "runs" / f"remask_eval_{datetime.utcnow().strftime('%m_%d_%H_%M')}")
+/scratch/efeldma5/waterdiffusion/watervenv/lib/python3.12/site-packages/torch/cuda/__init__.py:187: UserWarning: CUDA initialization: The NVIDIA driver on your system is too old (found version 12060). Please update your GPU driver by downloading and installing a new version from the URL: http://www.nvidia.com/Download/index.aspx Alternatively, go to: https://pytorch.org to install a PyTorch version that has been compiled with your version of the CUDA driver. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
+  return torch._C._cuda_getDeviceCount() > 0
+/scratch/efeldma5/waterdiffusion/watervenv/lib/python3.12/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+Traceback (most recent call last):
+  File "/scratch/efeldma5/waterdiffusion/waterdiffusion/scripts/waterbench_shared.py", line 582, in <module>
+    evaluator = RemaskEvaluator(config)
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/efeldma5/waterdiffusion/waterdiffusion/scripts/waterbench_shared.py", line 234, in __init__
+    self.generator = LLaDAGenerator(
+                     ^^^^^^^^^^^^^^^
+  File "/scratch/efeldma5/waterdiffusion/waterdiffusion/models/llada.py", line 197, in __init__
+    self.model = AutoModel.from_pretrained(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/efeldma5/waterdiffusion/watervenv/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 556, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/efeldma5/waterdiffusion/watervenv/lib/python3.12/site-packages/transformers/modeling_utils.py", line 3375, in from_pretrained
+    model = cls(config, *model_args, **model_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: LLaDAModelLM.__init__() got an unexpected keyword argument 'dtype'
+/scratch/efeldma5/waterdiffusion/waterdiffusion/scripts/waterbench_shared.py:50: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  run_dir: str = str(PROJECT_ROOT / "runs" / f"remask_eval_{datetime.utcnow().strftime('%m_%d_%H_%M')}")
+/scratch/efeldma5/waterdiffusion/watervenv/lib/python3.12/site-packages/torch/cuda/__init__.py:187: UserWarning: CUDA initialization: The NVIDIA driver on your system is too old (found version 12060). Please update your GPU driver by downloading and installing a new version from the URL: http://www.nvidia.com/Download/index.aspx Alternatively, go to: https://pytorch.org to install a PyTorch version that has been compiled with your version of the CUDA driver. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
+  return torch._C._cuda_getDeviceCount() > 0
+Traceback (most recent call last):
+  File "/scratch/efeldma5/waterdiffusion/waterdiffusion/scripts/waterbench_shared.py", line 574, in <module>
+    merged_path = merge_shards(config)
+                  ^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/efeldma5/waterdiffusion/waterdiffusion/scripts/waterbench_shared.py", line 194, in merge_shards
+    raise FileNotFoundError(f"No shard files found in {run_dir}")
+FileNotFoundError: No shard files found in /scratch/efeldma5/waterdiffusion/waterdiffusion/runs/prompt1_8518962/delta_8.0

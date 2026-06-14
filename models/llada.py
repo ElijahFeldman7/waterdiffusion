@@ -28,7 +28,7 @@ def add_gumbel_noise(logits: torch.Tensor, temperature: float) -> torch.Tensor:
     if temperature == 0:
         return logits
     logits = logits.to(torch.float64)
-    noise = torch.rand_like(logits, torch_dtype=torch.float64)
+    noise = torch.rand_like(logits, dtype=torch.float64)
     gumbel_noise = (- torch.log(noise)) ** temperature
     return logits.exp() / gumbel_noise
 
@@ -36,7 +36,7 @@ def get_num_transfer_tokens(mask_index: torch.Tensor, steps: int) -> torch.Tenso
     mask_num = mask_index.sum(dim=1, keepdim=True)
     base = mask_num // steps
     remainder = mask_num % steps
-    num_transfer_tokens = torch.zeros(mask_num.size(0), steps, device=mask_index.device, torch_dtype=torch.int64) + base
+    num_transfer_tokens = torch.zeros(mask_num.size(0), steps, device=mask_index.device, dtype=torch.int64) + base
     for i in range(mask_num.size(0)):
         num_transfer_tokens[i, :remainder[i]] += 1
     return num_transfer_tokens
@@ -55,7 +55,7 @@ def generate(
     watermark = None
 ) -> torch.Tensor:
     device = prompt.device
-    x = torch.full((1, prompt.shape[1] + gen_length), mask_id, torch_dtype=torch.long, device=device)
+    x = torch.full((1, prompt.shape[1] + gen_length), mask_id, dtype=torch.long, device=device)
     x[:, :prompt.shape[1]] = prompt.clone()
     prompt_index = (x != mask_id)
     
@@ -109,7 +109,7 @@ def generate(
                     key=getattr(watermark, 'key', '')
                 )
             
-            transfer_index = torch.zeros_like(x0, torch_dtype=torch.bool, device=x0.device)
+            transfer_index = torch.zeros_like(x0, dtype=torch.bool, device=x0.device)
             for j in range(confidence.shape[0]):
                 _, select_index = torch.topk(confidence[j], k=num_transfer_tokens[j, i])
                 transfer_index[j, select_index] = True
@@ -294,7 +294,5 @@ class LLaDAGenerator:
 
 
 if __name__ == "__main__":
-    # Minimal smoke test
     gen = LLaDAGenerator(model_path="GSAI-ML/LLaDA-8B-Instruct", device="cuda")
     print(gen.generate_text("What is the capital of France?", steps=8, gen_length=16))
-

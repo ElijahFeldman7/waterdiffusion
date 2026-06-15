@@ -1,0 +1,37 @@
+{
+  "timestamp_utc": "2026-06-15 02:41:36 UTC",
+  "run_dir": "/scratch/efeldma5/waterdiffusion/waterdiffusion/runs/prompt5_8525479/delta_1.50",
+  "watermark": {
+    "class": "DWTWatermark",
+    "file": "/scratch/efeldma5/waterdiffusion/waterdiffusion/watermarks/proposal_5_ogt.py",
+    "key": "xooks",
+    "delta": 1.5,
+    "context_window": 2
+  },
+  "model": {
+    "config": "/scratch/efeldma5/waterdiffusion/waterdiffusion/configs/llada_8b_instruct.yaml",
+    "path": "GSAI-ML/LLaDA-8B-Instruct",
+    "device": "cuda"
+  },
+  "generation": {
+    "gen_length": 300,
+    "gen_steps": 300,
+    "block_length": 25,
+    "system_prompt": "You are a helpful assistant, please answer the following question within 300 words:"
+  },
+  "evaluation": {
+    "num_samples": 300,
+    "num_shards": 1,
+    "p_value_threshold": 0.01,
+    "ppl_model": "gpt2",
+    "similarity_model": "all-MiniLM-L6-v2",
+    "waterbench_dir": "/scratch/efeldma5/waterdiffusion/waterdiffusion/zurich/data/WaterBench"
+  },
+  "environment": {
+    "slurm_job_id": "8525479",
+    "slurm_array_job_id": "8525479",
+    "hostname": "gpu031.orc.gmu.edu",
+    "cuda_visible_devices": "0",
+    "python": "3.12.1 (main, Dec 27 2024, 09:37:30) [GCC 12.3.0]"
+  }
+}

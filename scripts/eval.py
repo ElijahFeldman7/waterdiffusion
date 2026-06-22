@@ -20,7 +20,7 @@ from transformers import GPT2LMHeadModel, GPT2Tokenizer, T5ForConditionalGenerat
 from tqdm.auto import tqdm
 
 PROJECT_ROOT = Path("/scratch/efeldma5/waterdiffusion/waterdiffusion")
-DEFAULT_WATERMARK_PATH = PROJECT_ROOT / "watermarks" / "proposal_1_ckas.py"
+DEFAULT_WATERMARK_PATH = PROJECT_ROOT / "watermarks" / "zurich_diffusion_adapter.py"
 WATERBENCH_DIR = PROJECT_ROOT / "zurich" / "data" / "WaterBench"
 LLADA_CONFIG_PATH = PROJECT_ROOT / "configs" / "llada_8b_instruct.yaml"
 

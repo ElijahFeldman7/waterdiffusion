@@ -50,7 +50,6 @@ def load_kl_points(run_dir: Path, label: str, exclude_deltas=None):
             mean_ppl_wm = df["ppl_wm"].mean()
             mean_ppl_no_wm = df["ppl_no_wm"].mean()
             
-            # Empirical KL estimation via log-PPL difference
             kl_emp = math.log(mean_ppl_wm) - math.log(mean_ppl_no_wm)
             
             tpr = calculate_tpr_at_1fpr(df)

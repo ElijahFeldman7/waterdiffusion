@@ -305,8 +305,6 @@ class OurWatermark(Watermark):
         V = self.vocab_size
         if masked_inputs is None:
             masked_inputs = torch.ones((B, S), dtype=torch.bool, device=logits.device)
-            
-        # Small optimization: skip the prompt
         first_mask_idx = masked_inputs[:, 0].nonzero(as_tuple=True)[0]
         min_mask_idx = first_mask_idx.min().item() if first_mask_idx.numel() > 0 else 0
         start_idx = min_mask_idx + self.convolution_kernel.min().item()

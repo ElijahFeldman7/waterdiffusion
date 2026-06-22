@@ -13,8 +13,6 @@ from dlm_watermark.watermarks.diffusion_watermark import OurWatermark as ZurichD
 
 
 class _VocabShim:
-    """Minimal tokenizer-like shim used only for vocab size during watermark init."""
-
     def __init__(self, vocab_size: int):
         self._vocab_size = int(vocab_size)
 
@@ -23,13 +21,6 @@ class _VocabShim:
 
 
 class ZurichCompatWatermark:
-    """
-    Adapter for scripts/waterbench_shared.py expectations:
-    - __init__(key, delta, vocab_size, device)
-    - watermark_logits(input_ids, logits)
-    - detect(text, tokenizer, p_value_threshold)
-    """
-
     def __init__(
         self,
         key: str = "xooks",
@@ -41,7 +32,6 @@ class ZurichCompatWatermark:
         self.delta = float(delta)
         self.device = device
 
-        # Match the Zurich config in configs/main/Llada/ourWatermark_llada8b_instruct.yaml
         self.core = ZurichDiffusionCore(
             delta=self.delta,
             enforce_kl=False,
@@ -80,7 +70,6 @@ class ZurichCompatWatermark:
         z = float(out.get("z_score", 0.0))
         p = float(out.get("p_value", 1.0))
 
-        # Keep fields aligned with existing JSONL style in runs/remask_eval_*
         return {
             "is_watermarked": bool(p < p_value_threshold),
             "score": z,

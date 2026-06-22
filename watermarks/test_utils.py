@@ -72,20 +72,4 @@ def test_is_position_green():
     
     for pos in range(0, 15):
         is_green = is_position_green(key, pos, green_percentage)
-        marker = "🟢" if is_green else "🔴"
-        print(f"  Position {pos:2d}: {marker} {'GREEN' if is_green else 'RED'}")
-
-
-if __name__ == "__main__":
-    print("="*60)
-    print("Watermark Utilities Test Suite")
-    print("="*60)
-    
-    test_binary_value()
-    test_green_positions()
-    test_is_position_green()
-    
-    print("\n" + "="*60)
-    print("Tests completed!")
-    print("="*60)
 

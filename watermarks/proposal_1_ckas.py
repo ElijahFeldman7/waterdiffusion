@@ -22,23 +22,14 @@ import numpy as np
 import torch
 from scipy.stats import binom, norm
 
-# ---------------------------------------------------------------------------
-# 64-bit keyed hashing primitives (splitmix64 finaliser), fully vectorised in
-# torch int64.  torch integer arithmetic wraps modulo 2^64 (two's complement),
-# which is exactly the behaviour splitmix64 requires.
-# ---------------------------------------------------------------------------
-
 def _i64(c: int) -> int:
-    """Map an unsigned 64-bit constant to its signed two's-complement value
-    so it can be stored in a torch.int64 scalar."""
     return c - (1 << 64) if c >= (1 << 63) else c
 
 
 _GOLDEN = _i64(0x9E3779B97F4A7C15)
 _MIX1 = _i64(0xBF58476D1CE4E5B9)
 _MIX2 = _i64(0x94D049BB133111EB)
-# Independent odd multipliers used to separate the roles of "context token at
-# offset j" and "candidate token" inside the hash input.
+
 _ROLE = [_i64(c) for c in (
     0xD6E8FEB86659FD93, 0xA3B195354A39B70D, 0x9E6C63D0876A9F4F,
     0xC2B2AE3D27D4EB4F, 0x165667B19E3779F9, 0x27D4EB2F165667C5,
@@ -47,14 +38,10 @@ _ROLE = [_i64(c) for c in (
 
 
 def _lsr(x: torch.Tensor, k: int) -> torch.Tensor:
-    """Logical (zero-fill) right shift for int64 tensors.  torch's >> is an
-    arithmetic shift, so we mask off the sign-extended high bits."""
     return (x >> k) & _i64((1 << (64 - k)) - 1)
 
 
 def _mix(x: torch.Tensor) -> torch.Tensor:
-    """splitmix64 finaliser: a bijective avalanche function on 64-bit words.
-    Modelled as a random function in the security analysis."""
     x = x ^ _lsr(x, 30)
     x = x * _MIX1
     x = x ^ _lsr(x, 27)
@@ -64,21 +51,15 @@ def _mix(x: torch.Tensor) -> torch.Tensor:
 
 
 class DWTWatermark:
-    """Context-keyed antipodal watermark (CKAS).
-
-    apply_watermark keeps the baseline signature; detect needs only
-    (text, tokenizer)."""
-
     def __init__(
         self,
         key: str = "xooks",
         delta: float = 2.0,
-        context_window: int = 2,  # w=1 maximises edit robustness, w>=3 maximises partition secrecy; 2 is the compromise (see report Section D)
+        context_window: int = 2,
         vocab_size: int = 50257,
         min_tokens: int = 16,
         chunk_size: int = 128,
         device: str = "cuda" if torch.cuda.is_available() else "cpu",
-        # kept for signature compatibility with the baseline; unused:
         frequency: float = 0.045,
     ):
         self.key = key
@@ -90,83 +71,51 @@ class DWTWatermark:
         self.chunk_size = int(chunk_size)
         self.device = device
 
-        # 64-bit key digest.  All randomness flows through this value; an
-        # adversary without it faces a PRF-indistinguishability problem.
         import hashlib
         self.key_int = _i64(
             int(hashlib.sha256(key.encode()).hexdigest()[:16], 16)
         )
 
-        # Candidate-token index vector, pre-mixed with its role constant so the
-        # per-position score reduces to one _mix call over a broadcasted sum.
         idx = torch.arange(self.vocab_size, dtype=torch.int64, device=device)
         self._idx_mixed = (idx + 1) * _ROLE[0]
 
-    # ------------------------------------------------------------------
-    # Hashing
-    # ------------------------------------------------------------------
-
     def _context_hashes(self, ids: torch.Tensor) -> torch.Tensor:
-        """Keyed rolling hash of the w tokens preceding each position.
-
-        ids: (..., S) int64 token ids.  Returns (..., S) int64 hashes.
-        Position t's hash depends only on tokens t-w .. t-1 (and the key),
-        never on t itself -> shift invariance of the score sequence (R3).
-        Positions t < w hash a deterministic pad value for the missing slots;
-        the detector simply skips those positions.
-        """
         ids = ids.to(torch.int64)
         h = torch.full_like(ids, self.key_int)
         for j in range(1, self.window + 1):
             prev = torch.roll(ids, shifts=j, dims=-1).clone()
-            # Pad out-of-range slots with a constant; these positions are
-            # excluded from detection so the exact pad value is irrelevant.
             prev[..., :j] = -j
-            # Absorb the token at offset -j under its own role multiplier.
             h = _mix(h ^ ((prev + 2) * _ROLE[j]))
         return _mix(h)
 
     def _scores_all_tokens(self, h: torch.Tensor) -> torch.Tensor:
-        """(P,) hashes -> (P, V) float32 scores in {-1, +1}.
-
-        s(v | h) = 2 * topbit(mix(h XOR role(v))) - 1.  Under the random
-        function model these are iid Rademacher across distinct (h, v)."""
         y = _mix(h.unsqueeze(-1) ^ self._idx_mixed.unsqueeze(0))
         return _lsr(y, 63).to(torch.float32) * 2.0 - 1.0
 
     def _scores_for_tokens(self, h: torch.Tensor, tok: torch.Tensor) -> torch.Tensor:
-        """Pointwise score of the realised token at each position: (S,) -> (S,)."""
         y = _mix(h ^ ((tok.to(torch.int64) + 1) * _ROLE[0]))
         return _lsr(y, 63).to(torch.float32) * 2.0 - 1.0
-
-    # ------------------------------------------------------------------
-    # Generation-time bias
-    # ------------------------------------------------------------------
 
     @torch.no_grad()
     def apply_watermark(
         self,
-        logits: torch.Tensor,        # (B, S, V_logits)
-        current_text: torch.Tensor,  # (B, S) partially decoded ids
-        mask_index: torch.Tensor,    # (B, S) True where still masked
+        logits: torch.Tensor,       
+        current_text: torch.Tensor,  
+        mask_index: torch.Tensor,    
         step: int,
         confidence: torch.Tensor,
-        x0: torch.Tensor,            # (B, S) model's current full-sequence estimate
+        x0: torch.Tensor,            
         **kwargs,
     ) -> torch.Tensor:
         B, S, V_logits = logits.shape
         V = min(V_logits, self.vocab_size)
 
-        # Best available estimate of every position's eventual context: the
-        # committed token where decoded, the model's x0 prediction where still
-        # masked.  Committed neighbours dominate as decoding progresses, so
-        # the generation-time hash converges to the detection-time hash.
         if x0 is not None:
             ctx_ids = torch.where(mask_index, x0, current_text)
         else:
             ctx_ids = current_text
 
-        hashes = self._context_hashes(ctx_ids)  # (B, S)
+        hashes = self._context_hashes(ctx_ids)  
 
         modified = logits.clone()
         for b in range(B):
@@ -238,90 +187,3 @@ class DWTWatermark:
             "z_score": z_score,
             "p_value": p_value,
         }
-
-
-# ---------------------------------------------------------------------------
-# Self-test: null calibration (FPR) and power under simulated generation.
-# ---------------------------------------------------------------------------
-"""
-if __name__ == "__main__":
-    torch.manual_seed(0)
-    np.random.seed(0)
-
-    V, S, TRIALS = 1000, 200, 400
-    wm = DWTWatermark(key="testkey", delta=2.0, context_window=3,
-                      vocab_size=V, device="cpu")
-
-    class MockTok:
-        def encode(self, text, return_tensors=None):
-            ids = torch.tensor([int(x) for x in text.split()], dtype=torch.long)
-            return ids.unsqueeze(0)
-
-    tok = MockTok()
-
-    # --- shape / signature smoke test on the diffusion interface -----------
-    B = 2
-    logits = torch.zeros(B, S, V)
-    cur = torch.randint(0, V, (B, S))
-    mask = torch.rand(B, S) > 0.5
-    x0 = torch.randint(0, V, (B, S))
-    out = wm.apply_watermark(logits, cur, mask, 0, torch.rand(B, S), x0)
-    assert out.shape == (B, S, V)
-    assert torch.all(out[~mask] == 0), "unmasked rows must be untouched"
-    changed_pos = mask.clone()
-    changed_pos[:, : wm.window] = False  # first w positions are never biased
-    assert torch.all(out[changed_pos].abs() == wm.delta), "bias must be +/-delta"
-
-    # --- null calibration: random text, p-values should be superuniform ----
-    pvals = []
-    for _ in range(TRIALS):
-        ids = np.random.randint(0, V, size=S)
-        r = wm.detect(" ".join(map(str, ids)), tok)
-        pvals.append(r["p_value"])
-    pvals = np.array(pvals)
-    fpr_01 = (pvals < 0.01).mean()
-    print(f"[null] mean p={pvals.mean():.3f}  FPR@0.01={fpr_01:.4f}")
-    assert fpr_01 <= 0.03, "null miscalibrated"
-
-    # --- power: simulate sequential sampling from the tilted distribution --
-    def simulate_watermarked(delta):
-        ids = list(np.random.randint(0, V, size=wm.window))  # unbiased seed
-        for t in range(wm.window, S):
-            ctx = torch.tensor(ids, dtype=torch.int64).unsqueeze(0)
-            h = wm._context_hashes(
-                torch.tensor(ids + [0], dtype=torch.int64).unsqueeze(0)
-            )[0, -1]  # hash for the next position (depends only on prefix)
-            sc = wm._scores_all_tokens(h.view(1))[0]  # (V,)
-            logp = delta * sc
-            p = torch.softmax(logp, dim=0).numpy()    # tilted uniform base LM
-            ids.append(int(np.random.choice(V, p=p)))
-        return ids
-
-    zs, det = [], 0
-    for _ in range(60):
-        ids = simulate_watermarked(wm.delta)
-        r = wm.detect(" ".join(map(str, ids)), tok)
-        zs.append(r["z_score"]); det += r["is_watermarked"]
-    print(f"[wm]   mean z={np.mean(zs):.2f}  TPR@1%FPR={det/60:.2f}")
-    assert det / 60 > 0.95
-
-    # --- robustness: 20% random substitution -------------------------------
-    det = 0
-    for _ in range(60):
-        ids = np.array(simulate_watermarked(wm.delta))
-        idx = np.random.choice(S, size=int(0.2 * S), replace=False)
-        ids[idx] = np.random.randint(0, V, size=len(idx))
-        r = wm.detect(" ".join(map(str, ids)), tok)
-        det += r["is_watermarked"]
-    print(f"[wm+20%sub] TPR@1%FPR={det/60:.2f}")
-
-    # --- robustness: 10% random deletion (position shift) -------------------
-    det = 0
-    for _ in range(60):
-        ids = np.array(simulate_watermarked(wm.delta))
-        keep = np.sort(np.random.choice(S, size=int(0.9 * S), replace=False))
-        r = wm.detect(" ".join(map(str, ids[keep])), tok)
-        det += r["is_watermarked"]
-    print(f"[wm+10%del] TPR@1%FPR={det/60:.2f}")
-    print("CKAS self-test passed.")
-"""

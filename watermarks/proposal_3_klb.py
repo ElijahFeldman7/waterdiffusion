@@ -1,36 +1,9 @@
-"""
-Proposal 3 — KLB: KL-Budgeted Exponential Tilting of context-keyed scores.
-
-Ports the theoretically correct piece of ZurichWatermark — per-position
-KL-constrained perturbation solved by bisection — into the context-keyed
-antipodal framework.  Instead of adding a fixed +/-delta to every token's
-logit, each masked position t receives the *largest* tilt delta_t such that
-KL(P_t^wm || P_t^base) <= kl_budget exactly.  Because the perturbation is a
-two-level (antipodal) tilt, the KL has a closed form in the single scalar
-g_t = P_base(green | context_t), so the bisection is a cheap scalar root-find
-vectorised over positions — no gradients, no energy functional, no top-k
-approximation are needed (the gradient direction of Zurich's energy functional
-collapses to the antipodal score vector itself in this model; see report).
-
-This gives: (i) a hard per-position distortion guarantee, (ii) no wasted
-budget at low-entropy positions where a fixed delta would burn KL for no
-detectable signal, and (iii) bounded distortion at positions where a fixed
-delta would overshoot.  The detector is the same exact Binomial(n, 1/2) test
-as Proposal 1 (it cannot observe delta_t — an honestly stated mismatch with
-the weighted-LRT ideal, analysed in the report).
-
-R1/R3 hold via the context-keyed scores; R4 holds via the exact binomial
-null; R5 signatures are preserved.  Dependencies: torch, numpy, scipy.
-"""
-
 import math
 from typing import Any, Dict
 
 import numpy as np
 import torch
 from scipy.stats import binom
-
-# --------------------------- hashing primitives ---------------------------
 
 def _i64(c: int) -> int:
     return c - (1 << 64) if c >= (1 << 63) else c
@@ -58,21 +31,18 @@ def _mix(x: torch.Tensor) -> torch.Tensor:
 
 
 class DWTWatermark:
-    """KL-budgeted context-keyed antipodal watermark (KLB)."""
-
     def __init__(
         self,
         key: str = "xooks",
-        kl_budget: float = 0.10,      # nats per position: KL(P_wm || P_base) cap
-        delta_max: float = 4.0,       # tilt cap; prevents blow-up at g -> {0,1}
-        context_window: int = 2,  # w=1 maximises edit robustness, w>=3 maximises partition secrecy; 2 is the compromise (see report Section D)
-        temperature: float = 1.0,     # sampling temperature used by the decoder
+        kl_budget: float = 0.10,     
+        delta_max: float = 4.0,     
+        context_window: int = 2,  
+        temperature: float = 1.0,
         vocab_size: int = 50257,
         min_tokens: int = 16,
         chunk_size: int = 128,
         bisect_iters: int = 40,
         device: str = "cuda" if torch.cuda.is_available() else "cpu",
-        # signature compatibility with the baseline (unused):
         delta: float = None,
         frequency: float = 0.045,
     ):
@@ -91,9 +61,6 @@ class DWTWatermark:
         self.key_int = _i64(int(hashlib.sha256(key.encode()).hexdigest()[:16], 16))
         idx = torch.arange(self.vocab_size, dtype=torch.int64, device=device)
         self._idx_mixed = (idx + 1) * _ROLE[0]
-
-    # ---- context-keyed scoring (identical construction to Proposal 1) ----
-
     def _context_hashes(self, ids: torch.Tensor) -> torch.Tensor:
         ids = ids.to(torch.int64)
         h = torch.full_like(ids, self.key_int)
@@ -111,34 +78,18 @@ class DWTWatermark:
         y = _mix(h ^ ((tok.to(torch.int64) + 1) * _ROLE[0]))
         return _lsr(y, 63).to(torch.float32) * 2.0 - 1.0
 
-    # ------------------------- KL machinery --------------------------------
 
     @staticmethod
     def _kl_of_delta(d: torch.Tensor, g: torch.Tensor) -> torch.Tensor:
-        """Exact KL(P_wm || P_base) for the antipodal tilt, as a function of
-        the tilt d >= 0 and the base green mass g = P_base(s = +1).
-
-        With q(v) = p(v) e^{d s_v} / Z and Z = g e^d + (1-g) e^{-d}:
-            E_q[s]        = (g e^d - (1-g) e^{-d}) / Z
-            KL(q || p)    = d * E_q[s] - log Z
-        All terms are computed in log space for numerical stability."""
         g = g.clamp(1e-9, 1 - 1e-9)
         log_g, log_1mg = torch.log(g), torch.log1p(-g)
         logZ = torch.logaddexp(log_g + d, log_1mg - d)
-        # E_q[s] = exp(log_g + d - logZ) - exp(log_1mg - d - logZ)
         e_q_s = torch.exp(log_g + d - logZ) - torch.exp(log_1mg - d - logZ)
         return d * e_q_s - logZ
 
     def _solve_delta(self, g: torch.Tensor) -> torch.Tensor:
-        """Vectorised bisection: largest d in [0, delta_max] with
-        KL(d; g) <= kl_budget.  KL is continuous, increasing in d on [0, inf)
-        with KL(0) = 0, so the root is unique and bisection converges
-        geometrically: after k iters the bracket has width delta_max * 2^-k
-        (40 iters => ~4e-12, far below float32 resolution)."""
         lo = torch.zeros_like(g)
         hi = torch.full_like(g, self.delta_max)
-        # If even delta_max stays within budget (typical at g near 0 or 1,
-        # where tilting barely moves the distribution), keep delta_max.
         within = self._kl_of_delta(hi, g) <= self.kl_budget
         for _ in range(self.bisect_iters):
             mid = 0.5 * (lo + hi)
@@ -146,18 +97,15 @@ class DWTWatermark:
             hi = torch.where(too_high, mid, hi)
             lo = torch.where(too_high, lo, mid)
         return torch.where(within, torch.full_like(g, self.delta_max), lo)
-
-    # ------------------------------------------------------------------
-
     @torch.no_grad()
     def apply_watermark(
         self,
-        logits: torch.Tensor,        # (B, S, V_logits)
-        current_text: torch.Tensor,  # (B, S)
-        mask_index: torch.Tensor,    # (B, S)
+        logits: torch.Tensor,       
+        current_text: torch.Tensor,  
+        mask_index: torch.Tensor,    
         step: int,
         confidence: torch.Tensor,
-        x0: torch.Tensor,            # (B, S)
+        x0: torch.Tensor,           
         **kwargs,
     ) -> torch.Tensor:
         B, S, V_logits = logits.shape
@@ -165,7 +113,7 @@ class DWTWatermark:
 
         ctx_ids = torch.where(mask_index, x0, current_text) if x0 is not None \
             else current_text
-        hashes = self._context_hashes(ctx_ids)  # (B, S)
+        hashes = self._context_hashes(ctx_ids)  
 
         modified = logits.clone()
         for b in range(B):
@@ -174,21 +122,14 @@ class DWTWatermark:
             if pos.numel() == 0:
                 continue
             for chunk in pos.split(self.chunk_size):
-                s = self._scores_all_tokens(hashes[b, chunk])[:, :V]      # (P,V)
-                # Base distribution this decoder will actually sample from.
+                s = self._scores_all_tokens(hashes[b, chunk])[:, :V]     
                 p0 = torch.softmax(
                     logits[b, chunk, :V].float() / self.temperature, dim=-1)
-                # g_t = base probability mass on the green half at position t.
-                g = (p0 * (s > 0).float()).sum(dim=-1)                    # (P,)
-                # Largest tilt meeting the per-position KL budget, exactly.
-                d = self._solve_delta(g)                                  # (P,)
-                # Tilting logits by (temperature * d * s) tilts the sampled
-                # distribution by exp(d * s): softmax((l + T d s)/T)
-                # = p0 * exp(d s) / Z.
+                g = (p0 * (s > 0).float()).sum(dim=-1)                    
+                d = self._solve_delta(g)                                 
                 modified[b, chunk, :V] += (self.temperature * d).unsqueeze(1) * s
         return modified
 
-    # ------------------------------------------------------------------
 
     def detect(
         self,
@@ -197,10 +138,6 @@ class DWTWatermark:
         p_value_threshold: float = 0.01,
         **kwargs,
     ) -> Dict[str, Any]:
-        """Identical exact binomial detector as Proposal 1: the per-position
-        delta_t is not observable from text alone, so the detector treats all
-        scored positions equally.  The null is unaffected (still exactly
-        Binomial(n, 1/2)); only the alternative's per-token mean varies."""
         tokens = tokenizer.encode(text, return_tensors="pt")[0].to(self.device)
         tokens = torch.clamp(tokens.to(torch.int64), 0, self.vocab_size - 1)
         S = int(tokens.shape[0])
@@ -231,72 +168,3 @@ class DWTWatermark:
             "z_score": z_score,
             "p_value": p_value,
         }
-
-
-# --------------------------------- tests ----------------------------------
-if __name__ == "__main__":
-    torch.manual_seed(0)
-    np.random.seed(0)
-    V, S = 1000, 200
-    wm = DWTWatermark(key="testkey", kl_budget=0.10, vocab_size=V, device="cpu")
-
-    class MockTok:
-        def encode(self, text, return_tensors=None):
-            return torch.tensor([int(x) for x in text.split()],
-                                dtype=torch.long).unsqueeze(0)
-    tok = MockTok()
-
-    # KL machinery correctness: brute-force check of the closed form.
-    g = torch.tensor([0.5, 0.1, 0.9, 0.01])
-    d = torch.tensor([1.0, 2.0, 0.5, 3.0])
-    for gi, di in zip(g, d):
-        p = torch.tensor([gi, 1 - gi])
-        q = p * torch.exp(di * torch.tensor([1.0, -1.0]))
-        q = q / q.sum()
-        kl_ref = float((q * torch.log(q / p)).sum())
-        kl = float(DWTWatermark._kl_of_delta(di.view(1), gi.view(1)))
-        assert abs(kl - kl_ref) < 1e-5, (kl, kl_ref)
-    # bisection meets the budget exactly (where not capped)
-    dsol = wm._solve_delta(torch.tensor([0.3, 0.5, 0.7]))
-    kl = DWTWatermark._kl_of_delta(dsol, torch.tensor([0.3, 0.5, 0.7]))
-    assert torch.all((kl - wm.kl_budget).abs() < 1e-4)
-    print(f"[kl] closed form + bisection verified; delta at g=0.5: {dsol[1]:.3f}")
-
-    # Non-uniform base LM: Zipfian, so g varies across contexts and the
-    # budget-capping actually engages.
-    ranks = np.arange(1, V + 1)
-    base_p = (1.0 / ranks); base_p /= base_p.sum()
-
-    def simulate(kl_budget):
-        wm.kl_budget = kl_budget
-        ids = list(np.random.randint(0, V, size=wm.window))
-        kls = []
-        while len(ids) < S:
-            h = wm._context_hashes(torch.tensor(ids + [0]).unsqueeze(0))[0, -1]
-            sc = wm._scores_all_tokens(h.view(1))[0].numpy()
-            # context-shuffled Zipf so g genuinely varies position to position
-            perm = np.random.permutation(V)
-            p0 = base_p[perm]
-            g = torch.tensor([float(p0[sc > 0].sum())])
-            d = float(wm._solve_delta(g))
-            q = p0 * np.exp(d * sc); q /= q.sum()
-            kls.append(float((q * np.log(q / p0)).sum()))
-            ids.append(int(np.random.choice(V, p=q)))
-        return ids, float(np.mean(kls))
-
-    pvals = []
-    for _ in range(300):
-        ids = np.random.randint(0, V, size=S)
-        pvals.append(wm.detect(" ".join(map(str, ids)), tok)["p_value"])
-    print(f"[null] FPR@0.01={(np.array(pvals) < 0.01).mean():.4f}")
-
-    det, zs, spent = 0, [], []
-    for _ in range(50):
-        ids, kl_mean = simulate(0.10)
-        spent.append(kl_mean)
-        r = wm.detect(" ".join(map(str, ids)), tok)
-        zs.append(r["z_score"]); det += r["is_watermarked"]
-    print(f"[wm kl=0.10] mean z={np.mean(zs):.2f}  TPR@1%FPR={det/50:.2f}  "
-          f"realised KL/token={np.mean(spent):.4f} (cap respected)")
-    assert det / 50 > 0.9 and np.mean(spent) <= 0.10 + 1e-6
-    print("KLB self-test passed.")

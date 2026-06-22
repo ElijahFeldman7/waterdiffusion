@@ -154,11 +154,12 @@ def main():
         ppl_label = "GPT-2"
 
     configs = [
-        {"dir": runs / "prompt1_8519605", "label": "Prop 1 (CKAS)", "color": "#D97706", "marker": "s", "exclude": [1.0, 2.0]},
-        {"dir": runs / "prompt2_8522189", "label": "Prop 2 (ARC)",  "color": "#3B82F6", "marker": "o", "exclude": [1.0, 2.0]},
+        {"dir": runs / "prompt1_8519605", "label": "Prop 1 (CKAS)", "color": "#D97706", "marker": "s", "exclude": []},
+        {"dir": runs / "prompt2_8522189", "label": "Prop 2 (ARC)",  "color": "#3B82F6", "marker": "o", "exclude": []},
         {"dir": runs / "prompt3_8522188", "label": "Prop 3 (KLB)",  "color": "#8B5CF6", "marker": "D", "exclude": []},
-        {"dir": runs / "prompt4_8522187", "label": "Prop 4",        "color": "#EF4444", "marker": "P", "exclude": [1.0, 2.0]},
-        {"dir": runs / "zurich_eval_same_prompts_7006629", "label": "Zurich", "color": "#059669", "marker": "^", "exclude": [1.0, 2.0]},
+        {"dir": runs / "prompt4_8522187", "label": "Prop 4",        "color": "#EF4444", "marker": "P", "exclude": []},
+        {"dir": runs / "prompt5_8525479", "label": "Prop 5", "color": "#72B572", "marker": "s", "exclude": []},
+        {"dir": runs / "zurich_eval_same_prompts_7006629", "label": "Zurich", "color": "#059669", "marker": "^", "exclude": []},
     ]
 
     plt.figure(figsize=(11, 7))

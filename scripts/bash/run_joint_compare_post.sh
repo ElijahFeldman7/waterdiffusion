@@ -25,5 +25,5 @@ cd "$PROJECT_DIR"
 RUN_DIR="$1"
 PPL_MODEL=${PPL_MODEL:-Qwen/Qwen2.5-32B-Instruct}
 
-python scripts/benchmark.py ppl --run_dir "$RUN_DIR" --ppl_model "$PPL_MODEL" --batch_size 4
-python scripts/benchmark.py summarize --run_dir "$RUN_DIR" --min_tokens 100
+python3 scripts/benchmark.py ppl --run_dir "$RUN_DIR" --ppl_model "$PPL_MODEL" --batch_size 4
+python3 scripts/benchmark.py summarize --run_dir "$RUN_DIR" --min_tokens 100

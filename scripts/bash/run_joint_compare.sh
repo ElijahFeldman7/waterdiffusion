@@ -36,7 +36,7 @@ METHODS=(
 )
 
 echo "Task ${SLURM_ARRAY_TASK_ID}/${SLURM_ARRAY_TASK_COUNT} | T=${TEMP} remask=${REMASK} | ${RUN_DIR}"
-python scripts/benchmark.py generate \
+python3 scripts/benchmark.py generate \
   --run_dir "$RUN_DIR" \
   --shard "$SLURM_ARRAY_TASK_ID" --num_shards "$SLURM_ARRAY_TASK_COUNT" \
   --num_samples "$NUM_SAMPLES" \

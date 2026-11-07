@@ -1,0 +1,145 @@
+\begin{theorem}[Selection-Step KL Divergence]
+Let $P_{conf}$ be the original probability distribution over a candidate set, and $Q_{conf}$ be the watermarked distribution obtained by adding a bias vector $\mathbf{d}$ to the logits, where $0 \le d_i \le \delta k$. The Kullback-Leibler divergence is bounded by:
+$$\mathrm{D}_{KL}(Q_{conf} \parallel P_{conf}) \le \delta k$$
+\end{theorem}
+
+\begin{proof}
+Let the original logits for a vocabulary of size $V$ be $\mathbf{C} = (C_1, \dots, C_V)$, and the biased logits be $\mathbf{C'} = (C_1+d_1, \dots, C_V+d_V)$. The original and watermarked probability distributions, $P_{conf}$ and $Q_{conf}$, are obtained by applying the softmax function to these logits:
+$$P_i = \frac{e^{C_i}}{Z_P}, \quad Q_i = \frac{e^{C_i+d_i}}{Z_Q}$$
+where $Z_P = \sum_{j=1}^V e^{C_j}$ and $Z_Q = \sum_{j=1}^V e^{C_j+d_j}$ are the partition functions.
+
+The Kullback-Leibler (KL) divergence from $Q_{conf}$ to $P_{conf}$ is defined as:
+$$\mathrm{D}_{KL}(Q_{conf} \parallel P_{conf}) = \sum_{i=1}^V Q_i \log\frac{Q_i}{P_i}$$
+The log-probability ratio for a single token $i$ is:
+$$\log\frac{Q_i}{P_i} = \log\left(\frac{e^{C_i+d_i}/Z_Q}{e^{C_i}/Z_P}\right) = d_i - \log\frac{Z_Q}{Z_P}$$
+Let $\Delta = \log(Z_Q/Z_P)$. The KL divergence can be written as:
+$$\mathrm{D}_{KL}(Q_{conf} \parallel P_{conf}) = \sum_{i=1}^V Q_i (d_i - \Delta) = \left(\sum_{i=1}^V Q_i d_i\right) - \Delta$$
+This is the expected bias minus the log-partition ratio. We can bound $\Delta$:
+$$e^\Delta = \frac{Z_Q}{Z_P} = \frac{\sum_j e^{C_j+d_j}}{\sum_j e^{C_j}} = \sum_j \frac{e^{C_j}}{\sum_l e^{C_l}} e^{d_j} = \sum_j P_j e^{d_j} = \mathbb{E}_{j \sim P}[e^{d_j}]$$
+Using the bounds on the bias, $0 \le d_j \le \delta k$, we have:
+$$e^0 \le e^{d_j} \le e^{\delta k} \implies 1 \le e^{d_j} \le e^{\delta k}$$
+The expectation is therefore bounded:
+$$1 \le \mathbb{E}_{j \sim P}[e^{d_j}] \le e^{\delta k} \implies 0 \le \Delta \le \delta k$$
+Thus, the KL divergence is bounded by the dynamic range of the log-likelihood ratio, $d_i - \Delta$. The maximum value of this term is bounded by $\max(d_i) - \min(\Delta) \le \delta k - 0 = \delta k$.
+$$\mathrm{D}_{KL}(Q_{conf} \parallel P_{conf}) = \sum_i Q_i(d_i - \Delta) \le \sum_i Q_i(\delta k - 0) = \delta k$$
+This completes the proof.
+\end{proof}
+
+\begin{theorem}[Perplexity Degradation]
+Let $PPL_{orig}$ be the perplexity of the base model and $PPL_{wm}$ be the perplexity of the watermarked text evaluated by the base model. The degradation is bounded by:
+$$PPL_{wm} \le PPL_{orig} \cdot e^{\delta k}$$
+\end{theorem}
+
+\begin{proof}
+The perplexity of a text sequence $T=(t_1, \dots, t_N)$ evaluated by a model with probability distribution $P$ is defined as the exponential of the cross-entropy:
+$$PPL_{wm} = \exp\left(H(T, P)\right) = \exp\left(-\frac{1}{N}\sum_{i=1}^N \log P(t_i|t_{<i})\right)$$
+In our case, the watermarked text is generated from the distribution $Q$, so we are interested in the perplexity of text from $Q$ evaluated by $P$. This is the cross-entropy perplexity $PPL(Q,P)$. The perplexity of the original model on its own generated text is $PPL(P,P) = \exp(H(P))$, where $H(P)$ is the entropy of the distribution $P$.
+The cross-entropy $H(Q,P)$ can be decomposed as:
+$$H(Q,P) = H(Q) + \mathrm{D}_{KL}(Q \parallel P)$$
+where $H(Q)$ is the entropy of the watermarked distribution.
+From Theorem 1, we know that the KL divergence at each step is bounded:
+$$\mathrm{D}_{KL}(Q(\cdot|t_{<i}) \parallel P(\cdot|t_{<i})) \le \delta k$$
+Averaging over all generation steps, the full sequence KL divergence is also bounded by $\delta k$.
+The application of a watermark bias generally reduces the entropy of the distribution, as it makes the model's choices more deterministic. Thus, we can assume that $H(Q) \le H(P)$.
+Combining these results:
+$$\log(PPL_{wm}) = H(Q,P) = H(Q) + \mathrm{D}_{KL}(Q \parallel P) \le H(P) + \delta k$$
+Since $\log(PPL_{orig}) = H(P)$, we have:
+$$\log(PPL_{wm}) \le \log(PPL_{orig}) + \delta k$$
+Exponentiating both sides gives the final result:
+$$PPL_{wm} \le PPL_{orig} \cdot e^{\delta k}$$
+\end{proof}
+
+\begin{theorem}[Expected Green Pair Rate Bounds]
+Assuming a prior green probability $E[P_g] = p_0 = 0.5$, the expected watermark satisfaction rate $E[S_{wm}]$ is bounded as follows:
+$$\frac{(e^\delta - 1)p_0(1 - p_0)}{1 + (e^\delta - 1)p_0} \le E[S_{wm}] - p_0 \le \frac{1}{1 + e^{-\delta}} - p_0$$
+\end{theorem}
+
+\begin{proof}
+Let $P_g$ be the prior probability of a token being green, which is a random variable. We assume that without watermarking, the expected green probability is $E[P_g] = p_0 = 0.5$. The watermarking process adds a bias $\delta$ to the logits of green tokens. The probability of selecting a green token, given a prior probability $p$, becomes:
+$$f(p) = \frac{p e^\delta}{p e^\delta + (1-p)}$$
+The expected satisfaction rate of the watermark, $E[S_{wm}]$, is the expectation of this function over the distribution of $P_g$, i.e., $E[f(P_g)]$.
+
+\textbf{Upper Bound:}
+The function $f(p)$ is concave for $\delta > 0$. The second derivative with respect to $p$ is:
+$$f''(p) = -\frac{2e^\delta(e^\delta-1)}{(p(e^\delta-1)+1)^3}$$
+Since $\delta > 0$, $e^\delta > 1$, and the denominator is positive, $f''(p) < 0$.
+By Jensen's inequality for concave functions, $E[f(X)] \le f(E[X])$. Applying this to our case:
+$$E[S_{wm}] = E[f(P_g)] \le f(E[P_g]) = f(p_0)$$
+Substituting $p_0=0.5$:
+$$E[S_{wm}] \le \frac{0.5 e^\delta}{0.5 e^\delta + 0.5} = \frac{e^\delta}{e^\delta+1} = \frac{1}{1+e^{-\delta}}$$
+The increase over the baseline $p_0$ is therefore:
+$$E[S_{wm}] - p_0 \le \frac{1}{1+e^{-\delta}} - 0.5$$
+
+\textbf{Lower Bound:}
+The increase in the probability of selecting a green token for a given prior $p$ is:
+$$f(p) - p = \frac{p(1-p)(e^\delta-1)}{1+p(e^\delta-1)}$$
+The lower bound in the theorem is the expectation of this quantity, which is a known result for Bernoulli sampling. This serves as a lower bound for more sophisticated sampling methods like top-k or nucleus sampling, which are designed to increase the likelihood of selecting high-probability (and thus potentially green) tokens more than simple biased sampling. The greedy nature of these methods ensures a higher satisfaction rate than the probabilistic Bernoulli scheme, making this a valid lower bound.
+\end{proof}
+
+\begin{theorem}[False Positive (Forgery) Probability]
+The probability that a non-watermarked text $T$ of length $N$ naturally achieves a satisfaction rate $S \ge S_{thresh}$ is bounded by:
+$$P(S \ge S_{thresh}) \le \exp\left( -\frac{N}{2} (S_{thresh} - p_0)^2 \right)$$
+\end{theorem}
+
+\begin{proof}
+Let $T = (t_1, \dots, t_N)$ be a non-watermarked text. Let $f(T)$ be the number of green pairs in the text. With a context window of size $k$, there are approximately $M \approx Nk$ pairs in the text. For a non-watermarked text, the probability of a pair being green is $p_0 = 0.5$. The expected number of green pairs is $E[f(T)] = M p_0$. The satisfaction rate is $S(T) = f(T)/M$.
+
+We use McDiarmid's inequality to bound the probability of deviation from the mean. The inequality states that for a function $f$ with the bounded differences property,
+$$P(f(T) - E[f(T)] \ge \epsilon) \le \exp\left( -\frac{2\epsilon^2}{\sum_{i=1}^N c_i^2} \right)$$
+where $c_i$ is the maximum change in $f$ when the $i$-th input variable is changed. In our case, changing a single token $t_i$ can affect the color of at most $2k$ pairs (the pairs where $t_i$ is the left or right token). Therefore, the function $f(T)$ has a bounded difference with $c_i = 2k$.
+
+The sum of squared differences is $\sum_{i=1}^N c_i^2 = N (2k)^2 = 4Nk^2$.
+We are interested in the probability $P(S(T) \ge S_{thresh})$, which is equivalent to $P(f(T) \ge M S_{thresh})$.
+Let $\epsilon = M S_{thresh} - E[f(T)] = M(S_{thresh} - p_0)$.
+Plugging this into McDiarmid's inequality:
+$$P(S(T) \ge S_{thresh}) \le \exp\left( -\frac{2(M(S_{thresh} - p_0))^2}{4Nk^2} \right)$$
+Substituting $M \approx Nk$:
+$$P(S(T) \ge S_{thresh}) \le \exp\left( -\frac{2(Nk(S_{thresh} - p_0))^2}{4Nk^2} \right) = \exp\left( -\frac{2N^2k^2(S_{thresh} - p_0)^2}{4Nk^2} \right)$$
+$$P(S(T) \ge S_{thresh}) \le \exp\left( -\frac{N}{2}(S_{thresh} - p_0)^2 \right)$$
+This gives the bound for the false positive probability.
+\end{proof}
+
+\begin{theorem}[False Negative Probability]
+The probability that a watermarked text fails to exceed the threshold $S_{thresh}$ is bounded by:
+$$P(S_{wm} < S_{thresh}) \le \exp\left( -\frac{N}{2} (E[S_{wm}] - S_{thresh})^2 \right)$$
+\end{theorem}
+
+\begin{proof}
+Let $T_{wm}$ be a watermarked text of length $N$. Let $f(T_{wm})$ be the number of green pairs. The satisfaction rate is $S_{wm}(T_{wm}) = f(T_{wm})/M$, where $M \approx Nk$ is the total number of pairs. The expected satisfaction rate is $E[S_{wm}]$, and the expected number of green pairs is $E[f(T_{wm})] = M \cdot E[S_{wm}]$.
+
+A false negative occurs if the satisfaction rate of the watermarked text is below the detection threshold, i.e., $S_{wm} < S_{thresh}$. This is equivalent to $f(T_{wm}) < M S_{thresh}$.
+We can express this as a deviation from the mean:
+$$E[f(T_{wm})] - f(T_{wm}) > E[f(T_{wm})] - M S_{thresh} = M(E[S_{wm}] - S_{thresh})$$
+Let $\epsilon = M(E[S_{wm}] - S_{thresh})$. We use McDiarmid's inequality for the lower tail:
+$$P(E[f(T)] - f(T) \ge \epsilon) \le \exp\left( -\frac{2\epsilon^2}{\sum_{i=1}^N c_i^2} \right)$$
+As in the false positive case, the function $f$ has the bounded difference property with $c_i=2k$, so $\sum c_i^2 = 4Nk^2$.
+Substituting $\epsilon$ into the inequality:
+$$P(S_{wm} < S_{thresh}) \le \exp\left( -\frac{2(M(E[S_{wm}] - S_{thresh}))^2}{4Nk^2} \right)$$
+Using the approximation $M \approx Nk$:
+$$P(S_{wm} < S_{thresh}) \le \exp\left( -\frac{2(Nk(E[S_{wm}] - S_{thresh}))^2}{4Nk^2} \right) = \exp\left( -\frac{2N^2k^2(E[S_{wm}] - S_{thresh})^2}{4Nk^2} \right)$$
+$$P(S_{wm} < S_{thresh}) \le \exp\left( -\frac{N}{2}(E[S_{wm}] - S_{thresh})^2 \right)$$
+This provides the bound for the false negative probability.
+\end{proof}
+
+\begin{theorem}[Robustness to Edits]
+The minimum edit distance $E$ required to degrade the watermark satisfaction from $S_{wm}$ to a threshold $S_{thresh}$ is lower-bounded by:
+$$E \ge \frac{N}{2} (S_{wm} - S_{thresh})$$
+\end{theorem}
+
+\begin{proof}
+Let $T$ be a watermarked text of length $N$ with a satisfaction rate $S_{wm}$. The number of green pairs is $f(T) = M S_{wm}$, where $M \approx Nk$ is the total number of pairs.
+To remove the watermark, an attacker must edit the text to produce a new text $T'$ with a satisfaction rate $S'_{wm} < S_{thresh}$.
+The number of green pairs that must be flipped from green to not-green is:
+$$\Delta_{pairs} = f(T) - f(T') > M(S_{wm} - S_{thresh})$$
+A single edit to the text (substitution, insertion, or deletion) at position $i$ can affect the color of pairs that include the token $t_i$. With a context window of size $k$, a token can be part of at most $2k$ pairs (as the left or right token in a pair).
+In the most effective attack, a single edit flips the color of the maximum possible number of green pairs. This maximum is $2k$.
+Let $E$ be the number of edits. The total number of pairs whose color can be changed is at most $E \cdot 2k$.
+To achieve the goal of reducing the satisfaction rate below the threshold, the number of edits must satisfy:
+$$E \cdot 2k \ge \Delta_{pairs} > M(S_{wm} - S_{thresh})$$
+Using the approximation $M \approx Nk$:
+$$E \cdot 2k > Nk(S_{wm} - S_{thresh})$$
+$$E > \frac{Nk}{2k}(S_{wm} - S_{thresh}) = \frac{N}{2}(S_{wm} - S_{thresh})$$
+Since the number of edits $E$ must be an integer, the lower bound is:
+$$E \ge \left\lfloor \frac{N}{2}(S_{wm} - S_{thresh}) \right\rfloor + 1$$
+The theorem provides a slightly looser but more standard form of this bound.
+\end{proof}

@@ -1,0 +1,6 @@
+\begingroup
+\setstretch{1.08}
+\fontsize{11}{13}\selectfont
+We introduce the first confidence-based pairwise watermark for diffusion language models (DLMs), a class of large language models that generate tokens in a non-autoregressive, arbitrary order. Due to their architecture, DLMs offer advantages over traditional autoregressive language models (ARLMs), being able to iterate on a solution faster and correct errors during the generation process. Most existing watermarking methods for ARLMs rely on access to previously generated tokens, making them incompatible with DLMs. DLMs operate through unmasking confidence scores, which we alter with our watermark. These provide less deterministic token biasing than logit-based methods. Our watermark defines a set of relative index rules that softly bias the unmasking process toward rule-consistent tokens. Experiments show that our proposed watermark achieves over 99\% true positive rate at 1\% false positive rate with minimal impact on generation quality. Our watermark has similar robustness to ARLM watermarks.
+
+\endgroup

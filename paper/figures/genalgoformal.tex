@@ -1,0 +1,48 @@
+\begin{tikzpicture}[
+  font=\small,
+  node distance=3.5mm and 14mm,
+  box/.style={draw, rounded corners=2pt, align=center, inner sep=3pt},
+  proc/.style={box, fill=blue!6},
+  data/.style={box, fill=gray!6},
+  accent/.style={box, fill=yellow!12},
+  decision/.style={shape=diamond, draw, align=center, inner sep=2pt, aspect=2.1, fill=green!8},
+  detect/.style={box, fill=red!8},
+  arrow/.style={-Latex, thick}
+]
+\node[data] (prompt) at (-2,0) {\textbf{Prompt}: Write a story...};
+\node[proc, below=of prompt] (init) {Initialize: $x^{(0)}=[\text{MASK}]^L$};
+\node[proc, below=of init] (predict) {Predict tokens $\hat{x}$ \& confidences $c$};
+\node[accent, below=of predict] (score) {Compute support: $\sigma_i=\sum_{j\in C} w_{i+j}\,\phi(\hat{x}_{i+j},\hat{x}_i)$};
+\node[accent, below=of score] (bias) {Bias confidences: $c'_i \leftarrow c_i + \delta\,\sigma_i$};
+\node[proc, below=of bias] (select) {Select highest-$c'_i$ positions to unmask};
+\node[proc, below=of select] (unmask) {Unmask selected tokens in $x$};
+\node[decision, below=of unmask] (done) {All\\unmasked?};
+\node[proc, below left=6mm and 0mm of done] (repeat) {Next step: $t\leftarrow t+1$};
+\node[proc, below right=6mm and 0mm of done] (final) {\textbf{Final output}: $x^{(T)}$};
+\node[fit=(predict)(score)(bias)(select)(unmask)(done),
+      draw, rounded corners=3pt, inner sep=6pt] (iterbox) {};
+\coordinate (loopleft) at ([xshift=-14mm]iterbox.west);
+\draw[arrow] (prompt) -- (init);
+\draw[arrow] (init) -- (predict);
+\draw[arrow] (predict) -- (score);
+\draw[arrow] (score) -- (bias);
+\draw[arrow] (bias) -- (select);
+\draw[arrow] (select) -- (unmask);
+\draw[arrow] (unmask) -- (done);
+\draw[arrow] (done.west) -- node[left] {no} (repeat.north);
+\draw[arrow] (done.east) -- node[right] {yes} (final.north);
+\node[data, right=35mm of prompt] (testtext) {\textbf{Text to Test: } \text{Example text}};
+\node[detect, below=of testtext] (countpairs) {Count green pairs using hash $\phi$};
+\node[detect, below=of countpairs] (proportion) {Compute proportion\\$p = \frac{\text{\# green pairs}}{\text{\# total pairs}}$};
+\node[detect, below=of proportion] (binomial) {Binomial test against $H_0: p = 0.5$};
+\node[decision, below=of binomial] (threshold) {$p\text{-value}$\\$< \tau$?};
+\node[proc, below left=12mm and -5mm of threshold] (human) {Human-written};
+\node[proc, below right=12mm and -5mm of threshold] (ai) {AI-generated};\draw[arrow] (testtext) -- (countpairs);
+\draw[arrow] (countpairs) -- (proportion);
+\draw[arrow] (proportion) -- (binomial);
+\draw[arrow] (binomial) -- (threshold);
+\draw[arrow] (threshold) -- node[left,font=\footnotesize] {no} (human.north);
+\draw[arrow] (threshold) -- node[right,font=\footnotesize] {yes} (ai.north);
+\node[fit=(countpairs)(proportion)(binomial)(threshold),
+      draw, rounded corners=3pt, inner sep=6pt] (detectbox) {};
+\end{tikzpicture}

@@ -1,0 +1,126 @@
+\textbf{Overview.} Our watermark leverages the unique properties of DLMs: (1) parallel token generation allows us to define pairwise relationships between tokens, and (2) confidence-based remasking provides a natural biasing mechanism. Unlike autoregressive watermarks that bias token probabilities directly, we bias confidence scores in logit space, which determines the order in which tokens are unmasked during the diffusion process.
+\subsection*{Design Rationale}
+
+\textbf{Optimization Problem}
+
+Let $\mathbf{p} \in (0,1)^N$ denote the original token confidences predicted by the Diffusion Language Model (DLM) for a sequence of length $N$, where $p_i$ is the probability of keeping token $i$. Let $\mathbf{\hat{p}} \in (0,1)^N$ denote the modified (watermarked) token confidences. 
+
+We define the expected green-list pair count for token $i$ as $g_i \in \mathbb{R}_{\geq 0}$. The gain in the expected satisfaction rate is directly proportional to the shift in probability $\Delta p_i = \hat{p}_i - p_i$. We frame the watermarking process as an optimization problem where we seek to maximize the expected satisfaction rate subject to a maximum allowable distortion budget $\epsilon$, measured by the Kullback-Leibler (KL) divergence between the modified and original Bernoulli distributions:
+
+\begin{equation}
+\begin{aligned}
+& \max_{\mathbf{\hat{p}}} \quad \sum_{i=1}^{N} (\hat{p}_i - p_i) g_i \\
+& \text{subject to} \quad \sum_{i=1}^{N} D_{\text{KL}}\big(\text{Bern}(\hat{p}_i) \parallel \text{Bern}(p_i)\big) \leq \epsilon
+\end{aligned}
+\end{equation}
+
+To relate the probability shift $\Delta p_i$ to the applied logit bias $b_i$, recall that the modified probability is computed in the log-odds (logit) space:
+\begin{equation}
+\hat{p}_i = \sigma\big(\sigma^{-1}(p_i) + b_i\big)
+\end{equation}
+where $\sigma(\cdot)$ is the sigmoid function. For small bias $b_i$, the first-order Taylor expansion gives the transfer function mapping bias to probability shift:
+\begin{equation}
+\Delta p_i \approx b_i \cdot p_i(1 - p_i)
+\end{equation}
+
+Furthermore, for small $\Delta p_i$, the KL divergence can be approximated using the Fisher Information $I(p_i) = \frac{1}{p_i(1-p_i)}$:
+\begin{equation}
+D_{\text{KL}}\big(\text{Bern}(\hat{p}_i) \parallel \text{Bern}(p_i)\big) \approx \frac{1}{2} (\Delta p_i)^2 I(p_i) = \frac{1}{2} \frac{(\Delta p_i)^2}{p_i(1-p_i)} \approx \frac{1}{2} b_i^2 \cdot p_i(1-p_i)
+\end{equation}
+
+Substituting these approximations into our optimization problem, we define the Lagrangian $\mathcal{L}(\mathbf{b}, \lambda)$ with respect to the logit bias vector $\mathbf{b}$ and a Lagrange multiplier $\lambda \geq 0$:
+\begin{equation}
+\mathcal{L}(\mathbf{b}, \lambda) = \sum_{i=1}^{N} \Big( b_i \cdot p_i(1-p_i) \cdot g_i \Big) - \lambda \left( \sum_{i=1}^{N} \frac{1}{2} b_i^2 \cdot p_i(1-p_i) - \epsilon \right)
+\end{equation}
+
+\textbf{energy formulation}
+
+Let $p_i$ be the original token confidence, $\hat{p}_i = \sigma(L_i + b_i)$ be the modified probability after applying bias $b_i$, $g_i$ be the expected green-list count (the satisfaction gradient), and $\delta$ be the KL-divergence scaling factor. We define the total energy function $\mathcal{E}(b_i)$ as the combination of the predictive distortion (KL divergence), the $L_2$ bias penalty parameterized by $\lambda_{\text{l2}}$, and the negative expected satisfaction rate:
+
+\begin{equation}
+\mathcal{E}(b_i) = \frac{1}{\delta} D_{\text{KL}}\big(\text{Bern}(\hat{p}_i) \parallel \text{Bern}(p_i)\big) + \lambda_{\text{l2}} b_i^2 - g_i \hat{p}_i
+\end{equation}
+
+To find the state of lowest energy, we compute the exact derivative of $\mathcal{E}$ with respect to the bias $b_i$. Using the Fisher Information approximation for small shifts, the derivative of the KL divergence with respect to the logit bias is $b_i \hat{p}_i(1-\hat{p}_i)$. Furthermore, the derivative of the sigmoid probability $\hat{p}_i$ with respect to its logit is the variance $\hat{p}_i(1-\hat{p}_i)$. Setting the gradient to zero yields:
+
+\begin{equation}
+\frac{\partial \mathcal{E}}{\partial b_i} = \frac{1}{\delta} b_i \hat{p}_i(1-\hat{p}_i) + 2\lambda_{\text{l2}} b_i - g_i \hat{p}_i(1-\hat{p}_i) = 0
+\end{equation}
+
+Rearranging this to solve for the optimal bias $b_i^*$ yields the following stationary point:
+
+\begin{equation}
+b_i^* = \frac{g_i \hat{p}_i(1-\hat{p}_i)}{\frac{1}{\delta} \hat{p}_i(1-\hat{p}_i) + 2\lambda_{\text{l2}}}
+\end{equation}
+
+
+\textbf{Pairwise rules vs. individual tokens.} Unlike prior work that classifies individual tokens as green/red, we define green/red pairs. This reduces the number of biased positions (fewer modifications to the generation process) while maintaining detection strength.
+
+\textbf{Context window $C = \{-2, -1, 1, 2\}$.} We use a symmetric window excluding position 0 (self) to capture local token dependencies while keeping computational cost manageable. Larger windows increase detection strength but slow generation.
+
+\textbf{Confidence weighting.} For masked neighbors, we weight by their confidence $c_{i+j}$ rather than uniformly. This accounts for uncertainty: a green pair with a high-confidence neighbor provides stronger signal than one with low confidence.
+
+\textbf{Logit-space biasing.} Directly adding $\delta \cdot \sigma_i$ to probabilities $c_i \in (0,1)$ would produce invalid values. We transform to logit space via inverse sigmoid, apply the bias, then transform back via sigmoid: $c'_i = \sigma(\sigma^{-1}(c_i) + \delta \cdot \sigma_i)$.
+\subsection{Pair Rule}
+Let $C = \{-2, -1, 1, 2\}$ denote the relative indices of the local neighborhood for the current position $k$. Let $v \in \Sigma$ be a candidate token at position $k$, and let $\hat{u}_{k+j}$ represent the estimated token at neighbor position $k+j$ (using the ground truth token if unmasked, or the model's current hard prediction $x_0$ if masked).
+
+First, we define a base hash function $h(a, b)$ that operates on a sorted pair of tokens:
+\begin{equation}
+    h(a, b) = \text{LSB}\left(\text{SHA256}\bigl(K \parallel \min(a, b) \parallel \text{"|"} \parallel \max(a, b)\bigr)\right) \in \{0, 1\}
+\end{equation}
+where $K$ is a secret key and $\text{LSB}$ denotes the least significant bit.
+
+To enforce anti-symmetry and discourage repetition, we define the directed validity function $\phi(a, b)$. This function returns 1 if the ordered sequence $a \rightarrow b$ is valid ("green"), and 0 otherwise:
+\begin{equation}
+    \phi(a, b) = 
+    \begin{cases} 
+        h(a, b) & \text{if } a \le b \\
+        1 - h(a, b) & \text{if } a > b 
+    \end{cases}
+\end{equation}
+Under this rule, if the transition $a \rightarrow b$ is green, the reverse transition $b \rightarrow a$ is necessarily red.
+\subsection{Our Watermark}
+\noindent
+\begin{minipage}[t]{0.38\textwidth}
+\vspace{0pt}
+\small
+\raggedright
+During generation, we define our watermark with (Algorithm 1). Specifically, we start by converting confidence scores from probabilities $\in$ (0,1) to logits through an inverse sigmoid. At each diffusion step $i$, we loop over each masked token position and compute a local support score $\sigma_i$ from nearby tokens in the context window (weighted by confidence when a neighbor is still masked). We then bias confidence logits by $\delta \cdot \sigma_i$.
+
+This bias affects which positions are revealed earlier: the DLM remasking procedure unmasks all tokens, then re-masks the lowest-confidence tokens, and repeats until all tokens remain unmasked.
+
+For detection, we iterate over each position and calculate the proportion of green pairs. We then apply a binomial test to test for a significant number of green pairs.
+
+\end{minipage}
+\begin{minipage}[t]{0.6\textwidth}
+\vspace{0pt}
+\vspace{-3mm}
+\begin{algorithm}[H]
+\caption{Watermark Generation}
+\begin{algorithmic}[1]
+\Require Proposed seq $x \in V^L$, Fixed seq $T \in V^L$, Mask $m \in \{0,1\}^L$, Conf $c \in (0,1)^L$, Key $k$, Context window $C$, Strength $\delta$, Hash $f_k$.
+\Ensure Modified confidence $c'$.
+
+\State $\ell \gets \ln(c \oslash (1 - c))$ \Comment{Convert confidence to logits}
+\State $c' \gets \text{set } c_i = -\infty \text{ for all } i \text{ where } m_i = 0$
+\For{each masked index $i \in \{i \mid m_i = 1\}$}
+    \State $\sigma_i \gets \sum_{j \in C} w_{i+j} \cdot \phi(k, i, j)$ \Comment{Accumulate weights}
+    \State $\ell'_i \gets \ell_i + \delta \cdot \sigma_i$ \Comment{Apply bias to logits}
+    \State $c'_i \gets (1 + e^{-\ell'_i})^{-1}$ \Comment{Sigmoid back to probability}
+\EndFor
+\State \Return $c'$
+
+\Statex \textbf{where} neighbor tokens $v$, weights $w$, and pair hash $\phi$ are:
+\Statex $v_{p} = m_{p} ? x_{p} : T_{p}$ \Comment{Use proposed if masked, else fixed}
+\Statex $w_{p} = m_{p} ? c_{p} : 1.0$ \Comment{Weight is conf if masked, else 1.0}
+\Statex $\phi(k, i, j) = (j < 0 ? f_k(v_{i+j}, x_i) : f_k(x_i, v_{i+j}))$
+\end{algorithmic}
+\end{algorithm}
+\end{minipage}
+
+\begin{figure}[t]
+    \centering
+    \input{figures/genalgoformal}
+    \caption{Our watermark (Left) Generation algorithm (Right) Detection algorithm}
+    \label{fig:genalgoformal}
+\end{figure}

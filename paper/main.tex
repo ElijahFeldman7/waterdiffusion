@@ -1,0 +1,83 @@
+\documentclass{article}
+
+\PassOptionsToPackage{numbers,compress}{natbib}
+\usepackage[final,preprint]{nips2023}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc,shapes.geometric}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{setspace}
+\usepackage{comment}
+\usepackage{amsthm}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{latexsym}
+\usepackage{abstract}
+\usepackage{float}
+\title{A Confidence-Based Watermark for Diffusion Language Models}
+\makeatletter
+\let\@notice\relax
+\makeatother
+
+\author{
+Elijah Feldman \\
+TJHSST \\
+Annandale, USA \\
+2028efeldman@tjhsst.edu
+\and
+Samuel Zhang \\
+TJHSST \\
+Annandale, USA \\
+2028szhang@tjhsst.edu
+}
+\date{}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+
+\renewcommand{\abstractname}{ABSTRACT}
+\renewcommand{\abstractnamefont}{\large\normalfont}
+\renewcommand{\abstracttextfont}{\normalfont}
+
+\setlength{\absleftindent}{0pt}
+\setlength{\absrightindent}{0pt}
+\setlength{\abstitleskip}{0.6em}
+\begin{document}
+\maketitle
+\pagestyle{empty}
+\nocite{*}
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\section{Introduction}
+\input{sections/introduction}
+\section{Background}
+\input{sections/background}
+\section{Approach}
+\input{sections/approach}
+\section{Evaluation}
+\input{sections/evaluation}
+
+\clearpage
+
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+\section*{Additional Results}
+\input{sections/additional}
+\section*{List of Theorems and Proofs}
+\input{sections/proofs}
+
+\end{document}

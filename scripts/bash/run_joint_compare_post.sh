@@ -18,7 +18,9 @@ module load python/3.12.1-33
 
 BASE_DIR="/scratch/efeldma5/waterdiffusion"
 PROJECT_DIR="${BASE_DIR}/waterdiffusion"
-source "${BASE_DIR}/watervenv/bin/activate"
+VENV=${VENV:-"${BASE_DIR}/dlmvenv"}
+source "${VENV}/bin/activate"
+export PYTHONNOUSERSITE=1
 export PYTHONPATH="${PROJECT_DIR}:${PYTHONPATH}"
 cd "$PROJECT_DIR"
 

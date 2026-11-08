@@ -1,0 +1,35 @@
+
+Lmod is automatically replacing "gnu9/9.3.0" with "gnu/12.3.0".
+
+
+Inactive Modules:
+  1) hwloc/2.1.0     2) libfabric     3) ucx
+
+The following have been reloaded with a version change:
+  1) openmpi4/4.0.4 => openmpi4/4.1.6-a2
+
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Fetching 6 files:   0%|          | 0/6 [00:00<?, ?it/s]Fetching 6 files:  17%|█▋        | 1/6 [00:10<00:51, 10.30s/it]Fetching 6 files:  67%|██████▋   | 4/6 [00:10<00:04,  2.13s/it]Fetching 6 files: 100%|██████████| 6/6 [00:10<00:00,  1.83s/it]
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:  29%|██▉       | 85/291 [00:00<00:00, 842.07it/s]Loading weights:  58%|█████▊    | 170/291 [00:00<00:00, 810.60it/s]Loading weights:  87%|████████▋ | 252/291 [00:00<00:00, 789.92it/s]Loading weights: 100%|██████████| 291/291 [00:00<00:00, 812.02it/s]
+Traceback (most recent call last):
+  File "/scratch/efeldma5/waterdiffusion/waterdiffusion/scripts/benchmark.py", line 380, in <module>
+    main()
+  File "/scratch/efeldma5/waterdiffusion/waterdiffusion/scripts/benchmark.py", line 376, in main
+    args.func(args)
+  File "/scratch/efeldma5/waterdiffusion/waterdiffusion/scripts/benchmark.py", line 105, in cmd_generate
+    model = AutoModel.from_pretrained(args.model, trust_remote_code=True, torch_dtype=torch.bfloat16).to(device).eval()
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/efeldma5/.local/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 390, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/efeldma5/.local/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4246, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/efeldma5/.local/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4402, in _finalize_model_loading
+    model._move_missing_keys_from_meta_to_device(
+  File "/home/efeldma5/.local/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4665, in _move_missing_keys_from_meta_to_device
+    for key in missing_keys - self.all_tied_weights_keys.keys():
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/efeldma5/.local/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1967, in __getattr__
+    raise AttributeError(
+AttributeError: 'LLaDAModelLM' object has no attribute 'all_tied_weights_keys'. Did you mean: '_tied_weights_keys'?

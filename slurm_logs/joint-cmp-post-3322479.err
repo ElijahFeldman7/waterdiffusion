@@ -1,0 +1,9 @@
+
+Lmod is automatically replacing "gnu12/12.3.0" with "gnu9/9.3.0".
+
+
+Lmod is automatically replacing "gnu9/9.3.0" with "gnu/12.3.0".
+
+Loading checkpoint shards:   0%|          | 0/17 [00:00<?, ?it/s]Loading checkpoint shards:   6%|▌         | 1/17 [00:05<01:34,  5.92s/it]Loading checkpoint shards:  12%|█▏        | 2/17 [00:11<01:30,  6.01s/it]Loading checkpoint shards:  18%|█▊        | 3/17 [00:16<01:16,  5.44s/it]Loading checkpoint shards:  24%|██▎       | 4/17 [00:21<01:09,  5.34s/it]Loading checkpoint shards:  29%|██▉       | 5/17 [00:27<01:04,  5.38s/it]Loading checkpoint shards:  35%|███▌      | 6/17 [00:32<00:57,  5.19s/it]Loading checkpoint shards:  41%|████      | 7/17 [00:37<00:53,  5.32s/it]Loading checkpoint shards:  47%|████▋     | 8/17 [00:43<00:49,  5.54s/it]Loading checkpoint shards:  53%|█████▎    | 9/17 [00:49<00:44,  5.60s/it]Loading checkpoint shards:  59%|█████▉    | 10/17 [00:55<00:39,  5.66s/it]Loading checkpoint shards:  65%|██████▍   | 11/17 [01:00<00:33,  5.53s/it]Loading checkpoint shards:  71%|███████   | 12/17 [01:05<00:26,  5.26s/it]Loading checkpoint shards:  76%|███████▋  | 13/17 [01:11<00:21,  5.46s/it]Loading checkpoint shards:  82%|████████▏ | 14/17 [01:16<00:16,  5.47s/it]Loading checkpoint shards:  88%|████████▊ | 15/17 [01:21<00:10,  5.33s/it]Loading checkpoint shards:  94%|█████████▍| 16/17 [01:27<00:05,  5.51s/it]Loading checkpoint shards: 100%|██████████| 17/17 [01:32<00:00,  5.27s/it]Loading checkpoint shards: 100%|██████████| 17/17 [01:32<00:00,  5.43s/it]
+/scratch/efeldma5/waterdiffusion/dlmvenv/lib/python3.12/site-packages/triton/knobs.py:504: UserWarning: TRITON_DEFAULT_FP_FUSION is unset: defaulting to FP fusion ENABLED for backward compatibility in Triton 3.9. The default will change to DISABLED in Triton 3.10; set TRITON_DEFAULT_FP_FUSION=1 to keep fusion enabled or =0 to adopt the new default early and silence this warning.
+  warn_once(FP_FUSION_DEFAULT_WARNING)

@@ -1,6 +1,19 @@
 \begingroup
 \setstretch{1.08}
 \fontsize{11}{13}\selectfont
-We introduce the first confidence-based pairwise watermark for diffusion language models (DLMs), a class of large language models that generate tokens in a non-autoregressive, arbitrary order. Due to their architecture, DLMs offer advantages over traditional autoregressive language models (ARLMs), being able to iterate on a solution faster and correct errors during the generation process. Most existing watermarking methods for ARLMs rely on access to previously generated tokens, making them incompatible with DLMs. DLMs operate through unmasking confidence scores, which we alter with our watermark. These provide less deterministic token biasing than logit-based methods. Our watermark defines a set of relative index rules that softly bias the unmasking process toward rule-consistent tokens. Experiments show that our proposed watermark achieves over 99\% true positive rate at 1\% false positive rate with minimal impact on generation quality. Our watermark has similar robustness to ARLM watermarks.
+We introduce a joint token-and-order watermark for diffusion language models (DLMs),
+a class of large language models that generate tokens in a non-autoregressive, arbitrary order.
+Due to their architecture, DLMs offer advantages over traditional autoregressive language models (ARLMs),
+being able to iterate on a solution faster and correct errors during the generation process. Most existing
+watermarking methods for ARLMs rely on access to previously generated tokens, making them incompatible with DLMs.
+At each generation step, a DLM decides token predictions to replace masked indices, and which positions to actually unmask, the latter
+of which is chosen by a confidence metric. Existing DLM watermarking approaches only modify either the token distribution
+or the unmasking order. Our joint token-and-order DLM watermark alters both to maximize the expected number of green tokens under a
+certain KL per token threshold during generation. On LLaDA-8B with prompts from WaterBench, with matched KL per token, our joint watermark
+raises the true positive rate at $<10^{-4}$ from 0.75 to 0.90 over the token-only watermark of Gloaguen et al., and outperforms the order-only dgMARK.
+
 
 \endgroup
+
+
+

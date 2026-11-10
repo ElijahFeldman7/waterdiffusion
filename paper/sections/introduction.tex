@@ -1,22 +1,49 @@
 
+
 Traditional autoregressive language models (ARLMs) have shown remarkable performance (\cite{llama3herd2024}).
-Diffusion language models (DLMs) have arisen as a new class of transformers. Instead of generating the output one token at a time, from left to right, DLMs perform similar to their image generation counterparts, starting with noise and refining its predictions in parallel. Several new DLMs have reached similar performance at faster response times (\cite{nie2025large, google2025gemini, ye2025dream7b}. They also have built in error correction, as well as bidirectional context, which can enable more coherent outputs. Previous works have proposed ARLM watermarks, which bias the probability distribution of the model's predictions. The result is a signal imperceptible to humans but can be traced. ARLM watermarks have already been adopted in consumer models, and are advocated for with regulation. A work that has introduced a watermark for DLMs introduces a more applicable hashing algorithm to fit these models, however still biases the model's predictions directly. We introduce the first watermark that is dependent on perturbing model confidences, a score unique to DLMs, to embed a hidden signal in the output text.
+Diffusion language models (DLMs) have arisen as a new class of transformers. Instead of generating the output one
+token at a time, from left to right, DLMs perform similar to their image generation counterparts, starting with noise
+ and refining its predictions in parallel. Several new DLMs have reached similar performance at faster response times
+  (\cite{nie2025large, google2025gemini, ye2025dream7b}. They also have built in error correction, as well as
+  bidirectional context, which can enable more coherent outputs. Previous works have proposed ARLM watermarks,
+  which bias the probability distribution of the model's predictions. The result is a signal imperceptible to humans
+   but can be traced. ARLM watermarks have already been adopted in consumer models, and are advocated for with
+   regulation. However, the unique architecture of DLMs has led to the development of two kinds of watermarking methods adapted for them.
+   One scheme uses context hashing in expectation to pseudorandomly modify the token logit distribution \cite{gloaguen2025dlm}. The other method
+   uses a keyed rule to reorder which positions are unmasked during diffusion generation \cite{hong2026dgmark}. We unify these two techniques and
+   contribute a joint watermark that perturbs both token predictions at indices and the confidence metric used to select unmasking order, adding a signal
+   inperceptible to the human eye but detectable with a specific key.
+
 
 \textbf{Diffusion Language Models}
 DLMs begin with a fixed length unknown output sequence, denoted by a set of [MASK] tokens. At each generation step, the model provides a probability distribution for its prediction for each token, and assigns a confidence score to each of its predictions. The model will unmask its predictions, and then remask the tokens with the lowest confidence scores. The model will continue this until all tokens are unmasked, producing a coherent output.
 
+
 \textbf{ARLM watermarks}
 Existing watermarks for ARLMs use a green-red token split. This green and red list is chosen before each word is generated, and the model's predictions are biased towards green list tokens. These watermarks often use the hash of the previous token to seed the random number generator that decides on the red-green split. This hash can not be used, since DLM generation does not always have the previous token generated.
 
-\textbf{Existing DLM watermark}
-The existing DLM watermark adapts the green-red list to diffusion models by computing the context hashes in expectation over masked tokens and applying a logit bias based on these expected hashes. In contrast, our approach leverages the DLM's confidence scores and its parallel generation process that allows for a pairwise rule to be developed. 
 
-\textbf{This work: A Confidence-Based Watermark for Diffusion Language Models}
-In this paper, we introduce the first watermark that biases the model's confidence scores rather than logits. This allows for the less deterministic biasing of tokens, so that the model is not forced to make suboptimal predictions. We create a pair rule that defines green and red pairs, rather than individual tokens, allowing for the watermark to be applied with fewer edits. For each candidate token, we aggregate a confidence weighted count fo green token pairs it forms with its local neighbors, including masked positions weighted by their current predicted probabilities. We then bias the tokens involved in green pairs, with those in high confidence green pairs receiving a larger boost in sampling probability. Our detection algorithm is similar to ARLM watermarks, computing the proportion of localized green pairs and performing a binomial test. 
+\textbf{Existing DLM watermarks}
+Gloaguen et al. \cite{gloaguen2025dlm} adapt the green-red list to diffusion models by computing the context hashes in expectation over masked tokens and applying a logit bias based on these expected hashes.
+dgMARK \cite{hong2026dgmark} leaves token probabilities unchanged and instead prioritizes unmasking indices whose token prediction satisfies a keyed parity-based rule. Current methods watermark either on token distribution or unmasking order, not both.
+
+
+\textbf{This work: A Joint Token-and-Order Watermark for Diffusion Language Models}
+In this work, the DLM watermark is split into a token component and an order component at each diffusion generation step.
+The token component alters the logit distribution at each position, and the order component modifies the confidence scores the model uses to
+select which positions to unmask. We maximize the expected number of green tokens in the final output text under a specified KL per token
+threshold, adding a separate bias to each component to accomplish this. The token bias is added to the logits and modeled after the energy-based bias of
+Gloaguen et al. The order bias is added to each position's confidence score and equals the expected gain in green tokens
+from unmasking a certain position at this particular diffusion generation step rather than at a later one. Setting either bias strength to zero effectively makes
+the joint watermark a single-component one. Like ARLM watermarks, our detection algorithm counts the
+number of green tokens in a section of text and performs a binomial test for significance.
+
 
 \textbf{Main Contributions} Our main contributions are:
 \begin{itemize}
-    \item We introduce the first watermark that is based on model confidences, a score unique to DLMs. We apply this watermark to LLaDA
-    \item We introduce the first pair rule, allow for watermark deployment with less modifications. 
-    \item We rigorously evaluate our watermark, showing that it is reliable and robust for consumer use. 
+   \item We establish a joint token-and-order watermark that applies bias to both the token distribution and the unmasking order of a DLM under a per-token KL-constrained objective, with token-only and order-only watermarks as special cases.
+   \item We introduce an order component score, which measures the expected green-token gain from unmasking a position at the current generation step rather than a later one; this lets the token bias act on fixed context.
+   \item We compare our joint watermark against both Gloaguen et al. and dgMARK algorithms on LLaDA-8B under the same benchmarks, green list and detector, and show higher detection at matched token-level KL.
 \end{itemize}
+
+
